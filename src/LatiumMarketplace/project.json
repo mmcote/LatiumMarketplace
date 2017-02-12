@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-LatiumMarketplace-e64e4da5-bd6d-40a5-8df6-b85ba7c75b02",
 
   "dependencies": {
@@ -43,7 +43,8 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0"
   },
 
   "tools": {

@@ -1,12 +1,12 @@
---temp-output:C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\obj\Debug\netcoreapp1.0\
---out:C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\bin\Debug\netcoreapp1.0\LatiumMarketplace.dll
---define:DEBUG
+--temp-output:C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\obj\Release\netcoreapp1.0\
+--out:C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\bin\Release\netcoreapp1.0\LatiumMarketplace.dll
+--define:RELEASE
 --define:TRACE
 --define:NETCOREAPP1_0
 --suppress-warning:CS1701
 --suppress-warning:CS1702
 --suppress-warning:CS1705
---optimize:False
+--optimize:True
 --emit-entry-point:True
 --output-name:LatiumMarketplace
 --file-version:1.0.0.0
@@ -225,7 +225,7 @@
 --reference:C:\Users\user\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\user\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\user\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\obj\Debug\netcoreapp1.0\LatiumMarketplacedotnet-compile.deps.json",LatiumMarketplace.deps.json
+--resource:"C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\obj\Release\netcoreapp1.0\LatiumMarketplacedotnet-compile.deps.json",LatiumMarketplace.deps.json
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Program.cs
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Startup.cs
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Controllers\AccountController.cs
