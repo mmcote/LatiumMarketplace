@@ -63,6 +63,11 @@ namespace LatiumMarketplace
                 AppSecret = Configuration["Authentication:Facebook:AppSecret"]
             });
 
+            app.UseGoogleAuthentication(new GoogleOptions()
+            {
+                ClientId = Configuration["Authentication:Google:ClientId"],
+                ClientSecret = Configuration["Authentication:Google:ClientSecret"]
+            });
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
