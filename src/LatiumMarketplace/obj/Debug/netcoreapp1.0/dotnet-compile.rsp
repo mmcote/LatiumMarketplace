@@ -235,6 +235,8 @@ C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Controllers\Mana
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Data\ApplicationDbContext.cs
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Data\Migrations\00000000000000_CreateIdentitySchema.cs
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs
+C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Data\Migrations\20170213234011_UserMigration.cs
+C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Data\Migrations\20170213234011_UserMigration.Designer.cs
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Data\Migrations\ApplicationDbContextModelSnapshot.cs
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Models\ApplicationUser.cs
 C:\Users\user\Developer\LatiumMarketplace\src\LatiumMarketplace\Models\AccountViewModels\ExternalLoginConfirmationViewModel.cs

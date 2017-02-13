@@ -9,5 +9,7 @@ namespace LatiumMarketplace.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        public string firstName { get; set; }
+        public string lastName { get; set; }
     }
 }

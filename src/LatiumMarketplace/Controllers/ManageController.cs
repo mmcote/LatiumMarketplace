@@ -35,6 +35,13 @@ namespace LatiumMarketplace.Controllers
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            return View(user);
+        }
+
         //
         // GET: /Manage/Index
         [HttpGet]
