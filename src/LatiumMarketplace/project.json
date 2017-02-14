@@ -45,7 +45,8 @@
       "type": "build"
     },
     "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
-    "Microsoft.AspNetCore.Authentication.Google": "1.0.0"
+    "Microsoft.AspNetCore.Authentication.Google": "1.0.0",
+    "NETCore.MailKit": "1.0.1"
   },
 
   "tools": {

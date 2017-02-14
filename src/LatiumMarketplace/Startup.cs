@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LatiumMarketplace
 {
@@ -43,7 +44,11 @@ namespace LatiumMarketplace
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            //make sure login needs confirmed Email
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -52,6 +57,12 @@ namespace LatiumMarketplace
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LatiumMarketplace.Controllers
 {
+    //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
+    [RequireHttps]
     public class HomeController : Controller
     {
         public IActionResult Index()

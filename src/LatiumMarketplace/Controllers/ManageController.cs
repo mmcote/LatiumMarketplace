@@ -12,6 +12,8 @@ using LatiumMarketplace.Services;
 
 namespace LatiumMarketplace.Controllers
 {
+    //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
+    [RequireHttps]
     [Authorize]
     public class ManageController : Controller
     {
