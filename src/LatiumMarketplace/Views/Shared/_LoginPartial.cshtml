@@ -9,10 +9,19 @@
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-            </li>
-            <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
+                <div class="dropdown">
+                    <button class="btn btn-link navbar-btn navbar-link" type="button" data-toggle="dropdown">
+                        Hello @UserManager.GetUserName(User)!
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">My Profile</a></li>
+                        <li><a href="#">My Listings</a></li>
+                        <li><a href="#">My Bids</a></li>
+                        <li><a href="#">My Messages</a></li>
+                        <li><button type="submit" class="">Log off</button></li>
+                    </ul>
+                </div>                
             </li>
         </ul>
     </form>
