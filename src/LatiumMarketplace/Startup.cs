@@ -44,6 +44,7 @@ namespace LatiumMarketplace
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+
             //make sure login needs confirmed Email
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
