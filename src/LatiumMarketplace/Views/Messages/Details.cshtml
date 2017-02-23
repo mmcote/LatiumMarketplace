@@ -1,0 +1,60 @@
+@model LatiumMarketplace.Models.MessagingViewModels.Message
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Message</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateRead)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateRead)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateSent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateSent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MessageContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MessageContent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MessageThreadID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MessageThreadID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Read)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Read)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RecipientID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RecipientID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SenderID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.MessageID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
