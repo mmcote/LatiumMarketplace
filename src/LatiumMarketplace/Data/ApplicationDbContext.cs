@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.AssetViewModels;
+using LatiumMarketplace.Models.MessagingViewModels;
 
 namespace LatiumMarketplace.Data
 {
@@ -25,5 +26,7 @@ namespace LatiumMarketplace.Data
         }
 
         public DbSet<Asset> Asset { get; set; }
+
+        public DbSet<Message> Message { get; set; }
     }
 }

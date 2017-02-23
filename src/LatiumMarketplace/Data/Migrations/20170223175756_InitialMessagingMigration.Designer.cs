@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170223175756_InitialMessagingMigration")]
+    partial class InitialMessagingMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -89,33 +90,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasKey("assetID");
 
                     b.ToTable("Asset");
-                });
-
-            modelBuilder.Entity("LatiumMarketplace.Models.MessagingViewModels.Message", b =>
-                {
-                    b.Property<Guid>("MessageID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateRead");
-
-                    b.Property<DateTime>("DateSent");
-
-                    b.Property<string>("MessageContent")
-                        .IsRequired();
-
-                    b.Property<int>("MessageThreadID");
-
-                    b.Property<bool>("Read");
-
-                    b.Property<string>("RecipientID")
-                        .IsRequired();
-
-                    b.Property<string>("SenderID")
-                        .IsRequired();
-
-                    b.HasKey("MessageID");
-
-                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
