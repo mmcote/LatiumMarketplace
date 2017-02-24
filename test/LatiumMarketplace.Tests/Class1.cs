@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AccountTests
+namespace LatiumMarketplace.Tests
 {
-    public class Program
+    public class Class1
     {
-        public static void Main(string[] args)
+        public Class1()
         {
         }
     }
