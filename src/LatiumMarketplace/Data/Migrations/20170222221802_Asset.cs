@@ -7,6 +7,9 @@ namespace LatiumMarketplace.Data.Migrations
 {
     public partial class Asset : Migration
     {
+        public string name { get; set; }
+        public string description { get; set; }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
