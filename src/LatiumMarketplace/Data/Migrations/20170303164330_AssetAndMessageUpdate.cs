@@ -5,11 +5,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LatiumMarketplace.Data.Migrations
 {
-    public partial class Asset_Update : Migration
+    public partial class AssetAndMessageUpdate : Migration
     {
-        public string name { get; set; }
-        public string description { get; set; }
-
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -22,12 +19,26 @@ namespace LatiumMarketplace.Data.Migrations
                     description = table.Column<string>(nullable: true),
                     location = table.Column<string>(nullable: true),
                     name = table.Column<string>(nullable: true),
-                    ownerID = table.Column<int>(nullable: false),
+                    ownerID = table.Column<string>(nullable: true),
                     price = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Asset", x => x.assetID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Message",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(nullable: false),
+                    Body = table.Column<string>(nullable: true),
+                    SendDate = table.Column<DateTime>(nullable: false),
+                    Subject = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Message", x => x.id);
                 });
         }
 
@@ -35,6 +46,9 @@ namespace LatiumMarketplace.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Asset");
+
+            migrationBuilder.DropTable(
+                name: "Message");
         }
     }
 }

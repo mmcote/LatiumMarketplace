@@ -1,4 +1,4 @@
-@model IEnumerable<LatiumMarketplace.Models.MessagingViewModels.Message>
+@model IEnumerable<LatiumMarketplace.Models.MessageViewModels.Message>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,25 +13,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DateRead)
+                @Html.DisplayNameFor(model => model.Body)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateSent)
+                @Html.DisplayNameFor(model => model.SendDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MessageContent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MessageThreadID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Read)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RecipientID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SenderID)
+                @Html.DisplayNameFor(model => model.Subject)
             </th>
             <th></th>
         </tr>
@@ -40,30 +28,18 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DateRead)
+                @Html.DisplayFor(modelItem => item.Body)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateSent)
+                @Html.DisplayFor(modelItem => item.SendDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MessageContent)
+                @Html.DisplayFor(modelItem => item.Subject)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MessageThreadID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Read)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RecipientID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SenderID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MessageID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MessageID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MessageID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
             </td>
         </tr>
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.AssetViewModels;
-using LatiumMarketplace.Models.MessagingViewModels;
+using LatiumMarketplace.Models.MessageViewModels;
 
 namespace LatiumMarketplace.Data
 {

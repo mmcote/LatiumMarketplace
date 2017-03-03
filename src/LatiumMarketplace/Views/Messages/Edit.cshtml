@@ -1,4 +1,4 @@
-@model LatiumMarketplace.Models.MessagingViewModels.Message
+@model LatiumMarketplace.Models.MessageViewModels.Message
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,55 +11,26 @@
         <h4>Message</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="MessageID" />
+    <input type="hidden" asp-for="id" />
         <div class="form-group">
-            <label asp-for="DateRead" class="col-md-2 control-label"></label>
+            <label asp-for="Body" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="DateRead" class="form-control" />
-                <span asp-validation-for="DateRead" class="text-danger" />
+                <input asp-for="Body" class="form-control" />
+                <span asp-validation-for="Body" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="DateSent" class="col-md-2 control-label"></label>
+            <label asp-for="SendDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="DateSent" class="form-control" />
-                <span asp-validation-for="DateSent" class="text-danger" />
+                <input asp-for="SendDate" class="form-control" />
+                <span asp-validation-for="SendDate" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="MessageContent" class="col-md-2 control-label"></label>
+            <label asp-for="Subject" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="MessageContent" class="form-control" />
-                <span asp-validation-for="MessageContent" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="MessageThreadID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="MessageThreadID" class="form-control" />
-                <span asp-validation-for="MessageThreadID" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="Read" />
-                    <label asp-for="Read"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="RecipientID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="RecipientID" class="form-control" />
-                <span asp-validation-for="RecipientID" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="SenderID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="SenderID" class="form-control" />
-                <span asp-validation-for="SenderID" class="text-danger" />
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

@@ -73,7 +73,7 @@ namespace LatiumMarketplace.Data.Migrations
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Asset", b =>
                 {
-                    b.Property<Guid>("assetID")
+                    b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("addDate");
@@ -93,29 +93,18 @@ namespace LatiumMarketplace.Data.Migrations
                     b.ToTable("Asset");
                 });
 
-            modelBuilder.Entity("LatiumMarketplace.Models.MessagingViewModels.Message", b =>
+            modelBuilder.Entity("LatiumMarketplace.Models.MessageViewModels.Message", b =>
                 {
-                    b.Property<Guid>("MessageID")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateRead");
+                    b.Property<string>("Body");
 
-                    b.Property<DateTime>("DateSent");
+                    b.Property<DateTime>("SendDate");
 
-                    b.Property<string>("MessageContent")
-                        .IsRequired();
+                    b.Property<string>("Subject");
 
-                    b.Property<Guid>("MessageThreadID");
-
-                    b.Property<bool>("Read");
-
-                    b.Property<string>("RecipientID")
-                        .IsRequired();
-
-                    b.Property<string>("SenderID")
-                        .IsRequired();
-
-                    b.HasKey("MessageID");
+                    b.HasKey("id");
 
                     b.ToTable("Message");
                 });

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Data;
-using LatiumMarketplace.Models.MessagingViewModels;
+using LatiumMarketplace.Models.MessageViewModels;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -33,7 +33,7 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            var message = await _context.Message.SingleOrDefaultAsync(m => m.MessageID == id);
+            var message = await _context.Message.SingleOrDefaultAsync(m => m.id == id);
             if (message == null)
             {
                 return NotFound();
@@ -53,11 +53,11 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MessageID,DateRead,DateSent,MessageContent,MessageThreadID,Read,RecipientID,SenderID")] Message message)
+        public async Task<IActionResult> Create([Bind("id,Body,SendDate,Subject")] Message message)
         {
             if (ModelState.IsValid)
             {
-                message.MessageID = Guid.NewGuid();
+                message.id = Guid.NewGuid();
                 _context.Add(message);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -73,7 +73,7 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            var message = await _context.Message.SingleOrDefaultAsync(m => m.MessageID == id);
+            var message = await _context.Message.SingleOrDefaultAsync(m => m.id == id);
             if (message == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("MessageID,DateRead,DateSent,MessageContent,MessageThreadID,Read,RecipientID,SenderID")] Message message)
+        public async Task<IActionResult> Edit(Guid id, [Bind("id,Body,SendDate,Subject")] Message message)
         {
-            if (id != message.MessageID)
+            if (id != message.id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace LatiumMarketplace.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MessageExists(message.MessageID))
+                    if (!MessageExists(message.id))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            var message = await _context.Message.SingleOrDefaultAsync(m => m.MessageID == id);
+            var message = await _context.Message.SingleOrDefaultAsync(m => m.id == id);
             if (message == null)
             {
                 return NotFound();
@@ -138,7 +138,7 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var message = await _context.Message.SingleOrDefaultAsync(m => m.MessageID == id);
+            var message = await _context.Message.SingleOrDefaultAsync(m => m.id == id);
             _context.Message.Remove(message);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -146,7 +146,7 @@ namespace LatiumMarketplace.Controllers
 
         private bool MessageExists(Guid id)
         {
-            return _context.Message.Any(e => e.MessageID == id);
+            return _context.Message.Any(e => e.id == id);
         }
     }
 }

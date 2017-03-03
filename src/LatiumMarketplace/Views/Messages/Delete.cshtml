@@ -1,4 +1,4 @@
-@model LatiumMarketplace.Models.MessagingViewModels.Message
+@model LatiumMarketplace.Models.MessageViewModels.Message
 
 @{
     ViewData["Title"] = "Delete";
@@ -12,46 +12,22 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.DateRead)
+            @Html.DisplayNameFor(model => model.Body)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DateRead)
+            @Html.DisplayFor(model => model.Body)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DateSent)
+            @Html.DisplayNameFor(model => model.SendDate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DateSent)
+            @Html.DisplayFor(model => model.SendDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.MessageContent)
+            @Html.DisplayNameFor(model => model.Subject)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.MessageContent)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.MessageThreadID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MessageThreadID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Read)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Read)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.RecipientID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RecipientID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SenderID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SenderID)
+            @Html.DisplayFor(model => model.Subject)
         </dd>
     </dl>
     

@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170223175756_InitialMessagingMigration")]
-    partial class InitialMessagingMigration
+    [Migration("20170303164330_AssetAndMessageUpdate")]
+    partial class AssetAndMessageUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
+                    b.Property<string>("description");
+
                     b.Property<string>("firstName");
 
                     b.Property<string>("lastName");
@@ -83,13 +85,29 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("name");
 
-                    b.Property<int>("ownerID");
+                    b.Property<string>("ownerID");
 
                     b.Property<decimal>("price");
 
                     b.HasKey("assetID");
 
                     b.ToTable("Asset");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.MessageViewModels.Message", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Body");
+
+                    b.Property<DateTime>("SendDate");
+
+                    b.Property<string>("Subject");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
