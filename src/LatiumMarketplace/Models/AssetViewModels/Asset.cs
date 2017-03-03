@@ -12,11 +12,14 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public int assetID { get; set; }
         public string name { get; set; }
         public string description { get; set; }
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Avaliable Date")]
+        [DataType(DataType.Date)]
         public DateTime addDate { get; set; }
         public decimal price { get; set; }
         //public List<bidList>
-        public int ownerID { get; set; }
+        public string ownerID { get; set; }
         public string location { get; set; }
+
     }
+
 }

@@ -53,6 +53,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
+                    b.Property<string>("description");
+
                     b.Property<string>("firstName");
 
                     b.Property<string>("lastName");
@@ -71,7 +73,7 @@ namespace LatiumMarketplace.Data.Migrations
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Asset", b =>
                 {
-                    b.Property<int>("assetID")
+                    b.Property<Guid>("assetID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("addDate");
@@ -82,7 +84,7 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("name");
 
-                    b.Property<int>("ownerID");
+                    b.Property<string>("ownerID");
 
                     b.Property<decimal>("price");
 
@@ -103,7 +105,7 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("MessageContent")
                         .IsRequired();
 
-                    b.Property<int>("MessageThreadID");
+                    b.Property<Guid>("MessageThreadID");
 
                     b.Property<bool>("Read");
 

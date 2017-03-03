@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LatiumMarketplace.Data.Migrations
 {
-    public partial class Asset : Migration
+    public partial class Asset_Update : Migration
     {
         public string name { get; set; }
         public string description { get; set; }

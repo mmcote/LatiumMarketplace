@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170222221802_Asset")]
-    partial class Asset
+    [Migration("20170303003020_Asset_Update")]
+    partial class Asset_Update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
+                    b.Property<string>("description");
+
                     b.Property<string>("firstName");
 
                     b.Property<string>("lastName");
@@ -83,13 +85,40 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("name");
 
-                    b.Property<int>("ownerID");
+                    b.Property<string>("ownerID");
 
                     b.Property<decimal>("price");
 
                     b.HasKey("assetID");
 
                     b.ToTable("Asset");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.MessagingViewModels.Message", b =>
+                {
+                    b.Property<Guid>("MessageID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateRead");
+
+                    b.Property<DateTime>("DateSent");
+
+                    b.Property<string>("MessageContent")
+                        .IsRequired();
+
+                    b.Property<Guid>("MessageThreadID");
+
+                    b.Property<bool>("Read");
+
+                    b.Property<string>("RecipientID")
+                        .IsRequired();
+
+                    b.Property<string>("SenderID")
+                        .IsRequired();
+
+                    b.HasKey("MessageID");
+
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

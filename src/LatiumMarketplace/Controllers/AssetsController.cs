@@ -7,19 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.AssetViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using LatiumMarketplace.Models;
 
 namespace LatiumMarketplace.Controllers
 {
+    [Authorize]
     public class AssetsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AssetsController(ApplicationDbContext context)
+        public AssetsController(ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager
+        )
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;
         }
 
         // GET: Assets
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Asset.ToListAsync());
@@ -55,8 +64,14 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price")] Asset asset)
         {
+
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var userId = user?.Id;
+                DateTime today = DateTime.Now;
+                asset.addDate = today;
+                asset.ownerID = userId;
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
