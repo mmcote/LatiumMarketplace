@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
+    // This is a data transfer object to transfer the user
+    // specified fields of a message (used for the API post method)
+    public class MessageDTO
+    {
+        public string subject { get; set; }
+        public string body { get; set; }
+    }
+
     public class Message
     {
         /* Empty constructor needed for EF to materialize objects that are the results
@@ -46,10 +54,10 @@ namespace LatiumMarketplace.Models.MessageViewModels
         // Not required as the subject may be simply enough to answer a message
         public string Body { get; set; }
 
-        [Required]
+        //[Required]
         public string SenderId { get; set; }
         
-        [Required]
+        //[Required]
         public string RecieverId { get; set; }
     }
 }

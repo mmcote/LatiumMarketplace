@@ -17,7 +17,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
 
         public void AddMessage(Message message)
         {
-            var value = _context.Add(message);
+            _context.Add(message);
             return;
         }
 
@@ -33,6 +33,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
             {
                 throw new Exception("No message found by the given messageID");
             };
+            _context.Message.Remove(message);
             return;
         }
 
@@ -46,10 +47,15 @@ namespace LatiumMarketplace.Models.MessageViewModels
             var message = _context.Message.Single(m => m.id == messageID);
             if (message == null)
             {
-                throw new Exception("No message found by the given messageID");
+                throw new KeyNotFoundException("No message found by the given messageID");
             }
 
             return message;
+        }
+
+        public IEnumerable<Message> GetAll()
+        {
+            return _context.Message.ToList();
         }
 
         public void Save()
