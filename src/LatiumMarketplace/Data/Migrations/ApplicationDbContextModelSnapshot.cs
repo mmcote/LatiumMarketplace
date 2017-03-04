@@ -53,11 +53,14 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
 
-                    b.Property<string>("description");
+                    b.Property<string>("description")
+                        .HasAnnotation("MaxLength", 800);
 
-                    b.Property<string>("firstName");
+                    b.Property<string>("firstName")
+                        .HasAnnotation("MaxLength", 256);
 
-                    b.Property<string>("lastName");
+                    b.Property<string>("lastName")
+                        .HasAnnotation("MaxLength", 256);
 
                     b.HasKey("Id");
 

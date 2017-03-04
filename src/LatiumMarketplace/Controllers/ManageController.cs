@@ -337,6 +337,23 @@ namespace LatiumMarketplace.Controllers
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
         }
 
+        //
+        //GET: /Manage/Edit
+        [HttpGet]
+        public IActionResult Edit()
+        {
+            //var user = await _userManager.GetUserAsync(HttpContext.User);
+            return View();
+        }
+
+        //
+        //POST: /Manage/Edit
+        //[HttpPost]
+          
+
+
+
+
         #region Helpers
 
         private void AddErrors(IdentityResult result)
