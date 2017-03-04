@@ -29,9 +29,17 @@ namespace LatiumMarketplace.Controllers
 
         // GET: Assets
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Asset.ToListAsync());
+            var assets = from m in _context.Asset
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                assets = assets.Where(s => s.name.Contains(searchString));
+            }
+
+            return View(await assets.ToListAsync());
         }
 
         // GET: Assets/Details/5
