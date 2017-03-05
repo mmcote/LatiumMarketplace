@@ -12,6 +12,7 @@ using LatiumMarketplace.Services;
 using LatiumMarketplace.Data;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Data.Migrations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -346,37 +347,58 @@ namespace LatiumMarketplace.Controllers
         //
         //GET: /Manage/Edit
         [HttpGet]
-        public async Task<IActionResult> Edit(string id)
+        public IActionResult Edit()
         {
-            var user = await GetCurrentUserAsync();
-
-            if (id == null)
+            return View();
+        }
+         [HttpPost]
+         public async Task<ActionResult> Edit(ProfileViewModel model)
+        {
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
+                var user = await GetCurrentUserAsync();
+                user.firstName = model.firstName;
+                user.lastName = model.lastName;
+                user.description = model.description;
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+                var result = await _userManager.UpdateAsync(user);
 
-            return View(user);
+                if (!result.Succeeded)
+                {
+                    AddErrors(result);
+                }
+            }
+            return RedirectToAction("Profile");
         }
 
+
+
+        /*
+        [HttpPost]
+        public async Task<ActionResult> Edit(ProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _userManager.FindByIdAsync(model.i)
+            }
+        }*/
+
+       
         //
         //POST: /Manage/Edit
         //[HttpPost]
-        public async Task<IActionResult> Edit(string id , [Bind("firstName, lastName, description")] ApplicationUser user)
-        {
+       /* public  IActionResult Edit( [Bind("firstName, lastName, description")] ApplicationUser user)
+        { 
+ 
             //_context.Entry(user).State = EntityState.Modified;
             //await _context.SaveChangesAsync();
             //return RedirectToAction("Index");
-
+            
            if(id != user.Id)
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try
@@ -392,7 +414,7 @@ namespace LatiumMarketplace.Controllers
                 return RedirectToAction("Profile");
             }
             return RedirectToAction("Index");
-        }
+        }*/
   
          
 
