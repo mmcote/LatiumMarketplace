@@ -1,9 +1,10 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.MessageViewModels;
@@ -14,11 +15,11 @@ namespace LatiumMarketplace.Controllers
     [Route("api/MessagesAPI")]
     public class MessagesAPIController : Controller
     {
-        private IMessageRepository _messageRepository;
+        private readonly IMessageRepository _messageRepository;
 
-        public MessagesAPIController(ApplicationDbContext context)
+        public MessagesAPIController(IMessageRepository messageRepository)
         {
-            _messageRepository = new MessageRepository(context);
+            _messageRepository = messageRepository;
         }
 
         // GET: api/MessagesAPI
