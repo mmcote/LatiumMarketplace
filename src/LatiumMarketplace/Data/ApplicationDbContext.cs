@@ -28,5 +28,7 @@ namespace LatiumMarketplace.Data
         public DbSet<Asset> Asset { get; set; }
 
         public DbSet<Message> Message { get; set; }
+
+        public DbSet<ApplicationUser> User { get; set; }
     }
 }

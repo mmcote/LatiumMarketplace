@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.ManageViewModels;
 using LatiumMarketplace.Services;
+using LatiumMarketplace.Data;
+using Microsoft.EntityFrameworkCore;
+using LatiumMarketplace.Data.Migrations;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -19,17 +22,20 @@ namespace LatiumMarketplace.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
         public ManageController(
+        ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
         ILoggerFactory loggerFactory)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -340,19 +346,55 @@ namespace LatiumMarketplace.Controllers
         //
         //GET: /Manage/Edit
         [HttpGet]
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(string id)
         {
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            return View();
+            var user = await GetCurrentUserAsync();
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
         }
 
         //
         //POST: /Manage/Edit
         //[HttpPost]
-          
+        public async Task<IActionResult> Edit(string id , [Bind("firstName, lastName, description")] ApplicationUser user)
+        {
+            //_context.Entry(user).State = EntityState.Modified;
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction("Index");
 
+           if(id != user.Id)
+            {
+                return NotFound();
+            }
 
-
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+                _context.SaveChanges();
+                return RedirectToAction("Profile");
+            }
+            return RedirectToAction("Index");
+        }
+  
+         
 
         #region Helpers
 
