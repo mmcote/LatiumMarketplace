@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170307182425_middleName")]
+    partial class middleName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -59,6 +60,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("lastName");
 
+                    b.Property<string>("middleName");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -100,14 +103,9 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("Body");
 
-                    b.Property<string>("RecieverId");
-
                     b.Property<DateTime>("SendDate");
 
-                    b.Property<string>("SenderId");
-
-                    b.Property<string>("Subject")
-                        .IsRequired();
+                    b.Property<string>("Subject");
 
                     b.HasKey("id");
 

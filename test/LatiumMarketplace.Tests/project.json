@@ -5,6 +5,10 @@
   "dependencies": {
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "LatiumMarketplace": "1.0.0-*",
+    "Microsoft.Data.Sqlite": "1.0.0",
+    "Microsoft.EntityFrameworkCore.InMemory": "1.0.1",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.1",
+    "Moq": "4.7.1",
     "xunit": "2.2.0",
     "xunit.runner.console": "2.2.0"
   },

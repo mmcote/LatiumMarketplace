@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LatiumMarketplace.Tests
+namespace LatiumMarketplace.Tests.ProfileTest
 {
-    public class Class1
+    public class ProfileTest
     {
-        public Class1()
+
+        public void UpdateProfile()
         {
+
         }
+
+
     }
 }

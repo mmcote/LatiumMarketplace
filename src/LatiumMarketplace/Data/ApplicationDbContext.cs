@@ -12,6 +12,8 @@ namespace LatiumMarketplace.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext() { }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -29,6 +31,16 @@ namespace LatiumMarketplace.Data
 
         public DbSet<Message> Message { get; set; }
 
+
         public DbSet<ApplicationUser> User { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EFProviders.InMemory;Trusted_Connection=True;");
+            }
+        }
+
     }
 }
