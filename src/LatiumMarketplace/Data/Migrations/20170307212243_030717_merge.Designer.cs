@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170304230327_myfirst")]
-    partial class myfirst
+    [Migration("20170307212243_030717_merge")]
+    partial class _030717_merge
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,9 +101,14 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("Body");
 
+                    b.Property<string>("RecieverId");
+
                     b.Property<DateTime>("SendDate");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("SenderId");
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
 
                     b.HasKey("id");
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LatiumMarketplace.Data.Migrations
 {
-    public partial class AssetAndMessageUpdate : Migration
+    public partial class _030717_merge : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -33,17 +33,28 @@ namespace LatiumMarketplace.Data.Migrations
                 {
                     id = table.Column<Guid>(nullable: false),
                     Body = table.Column<string>(nullable: true),
+                    RecieverId = table.Column<string>(nullable: true),
                     SendDate = table.Column<DateTime>(nullable: false),
-                    Subject = table.Column<string>(nullable: true)
+                    SenderId = table.Column<string>(nullable: true),
+                    Subject = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Message", x => x.id);
                 });
+
+            migrationBuilder.AddColumn<string>(
+                name: "description",
+                table: "AspNetUsers",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "description",
+                table: "AspNetUsers");
+
             migrationBuilder.DropTable(
                 name: "Asset");
 

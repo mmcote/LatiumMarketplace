@@ -100,9 +100,14 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("Body");
 
+                    b.Property<string>("RecieverId");
+
                     b.Property<DateTime>("SendDate");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("SenderId");
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
 
                     b.HasKey("id");
 
