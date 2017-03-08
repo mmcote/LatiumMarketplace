@@ -10,6 +10,7 @@
         <li data-target="#myCarousel" data-slide-to="3"></li>
     </ol>
     <div class="carousel-inner" role="listbox">
+        
         <div class="item active">
             <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
             <div class="carousel-caption" role="option">
@@ -55,6 +56,14 @@
             </div>
         </div>
     </div>
+    <form asp-controller="Assets" asp-action="Index" method="get" class="col-sm-12" id="searchForm">
+        <div class="form-group col-sm-4 col-sm-offset-4">
+            <div class="input-group input-group-lg center-block">
+                <input class="form-control" type="text" name="SearchString" placeholder="Search" required>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            </div>
+        </div>
+    </form>
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
         <span class="sr-only">Previous</span>

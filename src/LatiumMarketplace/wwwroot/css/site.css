@@ -47,4 +47,11 @@ textarea {
   .carousel-caption {
     display: none
   }
+
+
+}
+/*Home screen search bar*/
+#searchForm {
+	position:absolute;
+  	top:45%;
 }
