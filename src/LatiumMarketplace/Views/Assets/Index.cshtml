@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Index";
 }
+<head>
 
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/prettyPhoto.css" rel="stylesheet">
+</head><!--/head-->
 <h2>Index</h2>
 
 <p>
@@ -17,57 +22,284 @@
     </p>
 </form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.addDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ownerID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.addDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ownerID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="left-sidebar">
+                    <h2>Category</h2>
+                    <div class="panel-group category-products" id="accordian">
+                        <!--category-productsr-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="#truck">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        Truck
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="truck" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        <li><a href="#">Nike </a></li>
+                                        <li><a href="#">Under Armour </a></li>
+                                        <li><a href="#">Adidas </a></li>
+                                        <li><a href="#">Puma</a></li>
+                                        <li><a href="#">ASICS </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div><!--/category-products-->
+
+                    <div class="brands_products">
+                        <!--brands_products-->
+                        <h2>Brands</h2>
+                        <div class="brands-name">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="#"> <span class="pull-right">(50)</span>Chevy</a></li>
+                                <li><a href="#"> <span class="pull-right">(56)</span>GMC</a></li>
+                            </ul>
+                        </div>
+                    </div><!--/brands_products-->
+
+                    <div class="price-range">
+                        <!--price-range-->
+                        <h2>Price Range</h2>
+                        <div class="well text-center">
+                            <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br />
+                            <b class="pull-left">$ 0</b> <b class="pull-right">$ 5000</b>
+                        </div>
+                    </div><!--/price-range-->
+
+                </div>
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.addDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.location)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ownerID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.price)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.addDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.location)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ownerID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.price)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                    <div class="features_items">
+                        <!--features_items-->
+                        <h2 class="title text-center">Search Result</h2>
+                        <div class="col-sm-4">
+                        @foreach (var item in Model)
+                        {
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                
+                                    <div class="productinfo text-center">
+                                        
+                                         <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
+                                        <h2>@Html.DisplayFor(modelItem => item.price)</h2>
+                                        <p>@Html.DisplayFor(modelItem => item.name)</p>
+                                        <a href="#" class="btn btn-default full-detail">Full Details</a>
+                                    </div>
+                                    <div class="product-overlay">
+                                        <div class="overlay-content">
+                                            <h2>@Html.DisplayNameFor(model => model.name): @Html.DisplayFor(modelItem => item.name)</h2>
+                                            <p>@Html.DisplayNameFor(model => model.price): @Html.DisplayFor(modelItem => item.price)</p>
+                                            <p>@Html.DisplayNameFor(model => model.description): @Html.DisplayFor(modelItem => item.description)</p>
+                                            <p>@Html.DisplayNameFor(model => model.location): @Html.DisplayFor(modelItem => item.location)</p>
+                                            <p>@Html.DisplayNameFor(model => model.addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
+                                            <p>@Html.DisplayNameFor(model => model.ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
+                                            <a href="#" class="btn btn-default full-detail">Full Details</a>
+                                        </div>
+                                    </div>
+                                        
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                                    </ul>
+                                </div>
+                                
+                            </div>
+                            }
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="product-image-wrapper">
+                                <div class="single-products">
+                                    <div class="productinfo text-center">
+                                        <img src="images/home/product3.jpg" alt="" />
+                                        <h2>$56</h2>
+                                        <p>Easy Polo Black Edition</p>
+                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    </div>
+                                    <div class="product-overlay">
+                                        <div class="overlay-content">
+                                            <h2>$56</h2>
+                                            <p>Easy Polo Black Edition</p>
+                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="choose">
+                                    <ul class="nav nav-pills nav-justified">
+                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--features_items-->
+
+                    <div class="recommended_items">
+                        <!--recommended_items-->
+                        <h2 class="title text-center">recommended items</h2>
+
+                        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="images/home/recommend1.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="images/home/recommend2.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="images/home/recommend3.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="images/home/recommend1.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="images/home/recommend2.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="images/home/recommend3.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div><!--/recommended_items-->
+
+                </div>
+
+            
+        </div>
+    </div>
+</section>
