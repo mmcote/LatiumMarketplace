@@ -1,4 +1,7 @@
 @model IEnumerable<LatiumMarketplace.Models.AssetViewModels.Asset>
+@model LatiumMarketplace.Models.AssetViewModels.AssetLocation
+
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -14,9 +17,11 @@
     <a asp-action="Create">Create New</a>
 </p>
 <form asp-controller="Assets" asp-action="Index" method="get">
-    
-            <input class="form-control" type="text" name="SearchString" placeholder="Search" required>
-           <br />
+    <input class="form-control" type="text" name="SearchString" placeholder="Search" required>
+    <br />
+    <select asp-for="assetLocation" asp-items="Model.locations">
+        <option value="">All</option>
+    </select>
 </form>
 
 <section>
@@ -90,28 +95,28 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.addDate)
+                                @Html.DisplayNameFor(model => model.assets[0].addDate)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.description)
+                                @Html.DisplayNameFor(model => model.assets[0].description)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.location)
+                                @Html.DisplayNameFor(model => model.assets[0].location)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.name)
+                                @Html.DisplayNameFor(model => model.assets[0].name)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.ownerID)
+                                @Html.DisplayNameFor(model => model.assets[0].ownerID)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.price)
+                                @Html.DisplayNameFor(model => model.assets[0].price)
                             </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.assets)
                         {
                             <tr>
                                 <td>
@@ -145,7 +150,7 @@
                         <!--features_items-->
                         <h2 class="title text-center">Search Result</h2>
                         <div class="col-sm-4">
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.assets)
                         {
                             <div class="product-image-wrapper">
                                 <div class="single-products">
@@ -159,6 +164,7 @@
                                     </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">
+<<<<<<< HEAD
                                             <h2>@Html.DisplayNameFor(model => model.name): @Html.DisplayFor(modelItem => item.name)</h2>
                                             <p>@Html.DisplayNameFor(model => model.price): @Html.DisplayFor(modelItem => item.price)</p>
                                             <p>@Html.DisplayNameFor(model => model.description): @Html.DisplayFor(modelItem => item.description)</p>
@@ -166,6 +172,15 @@
                                             <p>@Html.DisplayNameFor(model => model.addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
                                             <p>@Html.DisplayNameFor(model => model.ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
                                             <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
+=======
+                                            <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].description): @Html.DisplayFor(modelItem => item.description)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].location): @Html.DisplayFor(modelItem => item.location)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
+                                            <a href="#" class="btn btn-default full-detail">Full Details</a>
+>>>>>>> 3dd26d6c4d351078b31b80bf55592b1ad3e12b56
                                         </div>
                                     </div>
                                         
