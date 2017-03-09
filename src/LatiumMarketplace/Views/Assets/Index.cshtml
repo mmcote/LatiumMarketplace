@@ -1,4 +1,3 @@
-@model IEnumerable<LatiumMarketplace.Models.AssetViewModels.Asset>
 @model LatiumMarketplace.Models.AssetViewModels.AssetLocation
 
 
@@ -22,6 +21,19 @@
     <select asp-for="assetLocation" asp-items="Model.locations">
         <option value="">All</option>
     </select>
+    <p>
+        Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
+            <option value="">All</option>
+        </select>
+    </p>
+    <p>
+        Search by : <br>
+            <input type="radio" name="SortBy" value="all" checked> All<br>
+            <input type="radio" name="SortBy" value="asset"> Asset<br>
+            <input type="radio" name="SortBy" value="request"> Request<br>
+        Name : <input type="text" name="SearchString">
+        <input type="submit" value="Filter" />
+    </p>
 </form>
 
 <section>
@@ -159,20 +171,18 @@
                                         
                                          <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
                                         <h2>@Html.DisplayFor(modelItem => item.name)</h2>
-                                        <p>@Html.DisplayNameFor(model => model.price): @Html.DisplayFor(modelItem => item.price)</p>
+                                        <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
                                         <a href="#" class="btn btn-default full-detail">Full Details</a>
                                     </div>
                                     <div class="product-overlay">
                                         <div class="overlay-content">
-<<<<<<< HEAD
-                                            <h2>@Html.DisplayNameFor(model => model.name): @Html.DisplayFor(modelItem => item.name)</h2>
-                                            <p>@Html.DisplayNameFor(model => model.price): @Html.DisplayFor(modelItem => item.price)</p>
-                                            <p>@Html.DisplayNameFor(model => model.description): @Html.DisplayFor(modelItem => item.description)</p>
-                                            <p>@Html.DisplayNameFor(model => model.location): @Html.DisplayFor(modelItem => item.location)</p>
-                                            <p>@Html.DisplayNameFor(model => model.addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
-                                            <p>@Html.DisplayNameFor(model => model.ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
+                                            <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].description): @Html.DisplayFor(modelItem => item.description)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].location): @Html.DisplayFor(modelItem => item.location)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
+                                            <p>@Html.DisplayNameFor(model => model.assets[0].ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
                                             <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
-=======
                                             <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].description): @Html.DisplayFor(modelItem => item.description)</p>
@@ -180,7 +190,6 @@
                                             <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
                                             <a href="#" class="btn btn-default full-detail">Full Details</a>
->>>>>>> 3dd26d6c4d351078b31b80bf55592b1ad3e12b56
                                         </div>
                                     </div>
                                         

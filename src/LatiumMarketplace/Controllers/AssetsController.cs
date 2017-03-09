@@ -29,7 +29,7 @@ namespace LatiumMarketplace.Controllers
 
         // GET: Assets
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string assetLocation, string searchString)
+        public async Task<IActionResult> Index(string assetLocation, string searchString, string sortby)
         {
             // Use LINQ to get list of genres.
             IQueryable<string> locationQuery = from m in _context.Asset
@@ -39,9 +39,18 @@ namespace LatiumMarketplace.Controllers
             var assets = from m in _context.Asset
                          select m;
 
-            if (!String.IsNullOrEmpty(searchString))
+            if (sortby == "request")
             {
-                assets = assets.Where(s => s.name.Contains(searchString));
+                assets = assets.Where(s => s.request.Equals(true));
+            }
+            else if (sortby == "asset")
+            {
+                assets = assets.Where(s => s.request.Equals(false));
+            }
+            else
+            {
+                assets = from m in _context.Asset
+                         select m;
             }
 
             if (!String.IsNullOrEmpty(assetLocation))
@@ -84,7 +93,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request")] Asset asset)
         {
 
             if (ModelState.IsValid)
