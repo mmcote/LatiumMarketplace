@@ -29,7 +29,7 @@ namespace LatiumMarketplace.Controllers
 
         // GET: Assets
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string assetLocation, string searchString, string sortby)
+        public async Task<IActionResult> Index(string assetLocation, string searchString, string sortby, bool recent)
         {
             // Use LINQ to get list of genres.
             IQueryable<string> locationQuery = from m in _context.Asset
@@ -39,18 +39,23 @@ namespace LatiumMarketplace.Controllers
             var assets = from m in _context.Asset
                          select m;
 
-            if (sortby == "request")
+            switch (sortby)
             {
-                assets = assets.Where(s => s.request.Equals(true));
+                case "request":
+                    assets = assets.Where(s => s.request.Equals(true));
+                    break;
+                case "asset":
+                    assets = assets.Where(s => s.request.Equals(false));
+                    break;
+                case "all":
+                    assets = from m in _context.Asset
+                             select m;
+                    break;
             }
-            else if (sortby == "asset")
+
+            if (recent == true)
             {
-                assets = assets.Where(s => s.request.Equals(false));
-            }
-            else
-            {
-                assets = from m in _context.Asset
-                         select m;
+                assets = assets.OrderByDescending(s => s.addDate);
             }
 
             if (!String.IsNullOrEmpty(assetLocation))
