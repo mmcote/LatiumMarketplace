@@ -46,7 +46,8 @@
     },
     "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Google": "1.1.0",
-    "NETCore.MailKit": "1.0.1"
+    "NETCore.MailKit": "1.0.1",
+    "Newtonsoft.Json": "9.0.1"
   },
 
   "tools": {

@@ -53,7 +53,7 @@ namespace LatiumMarketplace.Controllers
         [HttpPost]
         public void Post([FromBody]MessageDTO messageDTO)
         {
-            Message message = new Message(null, null, messageDTO.subject, messageDTO.body);
+            Message message = new Message(messageDTO.subject, messageDTO.body);
             _messageRepository.AddMessage(message);
             _messageRepository.Save();
         }

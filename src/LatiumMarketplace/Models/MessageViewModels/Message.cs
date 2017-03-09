@@ -15,7 +15,6 @@ namespace LatiumMarketplace.Models.MessageViewModels
             this.subject = subject;
             this.body = body;
         }
-
         public string subject { get; set; }
         public string body { get; set; }
     }
@@ -37,10 +36,8 @@ namespace LatiumMarketplace.Models.MessageViewModels
          */
         private Message() { }
 
-        public Message(string senderID, string recieverId, string subject, string body)
+        public Message(string subject, string body)
         {
-            SenderId = senderID;
-            RecieverId = recieverId;
             Subject = subject;
             Body = body;
             SendDate = DateTime.Now;
@@ -59,11 +56,5 @@ namespace LatiumMarketplace.Models.MessageViewModels
 
         // Not required as the subject may be simply enough to answer a message
         public string Body { get; set; }
-
-        //[Required]
-        public string SenderId { get; set; }
-        
-        //[Required]
-        public string RecieverId { get; set; }
     }
 }
