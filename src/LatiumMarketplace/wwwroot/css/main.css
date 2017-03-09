@@ -1,7 +1,4 @@
 
-
-
-
 /*************************
 ******* Home ******
 **************************/
@@ -229,6 +226,9 @@ h2.title:before{
 .features_items{
 	overflow:hidden;
 }
+.header-middle .container .row .col-sm-4{
+  float: left;
+}
 
 
 h2.title {
@@ -243,9 +243,11 @@ h2.title {
 }
 
 .product-image-wrapper{
+    float:right;
 	border:1px solid #F7F7F5;
 	overflow: hidden;
 	margin-bottom:30px;
+    
 }
 
 .single-products {
@@ -313,7 +315,7 @@ h2.title {
   width: 100%;
 }
 
-.product-overlay .add-to-cart {
+.product-overlay .full-detail {
   background:#fff;
   border: 0 none;
   border-radius: 0;
@@ -323,7 +325,7 @@ h2.title {
   margin-bottom: 25px;
 }
 
-.product-overlay .add-to-cart:hover {
+.product-overlay .full-detail:hover {
   background:#fff;
   color: #808080;
 }
@@ -338,7 +340,7 @@ h2.title {
 
 
 
-.add-to-cart {
+.full-detail {
   background:#F5F5ED;
   border: 0 none;
   border-radius: 0;
@@ -348,7 +350,7 @@ h2.title {
   margin-bottom: 25px;
 }
 
-.add-to-cart:hover {
+.full-detail:hover {
   background: #808080;
   border: 0 none;
   border-radius: 0;
@@ -359,11 +361,11 @@ h2.title {
   margin-bottom: 10px;
 }
 
-.add-to-cart i{
+.full-detail i{
 	margin-right:5px;
 }
 
-.add-to-cart:hover {
+.full-detail:hover {
   background: #808080;
   color: #FFFFFF;
 }
@@ -455,3 +457,5 @@ h2.title {
 .full-detail {
     background: #F7F7F0;
 }
+
+.fa-plus{content:"\f067";}

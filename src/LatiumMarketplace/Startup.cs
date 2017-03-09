@@ -125,6 +125,7 @@ namespace LatiumMarketplace
                 ClientSecret = Configuration["Authentication:Google:ClientSecret"]
             });
 
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

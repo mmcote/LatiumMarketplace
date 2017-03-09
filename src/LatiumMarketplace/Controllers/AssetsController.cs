@@ -29,7 +29,7 @@ namespace LatiumMarketplace.Controllers
 
         // GET: Assets
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string assetLocation, string searchString)
+        public async Task<IActionResult> Index(string assetLocation, string searchString, string sortby, bool recent)
         {
             // Use LINQ to get list of genres.
             IQueryable<string> locationQuery = from m in _context.Asset
@@ -39,9 +39,23 @@ namespace LatiumMarketplace.Controllers
             var assets = from m in _context.Asset
                          select m;
 
-            if (!String.IsNullOrEmpty(searchString))
+            switch (sortby)
             {
-                assets = assets.Where(s => s.name.Contains(searchString));
+                case "request":
+                    assets = assets.Where(s => s.request.Equals(true));
+                    break;
+                case "asset":
+                    assets = assets.Where(s => s.request.Equals(false));
+                    break;
+                case "all":
+                    assets = from m in _context.Asset
+                             select m;
+                    break;
+            }
+
+            if (recent == true)
+            {
+                assets = assets.OrderByDescending(s => s.addDate);
             }
 
             if (!String.IsNullOrEmpty(assetLocation))
@@ -84,7 +98,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request")] Asset asset)
         {
 
             if (ModelState.IsValid)
