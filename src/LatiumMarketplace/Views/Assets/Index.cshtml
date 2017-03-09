@@ -16,8 +16,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 <form asp-controller="Assets" asp-action="Index" method="get">
-    <input class="form-control" type="text" name="SearchString" placeholder="Search" required>
-    <br />
+    
     <select asp-for="assetLocation" asp-items="Model.locations">
         <option value="">All</option>
     </select>
@@ -31,8 +30,10 @@
             <input type="radio" name="SortBy" value="all" checked> All<br>
             <input type="radio" name="SortBy" value="asset"> Asset<br>
             <input type="radio" name="SortBy" value="request"> Request<br>
-        Name : <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
+        Name : <input class="form-control" type="text" name="SearchString" placeholder="Search" required>
+         <input type="submit" value="Filter" />
+
+        
     </p>
 </form>
 
