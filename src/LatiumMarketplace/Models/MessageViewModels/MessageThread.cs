@@ -53,6 +53,6 @@ namespace LatiumMarketplace.Models.MessageViewModels
         [Required]
         public string RecieverId { get; set; }
 
-        public List<Message> messages { get; set; }
+        public virtual List<Message> messages { get; set; }
     }
 }

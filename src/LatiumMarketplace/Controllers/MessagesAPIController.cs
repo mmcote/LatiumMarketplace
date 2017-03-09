@@ -49,6 +49,26 @@ namespace LatiumMarketplace.Controllers
             }
         }
 
+        // GET: api/MessagesAPI/5
+        [HttpGet("{id}", Name = "GetAll")]
+        public IActionResult GetAllRelatedToThread([FromBody]string id)
+        {
+            Guid guid = Guid.Parse(id);
+            try
+            {
+                IEnumerable<Message> messages = _messageRepository.GetAllMessagesByThreadId(guid);
+                return new OkObjectResult(messages.OrderBy(m => m.SendDate));
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         // POST: api/MessagesAPI
         [HttpPost]
         public void Post([FromBody]MessageDTO messageDTO)

@@ -39,21 +39,23 @@ namespace LatiumMarketplace.Controllers
             return View(messageThreads);
         }
 
-        // GET: MessageThreads/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        // This call should return a list of the messages within the thread sorted by date
+        // GET: MessageThreads/Details/
+        public IActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var messageThread = await _context.MessageThread.SingleOrDefaultAsync(m => m.id == id);
-            if (messageThread == null)
+            OkObjectResult messagesWrapped = (OkObjectResult) _messageApiController.GetAllRelatedToThread(id.ToString());
+            IEnumerable<Message> threadMessages = (IEnumerable<Message>) messagesWrapped.Value;
+            if (threadMessages == null)
             {
                 return NotFound();
             }
 
-            return View(messageThread);
+            return View(threadMessages);
         }
 
         // GET: MessageThreads/Create
