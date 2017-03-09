@@ -1,25 +1,22 @@
 @model IEnumerable<LatiumMarketplace.Models.AssetViewModels.Asset>
-
 @{
     ViewData["Title"] = "Index";
 }
 <head>
-
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/css/main.css" rel="stylesheet">
-    <link href="~/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/css/prettyPhoto.css" rel="stylesheet">
+ 
 </head><!--/head-->
 <h2>Index</h2>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
 <form asp-controller="Assets" asp-action="Index" method="get">
-    <p>
-        Title: <input type="text" name="SearchString">
-        <input type="submit" value="Filter" />
-    </p>
+    
+            <input class="form-control" type="text" name="SearchString" placeholder="Search" required>
+           <br />
 </form>
 
 <section>
@@ -68,9 +65,19 @@
                     <div class="price-range">
                         <!--price-range-->
                         <h2>Price Range</h2>
+                        <div data-role="main" class="ui-content">
+                            
+                        </div>
                         <div class="well text-center">
-                            <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br />
-                            <b class="pull-left">$ 0</b> <b class="pull-right">$ 5000</b>
+                            <form method="get" action="#">
+                                <div data-role="rangeslider">
+                                    <label for="price-min">Min Price:</label>
+                                    <input type="range" name="price-min" id="price-min" value="0" min="0" max="100000">
+                                    <label for="price-max">Max Price:</label>
+                                    <input type="range" name="price-max" id="price-max" value="3000" min="0" max="100000">
+                                </div>
+                                <input type="submit" data-inline="true" value="Submit">
+                             </form>
                         </div>
                     </div><!--/price-range-->
 
@@ -146,8 +153,8 @@
                                     <div class="productinfo text-center">
                                         
                                          <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
-                                        <h2>@Html.DisplayFor(modelItem => item.price)</h2>
-                                        <p>@Html.DisplayFor(modelItem => item.name)</p>
+                                        <h2>@Html.DisplayFor(modelItem => item.name)</h2>
+                                        <p>@Html.DisplayNameFor(model => model.price): @Html.DisplayFor(modelItem => item.price)</p>
                                         <a href="#" class="btn btn-default full-detail">Full Details</a>
                                     </div>
                                     <div class="product-overlay">
@@ -158,44 +165,19 @@
                                             <p>@Html.DisplayNameFor(model => model.location): @Html.DisplayFor(modelItem => item.location)</p>
                                             <p>@Html.DisplayNameFor(model => model.addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
                                             <p>@Html.DisplayNameFor(model => model.ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
-                                            <a href="#" class="btn btn-default full-detail">Full Details</a>
+                                            <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
                                         </div>
                                     </div>
                                         
                                 </div>
                                 <div class="choose">
                                     <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                                        <li><a href="#">Add to wishlist</a></li>
                                     </ul>
                                 </div>
                                 
                             </div>
                             }
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                    <div class="productinfo text-center">
-                                        <img src="images/home/product3.jpg" alt="" />
-                                        <h2>$56</h2>
-                                        <p>Testing Column</p>
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
-                                    </div>
-                                    <div class="product-overlay">
-                                        <div class="overlay-content">
-                                            <h2>$56</h2>
-                                            <p>Testing Column</p>
-                                            <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="choose">
-                                    <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
-                                        <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
                     </div><!--features_items-->
 
@@ -210,10 +192,10 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="images/home/recommend1.jpg" alt="" />
+                                                    <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
                                                     <h2>$FREE</h2>
                                                     <p>Testing Column</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
+                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
                                                 </div>
 
                                             </div>
@@ -223,10 +205,10 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="images/home/recommend2.jpg" alt="" />
+                                                    <img src="~/images/placeholders/featured-assets/featured-asset2.jpg" alt="" />
                                                     <h2>$56</h2>
                                                     <p>1</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
+                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
                                                 </div>
 
                                             </div>
@@ -236,10 +218,10 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="images/home/recommend3.jpg" alt="" />
+                                                    <img src="~/images/placeholders/featured-assets/featured-asset3.jpg" alt="" />
                                                     <h2>$56</h2>
                                                     <p>2</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
+                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
                                                 </div>
 
                                             </div>
@@ -251,10 +233,10 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="images/home/recommend1.jpg" alt="" />
+                                                    <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
                                                     <h2>$56</h2>
                                                     <p>3</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
+                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
                                                 </div>
 
                                             </div>
@@ -264,10 +246,10 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="images/home/recommend2.jpg" alt="" />
+                                                    <img src="~/images/placeholders/featured-assets/featured-asset2.jpg" alt="" />
                                                     <h2>$56</h2>
                                                     <p>4</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
+                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
                                                 </div>
 
                                             </div>
@@ -277,10 +259,10 @@
                                         <div class="product-image-wrapper">
                                             <div class="single-products">
                                                 <div class="productinfo text-center">
-                                                    <img src="images/home/recommend3.jpg" alt="" />
+                                                    <img src="~/images/placeholders/featured-assets/featured-asset3.jpg" alt="" />
                                                     <h2>$56</h2>
                                                     <p>5</p>
-                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Full Detail</a>
+                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
                                                 </div>
 
                                             </div>
