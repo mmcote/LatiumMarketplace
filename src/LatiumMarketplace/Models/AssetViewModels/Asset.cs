@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
@@ -11,12 +12,17 @@ namespace LatiumMarketplace.Models.AssetViewModels
     {
         [Key]
         public int assetID { get; set; }
+        [Required]
         public string name { get; set; }
         public string description { get; set; }
         [Display(Name = "Avaliable Date")]
         [DataType(DataType.Date)]
         public DateTime addDate { get; set; }
+<<<<<<< HEAD
         [Display(Name = "Sale Price")]
+=======
+        [Required]
+>>>>>>> 45c88f5cce0902ba0d90a127668ee75a26a8d759
         public decimal price { get; set; }
         [Display(Name = "Daily Rate")]
         public decimal priceDaily { get; set; }
@@ -26,9 +32,19 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public decimal priceMonthly { get; set; }
         //public List<bidList>
         public string ownerID { get; set; }
+        [Required]
         public string location { get; set; }
         public bool request { get; set; }
 
+        // Navigation properties for many-to-many relationship between
+        // Asset and Category.
+        // One asset can have many categories (one parent and one child).
+        public ICollection<AssetCategory> AssetCategories { get; set; }
+
+        // Navigation properties for one-to-one relationship between Asset and ImageGallery.
+        // One image has only one gallery
+        public int ImageGalleryId { get; set; }
+        public ImageGallery ImageGallery { get; set; }
     }
 
 }
