@@ -18,11 +18,8 @@ namespace LatiumMarketplace.Models.AssetViewModels
         [Display(Name = "Avaliable Date")]
         [DataType(DataType.Date)]
         public DateTime addDate { get; set; }
-<<<<<<< HEAD
         [Display(Name = "Sale Price")]
-=======
         [Required]
->>>>>>> 45c88f5cce0902ba0d90a127668ee75a26a8d759
         public decimal price { get; set; }
         [Display(Name = "Daily Rate")]
         public decimal priceDaily { get; set; }
