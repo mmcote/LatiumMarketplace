@@ -11,32 +11,30 @@
  
 </head><!--/head-->
 <h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-controller="Assets" asp-action="Index" method="get">
-    <p>
-        Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
-            <option value="">All</option>
-        </select>
-    </p>
-    <p>
-        Sort by : <br>
-            <input type="radio" name="SortBy" value="all" checked> All<br>
-            <input type="radio" name="SortBy" value="asset"> Asset<br>
-            <input type="radio" name="SortBy" value="request"> Request<br>
-        Name : <input class="form-control" type="text" name="SearchString" placeholder="Search">
-        
-        Most recent : <input type="checkbox" name="Recent" value=true><br>
-        <input type="submit" value="Filter" />
-    </p>
-</form>
-
 <section>
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
+                <p>
+                    <a asp-action="Create">Create New</a>
+                </p>
+                <form asp-controller="Assets" asp-action="Index" method="get">
+                    <p>
+                        Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
+                            <option value="">All</option>
+                        </select>
+                    </p>
+                    <p>
+                        Sort by : <br>
+                        <input type="radio" name="SortBy" value="all" checked> All<br>
+                        <input type="radio" name="SortBy" value="asset"> Asset<br>
+                        <input type="radio" name="SortBy" value="request"> Request<br>
+                        Name : <input class="form-control" type="text" name="SearchString" placeholder="Search">
+
+                        Most recent : <input type="checkbox" name="Recent" value=true><br>
+                        <input type="submit" value="Filter" />
+                    </p>
+                </form>
                 <div class="left-sidebar">
                     <h2>Category</h2>
                     <div class="panel-group category-products" id="accordian">
@@ -100,61 +98,7 @@
 
             <div class="col-sm-9 padding-right">
                 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].addDate)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].description)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].location)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].ownerID)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].price)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.assets)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.addDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.location)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ownerID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.price)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                
                     <div class="features_items">
                         <!--features_items-->
                         <h2 class="title text-center">Search Result</h2>
@@ -163,9 +107,7 @@
                         {
                             <div class="product-image-wrapper">
                                 <div class="single-products">
-                                
-                                    <div class="productinfo text-center">
-                                        
+                                    <div class="productinfo text-center">                                       
                                          <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
                                         <h2>@Html.DisplayFor(modelItem => item.name)</h2>
                                         <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
@@ -175,27 +117,28 @@
                                         <div class="overlay-content">
                                             <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].description): @Html.DisplayFor(modelItem => item.description)</p>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].location): @Html.DisplayFor(modelItem => item.location)</p>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
+                                            <br />
+                                            <p>User Rating</p>
+                                            <p><i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            </p>
+                                            <br />
                                             <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
-                                            <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].description): @Html.DisplayFor(modelItem => item.description)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].location): @Html.DisplayFor(modelItem => item.location)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].ownerID): @Html.DisplayFor(modelItem => item.ownerID)</p>
-                                            <a href="#" class="btn btn-default full-detail">Full Details</a>
                                         </div>
                                     </div>
                                         
                                 </div>
                                 <div class="choose">
                                     <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#">Add to wishlist</a></li>
+                                        <li><a href="#">Buy/Rent</a></li>
                                     </ul>
                                 </div>
+                                
                                 
                             </div>
                             }
