@@ -11,7 +11,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
     public class Asset
     {
 
-        private Asset() { }
+        public Asset() { }
 
         public Asset(int AssetID, string Name, string Description, DateTime AddData, decimal Price, decimal PriceDaily, decimal PriceWeekly, decimal PriceMonthly, string OwnerID, string Location, bool Request)
         {

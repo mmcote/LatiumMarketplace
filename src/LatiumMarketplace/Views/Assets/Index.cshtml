@@ -4,250 +4,251 @@
 @{
     ViewData["Title"] = "Index";
 }
-<head>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="~/css/main.css" rel="stylesheet">
-    <link href="~/css/prettyPhoto.css" rel="stylesheet">
+
+    <head>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/css/main.css" rel="stylesheet">
+        <link href="~/css/prettyPhoto.css" rel="stylesheet">
  
-</head><!--/head-->
-<h2>Index</h2>
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <p>
-                    <a asp-action="Create">Create New Asset</a> <br>
-                    <a asp-action="CreateReq">Create New Request</a>
-                </p>
-                <form asp-controller="Assets" asp-action="Index" method="get">
-                    <input class="form-control" type="text" name="SearchString" placeholder="Search">
-                    <br />
+    </head><!--/head-->
+    <h2>Index</h2>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
                     <p>
-                        Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
-                            <option value="">All</option>
-                        </select>
+                        <a asp-action="Create">Create New Asset</a> <br>
+                        <a asp-action="CreateReq">Create New Request</a>
                     </p>
-                    <p>
-                        Sort by : <br>
-                        <input type="radio" name="SortBy" value="all" checked> All<br>
-                        <input type="radio" name="SortBy" value="asset"> Asset<br>
-                        <input type="radio" name="SortBy" value="request"> Request<br>
-                        Most recent : <input type="checkbox" name="recent" value=true><br>
-                        With accessory : <input type="checkbox" name="accessory" value=true><br>
-                        <input type="submit" value="Filter" />
-                    </p>
-                </form>
-                <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian">
-                        <!--category-productsr-->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#truck">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Truck
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="truck" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">GMC </a></li>
-                                        <li><a href="#">CHEV </a></li>
-                                        <li><a href="#">FORD </a></li>
-                                        <li><a href="#">HUMMER</a></li>
-                                        <li><a href="#">Made in china</a></li>
-                                    </ul>
+                    <form asp-controller="Assets" asp-action="Index" method="get">
+                        <input class="form-control" type="text" name="SearchString" placeholder="Search">
+                        <br />
+                        <p>
+                            Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
+                                <option value="">All</option>
+                            </select>
+                        </p>
+                        <p>
+                            Sort by : <br>
+                            <input type="radio" name="SortBy" value="all" checked> All<br>
+                            <input type="radio" name="SortBy" value="asset"> Asset<br>
+                            <input type="radio" name="SortBy" value="request"> Request<br>
+                            Most recent : <input type="checkbox" name="recent" value=true><br>
+                            With accessory : <input type="checkbox" name="accessory" value=true><br>
+                            <input type="submit" value="Filter" />
+                        </p>
+                    </form>
+                    <div class="left-sidebar">
+                        <h2>Category</h2>
+                        <div class="panel-group category-products" id="accordian">
+                            <!--category-productsr-->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordian" href="#truck">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            Truck
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="truck" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li><a href="#">GMC </a></li>
+                                            <li><a href="#">CHEV </a></li>
+                                            <li><a href="#">FORD </a></li>
+                                            <li><a href="#">HUMMER</a></li>
+                                            <li><a href="#">Made in china</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                        
-                    </div><!--/category-products-->
+                        </div><!--/category-products-->
 
-                    <div class="brands_products">
-                        <!--brands_products-->
-                        <h2>Brands</h2>
-                        <div class="brands-name">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#"> <span class="pull-right">(50)</span>Chevy</a></li>
-                                <li><a href="#"> <span class="pull-right">(56)</span>GMC</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/brands_products-->
+                        <div class="brands_products">
+                            <!--brands_products-->
+                            <h2>Brands</h2>
+                            <div class="brands-name">
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="#"> <span class="pull-right">(50)</span>Chevy</a></li>
+                                    <li><a href="#"> <span class="pull-right">(56)</span>GMC</a></li>
+                                </ul>
+                            </div>
+                        </div><!--/brands_products-->
 
-                    <div class="price-range">
-                        <!--price-range-->
-                        <h2>Price Range</h2>
-                        <div data-role="main" class="ui-content">
+                        <div class="price-range">
+                            <!--price-range-->
+                            <h2>Price Range</h2>
+                            <div data-role="main" class="ui-content">
                             
-                        </div>
-                        <div class="well text-center">
-                            <form method="get" action="#">
-                                <div data-role="rangeslider">
-                                    <label for="price-min">Min Price:</label>
-                                    <input type="range" name="price-min" id="price-min" value="0" min="0" max="100000">
-                                    <label for="price-max">Max Price:</label>
-                                    <input type="range" name="price-max" id="price-max" value="3000" min="0" max="100000">
-                                </div>
-                                <input type="submit" data-inline="true" value="Submit">
-                             </form>
-                        </div>
-                    </div><!--/price-range-->
-
-                </div>
-            </div>
-
-            <div class="col-sm-9 padding-right">
-                
-                
-                    <div class="features_items">
-                        <!--features_items-->
-                        <h2 class="title text-center">Search Result</h2>
-                        <div class="col-sm-4">
-                        @foreach (var item in Model.assets)
-                        {
-                            <div class="product-image-wrapper">
-                                <div class="single-products">
-                                    <div class="productinfo text-center">                                       
-                                         <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
-                                        <h2>@Html.DisplayFor(modelItem => item.name)</h2>
-                                        <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
-                                        <a href="#" class="btn btn-default full-detail">Full Details</a>
+                            </div>
+                            <div class="well text-center">
+                                <form method="get" action="#">
+                                    <div data-role="rangeslider">
+                                        <label for="price-min">Min Price:</label>
+                                        <input type="range" name="price-min" id="price-min" value="0" min="0" max="100000">
+                                        <label for="price-max">Max Price:</label>
+                                        <input type="range" name="price-max" id="price-max" value="3000" min="0" max="100000">
                                     </div>
-                                    <div class="product-overlay">
-                                        <div class="overlay-content">
-                                            <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
+                                    <input type="submit" data-inline="true" value="Submit">
+                                 </form>
+                            </div>
+                        </div><!--/price-range-->
+
+                    </div>
+                </div>
+
+                <div class="col-sm-9 padding-right">
+                
+                
+                        <div class="features_items">
+                            <!--features_items-->
+                            <h2 class="title text-center">Search Result</h2>
+                            <div class="col-sm-4">
+                            @foreach (var item in Model.assets)
+                            {
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">                                       
+                                             <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
+                                            <h2>@Html.DisplayFor(modelItem => item.name)</h2>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].location): @Html.DisplayFor(modelItem => item.location)</p>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
+                                            <a href="#" class="btn btn-default full-detail">Full Details</a>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
+                                                <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
+                                                <p>@Html.DisplayNameFor(model => model.assets[0].location): @Html.DisplayFor(modelItem => item.location)</p>
+                                                <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
                                            
-                                            <p>User Rating</p>
-                                            <p><i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            </p>
-                                            <br />
-                                            <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
+                                                <p>User Rating</p>
+                                                <p><i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                </p>
+                                                <br />
+                                                <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
+                                            </div>
                                         </div>
-                                    </div>
                                         
-                                </div>
-                                <div class="choose">
-                                    <ul class="nav nav-pills nav-justified">
-                                        <li><a href="#">Buy/Rent</a></li>
-                                    </ul>
-                                </div>
+                                    </div>
+                                    <div class="choose">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li><a href="#">Buy/Rent</a></li>
+                                        </ul>
+                                    </div>
                                 
                                 
+                                </div>
+                                }
                             </div>
-                            }
-                        </div>
-                    </div><!--features_items-->
+                        </div><!--features_items-->
 
-                    <div class="recommended_items">
-                        <!--recommended_items-->
-                        <h2 class="title text-center">recommended items</h2>
+                        <div class="recommended_items">
+                            <!--recommended_items-->
+                            <h2 class="title text-center">recommended items</h2>
 
-                        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner">
-                                <div class="item active">
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
-                                                    <h2>$FREE</h2>
-                                                    <p>Testing Column</p>
-                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
+                            <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="item active">
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
+                                                        <h2>$FREE</h2>
+                                                        <p>Testing Column</p>
+                                                        <a href="#" class="btn btn-default full-detail">Full Detail</a>
+                                                    </div>
+
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/images/placeholders/featured-assets/featured-asset2.jpg" alt="" />
+                                                        <h2>$56</h2>
+                                                        <p>1</p>
+                                                        <a href="#" class="btn btn-default full-detail">Full Detail</a>
+                                                    </div>
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/images/placeholders/featured-assets/featured-asset3.jpg" alt="" />
+                                                        <h2>$56</h2>
+                                                        <p>2</p>
+                                                        <a href="#" class="btn btn-default full-detail">Full Detail</a>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="~/images/placeholders/featured-assets/featured-asset2.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>1</p>
-                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
-                                                </div>
+                                    <div class="item">
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
+                                                        <h2>$56</h2>
+                                                        <p>3</p>
+                                                        <a href="#" class="btn btn-default full-detail">Full Detail</a>
+                                                    </div>
 
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="~/images/placeholders/featured-assets/featured-asset3.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>2</p>
-                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
-                                                </div>
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/images/placeholders/featured-assets/featured-asset2.jpg" alt="" />
+                                                        <h2>$56</h2>
+                                                        <p>4</p>
+                                                        <a href="#" class="btn btn-default full-detail">Full Detail</a>
+                                                    </div>
 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/images/placeholders/featured-assets/featured-asset3.jpg" alt="" />
+                                                        <h2>$56</h2>
+                                                        <p>5</p>
+                                                        <a href="#" class="btn btn-default full-detail">Full Detail</a>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="item">
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>3</p>
-                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="~/images/placeholders/featured-assets/featured-asset2.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>4</p>
-                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="product-image-wrapper">
-                                            <div class="single-products">
-                                                <div class="productinfo text-center">
-                                                    <img src="~/images/placeholders/featured-assets/featured-asset3.jpg" alt="" />
-                                                    <h2>$56</h2>
-                                                    <p>5</p>
-                                                    <a href="#" class="btn btn-default full-detail">Full Detail</a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                                <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
                             </div>
-                            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </div>
-                    </div><!--/recommended_items-->
+                        </div><!--/recommended_items-->
 
-                </div>
+                    </div>
 
             
+            </div>
         </div>
-    </div>
-</section>
+    </section>
