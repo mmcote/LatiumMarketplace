@@ -61,6 +61,11 @@ namespace LatiumMarketplace.Controllers
                 assets = assets.Where(x => x.location == assetLocation);
             }
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                assets = assets.Where(x => x.name.Contains(searchString));
+            }
+
             var assetLocatioinVM = new AssetLocation();
             assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
             assetLocatioinVM.assets = await assets.ToListAsync();

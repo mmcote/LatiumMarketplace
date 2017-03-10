@@ -19,9 +19,12 @@
         <div class="row">
             <div class="col-sm-3">
                 <p>
-                    <a asp-action="Create">Create New</a>
+                    <a asp-action="Create">Create New Asset</a> <br>
+                    <a asp-action="CreateReq">Create New Request</a>
                 </p>
                 <form asp-controller="Assets" asp-action="MyListings" method="get">
+                    <input class="form-control" type="text" name="SearchString" placeholder="Search">
+                    <br />
                     <p>
                         Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
                             <option value="">All</option>
@@ -32,8 +35,6 @@
                         <input type="radio" name="SortBy" value="all" checked> All<br>
                         <input type="radio" name="SortBy" value="asset"> Asset<br>
                         <input type="radio" name="SortBy" value="request"> Request<br>
-                        Name : <input class="form-control" type="text" name="SearchString" placeholder="Search">
-
                         Most recent : <input type="checkbox" name="Recent" value=true><br>
                         <input type="submit" value="Filter" />
                     </p>
