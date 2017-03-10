@@ -1,0 +1,42 @@
+@model IEnumerable<LatiumMarketplace.Models.MessageViewModels.MessageThread>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Current Discussions</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RecieverId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SenderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.asset)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecieverId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SenderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.asset.name)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.id">Messages</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.MessageViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace LatiumMarketplace.Controllers
 {
     public class MessagesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private IMessageThreadRepository _messageThreadRepo;
         public MessagesController(ApplicationDbContext context)
         {
-            _context = context;    
+            _messageThreadRepo = new MessageThreadRepository(context);
+            _context = context;
         }
 
         // GET: Messages
@@ -53,15 +55,19 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Body,Subject")] Message message)
+        public async Task<IActionResult> Create([Bind("ThreadId, Body, Subject")] Message message)
         {
+            string messageThreadId  = HttpContext.Request.Cookies["threadId"];
+            Guid messageThreadIdGuid = Guid.Parse(messageThreadId);
+            MessageThread messageThread = _context.MessageThread.Single(m => m.id == messageThreadIdGuid);
+            message.messageThread = messageThread;
             if (ModelState.IsValid)
             {
                 message.id = Guid.NewGuid();
                 message.SendDate = DateTime.Now;
                 _context.Add(message);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("MessageThreads");
             }
             return View(message);
         }

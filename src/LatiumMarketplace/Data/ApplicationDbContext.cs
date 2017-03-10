@@ -31,6 +31,8 @@ namespace LatiumMarketplace.Data
 
         public DbSet<Message> Message { get; set; }
 
+        public DbSet<MessageThread> MessageThread { get; set; }
+
         public DbSet<ApplicationUser> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170309193120_FKeyBranch")]
+    partial class FKeyBranch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -127,8 +128,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Assetid");
-
                     b.Property<string>("RecieverId")
                         .IsRequired();
 
@@ -136,8 +135,6 @@ namespace LatiumMarketplace.Data.Migrations
                         .IsRequired();
 
                     b.HasKey("id");
-
-                    b.HasIndex("Assetid");
 
                     b.ToTable("MessageThread");
                 });
@@ -254,13 +251,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasOne("LatiumMarketplace.Models.MessageViewModels.MessageThread", "messageThread")
                         .WithMany("messages")
                         .HasForeignKey("MessageThreadid");
-                });
-
-            modelBuilder.Entity("LatiumMarketplace.Models.MessageViewModels.MessageThread", b =>
-                {
-                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Asset", "asset")
-                        .WithMany("MessageThreads")
-                        .HasForeignKey("Assetid");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

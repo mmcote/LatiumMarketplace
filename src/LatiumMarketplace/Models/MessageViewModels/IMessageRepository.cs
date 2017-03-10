@@ -9,6 +9,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
     {
         // Basic CRUD operations
         Message GetMessageByID(Guid messageID);
+        IEnumerable<Message> GetAllMessagesByThreadId(Guid messageID);
         IEnumerable<Message> GetAll();
         void AddMessage(Message message);
         void DeleteMessage(Guid messageID);

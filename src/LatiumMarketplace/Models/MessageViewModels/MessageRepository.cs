@@ -67,5 +67,20 @@ namespace LatiumMarketplace.Models.MessageViewModels
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<Message> GetAllMessagesByThreadId(Guid threadID)
+        {
+            if (threadID == null)
+            {
+                throw new ArgumentNullException("The threadId given was null, threadId's are null.");
+            }
+
+            var messages = _context.Message.Where(m => m.messageThread.id == threadID);
+            if (messages == null)
+            {
+                throw new KeyNotFoundException("No matching threadId found by the given threadId");
+            }
+            return messages;
+        }
     }
 }
