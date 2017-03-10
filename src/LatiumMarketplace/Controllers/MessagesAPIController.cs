@@ -15,10 +15,12 @@ namespace LatiumMarketplace.Controllers
     [Route("api/MessagesAPI")]
     public class MessagesAPIController : Controller
     {
-        private readonly IMessageRepository _messageRepository;
+        private IMessageRepository _messageRepository;
+        private IMessageThreadRepository _messageThreadRepository;
 
-        public MessagesAPIController(IMessageRepository messageRepository)
+        public MessagesAPIController(IMessageRepository messageRepository, IMessageThreadRepository messageThreadRepository)
         {
+            _messageThreadRepository = messageThreadRepository;
             _messageRepository = messageRepository;
         }
 
@@ -49,11 +51,33 @@ namespace LatiumMarketplace.Controllers
             }
         }
 
+        // GET: api/MessagesAPI/5
+        [HttpGet("{id}", Name = "GetAll")]
+        public IActionResult GetAllRelatedToThread([FromBody]string id)
+        {
+            Guid guid = Guid.Parse(id);
+            try
+            {
+                IEnumerable<Message> messages = _messageRepository.GetAllMessagesByThreadId(guid);
+                return new OkObjectResult(messages.OrderBy(m => m.SendDate));
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         // POST: api/MessagesAPI
         [HttpPost]
         public void Post([FromBody]MessageDTO messageDTO)
         {
-            Message message = new Message(null, null, messageDTO.subject, messageDTO.body);
+            Message message = new Message(messageDTO.subject, messageDTO.body);
+            Guid guid = Guid.Parse(messageDTO.messageThreadId);
+            message.messageThread = _messageThreadRepository.GetMessageThreadByID(guid);
             _messageRepository.AddMessage(message);
             _messageRepository.Save();
         }

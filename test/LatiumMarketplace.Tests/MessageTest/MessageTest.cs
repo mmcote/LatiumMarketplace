@@ -20,21 +20,10 @@ namespace LatiumMarketplace.Tests.MessageTest
                 .UseInMemoryDatabase(databaseName: "Add_message_to_database")
                 .Options;
 
-            var mockSender = new Mock<ApplicationUser>();
-            var mockReciever = new Mock<ApplicationUser>();
-
-            string mockSenderID = "ab3+10ds2";
-            string mockRecieverID = "rg9_x1t\a";
-
-            mockSender.Setup(sender => sender.Id).Returns(mockSenderID);
-            mockReciever.Setup(reciever => reciever.Id).Returns(mockRecieverID);
-
             string subject = "Test Subject";
             string body = "Test Body";
 
             Message message = new Message(
-                mockSender.Object.Id,
-                mockReciever.Object.Id,
                 subject,
                 body
             );
@@ -51,7 +40,7 @@ namespace LatiumMarketplace.Tests.MessageTest
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
                 var messageRecieved = messageRepo.GetMessageByID(message.id);
-                Assert.True(messageRecieved.SenderId == mockSenderID);
+                Assert.True(messageRecieved.Subject == subject);
             }
         }
 
@@ -63,21 +52,10 @@ namespace LatiumMarketplace.Tests.MessageTest
                 .UseInMemoryDatabase(databaseName: "Delete_message_from_database")
                 .Options;
 
-            var mockSender = new Mock<ApplicationUser>();
-            var mockReciever = new Mock<ApplicationUser>();
-
-            string mockSenderID = "ab3+10ds2";
-            string mockRecieverID = "rg9_x1t\a";
-
-            mockSender.Setup(sender => sender.Id).Returns(mockSenderID);
-            mockReciever.Setup(reciever => reciever.Id).Returns(mockRecieverID);
-
             string subject = "Test Subject";
             string body = "Test Body";
 
             Message message = new Message(
-                mockSender.Object.Id,
-                mockReciever.Object.Id,
                 subject,
                 body
             );
