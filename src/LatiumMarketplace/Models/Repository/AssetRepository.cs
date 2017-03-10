@@ -4,46 +4,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LatiumMarketplace.Models.AssetViewModels;
+using LatiumMarketplace.Data;
 
 namespace LatiumMarketplace.Models.Repository
 {
     public class AssetRepository : IAssetRepository
     {
-        private readonly AssetContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public AssetRepository(AssetContext context)
+        public AssetRepository(ApplicationDbContext context)
         {
             _context = context;
-            Add(new Asset { name = "Asset1" });
         }
 
         public void Add(Asset Asset)
         {
-            _context.AssetItems.Add(Asset);
+            _context.Add(Asset);
             _context.SaveChanges();
+            return;
         }
 
         public Asset Find(int key)
         {
-            return _context.AssetItems.FirstOrDefault(t => t.assetID == key);
+            if (key == 0)
+            {
+                throw new ArgumentNullException("The assetID given was null. No assetID's are null.");
+            }
+
+            var asset = _context.Asset.Single(m => m.assetID == key);
+            if (asset == null)
+            {
+                throw new KeyNotFoundException("No asset found by the given assetID");
+            }
+
+            return asset;
         }
 
         public IEnumerable<Asset> GetAll()
         {
-            return _context.AssetItems.ToList();
+            return _context.Asset.ToList();
         }
 
         public void Remove(int key)
         {
-            var entity = _context.AssetItems.First(t => t.assetID == key);
-            _context.AssetItems.Remove(entity);
+            if (key == 0)
+            {
+                throw new ArgumentNullException("The assetID given was null. No assetID's are null.");
+            }
+
+            var asset = _context.Asset.Single(t => t.assetID == key);
+            if (asset == null)
+            {
+                throw new Exception("No asset found by the given assetID");
+            };
+            _context.Asset.Remove(asset);
             _context.SaveChanges();
+            return;
         }
 
         public void Update(Asset Asset)
         {
-            _context.AssetItems.Update(Asset);
+            _context.Update(Asset);
             _context.SaveChanges();
+            return;
         }
+
     }
 }
