@@ -11,7 +11,7 @@ using LatiumMarketplace.Models.ManageViewModels;
 using LatiumMarketplace.Services;
 using LatiumMarketplace.Data;
 using Microsoft.EntityFrameworkCore;
-using LatiumMarketplace.Data.Migrations;
+//using LatiumMarketplace.Data.Migrations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LatiumMarketplace.Controllers
