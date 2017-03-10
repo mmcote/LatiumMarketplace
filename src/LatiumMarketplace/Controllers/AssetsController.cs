@@ -10,6 +10,7 @@ using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using LatiumMarketplace.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -83,6 +84,17 @@ namespace LatiumMarketplace.Controllers
             {
                 return NotFound();
             }
+
+            HttpContext.Response.Cookies.Append(
+                "assetId",
+                id.ToString(),
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
 
             return View(asset);
         }

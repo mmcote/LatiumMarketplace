@@ -35,6 +35,7 @@ namespace LatiumMarketplace.Tests.MessageTest
             {
                 IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
                 messageThreadRepo.AddMessageThread(messageThread);
+                messageThreadRepo.Save();
                 Assert.True(context.MessageThread.Count() == 1);
             }
 
@@ -72,6 +73,7 @@ namespace LatiumMarketplace.Tests.MessageTest
                 messageThreadRepo.AddMessageThread(messageThread);
                 messageThread = new MessageThread(mockSender.Object.Id, mockReciever.Object.Id);
                 messageThreadRepo.AddMessageThread(messageThread);
+                messageThreadRepo.Save();
                 Assert.True(context.MessageThread.Count() == 3);
             }
 
@@ -91,6 +93,7 @@ namespace LatiumMarketplace.Tests.MessageTest
                 IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
                 MessageThread messageThread = new MessageThread(mockDifferentSenderID, mockDifferentRecieverID);
                 messageThreadRepo.AddMessageThread(messageThread);
+                messageThreadRepo.Save();
                 var messageThreadsRecieved = messageThreadRepo.GetAllMessages(mockSender.Object.Id);
                 Assert.True(messageThreadsRecieved.Count() == 3);
             }
@@ -118,6 +121,7 @@ namespace LatiumMarketplace.Tests.MessageTest
             {
                 IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
                 messageThreadRepo.AddMessageThread(messageThread);
+                messageThreadRepo.Save();
                 Assert.True(context.MessageThread.Count() == 1);
             }
 
@@ -126,6 +130,7 @@ namespace LatiumMarketplace.Tests.MessageTest
             {
                 IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
                 messageThreadRepo.DeleteMessageThread(messageThread.id);
+                messageThreadRepo.Save();
                 Assert.True(context.MessageThread.Count() == 0);
             }
         }

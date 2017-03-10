@@ -11,6 +11,7 @@ using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.MessageViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using LatiumMarketplace.Models.AssetViewModels;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -84,10 +85,12 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RecieverId, Subject, Body")] MessageThreadDTO messageThreadDTO)
         {
-            messageThreadDTO.AssetId = 0;
+            string assetIdString = HttpContext.Request.Cookies["assetId"];
+            int assetId = int.Parse(assetIdString);
             var user = await _userManager.GetUserAsync(HttpContext.User);
             string userId = await _userManager.GetUserIdAsync(user);
             messageThreadDTO.SenderId = userId;
+            messageThreadDTO.AssetId = assetId;
             _messageThreadApiController.Post(messageThreadDTO);
             return RedirectToAction("Index");
         }
