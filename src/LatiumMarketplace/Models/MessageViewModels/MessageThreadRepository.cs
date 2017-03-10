@@ -58,9 +58,12 @@ namespace LatiumMarketplace.Models.MessageViewModels
             {
                 throw new ArgumentNullException("The messageThreadID given was null. messageThreadID's are null.");
             }
-
-            var messageThread = _context.MessageThread.Single(m => m.id == messageThreadID);
-            if (messageThread == null)
+            MessageThread messageThread = null;
+            try
+            {
+                messageThread = _context.MessageThread.Single(m => m.id == messageThreadID);
+            }
+            catch
             {
                 throw new KeyNotFoundException("No matching messageThreadID found by the given messageThreadID");
             }

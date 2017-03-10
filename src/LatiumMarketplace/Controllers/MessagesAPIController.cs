@@ -73,13 +73,21 @@ namespace LatiumMarketplace.Controllers
 
         // POST: api/MessagesAPI
         [HttpPost]
-        public void Post([FromBody]MessageDTO messageDTO)
+        public IActionResult Post([FromBody]MessageDTO messageDTO)
         {
             Message message = new Message(messageDTO.subject, messageDTO.body);
             Guid guid = Guid.Parse(messageDTO.messageThreadId);
-            message.messageThread = _messageThreadRepository.GetMessageThreadByID(guid);
+            try
+            {
+                message.messageThread = _messageThreadRepository.GetMessageThreadByID(guid);
+            }
+            catch (KeyNotFoundException)
+            {
+                return new BadRequestResult();
+            }
             _messageRepository.AddMessage(message);
             _messageRepository.Save();
+            return new OkResult();
         }
         
         // PUT: api/MessagesAPI/5
