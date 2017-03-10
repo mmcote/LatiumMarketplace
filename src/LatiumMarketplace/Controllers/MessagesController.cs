@@ -15,10 +15,10 @@ namespace LatiumMarketplace.Controllers
     {
         private readonly ApplicationDbContext _context;
         private IMessageThreadRepository _messageThreadRepo;
-        public MessagesController(ApplicationDbContext context, MessageThreadRepository messageThreadRepo)
+        public MessagesController(ApplicationDbContext context)
         {
-            _messageThreadRepo = messageThreadRepo;
-            _context = context;    
+            _messageThreadRepo = new MessageThreadRepository(context);
+            _context = context;
         }
 
         // GET: Messages
@@ -57,6 +57,10 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ThreadId, Body, Subject")] Message message)
         {
+            string messageThreadId  = HttpContext.Request.Cookies["threadId"];
+            Guid messageThreadIdGuid = Guid.Parse(messageThreadId);
+            MessageThread messageThread = _context.MessageThread.Single(m => m.id == messageThreadIdGuid);
+            message.messageThread = messageThread;
             if (ModelState.IsValid)
             {
                 message.id = Guid.NewGuid();

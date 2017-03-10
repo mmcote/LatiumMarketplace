@@ -57,16 +57,16 @@ namespace LatiumMarketplace.Controllers
             }
             MessageDetailsView messageDetailsView = new MessageDetailsView(guid, threadMessages);
 
-            //Response.Cookies.Append(
-            //    "threadId",
-            //    guid,
-            //    new CookieOptions()
-            //    {
-            //        Path = "/",
-            //        HttpOnly = false,
-            //        Secure = false
-            //    }
-            //);
+            HttpContext.Response.Cookies.Append(
+                "threadId",
+                guid,
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
 
             return View(messageDetailsView);
         }

@@ -45,8 +45,8 @@ namespace LatiumMarketplace
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // For the dependency injection of the IMessageRepository to the MessageRepository
-            services.AddScoped<Models.MessageViewModels.IMessageRepository, Models.MessageViewModels.MessageRepository>();
             services.AddScoped<Models.MessageViewModels.IMessageThreadRepository, Models.MessageViewModels.MessageThreadRepository>();
+            services.AddScoped<Models.MessageViewModels.IMessageRepository, Models.MessageViewModels.MessageRepository>();
 
             //make sure login needs confirmed Email
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
