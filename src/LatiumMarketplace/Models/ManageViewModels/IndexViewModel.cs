@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 namespace LatiumMarketplace.Models.ManageViewModels
 {
     public class IndexViewModel
-    {
+    { 
         public bool HasPassword { get; set; }
 
         public IList<UserLoginInfo> Logins { get; set; }

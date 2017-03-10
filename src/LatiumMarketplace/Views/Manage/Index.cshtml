@@ -1,41 +1,87 @@
-﻿@model IndexViewModel
+﻿@model UserViewModel
+
 @{
     ViewData["Title"] = "Manage your account";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
+<h4>Your Account Information</h4>
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
-<div>
-    <h4>Change your account settings</h4>
-    <a asp-controller="Manage" asp-action="Profile" class="btn-bracketed">View Profile</a>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>Password:</dt>
-        <dd>
-            @if (Model.HasPassword)
-            {
-                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
-            }
-            else
-            {
-                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
-            }
-        </dd>
-        <dt>External Logins:</dt>
-        <dd>
+@using (Html.BeginForm())
+{
+    <div>
+   
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.applicationModel.First().Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.applicationModel.First().Email)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.applicationModel.First().firstName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.applicationModel.First().firstName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.applicationModel.First().lastName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.applicationModel.First().lastName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.applicationModel.First().description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.applicationModel.First().description)
+            </dd>
+            
+        </dl>
+    </div>
 
-            @Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
-        </dd>
-        <dt>Phone Number:</dt>
-        <dd>
-            <p>
-                Phone Numbers can used as a second factor of verification in two-factor authentication.
-                See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-            </p>
-            @*@(Model.PhoneNumber ?? "None")
-                @if (Model.PhoneNumber != null)
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model">Edit</a> 
+        <!--<a asp-controller="Manage" asp-action="Edit" class="btn-bracketed">Edit</a>-->
+     
+</div>
+}
+
+    <div>
+        <h4>Change Settings</h4>
+
+        <!--<a asp-controller="Manage" asp-action="Profile" class="btn-bracketed">View Profile</a>-->
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>Password:</dt>
+            <dd>
+                @using (Html.BeginForm())
+            {
+                    @if (Model.indexModel.HasPassword)
+                {
+                        <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
+                    }
+                }
+            </dd>
+            <!--<dt>External Logins:</dt>
+            <dd>
+
+                Model.Logins.Count <a asp-controller="Manage" asp-action="ManageLogins" class="btn-bracketed">Manage</a>
+            </dd>
+            <dt>Phone Number:</dt>
+            <dd>
+                <p>
+                    Phone Numbers can used as a second factor of verification in two-factor authentication.
+                    See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
+                    for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+                </p> 
+            (Model.PhoneNumber ?? "None")
+                if (Model.PhoneNumber != null)
                 {
                     <br />
                     <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Change</a>
@@ -46,16 +92,16 @@
                 else
                 {
                     <a asp-controller="Manage" asp-action="AddPhoneNumber" class="btn-bracketed">Add</a>
-                }*@
-        </dd>
+                }
+            <!--   </dd>
 
-        <dt>Two-Factor Authentication:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
-                for setting up this application to support two-factor authentication.
-            </p>
-            @*@if (Model.TwoFactor)
+               <dt>Two-Factor Authentication:</dt>
+               <dd>
+                   <p>
+                       There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkID=532713">this article</a>
+                       for setting up this application to support two-factor authentication.
+                   </p> 
+            if (Model.TwoFactor)
                 {
                     <form asp-controller="Manage" asp-action="DisableTwoFactorAuthentication" method="post" class="form-horizontal">
                         Enabled <button type="submit" class="btn-link btn-bracketed">Disable</button>
@@ -66,7 +112,7 @@
                     <form asp-controller="Manage" asp-action="EnableTwoFactorAuthentication" method="post" class="form-horizontal">
                         <button type="submit" class="btn-link btn-bracketed">Enable</button> Disabled
                     </form>
-                }*@
-        </dd>
-    </dl>
-</div>
+                }
+            <!-- </dd>-->
+        </dl>
+    </div>

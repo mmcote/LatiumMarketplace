@@ -78,7 +78,18 @@ namespace LatiumMarketplace.Controllers
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
             };
-            return View(model);
+            //return View(model);
+
+            List<ApplicationUser> list_U = new List<ApplicationUser>();
+            //IndexViewModel list_I = new IndexViewModel()
+            //user await _userManager.GetUserAsync(HttpContext.User);
+            list_U.Add(user);
+            
+            UserViewModel completeView = new UserViewModel();
+            completeView.applicationModel = list_U;
+            completeView.indexModel = model;
+
+            return View(completeView);
         }
 
         //
@@ -351,8 +362,10 @@ namespace LatiumMarketplace.Controllers
         {
             return View();
         }
-         [HttpPost]
-         public async Task<ActionResult> Edit(ProfileViewModel model)
+
+        //POST: /Manage/Edit
+        [HttpPost]
+        public async Task<ActionResult> Edit(ProfileViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -368,54 +381,8 @@ namespace LatiumMarketplace.Controllers
                     AddErrors(result);
                 }
             }
-            return RedirectToAction("Profile");
-        }
-
-
-
-        /*
-        [HttpPost]
-        public async Task<ActionResult> Edit(ProfileViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = _userManager.FindByIdAsync(model.i)
-            }
-        }*/
-
-       
-        //
-        //POST: /Manage/Edit
-        //[HttpPost]
-       /* public  IActionResult Edit( [Bind("firstName, lastName, description")] ApplicationUser user)
-        { 
- 
-            //_context.Entry(user).State = EntityState.Modified;
-            //await _context.SaveChangesAsync();
-            //return RedirectToAction("Index");
-            
-           if(id != user.Id)
-            {
-                return NotFound();
-            }
-            
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    throw;
-                }
-                _context.SaveChanges();
-                return RedirectToAction("Profile");
-            }
             return RedirectToAction("Index");
-        }*/
-  
+        }
          
 
         #region Helpers
