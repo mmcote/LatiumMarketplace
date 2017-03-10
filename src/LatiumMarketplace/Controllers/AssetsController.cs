@@ -27,6 +27,8 @@ namespace LatiumMarketplace.Controllers
             _context = context;
             _userManager = userManager;
         }
+
+        //Listing of assets/requests belonging to a specific user
         [AllowAnonymous]
         public async Task<IActionResult> MyListings(string assetLocation, string searchString, string sortby, bool recent)
         {
