@@ -11,11 +11,13 @@ namespace LatiumMarketplace.Models.MessageViewModels
     // specified fields of a message (used for the API post method)
     public class MessageDTO
     {
-        public MessageDTO(string subject, string body)
+        public MessageDTO(string subject, string body, string messageThreadId)
         {
+            this.messageThreadId = messageThreadId;
             this.subject = subject;
             this.body = body;
         }
+        public string messageThreadId { get; set;}
         public string subject { get; set; }
         public string body { get; set; }
     }

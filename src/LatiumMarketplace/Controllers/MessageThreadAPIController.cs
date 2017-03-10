@@ -19,8 +19,11 @@ namespace LatiumMarketplace.Controllers
     {
         private IMessageThreadRepository _messageThreadRepository;
         private IMessageRepository _messageRepository;
+        private ApplicationDbContext _context;
+
         public MessageThreadAPIController(ApplicationDbContext context)
         {
+            _context = context;
             _messageRepository = new MessageRepository(context);
             _messageThreadRepository = new MessageThreadRepository(context);
         }
@@ -59,12 +62,24 @@ namespace LatiumMarketplace.Controllers
         [HttpPost]
         public void Post([FromBody]MessageThreadDTO input)
         {
-            Message message = new Message(input.Subject, input.Body);
-            _messageRepository.AddMessage(message);
-            MessageThread messageThread = new MessageThread(input.SenderId, input.RecieverId);
-            messageThread.messages.Add(message);
-            _messageThreadRepository.AddMessageThread(messageThread);
-            _messageThreadRepository.Save();
+            // The reciever will always be the seller
+            try
+            {
+                var messageThreadRetrieved = _context.MessageThread.Single(m => m.asset.assetID == input.AssetId && m.SenderId == input.SenderId);
+                Message message = new Message(input.Subject, input.Body);
+                message.messageThread = messageThreadRetrieved;
+                _messageRepository.AddMessage(message);
+                _messageRepository.Save();
+            }
+            catch (InvalidOperationException)
+            {
+                Message message = new Message(input.Subject, input.Body);
+                _messageRepository.AddMessage(message);
+                MessageThread messageThread = new MessageThread(input.SenderId, input.RecieverId);
+                messageThread.messages.Add(message);
+                _messageThreadRepository.AddMessageThread(messageThread);
+                _messageThreadRepository.Save();
+            }
         }
         
         // PUT: api/MessageThreadAPI/5

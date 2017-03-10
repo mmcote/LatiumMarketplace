@@ -26,8 +26,9 @@ namespace LatiumMarketplace.Tests.MessageTest
 
             using (var context = new ApplicationDbContext(options))
             {
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                var controller = new MessagesAPIController(messageRepo,messageThreadRepo);
                 OkObjectResult getResult = (OkObjectResult)controller.Get();
                 List<Message> messageList = (List<Message>)getResult.Value;
                 Assert.True(messageList.Count == 0);
@@ -35,20 +36,22 @@ namespace LatiumMarketplace.Tests.MessageTest
 
             using (var context = new ApplicationDbContext(options))
             {
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
 
                 string subject = "This is a test subject.";
                 string body = "This is a test body";
 
-                MessageDTO messageDTO = new MessageDTO(subject, body);
-                controller.Post(messageDTO);
+                //MessageDTO messageDTO = new MessageDTO(subject, body);
+                //controller.Post(messageDTO);
             }
 
             using (var context = new ApplicationDbContext(options))
             {
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
 
                 OkObjectResult getResult = (OkObjectResult)controller.Get();
                 List<Message> messageList = (List<Message>)getResult.Value;
@@ -69,7 +72,8 @@ namespace LatiumMarketplace.Tests.MessageTest
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
                 OkObjectResult getResult = (OkObjectResult)controller.Get();
                 List<Message> messageList = (List<Message>)getResult.Value;
                 Assert.True(messageList.Count == 0);
@@ -78,16 +82,20 @@ namespace LatiumMarketplace.Tests.MessageTest
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
 
-                MessageDTO messageDTO = new MessageDTO(subject, body);
-                controller.Post(messageDTO);
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
+
+                //MessageDTO messageDTO = new MessageDTO(subject, body);
+                //controller.Post(messageDTO);
             }
 
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
 
                 OkObjectResult getResult = (OkObjectResult)controller.Get();
                 List<Message> messageList = (List<Message>)getResult.Value;
@@ -97,7 +105,9 @@ namespace LatiumMarketplace.Tests.MessageTest
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
 
                 Guid messageIdGuid = context.Message.Single(m => m.Subject == subject).id;
                 OkObjectResult messageRetrievedObject = (OkObjectResult) controller.Get(messageIdGuid.ToString());
@@ -119,7 +129,9 @@ namespace LatiumMarketplace.Tests.MessageTest
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
                 OkObjectResult getResult = (OkObjectResult)controller.Get();
                 List<Message> messageList = (List<Message>)getResult.Value;
                 Assert.True(messageList.Count == 0);
@@ -128,16 +140,20 @@ namespace LatiumMarketplace.Tests.MessageTest
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
 
-                MessageDTO messageDTO = new MessageDTO(subject, body);
-                controller.Post(messageDTO);
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
+
+                //MessageDTO messageDTO = new MessageDTO(subject, body);
+                //controller.Post(messageDTO);
             }
 
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
 
                 OkObjectResult getResult = (OkObjectResult)controller.Get();
                 List<Message> messageList = (List<Message>)getResult.Value;
@@ -147,7 +163,9 @@ namespace LatiumMarketplace.Tests.MessageTest
             using (var context = new ApplicationDbContext(options))
             {
                 IMessageRepository messageRepo = new MessageRepository(context);
-                var controller = new MessagesAPIController(messageRepo);
+                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+
+                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
 
                 Guid messageIdGuid = context.Message.Single(m => m.Subject == subject).id;
                 OkObjectResult messageDeleted = (OkObjectResult)controller.Delete(messageIdGuid.ToString());

@@ -1,31 +1,28 @@
-@model IEnumerable<LatiumMarketplace.Models.MessageViewModels.Message>
+@model LatiumMarketplace.Models.MessageViewModels.MessageDetailsView
 
 @{
     ViewData["Title"] = "Messages";
 }
-
-<h2>Messages</h2>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="Messages" asp-action="Create">Respond to message</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SendDate)
+                @Html.DisplayNameFor(model => model.Messages.First().SendDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Subject)
+                @Html.DisplayNameFor(model => model.Messages.First().Subject)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Body)
+                @Html.DisplayNameFor(model => model.Messages.First().Body)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Messages)
         {
             <tr>
                 <td>
@@ -37,10 +34,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Body)
                 </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.id">Details</a>
-                </td>
             </tr>
         }
     </tbody>
 </table>
+<div>
+    <a asp-action="Index">Back to all message threads</a>
+</div>

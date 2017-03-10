@@ -10,6 +10,7 @@ using LatiumMarketplace.Data;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.MessageViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -27,7 +28,7 @@ namespace LatiumMarketplace.Controllers
             _context = context;
             _userManager = userManager;
             _messageThreadApiController = new MessageThreadAPIController(context);
-            _messageApiController = new MessagesAPIController(new MessageRepository(context));
+            _messageApiController = new MessagesAPIController(new MessageRepository(context), new MessageThreadRepository(context));
         }
 
         // GET: MessageThreads
@@ -47,15 +48,27 @@ namespace LatiumMarketplace.Controllers
             {
                 return NotFound();
             }
-
-            OkObjectResult messagesWrapped = (OkObjectResult) _messageApiController.GetAllRelatedToThread(id.ToString());
+            string guid = id.ToString();
+            OkObjectResult messagesWrapped = (OkObjectResult) _messageApiController.GetAllRelatedToThread(guid);
             IEnumerable<Message> threadMessages = (IEnumerable<Message>) messagesWrapped.Value;
             if (threadMessages == null)
             {
                 return NotFound();
             }
+            MessageDetailsView messageDetailsView = new MessageDetailsView(guid, threadMessages);
 
-            return View(threadMessages);
+            //Response.Cookies.Append(
+            //    "threadId",
+            //    guid,
+            //    new CookieOptions()
+            //    {
+            //        Path = "/",
+            //        HttpOnly = false,
+            //        Secure = false
+            //    }
+            //);
+
+            return View(messageDetailsView);
         }
 
         // GET: MessageThreads/Create
@@ -71,13 +84,12 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RecieverId, Subject, Body")] MessageThreadDTO messageThreadDTO)
         {
+            messageThreadDTO.AssetId = 0;
             var user = await _userManager.GetUserAsync(HttpContext.User);
             string userId = await _userManager.GetUserIdAsync(user);
             messageThreadDTO.SenderId = userId;
             _messageThreadApiController.Post(messageThreadDTO);
             return RedirectToAction("Index");
-
-            //return View(messageThread);
         }
 
         // GET: MessageThreads/Delete/5

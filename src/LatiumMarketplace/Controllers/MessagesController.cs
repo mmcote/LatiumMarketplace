@@ -7,15 +7,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.MessageViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace LatiumMarketplace.Controllers
 {
     public class MessagesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public MessagesController(ApplicationDbContext context)
+        private IMessageThreadRepository _messageThreadRepo;
+        public MessagesController(ApplicationDbContext context, MessageThreadRepository messageThreadRepo)
         {
+            _messageThreadRepo = messageThreadRepo;
             _context = context;    
         }
 
@@ -53,7 +55,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Body,Subject")] Message message)
+        public async Task<IActionResult> Create([Bind("ThreadId, Body, Subject")] Message message)
         {
             if (ModelState.IsValid)
             {

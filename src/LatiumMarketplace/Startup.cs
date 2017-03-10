@@ -46,6 +46,7 @@ namespace LatiumMarketplace
 
             // For the dependency injection of the IMessageRepository to the MessageRepository
             services.AddScoped<Models.MessageViewModels.IMessageRepository, Models.MessageViewModels.MessageRepository>();
+            services.AddScoped<Models.MessageViewModels.IMessageThreadRepository, Models.MessageViewModels.MessageThreadRepository>();
 
             //make sure login needs confirmed Email
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
@@ -106,7 +107,6 @@ namespace LatiumMarketplace
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
 
             app.UseIdentity();
@@ -124,7 +124,6 @@ namespace LatiumMarketplace
                 ClientId = Configuration["Authentication:Google:ClientId"],
                 ClientSecret = Configuration["Authentication:Google:ClientSecret"]
             });
-
 
             app.UseMvc(routes =>
             {

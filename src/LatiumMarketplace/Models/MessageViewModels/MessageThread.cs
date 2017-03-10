@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using LatiumMarketplace.Models.AssetViewModels;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
@@ -11,13 +13,17 @@ namespace LatiumMarketplace.Models.MessageViewModels
     public class MessageThreadDTO
     {
         public MessageThreadDTO() { }
-        public MessageThreadDTO(string senderId, string recieverId, string subject, string body)
+        public MessageThreadDTO(string senderId, string recieverId, string subject, string body, int assetId=0)
         {
+            AssetId = assetId;
             SenderId = senderId;
             RecieverId = recieverId;
             Subject = subject;
             Body = body;
         }
+
+        [Required]
+        public int AssetId { get; set; }
 
         [Required]
         public string SenderId { get; set; }
@@ -54,5 +60,8 @@ namespace LatiumMarketplace.Models.MessageViewModels
         public string RecieverId { get; set; }
 
         public virtual List<Message> messages { get; set; }
+
+        [ForeignKey("Assetid")]
+        public Asset asset { get; set; }
     }
 }

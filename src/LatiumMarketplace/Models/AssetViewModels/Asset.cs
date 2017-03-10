@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using LatiumMarketplace.Models.MessageViewModels;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
@@ -28,7 +29,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public string ownerID { get; set; }
         public string location { get; set; }
         public bool request { get; set; }
-
+        public virtual List<MessageThread> MessageThreads { get; set; }
     }
 
 }
