@@ -11,6 +11,29 @@
  
 </head><!--/head-->
 <h2>Index</h2>
+
+<p>
+        <a asp-action="Create">Create New Asset</a> <br>
+        <a asp-action="CreateReq">Create New Request</a>
+</p>
+<form asp-controller="Assets" asp-action="Index" method="get">
+    <input class="form-control" type="text" name="SearchString" placeholder="Search">
+    <br />
+    <p>
+        Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
+            <option value="">All</option>
+        </select>
+    </p>
+    <p>
+        Sort by : <br>
+            <input type="radio" name="SortBy" value="all" checked> All<br>
+            <input type="radio" name="SortBy" value="asset"> Asset<br>
+            <input type="radio" name="SortBy" value="request"> Request<br>
+        Most recent : <input type="checkbox" name="Recent" value=true><br>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <section>
     <div class="container">
         <div class="row">
