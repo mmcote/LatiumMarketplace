@@ -16,10 +16,10 @@
                     </button>
                     <ul class="dropdown-menu">
                         <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">My Profile</a></li>
-                        <li><a href="#">My Listings</a></li>
+                        <li><a asp-area="" asp-controller="Assets" asp-action="MyListings" title="Assets">My MyListings</a></li>
                         <li><a href="#">My Bids</a></li>
                         <li><a asp-controller="MessageThreads" asp-action="Index">My Messages</a></li>
-                        <li><button type="submit" class="">Log off</button></li>
+                        <li><a a href="javascript:{}" onclick="document.getElementById('logoutForm').submit();">Log Off</a></li>
                     </ul>
                 </div>                
             </li>
