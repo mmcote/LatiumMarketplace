@@ -10,8 +10,11 @@ namespace LatiumMarketplace.Models.AssetViewModels
     public class Asset
     {
         [Key]
+        [Display(Name = "Asset ID")]
         public int assetID { get; set; }
+        [Display(Name = "Asset Name")]
         public string name { get; set; }
+        [Display(Name = "Description")]
         public string description { get; set; }
         [Display(Name = "Avaliable Date")]
         [DataType(DataType.Date)]
@@ -25,8 +28,12 @@ namespace LatiumMarketplace.Models.AssetViewModels
         [Display(Name = "Monthly Price")]
         public decimal priceMonthly { get; set; }
         //public List<bidList>
+        [Display(Name = "Owner ID")]
         public string ownerID { get; set; }
+        [Display(Name = "Location")]
         public string location { get; set; }
+        [Display(Name = "Accessory")]
+        public string accessory { get; set; }
         public bool request { get; set; }
 
     }

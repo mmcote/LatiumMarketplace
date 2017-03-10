@@ -19,6 +19,13 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="location" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="location" class="form-control" />
+                <span asp-validation-for="location" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="description" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="description" class="form-control" />
@@ -26,10 +33,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="location" class="col-md-2 control-label"></label>
+            <label asp-for="accessory" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="location" class="form-control" />
-                <span asp-validation-for="location" class="text-danger" />
+                <input asp-for="accessory" class="form-control" />
+                <span asp-validation-for="accessory" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
