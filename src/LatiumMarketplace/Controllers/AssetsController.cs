@@ -102,6 +102,11 @@ namespace LatiumMarketplace.Controllers
                 assets = assets.Where(x => x.location == assetLocation);
             }
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                assets = assets.Where(x => x.name.Contains(searchString));
+            }
+
             var assetLocatioinVM = new AssetLocation();
             assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
             assetLocatioinVM.assets = await assets.ToListAsync();
@@ -132,6 +137,13 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
+        // GET: Assets/CreateReq
+        // Returns view for creating request
+        public IActionResult CreateReq()
+        {
+            return View();
+        }
+
         // POST: Assets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -147,6 +159,35 @@ namespace LatiumMarketplace.Controllers
                 DateTime today = DateTime.Now;
                 asset.addDate = today;
                 asset.ownerID = userId;
+                asset.request = false;
+                _context.Add(asset);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(asset);
+        }
+
+        // POST: Assets/CreateReq
+        // Used for creating requests
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request")] Asset asset)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var userId = user?.Id;
+                DateTime today = DateTime.Now;
+                asset.addDate = today;
+                asset.ownerID = userId;
+                asset.request = true;
+                asset.price = 0;
+                asset.priceDaily = 0;
+                asset.priceWeekly = 0;
+                asset.priceMonthly = 0;
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -237,9 +278,6 @@ namespace LatiumMarketplace.Controllers
         {
             return _context.Asset.Any(e => e.assetID == id);
         }
-
-
-        
 
     }
 }
