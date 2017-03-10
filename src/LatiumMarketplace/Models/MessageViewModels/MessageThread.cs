@@ -54,13 +54,16 @@ namespace LatiumMarketplace.Models.MessageViewModels
         public Guid id { get; set; }
 
         [Required]
+        [Display(Name = "Sender ID")]
         public string SenderId { get; set;}
 
         [Required]
+        [Display(Name = "Reciever ID")]
         public string RecieverId { get; set; }
 
         public virtual List<Message> messages { get; set; }
 
+        [Display(Name = "Asset ID")]
         [ForeignKey("Assetid")]
         public Asset asset { get; set; }
     }

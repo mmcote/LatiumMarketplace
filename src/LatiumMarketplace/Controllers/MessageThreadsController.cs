@@ -83,12 +83,13 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecieverId, Subject, Body")] MessageThreadDTO messageThreadDTO)
+        public async Task<IActionResult> Create([Bind("Subject, Body")] MessageThreadDTO messageThreadDTO)
         {
             string assetIdString = HttpContext.Request.Cookies["assetId"];
             int assetId = int.Parse(assetIdString);
             var user = await _userManager.GetUserAsync(HttpContext.User);
             string userId = await _userManager.GetUserIdAsync(user);
+            messageThreadDTO.RecieverId = HttpContext.Request.Cookies["assetOwnerId"];
             messageThreadDTO.SenderId = userId;
             messageThreadDTO.AssetId = assetId;
             _messageThreadApiController.Post(messageThreadDTO);

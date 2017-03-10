@@ -77,6 +77,7 @@ namespace LatiumMarketplace.Controllers
                 _messageRepository.AddMessage(message);
                 MessageThread messageThread = new MessageThread(input.SenderId, input.RecieverId);
                 messageThread.messages.Add(message);
+                messageThread.asset = _context.Asset.Single(a => a.assetID == input.AssetId);
                 _messageThreadRepository.AddMessageThread(messageThread);
                 _messageThreadRepository.Save();
             }

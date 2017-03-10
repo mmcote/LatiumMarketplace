@@ -85,9 +85,15 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            HttpContext.Response.Cookies.Append(
-                "assetId",
-                id.ToString(),
+            HttpContext.Response.Cookies.Append("assetId", id.ToString(),
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
+            HttpContext.Response.Cookies.Append("assetOwnerId", asset.ownerID.ToString(),
                 new CookieOptions()
                 {
                     Path = "/",

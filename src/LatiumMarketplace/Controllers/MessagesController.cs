@@ -67,7 +67,7 @@ namespace LatiumMarketplace.Controllers
                 message.SendDate = DateTime.Now;
                 _context.Add(message);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("MessageThreads");
             }
             return View(message);
         }

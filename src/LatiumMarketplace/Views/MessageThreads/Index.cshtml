@@ -15,6 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.SenderId)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.asset)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -28,7 +31,10 @@
                 @Html.DisplayFor(modelItem => item.SenderId)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.id">Details</a>
+                @Html.DisplayFor(modelItem => item.asset.name)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.id">Messages</a>
             </td>
         </tr>
 }
