@@ -13,7 +13,7 @@ namespace LatiumMarketplace.Data
         public static void Initialize(ApplicationDbContext context)
         {
             context.Database.EnsureCreated();
-
+            /*
             // Look for any students.
             if (context.Asset.Any())
             {
@@ -32,6 +32,7 @@ namespace LatiumMarketplace.Data
                 context.Asset.Add(s);
             }
             context.SaveChanges();
+            */
         }
     }
 }
