@@ -75,9 +75,6 @@
     </dl>
 </div>
 <div>
-    <asp:Button runat="server" Text="Reject"
-                Visible='<%# IsOverAgeLimit((Decimal)Eval("Age")) %>'
-                CommandName="Select" />
     @{if (@Model.ownerID == @UserManager.GetUserId(User)) {<a asp-action="Edit" asp-route-id="@Model.assetID">Edit</a>}} |
     <a asp-action="Index">Back to List</a>
 </div>
