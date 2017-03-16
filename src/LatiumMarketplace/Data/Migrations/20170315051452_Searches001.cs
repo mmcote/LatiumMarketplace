@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LatiumMarketplace.Data.Migrations
 {
-    public partial class searches001 : Migration
+    public partial class Searches001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

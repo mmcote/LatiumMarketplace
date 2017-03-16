@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170315044851_searches001")]
-    partial class searches001
+    [Migration("20170315051452_Searches001")]
+    partial class Searches001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
