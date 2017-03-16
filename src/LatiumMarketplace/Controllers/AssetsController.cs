@@ -251,12 +251,15 @@ namespace LatiumMarketplace.Controllers
         // GET: Assets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userId = user?.Id;
+            var Myassets = _context.Asset.Where(s => s.ownerID == userId);
             if (id == null)
             {
                 return NotFound();
             }
 
-            var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
+            var asset = await Myassets.SingleOrDefaultAsync(m => m.assetID == id);
             if (asset == null)
             {
                 return NotFound();
