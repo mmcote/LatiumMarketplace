@@ -32,12 +32,15 @@ namespace LatiumMarketplace.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> MyListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory)
         {
-            // Use LINQ to get list of genres.
-            IQueryable<string> locationQuery = from m in _context.Asset
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userId = user?.Id;
+            var Myassets = _context.Asset.Where(s => s.ownerID == userId);
+
+            IQueryable<string> locationQuery = from m in Myassets
                                                orderby m.location
                                                select m.location;
 
-            var assets = from m in _context.Asset
+            var assets = from m in Myassets
                          select m;
            
 
@@ -59,7 +62,7 @@ namespace LatiumMarketplace.Controllers
                     assets = assets.Where(s => s.request.Equals(false));
                     break;
                 case "all":
-                    assets = from m in _context.Asset
+                    assets = from m in Myassets
                              select m;
                     if (accessory == true)
                     {
