@@ -76,8 +76,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("accessory");
-
                     b.Property<DateTime>("addDate");
 
                     b.Property<string>("description");

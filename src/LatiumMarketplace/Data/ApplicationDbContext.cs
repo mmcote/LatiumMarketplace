@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.AssetViewModels;
 using LatiumMarketplace.Models.MessageViewModels;
+using LatiumMarketplace.Models.BidViewModels;
 
 namespace LatiumMarketplace.Data
 {
@@ -32,6 +33,8 @@ namespace LatiumMarketplace.Data
         public DbSet<Message> Message { get; set; }
 
         public DbSet<MessageThread> MessageThread { get; set; }
+
+        public DbSet<Bid> Bid { get; set; }
 
         public DbSet<ApplicationUser> User { get; set; }
 

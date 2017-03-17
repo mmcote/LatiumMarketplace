@@ -114,7 +114,7 @@
                                              <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
                                             <h2>@Html.DisplayFor(modelItem => item.name)</h2>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
-                                            <a href="#" class="btn btn-default full-detail">Full Details</a>
+                                            <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
                                         </div>
                                         <div class="product-overlay">
                                             <div class="overlay-content">
