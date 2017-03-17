@@ -92,15 +92,12 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
-<<<<<<< HEAD
                     b.Property<int?>("ImageGalleryId");
 
                     b.Property<int>("MakeId");
 
                     b.Property<string>("accessory");
 
-=======
->>>>>>> master
                     b.Property<DateTime>("addDate");
 
                     b.Property<string>("description");

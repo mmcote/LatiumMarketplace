@@ -7,72 +7,65 @@
 <h2>Create</h2>
 
 <form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>Asset</h4>
+        <h4>Asset Information</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <!-- TODO: Need to replace this with actual data-->
         <div class="form-group">
-            <label asp-for="name" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger" />
-            </div>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> For Sale
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> For Rent
+            </label>
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="name" class=""></label>
+            <input asp-for="name" class="form-control" />
+            <span asp-validation-for="name" class="text-danger" />
         </div>
         <div class="form-group">
-            <label asp-for="location" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="location" class="form-control" />
-                <span asp-validation-for="location" class="text-danger" />
-            </div>
+            <label asp-for="location" class=""></label>
+            <input asp-for="location" class="form-control" />
+            <span asp-validation-for="location" class="text-danger" />
         </div>
         <div class="form-group">
-            <label asp-for="description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="description" class="form-control" />
-                <span asp-validation-for="description" class="text-danger" />
-            </div>
+            <label asp-for="description" class=""></label>
+            <textarea asp-for="description" rows="3" class="form-control"></textarea>
+            <span asp-validation-for="description" class="text-danger" />
         </div>
         <div class="form-group">
-            <label asp-for="accessory" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="accessory" class="form-control" />
-                <span asp-validation-for="accessory" class="text-danger" />
-            </div>
+            <label asp-for="accessory" class=""></label>
+            <textarea asp-for="accessory" rows="3" class="form-control"></textarea>
+            <span asp-validation-for="accessory" class="text-danger" />
         </div>
         <div class="form-group">
-            <label asp-for="price" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="price" class="form-control" />
-                <span asp-validation-for="price" class="text-danger" />
-            </div>
+            <label asp-for="price" class=""></label>
+            <input asp-for="price" class="form-control" />
+            <span asp-validation-for="price" class="text-danger" />
         </div>
         <div class="form-group">
-            <label asp-for="priceDaily" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="priceDaily" class="form-control" />
-                <span asp-validation-for="priceDaily" class="text-danger" />
-            </div>
+            <label asp-for="priceDaily" class=""></label>
+            <input asp-for="priceDaily" class="form-control" />
+            <span asp-validation-for="priceDaily" class="text-danger" />
         </div>
         <div class="form-group">
-            <label asp-for="priceWeekly" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="priceWeekly" class="form-control" />
-                <span asp-validation-for="priceWeekly" class="text-danger" />
-            </div>
+            <label asp-for="priceWeekly" class=""></label>
+            <input asp-for="priceWeekly" class="form-control" />
+            <span asp-validation-for="priceWeekly" class="text-danger" />
         </div>
         <div class="form-group">
-            <label asp-for="priceMonthly" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="priceMonthly" class="form-control" />
-                <span asp-validation-for="priceMonthly" class="text-danger" />
-            </div>
+            <label asp-for="priceMonthly" class=""></label>
+            <input asp-for="priceMonthly" class="form-control" />
+            <span asp-validation-for="priceMonthly" class="text-danger" />
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+            <input type="submit" value="Create" class="btn btn-primary" />
         </div>
-    </div>
+        </div>
+        </div>
 </form>
 
 <div>
