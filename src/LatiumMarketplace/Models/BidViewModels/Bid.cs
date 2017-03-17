@@ -22,23 +22,24 @@ namespace LatiumMarketplace.Models.BidViewModels
         public int bidId { get; set; }
 
         [Required]
-        [Display(Name = "Bid")]
+        [Display(Name = "Bid *")]
         public decimal bidPrice { get; set; }
 
         [Required]
-        [Display(Name = "Start Date")]
+        [Display(Name = "Start Date *")]
         public string startDate { get; set; }
 
         [Required]
-        [Display(Name = "End Date")]
+        [Display(Name = "End Date *")]
         public string endDate { get; set; }
 
-        [Required]
         [Display(Name = "Description")]
         public string description { get; set; }
 
         
         //public bool bidType { get; set; }
+        [Display(Name = "User")]
+        public string bidder { get; set; }
 
         [Display(Name = "Asset ID")]
         [ForeignKey("Assetid")]
