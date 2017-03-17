@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170315051452_Searches001")]
-    partial class Searches001
+    [Migration("20170317011752_MoreAssetFields001")]
+    partial class MoreAssetFields001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,7 +77,7 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ImageGalleryId");
+                    b.Property<int?>("ImageGalleryId");
 
                     b.Property<int>("MakeId");
 
@@ -344,8 +344,7 @@ namespace LatiumMarketplace.Data.Migrations
                 {
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.ImageGallery", "ImageGallery")
                         .WithOne("Asset")
-                        .HasForeignKey("LatiumMarketplace.Models.AssetViewModels.Asset", "ImageGalleryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LatiumMarketplace.Models.AssetViewModels.Asset", "ImageGalleryId");
 
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.Make", "Make")
                         .WithMany("Assets")

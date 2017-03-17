@@ -72,9 +72,14 @@ namespace LatiumMarketplace.Models.AssetViewModels
 
         // Navigation properties for one-to-one relationship between Asset and ImageGallery.
         // One image has only one gallery
-        public int ImageGalleryId { get; set; }
+        [ForeignKey("ImageGalleryId")]
+        public int? ImageGalleryId { get; set; }
         public ImageGallery ImageGallery { get; set; }
 
+        // Navigation properties for one-to-many relationship between
+        // Asset and Accesories.
+        // One asset can have multiple accessories entered by a particular user
+        public ICollection<Accessory> Accessory { get; set; }
     }
 
 }

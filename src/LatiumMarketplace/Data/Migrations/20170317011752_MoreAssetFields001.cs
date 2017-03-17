@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LatiumMarketplace.Data.Migrations
 {
-    public partial class Searches001 : Migration
+    public partial class MoreAssetFields001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,8 +105,7 @@ namespace LatiumMarketplace.Data.Migrations
             migrationBuilder.AddColumn<int>(
                 name: "ImageGalleryId",
                 table: "Asset",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "MakeId",
@@ -151,7 +150,7 @@ namespace LatiumMarketplace.Data.Migrations
                 column: "ImageGalleryId",
                 principalTable: "ImageGallery",
                 principalColumn: "ImageGalleryId",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Asset_Make_MakeId",

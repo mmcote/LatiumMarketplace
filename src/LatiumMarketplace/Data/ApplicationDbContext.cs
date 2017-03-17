@@ -53,7 +53,8 @@ namespace LatiumMarketplace.Data
                 .HasOne(c => c.ParentCategory)
                 .WithMany(cc => cc.ChildCategory)
                 .HasForeignKey(c => c.ParentCategoryId)
-                .HasConstraintName("FK_Category_Category");
+                .HasConstraintName("FK_Category_Category")
+                .OnDelete(DeleteBehavior.Restrict);
 
             /**
              * Configure one-to-many relationship between Image and ImageGallery
@@ -68,10 +69,22 @@ namespace LatiumMarketplace.Data
             /**
              * Configure one-to-one relationship between Asset and ImageGallery
              */
+            /*
             builder.Entity<ImageGallery>()
                .HasOne(a => a.Asset)
                .WithOne(i => i.ImageGallery)
-               .HasForeignKey<Asset>(g => g.ImageGalleryId);
+               .HasForeignKey<Asset>(g => g.ImageGalleryId)
+               .IsRequired(false);
+               */
+
+            /**
+             * Configure one-to-many relation between Asset and Accessory
+             */
+            builder.Entity<Accessory>()
+               .HasOne<Asset>(a => a.Asset)
+               .WithMany(ac => ac.Accessory)
+               .OnDelete(DeleteBehavior.Restrict);
+               
         }
 
         public DbSet<Asset> Asset { get; set; }
@@ -79,6 +92,7 @@ namespace LatiumMarketplace.Data
         public DbSet<AssetCategory> AssetCategory { get; set; }
         public DbSet<Image> Image { get; set; }
         public DbSet<ImageGallery> ImageGallery { get; set; }
+        public DbSet<Accessory> Accessory { get; set; }
         public DbSet<Message> Message { get; set; }
 
         public DbSet<MessageThread> MessageThread { get; set; }
