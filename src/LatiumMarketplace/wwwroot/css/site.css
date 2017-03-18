@@ -48,3 +48,9 @@
 	position:absolute;
   	top:45%;
 }
+
+
+/* Asset Creation Page */
+.asset-rates {
+    display: none;
+}
