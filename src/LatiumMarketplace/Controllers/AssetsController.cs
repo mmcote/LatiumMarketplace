@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using LatiumMarketplace.Models;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Net.Http.Headers;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -19,13 +22,17 @@ namespace LatiumMarketplace.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private IHostingEnvironment _env;
+
+
 
         public AssetsController(ApplicationDbContext context,
-        UserManager<ApplicationUser> userManager
+        UserManager<ApplicationUser> userManager, IHostingEnvironment env
         )
         {
             _context = context;
             _userManager = userManager;
+            _env = env;
         }
 
         //Listing of assets/requests belonging to a specific user
@@ -213,6 +220,44 @@ namespace LatiumMarketplace.Controllers
                 asset.addDate = today;
                 asset.ownerID = userId;
                 asset.request = false;
+                asset.MakeId = 1;
+
+                // Add Images
+                
+                var uploadedFiles = HttpContext.Request.Form.Files;
+                var webRootPath = _env.WebRootPath;
+                var uploadsPath = Path.Combine(webRootPath, "images\\uploads\\assets");
+                ImageGallery ImageGallery = new ImageGallery();
+                foreach (var uploadedFile in uploadedFiles)
+                {
+                    if (uploadedFile != null && uploadedFile.Length > 0)
+                    {
+                        var file = uploadedFile;
+                        if (file.Length > 0)
+                        {
+                            var fileName = ContentDispositionHeaderValue
+                                .Parse(file.ContentDisposition).FileName.Trim('"');
+                            Console.WriteLine(fileName);
+                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, file.FileName), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                                //Image Image = new Image();
+                                
+
+                            }
+                        }
+                    }
+                }
+
+                
+
+
+                // End of Add images
+
+
+
+
+
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
