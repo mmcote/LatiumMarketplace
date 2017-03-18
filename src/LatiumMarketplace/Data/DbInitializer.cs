@@ -31,7 +31,14 @@ namespace LatiumMarketplace.Data
             {
                 context.Asset.Add(s);
             }
-            context.SaveChanges();
+            try
+            {
+                context.SaveChanges();
+            }
+            catch
+            {
+
+            }
         }
     }
 }
