@@ -19,7 +19,7 @@ namespace LatiumMarketplace.Models.BidViewModels
 
 
         [Key]
-        public int bidId { get; set; }
+        public Guid bidId { get; set; }
 
         [Required]
         [Display(Name = "Bid *")]
@@ -41,8 +41,8 @@ namespace LatiumMarketplace.Models.BidViewModels
         [Display(Name = "User")]
         public string bidder { get; set; }
 
-        [Display(Name = "Asset ID")]
-        [ForeignKey("Assetid")]
+        //[Display(Name = "Asset ID")]
+        [ForeignKey("AssetId")]
         public Asset asset { get; set; }
     }
     
