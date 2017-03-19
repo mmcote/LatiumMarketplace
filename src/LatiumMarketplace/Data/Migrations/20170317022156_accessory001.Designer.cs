@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170317022156_accessory001")]
+    partial class accessory001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -126,30 +127,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("MakeId");
 
                     b.ToTable("Asset");
-                });
-
-            modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
-                {
-                    b.Property<int>("bidId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("AssetId");
-
-                    b.Property<decimal>("bidPrice");
-
-                    b.Property<string>("bidder");
-
-                    b.Property<string>("description");
-
-                    b.Property<DateTime>("endDate");
-
-                    b.Property<DateTime>("startDate");
-
-                    b.HasKey("bidId");
-
-                    b.HasIndex("AssetId");
-
-                    b.ToTable("Bid");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.AssetCategory", b =>
@@ -377,13 +354,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
-                {
-                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Asset", "asset")
-                        .WithMany("Bids")
-                        .HasForeignKey("AssetId");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Accessory", b =>

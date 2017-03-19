@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using LatiumMarketplace.Models;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
+using System.Net.Http.Headers;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -19,13 +22,17 @@ namespace LatiumMarketplace.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private IHostingEnvironment _env;
+
+
 
         public AssetsController(ApplicationDbContext context,
-        UserManager<ApplicationUser> userManager
+        UserManager<ApplicationUser> userManager, IHostingEnvironment env
         )
         {
             _context = context;
             _userManager = userManager;
+            _env = env;
         }
 
         //Listing of assets/requests belonging to a specific user
@@ -213,6 +220,67 @@ namespace LatiumMarketplace.Controllers
                 asset.addDate = today;
                 asset.ownerID = userId;
                 asset.request = false;
+                // TODO: MakeId needs to come from DB
+                asset.MakeId = 1;
+
+                // Add Images
+                
+                var uploadedFiles = HttpContext.Request.Form.Files;
+                // Get the wwwroot folder
+                var webRootPath = _env.WebRootPath;
+                // Set assets image folder
+                var uploadsPath = Path.Combine(webRootPath, "images\\uploads\\assets");
+                // Create Image Gallery to hold images only when there is
+                // at least one image uploaded
+                ImageGallery ImageGallery;
+                int ImageGalleryId = -1;
+
+                if (uploadedFiles.Count > 0)
+                {
+                    ImageGallery = new ImageGallery();
+                    ImageGallery.Title = "My cool gallery";
+                    // Add Image gallery to DB
+                    _context.Add(ImageGallery);
+                    await _context.SaveChangesAsync();
+                    //Get Id of recently added Image Gallery
+                    ImageGalleryId = ImageGallery.ImageGalleryId;
+
+                }
+
+                foreach (var uploadedFile in uploadedFiles)
+                {
+                    if (uploadedFile != null && uploadedFile.Length > 0)
+                    {
+                        var file = uploadedFile;
+                        if (file.Length > 0)
+                        {
+                            var fileName = ContentDispositionHeaderValue
+                                .Parse(file.ContentDisposition).FileName.Trim('"');
+                            Console.WriteLine(fileName);
+                            // Save file to disk
+                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, file.FileName), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                                Image Image = new Image();
+                                Image.ImageGalleryId = ImageGalleryId;
+                                Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
+                                // Add Image to DB
+                                _context.Add(Image);
+                                await _context.SaveChangesAsync();
+                            }
+                        }
+                    }
+                }
+                // End of Add images
+
+                // Attach Gallery to Asset if a new gallery is created
+                if (ImageGalleryId != -1)
+                {
+                    asset.ImageGalleryId = ImageGalleryId;
+                } 
+
+
+
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
