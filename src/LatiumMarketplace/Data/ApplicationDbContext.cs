@@ -79,6 +79,12 @@ namespace LatiumMarketplace.Data
                */
 
             /**
+             * Configure alternate key for image
+             */
+            builder.Entity<Image>()
+                .HasAlternateKey(c => c.ImageGuid);
+
+            /**
              * Configure one-to-many relation between Asset and Accessory
              */
             builder.Entity<Accessory>()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,8 @@ namespace LatiumMarketplace.Models.AssetViewModels
     {
         [Key]
         public int ImageId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid ImageGuid { get; set; }
         public int? ImageGalleryId { get; set; }
         public string Title { get; set; }
         [Required]
