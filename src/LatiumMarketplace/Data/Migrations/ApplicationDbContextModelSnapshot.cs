@@ -105,7 +105,7 @@ namespace LatiumMarketplace.Data.Migrations
 
             modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
                 {
-                    b.Property<Guid>("bidId")
+                    b.Property<int>("bidId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AssetId");
@@ -116,11 +116,9 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("description");
 
-                    b.Property<string>("endDate")
-                        .IsRequired();
+                    b.Property<DateTime>("endDate");
 
-                    b.Property<string>("startDate")
-                        .IsRequired();
+                    b.Property<DateTime>("startDate");
 
                     b.HasKey("bidId");
 

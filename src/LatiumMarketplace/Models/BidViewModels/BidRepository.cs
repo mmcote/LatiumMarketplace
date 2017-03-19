@@ -21,10 +21,10 @@ namespace LatiumMarketplace.Models.BidViewModels
             return;
         }
 
-        public void DeleteBid(Guid id)
+        public void DeleteBid(int id)
         {
 
-            if (id == null)
+            if (id == 0)
             {
                 throw new ArgumentNullException("The Id given.");
             }
@@ -38,14 +38,14 @@ namespace LatiumMarketplace.Models.BidViewModels
             return;
         }
 
-        public IEnumerable<Bid> GetBidsByAssetID(int id)
+        public IEnumerable<Bid> GetBidsByAssetID(int asset_id)
         {
-            if (id == 0)
+            if (asset_id == 0)
             {
                 throw new ArgumentNullException("The asset id is null");
             }
 
-            var bids = _context.Bid.Where(m => m.asset.assetID == id);
+            var bids = _context.Bid.Where(m => m.asset.assetID == asset_id);
             if (bids == null)
             {
                 throw new KeyNotFoundException("No matching bids foudn by the given assetid");

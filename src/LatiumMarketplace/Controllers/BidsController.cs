@@ -75,7 +75,7 @@ namespace LatiumMarketplace.Controllers
         
 
                 // GET: Bids/Delete/5
-                public async Task<IActionResult> Delete(Guid? id)
+                public async Task<IActionResult> Delete(int? id)
                 {
                     if (id == null)
                     {
@@ -94,7 +94,7 @@ namespace LatiumMarketplace.Controllers
                 // POST: Bids/Delete/5
                 [HttpPost, ActionName("Delete")]
                 [ValidateAntiForgeryToken]
-                public async Task<IActionResult> DeleteConfirmed(Guid id)
+                public async Task<IActionResult> DeleteConfirmed(int id)
                 {
                     var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
                     _context.Bid.Remove(bid);
@@ -102,7 +102,7 @@ namespace LatiumMarketplace.Controllers
                     return RedirectToAction("Index");
                 } 
 
-        private bool BidExists(Guid id)
+        private bool BidExists(int id)
         {
             return _context.Bid.Any(e => e.bidId == id);
         }
