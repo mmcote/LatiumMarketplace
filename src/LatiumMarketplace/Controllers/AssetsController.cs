@@ -254,24 +254,37 @@ namespace LatiumMarketplace.Controllers
                         var file = uploadedFile;
                         if (file.Length > 0)
                         {
+                            // 1) Add image to DB
+                            Image Image = new Image();
+                            Image.ImageGalleryId = ImageGalleryId;
+                            Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
+                            _context.Add(Image);
+                            await _context.SaveChangesAsync();
+
+                            // 2) Get Id or Guid of recently added image from DB
+                            //int ImageId = Image.ImageId;
+                            Guid ImageGuid = Image.ImageGuid; // Better
+
+                            // 3) Save image to disk with Guid
                             var fileName = ContentDispositionHeaderValue
                                 .Parse(file.ContentDisposition).FileName.Trim('"');
+                            // 3.1) Get File extension from file
+                            string fileExtesion = Path.GetExtension(fileName);
+                            // 3.2) Change file name to Guid
+                            fileName = ImageGuid + fileExtesion;
                             Console.WriteLine(fileName);
-                            // Save file to disk
-                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, file.FileName), FileMode.Create))
+                            // 3.3) Save image to disk with new file name
+                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, fileName), FileMode.Create))
                             {
                                 await file.CopyToAsync(fileStream);
-                                Image Image = new Image();
-                                Image.ImageGalleryId = ImageGalleryId;
-                                Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
-                                // Add Image to DB
-                                _context.Add(Image);
-                                await _context.SaveChangesAsync();
                             }
+                            // 4) Update FileLink in DB 
+                            Image.FileLink = Path.Combine("images/uploads/assets/", fileName);
+                            await _context.SaveChangesAsync();
+
                         }
                     }
                 }
-                // End of Add images
 
                 // Attach Gallery to Asset if a new gallery is created
                 if (ImageGalleryId != -1)
@@ -279,8 +292,7 @@ namespace LatiumMarketplace.Controllers
                     asset.ImageGalleryId = ImageGalleryId;
                 } 
 
-
-
+                // Save asset to DB
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
