@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170317183437_duh")]
-    partial class duh
+    [Migration("20170319051858_BidModelApi")]
+    partial class BidModelApi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,7 +109,7 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("bidId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("Assetid");
+                    b.Property<int?>("AssetId");
 
                     b.Property<decimal>("bidPrice");
 
@@ -117,15 +117,13 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("description");
 
-                    b.Property<string>("endDate")
-                        .IsRequired();
+                    b.Property<DateTime>("endDate");
 
-                    b.Property<string>("startDate")
-                        .IsRequired();
+                    b.Property<DateTime>("startDate");
 
                     b.HasKey("bidId");
 
-                    b.HasIndex("Assetid");
+                    b.HasIndex("AssetId");
 
                     b.ToTable("Bid");
                 });
@@ -281,8 +279,8 @@ namespace LatiumMarketplace.Data.Migrations
             modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
                 {
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.Asset", "asset")
-                        .WithMany()
-                        .HasForeignKey("Assetid");
+                        .WithMany("Bids")
+                        .HasForeignKey("AssetId");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.MessageViewModels.Message", b =>

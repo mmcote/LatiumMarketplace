@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Models.MessageViewModels;
+using LatiumMarketplace.Models.BidViewModels;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
@@ -55,6 +56,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public string accessory { get; set; }
         public bool request { get; set; }
         public virtual List<MessageThread> MessageThreads { get; set; }
+        public virtual List<Bid> Bids { get; set; }
     }
 
 }

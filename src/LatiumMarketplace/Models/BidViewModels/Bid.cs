@@ -26,13 +26,15 @@ namespace LatiumMarketplace.Models.BidViewModels
         public decimal bidPrice { get; set; }
 
         [Required]
-        [Display(Name = "Start Date *")]
         [DataType(DataType.Date)]
+        [Display(Name = "Start Date *")]
         public DateTime startDate { get; set; }
 
+
+
         [Required]
-        [Display(Name = "End Date *")]
         [DataType(DataType.Date)]
+        [Display(Name = "End Date *")]
         public DateTime endDate { get; set; }
 
         [Display(Name = "Description")]
@@ -43,8 +45,8 @@ namespace LatiumMarketplace.Models.BidViewModels
         [Display(Name = "User")]
         public string bidder { get; set; }
 
-        [Display(Name = "Asset ID")]
-        [ForeignKey("Assetid")]
+        //[Display(Name = "Asset ID")]
+        [ForeignKey("AssetId")]
         public Asset asset { get; set; }
 
         public bool status { get; set; }
