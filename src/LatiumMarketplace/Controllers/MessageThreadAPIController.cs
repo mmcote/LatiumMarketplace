@@ -10,18 +10,21 @@ using Microsoft.AspNetCore.Identity;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.MessageViewModels;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
+using LatiumMarketplace.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
     [Produces("application/json")]
     [Route("api/MessageThreadAPI")]
-    public class MessageThreadAPIController : Controller
+    public class MessageThreadAPIController : ApiHubController<Broadcaster>
     {
         private IMessageThreadRepository _messageThreadRepository;
         private IMessageRepository _messageRepository;
         private ApplicationDbContext _context;
 
-        public MessageThreadAPIController(ApplicationDbContext context)
+        public MessageThreadAPIController(ApplicationDbContext context, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _context = context;
             _messageRepository = new MessageRepository(context);
@@ -63,17 +66,18 @@ namespace LatiumMarketplace.Controllers
         public void Post([FromBody]MessageThreadDTO input)
         {
             // The reciever will always be the seller
+            Message message;
             try
             {
                 var messageThreadRetrieved = _context.MessageThread.Single(m => m.asset.assetID == input.AssetId && m.SenderId == input.SenderId);
-                Message message = new Message(input.Subject, input.Body);
+                message = new Message(input.Subject, input.Body);
                 message.messageThread = messageThreadRetrieved;
                 _messageRepository.AddMessage(message);
                 _messageRepository.Save();
             }
             catch (InvalidOperationException)
             {
-                Message message = new Message(input.Subject, input.Body);
+                message = new Message(input.Subject, input.Body);
                 _messageRepository.AddMessage(message);
                 MessageThread messageThread = new MessageThread(input.SenderId, input.RecieverId);
                 messageThread.messages.Add(message);
@@ -81,8 +85,16 @@ namespace LatiumMarketplace.Controllers
                 _messageThreadRepository.AddMessageThread(messageThread);
                 _messageThreadRepository.Save();
             }
+
+
+            var recieverUser = _context.User.Single(u => u.Id == input.RecieverId);
+
+            // This notification redirect URL should put the user to the discussion
+            string redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
+            Notification notification = new Notification(message.Subject, message.Body, redirectURL);
+            Clients.Group(recieverUser.UserName).PresentNotification(notification);
         }
-        
+
         // PUT: api/MessageThreadAPI/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)

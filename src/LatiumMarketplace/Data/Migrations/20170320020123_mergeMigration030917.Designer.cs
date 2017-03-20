@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170319051858_BidModelApi")]
-    partial class BidModelApi
+    [Migration("20170320020123_mergeMigration030917")]
+    partial class mergeMigration030917
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -120,6 +120,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<DateTime>("endDate");
 
                     b.Property<DateTime>("startDate");
+
+                    b.Property<bool>("status");
 
                     b.HasKey("bidId");
 

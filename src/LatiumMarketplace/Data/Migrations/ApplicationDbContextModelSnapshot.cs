@@ -120,6 +120,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<DateTime>("startDate");
 
+                    b.Property<bool>("status");
+
                     b.HasKey("bidId");
 
                     b.HasIndex("AssetId");
