@@ -12,6 +12,7 @@ using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.AccountViewModels;
 using LatiumMarketplace.Services;
 using LatiumMarketplace.Data;
+using Microsoft.VisualStudio.Web.CodeGeneration.Utils;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -33,8 +34,28 @@ namespace LatiumMarketplace.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var users = _context.User.ToArray();
+            var users = _context.User.Where(u => u.Email != "test@test.com");
             return View(users);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> BanMember(string email)
+        {
+            var user = _context.User.Single(u => u.Email == email);
+            user.banned = true;
+            _context.SaveChanges();
+
+            return View(user);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> UnbanMember(string email)
+        {
+            var user = _context.User.Single(u => u.Email == email);
+            user.banned = false;
+            _context.SaveChanges();
+
+            return View(user);
         }
 
         #region Helpers

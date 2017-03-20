@@ -36,7 +36,15 @@
                     @Html.DisplayFor(modelItem => item.lastName)
                 </td>
                 <td>
-                    <a asp-controller="Admin" asp-action="BanMember" asp-route-id="@item.Email">Ban</a> |
+                    @if (item.banned)
+                    {
+                        <a asp-action="UnbanMember" asp-route-email="@item.Email">Unban</a>
+                    }
+                    else
+                    {
+                        <a asp-action="BanMember" asp-route-email="@item.Email">Ban</a>
+                    }
+                     | 
                     <a asp-controller="Admin" asp-action="SendMessage" asp-route-id="@item.Email">Send Message</a>
                 </td>
             </tr>
