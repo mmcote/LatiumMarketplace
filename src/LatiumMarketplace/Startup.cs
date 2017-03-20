@@ -49,6 +49,9 @@ namespace LatiumMarketplace
             services.AddScoped<Models.MessageViewModels.IMessageThreadRepository, Models.MessageViewModels.MessageThreadRepository>();
             services.AddScoped<Models.MessageViewModels.IMessageRepository, Models.MessageViewModels.MessageRepository>();
 
+            // For the dependancy injection of IBidRepository to the BidRepository
+            services.AddScoped<Models.BidViewModels.IBidRepository, Models.BidViewModels.BidRepository>();
+
             //make sure login needs confirmed Email
             services.AddIdentity<ApplicationUser, IdentityRole>(config =>
             {
