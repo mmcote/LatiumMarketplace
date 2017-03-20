@@ -194,6 +194,7 @@ namespace LatiumMarketplace.Controllers
         // GET: Assets/Create
         public IActionResult Create()
         {
+            SetCategoryViewBag();
             return View();
         }
 
@@ -297,6 +298,7 @@ namespace LatiumMarketplace.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            SetCategoryViewBag(asset.AssetCategories);
             return View(asset);
         }
 
@@ -415,5 +417,16 @@ namespace LatiumMarketplace.Controllers
             return _context.Asset.Any(e => e.assetID == id);
         }
 
-    }
+        private void SetCategoryViewBag(ICollection<AssetCategory> CategoryId = null)
+        {
+
+            if (CategoryId == null)
+
+                ViewBag.CategoryId = new SelectList(_context.Category, "CategoryId", "CategoryName");
+
+            else
+
+                ViewBag.CategoryId = new SelectList(_context.Category.ToArray(), "CategoryId", "CategoryName", CategoryId);
+        }
+       }
 }

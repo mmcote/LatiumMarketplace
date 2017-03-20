@@ -1,8 +1,8 @@
 @model LatiumMarketplace.Models.AssetViewModels.Asset
-
 @{
     ViewData["Title"] = "Create";
 }
+
 
 <h2>Create</h2>
 
@@ -30,11 +30,8 @@
             <!-- TODO: Need to replace this with actual data-->
             <div class="form-group">
                 <label class="">Category</label>
-                <select class="form-control">
-                    <option value="">-- Choose a category --</option>
-                    <option value="">Trucks</option>
-                </select>
-                <span asp-validation-for="name" class="text-danger" />
+                    @Html.DropDownList("CategoryId")
+                <span asp-validation-for="AssetCategories" class="text-danger" />
             </div>
             <div class="form-group">
                 <label asp-for="location" class=""></label>
