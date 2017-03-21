@@ -154,7 +154,8 @@ namespace LatiumMarketplace
             app.UseSignalR();
 
             DbInitializer.Initialize(context);
-            await seeder.EnsureSeedDataAsync();
+            //await seeder.EnsureSeedDataAsync(); 
+            
         }
     }
 }
