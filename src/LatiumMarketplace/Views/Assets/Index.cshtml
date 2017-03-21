@@ -117,11 +117,21 @@
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
                                         <div class="productinfo text-center">                                     
-                                             @foreach (var image in item.ImageGallery.Images)
+                                             @*@foreach (var image in item.ImageGallery.Images)
                                              {
                                                 <img src="~/@image.FileLink" alt="" />
 
                                              }
+                                            *@
+
+                                            @*This is sow that it only show the first image in*@
+                                            @if (@item.ImageGallery.Images.Any(e => e.ImageGalleryId == item.ImageGalleryId))
+                                            {
+                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="" />
+                                            }
+                                            else
+                                            {  <img src="~/images/preview-not-available.jpg" alt="" />
+                                            }
                                                
 
                                             <h2>@Html.DisplayFor(modelItem => item.name)</h2>
