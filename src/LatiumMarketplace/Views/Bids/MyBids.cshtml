@@ -1,4 +1,6 @@
-﻿@model IEnumerable<LatiumMarketplace.Models.BidViewModels.Bid>
+﻿<!--model UnitedBidViewModel -->
+@model LatiumMarketplace.Models.BidViewModels.Bid
+
 
 @{
     ViewData["Title"] = "My Bids";
@@ -29,6 +31,38 @@
         </div>
         <div class="tab-pane" id="2a">
             <h3>Here are the bids you placed on other peoples assests</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.asset_name)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(m => m.asset_name)
+                        </td>
+                        <th>
+                            @Html.DisplayNameFor(m => m.bidPrice)
+                        </th>
+                        <td>
+                            @Html.DisplayFor(m => m.bidPrice)
+                        </td>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!---foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                Html.DisplayFor(modelItem => item.asset.name)
+                            </td>
+                  
+                        </tr>
+                    }-->
+                </tbody>
+            </table>
+
         </div>
     </div>
 </div>

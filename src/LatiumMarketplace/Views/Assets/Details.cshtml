@@ -80,6 +80,9 @@
     </dl>
 </div>
 <div>
-    @{if (@Model.ownerID == @UserManager.GetUserId(User)) {<a asp-action="Edit" asp-route-id="@Model.assetID">Edit</a>}} |
-    <a asp-action="Index">Back to List</a>
+    @{if (@Model.ownerID == @UserManager.GetUserId(User)) {
+            <a asp-action="Edit" asp-route-id="@Model.assetID">Edit |</a> 
+            <a asp-controller="Bids" asp-action= "MyBids"> View Bids |</a>
+            } }
+   <a asp-action="Index">Back to List</a>
 </div>

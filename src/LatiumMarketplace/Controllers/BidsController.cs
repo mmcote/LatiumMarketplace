@@ -28,6 +28,7 @@ namespace LatiumMarketplace.Controllers
         // GET: Bids
         public async Task<IActionResult> Index()
         {
+
             return View(await _context.Bid.ToListAsync());
         }
 
@@ -68,6 +69,7 @@ namespace LatiumMarketplace.Controllers
                 Asset asset = _context.Asset.Single(a => a.assetID == asset_id);
                 bid.asset = asset;
                 bid.asset_id_model = asset_id;
+                bid.asset_name = asset.name;
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 var userName = user?.UserName;
@@ -89,8 +91,26 @@ namespace LatiumMarketplace.Controllers
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
 
-           
-            return View(MyBids);
+            List<Asset> asset_list = new List<Asset>();
+            var my_assets = _context.Asset.Where(a => a.assetID != 0);
+            foreach (var a_set in my_assets)
+            {
+                asset_list.Add(a_set);
+            }
+
+            IEnumerable<Bid> bid_list = Enumerable.Empty<Bid>();
+
+            var bid_ = _context.Bid.Where(b => b.bidId != 0);
+            foreach (var b_id in bid_)
+            {
+                bid_list.Concat(bid_);
+            }
+
+            UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
+            completeBidModel.assetModel = asset_list;
+            completeBidModel.bidModel = bid_list;
+            //return View(completeBidModel);
+           return View();
         }
 
 
