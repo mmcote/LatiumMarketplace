@@ -1,6 +1,5 @@
-﻿<!--model UnitedBidViewModel -->
-@model LatiumMarketplace.Models.BidViewModels.Bid
-
+﻿@model UnitedBidViewModel
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "My Bids";
@@ -31,35 +30,44 @@
         </div>
         <div class="tab-pane" id="2a">
             <h3>Here are the bids you placed on other peoples assests</h3>
+            
             <table class="table">
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(m => m.asset_name)
+                            Asset Name
                         </th>
-                        <td>
-                            @Html.DisplayFor(m => m.asset_name)
-                        </td>
                         <th>
-                            @Html.DisplayNameFor(m => m.bidPrice)
+                            Bid Price
                         </th>
-                        <td>
-                            @Html.DisplayFor(m => m.bidPrice)
-                        </td>
+                        <th>
+                            Start Date
+                        </th>
+                        <th>
+                            End Date
+                           <!-- Html.DisplayNameFor(m => m.endDate)-->
+                        </th>
 
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!---foreach (var item in Model)
-                    {
+               @foreach (var item in Model.outbox) {
                         <tr>
                             <td>
-                                Html.DisplayFor(modelItem => item.asset.name)
+                                @Html.DisplayFor(modelItem => item.asset_name)
                             </td>
-                  
+                            <td>
+                                @Html.DisplayFor(modelItem => item.bidPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.startDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.endDate)
+                            </td>
                         </tr>
-                    }-->
+                    }
                 </tbody>
             </table>
 

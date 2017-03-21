@@ -90,27 +90,51 @@ namespace LatiumMarketplace.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
+          
+                List<Asset> asset_list = new List<Asset>();
+                var my_assets = _context.Asset.Where(a => a.assetID != 0);
+                foreach (var a_set in my_assets)
+                {
+                    asset_list.Add(a_set);
+                }
 
-            List<Asset> asset_list = new List<Asset>();
-            var my_assets = _context.Asset.Where(a => a.assetID != 0);
-            foreach (var a_set in my_assets)
+                IEnumerable<Bid> bid_list = Enumerable.Empty<Bid>();
+
+                var bid_ = _context.Bid.Where(b => b.bidId != 0);
+                foreach (var b_id in bid_)
+                {
+                    bid_list.Concat(bid_);
+                }
+            // All posts that you made
+            List<Bid> inbox_list = new List<Bid>();
+            foreach( var item in bid_list)
             {
-                asset_list.Add(a_set);
+                if (item.asset.ownerID == userId)
+                {
+                    inbox_list.Add(item);
+                }
+                //else do nothing
             }
 
-            IEnumerable<Bid> bid_list = Enumerable.Empty<Bid>();
-
-            var bid_ = _context.Bid.Where(b => b.bidId != 0);
-            foreach (var b_id in bid_)
+            // All post that you bid on
+            List<Bid> outbox_list = new List<Bid>();
+            foreach (var item in bid_list)
             {
-                bid_list.Concat(bid_);
+                if (item.bidder == user.UserName)
+                {
+                    outbox_list.Add(item);
+                }
             }
 
-            UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
-            completeBidModel.assetModel = asset_list;
-            completeBidModel.bidModel = bid_list;
-            //return View(completeBidModel);
-           return View();
+                UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
+                completeBidModel.assetModel = asset_list;
+                completeBidModel.bidModel = bid_list;
+            completeBidModel.inbox = inbox_list;
+            completeBidModel.outbox = outbox_list;
+            await _context.SaveChangesAsync();
+           return View(completeBidModel); 
+
+            //return View(await _context.Bid.ToListAsync());
         }
 
 
