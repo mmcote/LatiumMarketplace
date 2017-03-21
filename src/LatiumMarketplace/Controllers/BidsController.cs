@@ -71,6 +71,7 @@ namespace LatiumMarketplace.Controllers
                 bid.asset_id_model = asset_id;
                 bid.asset_name = asset.name;
                 bid.status = asset.request;
+                bid.chosen = false;
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 var userName = user?.UserName;

@@ -45,6 +45,9 @@
                                 <th>
                                     End Date
                                 </th>
+                                <th>
+                                    Select a bid
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,13 +71,19 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.endDate)
                                         </td>
+                                        <td>
+                                            @Html.RadioButtonFor(modelItem => item.chosen, "false") <span></span>
+                                        </td>
                                     </tr>
                                 }
                             }
                         </tbody>
                     </table>
+                    <form asp-controller="Bids" asp-action=# method="get">
+                        <input type="submit" value="Submit" />
+                    </form>
                 }
-            </div>
+             </div>
         </div>
     </div>
 </section>

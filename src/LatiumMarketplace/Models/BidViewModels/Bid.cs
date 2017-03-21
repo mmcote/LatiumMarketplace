@@ -53,6 +53,8 @@ namespace LatiumMarketplace.Models.BidViewModels
         public string asset_name { get; set; }
 
         public bool status { get; set; }
+
+        public bool chosen { get; set; }
     }
     
 
