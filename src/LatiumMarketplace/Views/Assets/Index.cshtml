@@ -112,6 +112,11 @@
                                     <div class="single-products">
                                         <div class="productinfo text-center">                                       
                                              <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
+                                             <div>
+                                                 
+                                             </div>
+
+
                                             <h2>@Html.DisplayFor(modelItem => item.name)</h2>
                                             <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
                                             <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
