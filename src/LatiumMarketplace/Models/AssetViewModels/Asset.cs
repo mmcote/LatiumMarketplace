@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using LatiumMarketplace.Models.AssetViewModels;
 using LatiumMarketplace.Models.MessageViewModels;
 using LatiumMarketplace.Models.BidViewModels;
 using System.ComponentModel.DataAnnotations.Schema;
