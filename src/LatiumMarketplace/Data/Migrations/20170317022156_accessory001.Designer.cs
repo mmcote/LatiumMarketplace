@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170317022156_accessory001")]
+    partial class accessory001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -52,8 +53,6 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
-
-                    b.Property<bool>("banned");
 
                     b.Property<string>("description");
 
@@ -172,16 +171,11 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int?>("ImageGalleryId")
                         .IsRequired();
 
-                    b.Property<Guid>("ImageGuid")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Title");
 
                     b.Property<bool>("isMain");
 
                     b.HasKey("ImageId");
-
-                    b.HasAlternateKey("ImageGuid");
 
                     b.HasIndex("ImageGalleryId");
 
@@ -214,36 +208,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.ToTable("Make");
                 });
 
-            modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
-                {
-                    b.Property<int>("bidId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("AssetId");
-
-                    b.Property<int>("asset_id_model");
-
-                    b.Property<string>("asset_name");
-
-                    b.Property<decimal>("bidPrice");
-
-                    b.Property<string>("bidder");
-
-                    b.Property<string>("description");
-
-                    b.Property<DateTime>("endDate");
-
-                    b.Property<DateTime>("startDate");
-
-                    b.Property<bool>("status");
-
-                    b.HasKey("bidId");
-
-                    b.HasIndex("AssetId");
-
-                    b.ToTable("Bid");
-                });
-
             modelBuilder.Entity("LatiumMarketplace.Models.MessageViewModels.Message", b =>
                 {
                     b.Property<Guid>("id")
@@ -272,14 +236,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<int?>("Assetid");
 
-                    b.Property<DateTime>("LastUpdateDate");
-
-                    b.Property<string>("RecieverEmail");
-
                     b.Property<string>("RecieverId")
                         .IsRequired();
-
-                    b.Property<string>("SenderEmail");
 
                     b.Property<string>("SenderId")
                         .IsRequired();
@@ -444,13 +402,6 @@ namespace LatiumMarketplace.Data.Migrations
                         .WithMany("Images")
                         .HasForeignKey("ImageGalleryId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
-                {
-                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Asset", "asset")
-                        .WithMany("Bids")
-                        .HasForeignKey("AssetId");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.MessageViewModels.Message", b =>

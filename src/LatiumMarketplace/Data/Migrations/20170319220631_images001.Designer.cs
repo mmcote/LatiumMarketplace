@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170319220631_images001")]
+    partial class images001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -52,8 +53,6 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
-
-                    b.Property<bool>("banned");
 
                     b.Property<string>("description");
 
@@ -221,10 +220,6 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<int?>("AssetId");
 
-                    b.Property<int>("asset_id_model");
-
-                    b.Property<string>("asset_name");
-
                     b.Property<decimal>("bidPrice");
 
                     b.Property<string>("bidder");
@@ -272,14 +267,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<int?>("Assetid");
 
-                    b.Property<DateTime>("LastUpdateDate");
-
-                    b.Property<string>("RecieverEmail");
-
                     b.Property<string>("RecieverId")
                         .IsRequired();
-
-                    b.Property<string>("SenderEmail");
 
                     b.Property<string>("SenderId")
                         .IsRequired();
