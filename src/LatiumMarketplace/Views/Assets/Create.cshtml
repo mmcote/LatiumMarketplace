@@ -27,10 +27,15 @@
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger" />
             </div>
-            <!-- TODO: Need to replace this with actual data-->
+            <!-- TODO: Need to show only parent categories, the children after parent is selected -->
             <div class="form-group">
-                <label asp-for="AssetCategories"class="">Category</label>
-                @Html.DropDownList("AssetCategories", String.Empty)
+                <label asp-for="AssetCategories" class="">Category</label>
+                @Html.DropDownList(
+                    "AssetCategories",
+                    (SelectList)ViewBag.AssetCategories,
+                    "--- Select a category ---",
+                    new { @class = "form-control" }
+                    )
                 <span asp-validation-for="AssetCategories" class="text-danger" />
             </div>
             <div class="form-group">
