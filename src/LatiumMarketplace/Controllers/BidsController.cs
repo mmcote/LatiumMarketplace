@@ -89,36 +89,32 @@ namespace LatiumMarketplace.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
-            var MyBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
-          
-                List<Asset> asset_list = new List<Asset>();
-                var my_assets = _context.Asset.Where(a => a.assetID != 0);
-                foreach (var a_set in my_assets)
-                {
-                    asset_list.Add(a_set);
-                }
+            var MyAssets = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
+            var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
 
-                IEnumerable<Bid> bid_list = Enumerable.Empty<Bid>();
-
-                var bid_ = _context.Bid.Where(b => b.bidId != 0);
-                foreach (var b_id in bid_)
+            // gets all his assets 
+            List<Asset> asset_list = new List<Asset>();
+            var myAset = _context.Asset.Where(s => s.assetID != 0); // get all assets
+            foreach( var a in myAset)
+            {
+                if (a.ownerID == userId)
                 {
-                    bid_list.Concat(bid_);
+                    asset_list.Add(a);
                 }
+            }
             // All posts that you made
             List<Bid> inbox_list = new List<Bid>();
-            foreach( var item in bid_list)
+            foreach (var item in MyAssets)
             {
                 if (item.asset.ownerID == userId)
                 {
                     inbox_list.Add(item);
                 }
-                //else do nothing
-            }
+            }            
 
             // All post that you bid on
             List<Bid> outbox_list = new List<Bid>();
-            foreach (var item in bid_list)
+            foreach (var item in MyBids)
             {
                 if (item.bidder == user.UserName)
                 {
@@ -126,16 +122,30 @@ namespace LatiumMarketplace.Controllers
                 }
             }
 
-                UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
-                completeBidModel.assetModel = asset_list;
-                completeBidModel.bidModel = bid_list;
+            UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
+            completeBidModel.assetModel = asset_list;
             completeBidModel.inbox = inbox_list;
             completeBidModel.outbox = outbox_list;
             await _context.SaveChangesAsync();
-           return View(completeBidModel); 
-
+            return View(completeBidModel); 
             //return View(await _context.Bid.ToListAsync());
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> MyBid()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var userId = user?.Id;
+
+            var MyAssets = _context.Bid.Where(s => s.asset.ownerID == userId);
+            ViewBag.Asset = MyAssets;
+            var MyBid = _context.Bid.Where(s => s.bidder == user.UserName);
+            ViewBag.Bid = MyBid;
+
+            return View();
+        }
+
+
 
 
         // GET: Bids/Delete/5

@@ -9,7 +9,7 @@ namespace LatiumMarketplace.Models
 {
     public class UnitedBidViewModel
     {
-        public IEnumerable<Bid> bidModel { get; set; }
+        //public IEnumerable<Bid> bidModel { get; set; }
         public List<Asset> assetModel { get; set; }
         public List<Bid> inbox { get; set; }
         public List<Bid> outbox { get; set; }
