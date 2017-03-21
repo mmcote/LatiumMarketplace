@@ -10,22 +10,24 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RecieverId)
+                @Html.DisplayNameFor(model => model.RecieverEmail)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SenderId)
+                @Html.DisplayNameFor(model => model.LastUpdateDate)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.asset.name)
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RecieverId)
+                @Html.DisplayFor(modelItem => item.RecieverEmail)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SenderId)
+                @Html.DisplayFor(modelItem => item.LastUpdateDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.asset.name)

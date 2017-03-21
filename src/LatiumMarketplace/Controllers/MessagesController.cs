@@ -15,8 +15,10 @@ namespace LatiumMarketplace.Controllers
     {
         private readonly ApplicationDbContext _context;
         private IMessageThreadRepository _messageThreadRepo;
+        private IMessageRepository _messageRepo;
         public MessagesController(ApplicationDbContext context)
         {
+            _messageRepo = new MessageRepository(context);
             _messageThreadRepo = new MessageThreadRepository(context);
             _context = context;
         }
@@ -58,51 +60,21 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> Create([Bind("ThreadId, Body, Subject")] Message message)
         {
             string messageThreadId  = HttpContext.Request.Cookies["threadId"];
+
             Guid messageThreadIdGuid = Guid.Parse(messageThreadId);
-            MessageThread messageThread = _context.MessageThread.Single(m => m.id == messageThreadIdGuid);
+            MessageThread messageThread = _messageThreadRepo.GetMessageThreadByID(messageThreadIdGuid);
+            messageThread.LastUpdateDate = DateTime.Now;
             message.messageThread = messageThread;
+
             if (ModelState.IsValid)
             {
                 message.id = Guid.NewGuid();
                 message.SendDate = DateTime.Now;
-                _context.Add(message);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "MessageThreads/Details/" + messageThreadId);
+                _messageRepo.AddMessage(message);
+                _messageRepo.Save();
+                return RedirectToAction("Details", "MessageThreads", new { id = messageThreadId });
             }
             return View(message);
-        }
-
-        // GET: Messages/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var message = await _context.Message.SingleOrDefaultAsync(m => m.id == id);
-            if (message == null)
-            {
-                return NotFound();
-            }
-
-            return View(message);
-        }
-
-        // POST: Messages/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var message = await _context.Message.SingleOrDefaultAsync(m => m.id == id);
-            _context.Message.Remove(message);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool MessageExists(Guid id)
-        {
-            return _context.Message.Any(e => e.id == id);
         }
     }
 }
