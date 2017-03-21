@@ -2,16 +2,12 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "My Bids";
+    ViewData["Title"] = "INBOX";
 }
 
-
-<head>
-    <link href="~/css/bids.css" rel="stylesheet" />
-</head>
-
-<h2>My Bids - OUTBOX -  The bids you've made</h2>
-
+@foreach (var asset in Model.assetModel)
+{
+    <h2>@Html.DisplayFor(modelItem => asset.name)</h2>
 
 <table class="table">
     <thead>
@@ -33,6 +29,11 @@
     <tbody>
         @foreach (var item in Model.inbox)
         {
+            if (item.asset_name == asset.name)
+            {
+
+
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.asset_name)
@@ -47,12 +48,12 @@
                     @Html.DisplayFor(modelItem => item.endDate)
                 </td>
             </tr>
+            }
         }
     </tbody>
 </table>
+}
 <p>
-    <a asp-controller="Bids" asp-action="Inbox">INBOX - View Bids placed on your asset</a>
+    <a asp-controller="Bids" asp-action="MyBids">OUTBOX</a>
 </p>
-
-
 
