@@ -16,5 +16,7 @@ namespace LatiumMarketplace.Models
         public string lastName { get; set; }
         [Display(Name = "Description")]
         public string description { get; set; }
+        [Display(Name = "Banned")]
+        public bool banned { get; set; }
     }    
 }

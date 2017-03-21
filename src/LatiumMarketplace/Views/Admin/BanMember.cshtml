@@ -1,0 +1,13 @@
+@model LatiumMarketplace.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "User banned";
+}
+
+<h2>@Model.Email has been banned.</h2>
+<a asp-action="UnbanMember" asp-route-email="@Model.Email">Unban</a>
+<br/>
+<a asp-action="Index">Back to Admin Panel</a>
+
+
+
