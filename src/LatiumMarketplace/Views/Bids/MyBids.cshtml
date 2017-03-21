@@ -10,46 +10,64 @@
     <link href="~/css/bids.css" rel="stylesheet" />
 </head>
 
-<h2>My Bids - OUTBOX -  The bids you've made</h2>
+<h2> OUTBOX -  The bids you've made</h2>
+<section>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <form asp-controller="Bids" asp-action="MyBids" method="get">
+                    <p>
+                        Sort by : <br>
+                        <input type="radio" name="SortBy" value="all" checked> All<br>
+                        <input type="radio" name="SortBy" value="asset"> Asset<br>
+                        <input type="radio" name="SortBy" value="request"> Request<br>
+                        <input type="submit" value="Filter" />
+                    </p>
+                </form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Asset Name
-            </th>
-            <th>
-                Bid Price
-            </th>
-            <th>
-                Start Date
-            </th>
-            <th>
-                End Date
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.inbox)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.asset_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.bidPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.startDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.endDate)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Asset Name
+                            </th>
+                            <th>
+                                Bid Price
+                            </th>
+                            <th>
+                                Start Date
+                            </th>
+                            <th>
+                                End Date
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.inbox)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.asset_name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.bidPrice)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.startDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.endDate)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+ 
 <p>
     <a asp-controller="Bids" asp-action="Inbox">INBOX - View Bids placed on your asset</a>
 </p>
