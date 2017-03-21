@@ -49,6 +49,8 @@ namespace LatiumMarketplace.Models.BidViewModels
         [ForeignKey("AssetId")]
         public Asset asset { get; set; }
 
+        public int asset_id_model { get; set; }
+
         public bool status { get; set; }
     }
     
