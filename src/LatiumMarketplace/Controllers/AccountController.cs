@@ -122,7 +122,7 @@ namespace LatiumMarketplace.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, firstName = model.FirstName, lastName = model.LastName };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, firstName = model.FirstName, lastName = model.LastName, banned = false };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

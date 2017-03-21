@@ -384,6 +384,7 @@ namespace LatiumMarketplace.Controllers
                 user.firstName = model.firstName;
                 user.lastName = model.lastName;
                 user.description = model.description;
+                user.banned = false;
 
                 var result = await _userManager.UpdateAsync(user);
 
