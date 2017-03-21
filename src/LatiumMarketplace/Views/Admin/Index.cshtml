@@ -1,0 +1,53 @@
+﻿@model IEnumerable<LatiumMarketplace.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<h2>Admin Panel</h2>
+<p>
+    <a asp-controller="Admin" asp-action="SendToAll">Send message to all users</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                E-mail:
+            </th>
+            <th>
+                First Name:
+            </th>
+            <th>
+                Last Name:
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.firstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lastName)
+                </td>
+                <td>
+                    @if (item.banned)
+                    {
+                        <a asp-action="UnbanMember" asp-route-email="@item.Email">Unban</a>
+                    }
+                    else
+                    {
+                        <a asp-action="BanMember" asp-route-email="@item.Email">Ban</a>
+                    }
+                     | 
+                    <a asp-controller="Admin" asp-action="SendMessage" asp-route-id="@item.Email">Send Message</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -8,8 +8,9 @@
 <p>
     <div>
         <a asp-controller="MessageThreads" asp-action="Create">Respond to message</a> |
-        <a asp-controller="Bids" asp-action="Create">Place a bid </a> |
+        <a asp-controller="Bids" asp-route-id="@Model.assetID" asp-action="Create">Place a bid </a> |
         <a asp-controller="Manage" asp-route-userId="@Model.ownerID" asp-action="Profile">View owner's profile</a> |
+
     </div>
 </p>
 <div>
@@ -79,6 +80,9 @@
     </dl>
 </div>
 <div>
-    @{if (@Model.ownerID == @UserManager.GetUserId(User)) {<a asp-action="Edit" asp-route-id="@Model.assetID">Edit</a>}} |
-    <a asp-action="Index">Back to List</a>
+    @{if (@Model.ownerID == @UserManager.GetUserId(User)) {
+            <a asp-action="Edit" asp-route-id="@Model.assetID">Edit |</a> 
+            <a asp-controller="Bids" asp-action= "MyBids"> View Bids |</a>
+            } }
+   <a asp-action="Index">Back to List</a>
 </div>

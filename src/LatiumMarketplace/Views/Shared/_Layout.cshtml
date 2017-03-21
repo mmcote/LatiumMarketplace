@@ -1,6 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using LatiumMarketplace.Models
+
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html>
 <head>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.2.0.min.js"></script>
+    <script src="/signalr/hubs"></script>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - LatiumMarketplace</title>
@@ -17,6 +26,40 @@
     </environment>
 </head>
 <body>
+    <ul id="NotificationList" class="list-group">
+    </ul>
+    @*<p id="header"></p>
+    <p id="body"></p>
+    <a id="redirectURL" href="">Click here to go to the discussion</a>*@
+    @if (@User.Identity.Name != null)
+    {
+        <script>
+            function presentNotification(notification) {
+                console.log(notification);
+                $("#NotificationList").append('<li class="list-group-item"><a href=' + notification.redirectUrl + '>' + notification.header + '</a><p>' + notification.body + '</p></li>');
+            }
+
+            // Connect to the broadcaster on the server
+            var hub = $.connection.broadcaster;
+
+            // A function we will call from the server
+            $.connection.broadcaster.client.presentNotification = presentNotification;
+
+            $.connection.hub.logging = true;
+
+            $.connection.hub.start().done(function (signalr) {
+                console.log('Connected!');
+                console.log('SignalR object: ', signalr);
+                // The subscribe method lets you subscribe to a specific method on the server
+                // You could use this method to subscribe to a specific chatroom,
+                // listen for updates to a specific resource, or whatever you would want to "subscribe" to.
+                hub.server.subscribe('@User.Identity.Name');
+            }).fail(function (error) {
+                // Just in case we fail to connect
+                console.log('Failed to start connection! Error: ', error);
+            });
+        </script>
+    }
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -34,6 +77,11 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     <li><a asp-area="" asp-controller="Assets" asp-action="Index">Markplace</a></li>
+
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
@@ -64,7 +112,6 @@
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,59 @@
+﻿@model UnitedBidViewModel
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "INBOX";
+}
+
+@foreach (var asset in Model.assetModel)
+{
+    <h2>@Html.DisplayFor(modelItem => asset.name)</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Asset Name
+            </th>
+            <th>
+                Bid Price
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.inbox)
+        {
+            if (item.asset_name == asset.name)
+            {
+
+
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.asset_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.bidPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.startDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.endDate)
+                </td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+}
+<p>
+    <a asp-controller="Bids" asp-action="MyBids">OUTBOX</a>
+</p>
+

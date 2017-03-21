@@ -12,23 +12,26 @@ using LatiumMarketplace.Models.MessageViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using LatiumMarketplace.Models.AssetViewModels;
+using LatiumMarketplace.Hubs;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
 
 namespace LatiumMarketplace.Controllers
 {
     [RequireHttps]
     [Authorize]
-    public class MessageThreadsController : Controller
+    public class MessageThreadsController : ApiHubController<Broadcaster>
     {
         private readonly ApplicationDbContext _context;
         private MessageThreadAPIController _messageThreadApiController;
         private MessagesAPIController _messageApiController;
         private UserManager<ApplicationUser> _userManager;
 
-        public MessageThreadsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public MessageThreadsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _context = context;
             _userManager = userManager;
-            _messageThreadApiController = new MessageThreadAPIController(context);
+            _messageThreadApiController = new MessageThreadAPIController(context, connectionManager);
             _messageApiController = new MessagesAPIController(new MessageRepository(context), new MessageThreadRepository(context));
         }
 
@@ -38,6 +41,7 @@ namespace LatiumMarketplace.Controllers
             string userId = _userManager.GetUserId(HttpContext.User);
             OkObjectResult wrappedMessageThreads = (OkObjectResult) _messageThreadApiController.Get(userId);
             var messageThreads = (IEnumerable<MessageThread>) wrappedMessageThreads.Value;
+            messageThreads = messageThreads.OrderBy(m => m.LastUpdateDate).Reverse();
             return View(messageThreads);
         }
 
@@ -52,6 +56,7 @@ namespace LatiumMarketplace.Controllers
             string guid = id.ToString();
             OkObjectResult messagesWrapped = (OkObjectResult) _messageApiController.GetAllRelatedToThread(guid);
             IEnumerable<Message> threadMessages = (IEnumerable<Message>) messagesWrapped.Value;
+            threadMessages = threadMessages.OrderBy(m => m.SendDate).Reverse();
             if (threadMessages == null)
             {
                 return NotFound();
@@ -93,6 +98,7 @@ namespace LatiumMarketplace.Controllers
             messageThreadDTO.SenderId = userId;
             messageThreadDTO.AssetId = assetId;
             _messageThreadApiController.Post(messageThreadDTO);
+
             return RedirectToAction("Index");
         }
 

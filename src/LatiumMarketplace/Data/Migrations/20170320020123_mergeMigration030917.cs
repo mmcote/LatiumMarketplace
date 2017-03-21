@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LatiumMarketplace.Data.Migrations
 {
-    public partial class BidModelApi : Migration
+    public partial class mergeMigration030917 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,8 @@ namespace LatiumMarketplace.Data.Migrations
                     bidder = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
                     endDate = table.Column<DateTime>(nullable: false),
-                    startDate = table.Column<DateTime>(nullable: false)
+                    startDate = table.Column<DateTime>(nullable: false),
+                    status = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
