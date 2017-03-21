@@ -9,6 +9,12 @@ using Microsoft.AspNetCore.Http;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.MessageViewModels;
 
+/*
+ * MessagesAPIController can be used to get certain messages
+ * without accessing them through the messageThread. Although
+ * to post a message it should be noted that you must submit
+ * a messageThread to append to.
+ */
 namespace LatiumMarketplace.Controllers
 {
     [Produces("application/json")]
@@ -80,6 +86,7 @@ namespace LatiumMarketplace.Controllers
             try
             {
                 message.messageThread = _messageThreadRepository.GetMessageThreadByID(guid);
+                message.messageThread.LastUpdateDate = DateTime.Now;
             }
             catch (KeyNotFoundException)
             {
@@ -88,12 +95,6 @@ namespace LatiumMarketplace.Controllers
             _messageRepository.AddMessage(message);
             _messageRepository.Save();
             return new OkResult();
-        }
-        
-        // PUT: api/MessagesAPI/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
         }
         
         // DELETE: api/ApiWithActions/5

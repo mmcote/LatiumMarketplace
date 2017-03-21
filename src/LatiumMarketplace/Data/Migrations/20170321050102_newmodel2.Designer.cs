@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170319051858_BidModelApi")]
-    partial class BidModelApi
+    [Migration("20170321050102_newmodel2")]
+    partial class newmodel2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("UserName")
                         .HasAnnotation("MaxLength", 256);
+
+                    b.Property<bool>("banned");
 
                     b.Property<string>("description");
 
@@ -111,6 +113,10 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<int?>("AssetId");
 
+                    b.Property<int>("asset_id_model");
+
+                    b.Property<string>("asset_name");
+
                     b.Property<decimal>("bidPrice");
 
                     b.Property<string>("bidder");
@@ -120,6 +126,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<DateTime>("endDate");
 
                     b.Property<DateTime>("startDate");
+
+                    b.Property<bool>("status");
 
                     b.HasKey("bidId");
 

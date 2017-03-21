@@ -12,9 +12,16 @@ namespace LatiumMarketplace.Data
     {
         public static void Initialize(ApplicationDbContext context)
         {
+<<<<<<< HEAD
             try { 
             context.Database.EnsureCreated();
                 /*
+=======
+            try
+            {
+                context.Database.EnsureCreated();
+
+>>>>>>> ee26468ba3ee71f3264c76a67791eb5a8abd8eb3
                 // Look for any students.
                 if (context.Asset.Any())
                 {
@@ -23,21 +30,33 @@ namespace LatiumMarketplace.Data
 
                 var assets = new Asset[]
                 {
+<<<<<<< HEAD
                 new Asset{addDate = DateTime.Parse("2005-09-01"),description="This will only work above 15 degree C", location="Edmonton, Alberta", name="Bobcat", ownerID="TestCode233", price=50000, priceDaily=180, priceMonthly=2500,priceWeekly=890, accessory="With Cover", request=false},
                  new Asset{addDate = DateTime.Parse("2015-09-01"),description="This will only work above 20 degree C", location="Calgary, Alberta", name="Tow Truck", ownerID="TestCode233", price=110000, priceDaily=400, priceMonthly=4000,priceWeekly=2800, accessory="Winter tires on with stud", request=false},
                  new Asset{addDate = DateTime.Parse("2017-01-01"),description="This will work above - 15 degree C", location="Edmonton, Alberta", name="Semi-16wheel", ownerID="TestCode233", accessory= null, request=true},
                  new Asset{addDate = DateTime.Parse("2017-03-01"),description="This will work above - 30 degree C", location="St.albert, Alberta", name="Semi-18wheel", ownerID="TestCode233", accessory= "Comes with self driving system", request=true},
+=======
+            new Asset{addDate = DateTime.Parse("2005-09-01"),description="This will only work above 15 degree C", location="Edmonton, Alberta", name="Bobcat", ownerID="TestCode233", price=50000, priceDaily=180, priceMonthly=2500,priceWeekly=890, accessory="With Cover", request=false},
+             new Asset{addDate = DateTime.Parse("2015-09-01"),description="This will only work above 20 degree C", location="Calgary, Alberta", name="Tow Truck", ownerID="TestCode233", price=110000, priceDaily=400, priceMonthly=4000,priceWeekly=2800, accessory="Winter tires on with stud", request=false},
+             new Asset{addDate = DateTime.Parse("2017-01-01"),description="This will work above - 15 degree C", location="Edmonton, Alberta", name="Semi-16wheel", ownerID="TestCode233", accessory= null, request=true},
+             new Asset{addDate = DateTime.Parse("2017-03-01"),description="This will work above - 30 degree C", location="St.albert, Alberta", name="Semi-18wheel", ownerID="TestCode233", accessory= "Comes with self driving system", request=true},
+>>>>>>> ee26468ba3ee71f3264c76a67791eb5a8abd8eb3
                 };
                 foreach (Asset s in assets)
                 {
                     context.Asset.Add(s);
                 }
                 context.SaveChanges();
+<<<<<<< HEAD
                 */
             }
             catch { }
     }
             
+=======
+            }
+            catch { }
+>>>>>>> ee26468ba3ee71f3264c76a67791eb5a8abd8eb3
         }
     }
 
