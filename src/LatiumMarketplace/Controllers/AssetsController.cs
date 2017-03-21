@@ -258,7 +258,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
         {
 
             if (ModelState.IsValid)
@@ -271,6 +271,7 @@ namespace LatiumMarketplace.Controllers
                 asset.request = false;
                 // TODO: MakeId needs to come from DB
                 asset.MakeId = 1;
+        
 
 
 
@@ -286,6 +287,7 @@ namespace LatiumMarketplace.Controllers
                 // at least one image uploaded
                 ImageGallery ImageGallery;
                 int ImageGalleryId = -1;
+
 
                 if (uploadedFiles.Count > 0)
                 {
@@ -359,7 +361,6 @@ namespace LatiumMarketplace.Controllers
 
                 _context.AssetCategory.Add(AssetCategory);
                 await _context.SaveChangesAsync();
-
 
 
                 return RedirectToAction("Index");
@@ -491,7 +492,6 @@ namespace LatiumMarketplace.Controllers
                 ViewBag.AssetCategories = new SelectList(_context.Category, "CategoryId", "CategoryName");
 
             else
-
                 ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
         }
     }
