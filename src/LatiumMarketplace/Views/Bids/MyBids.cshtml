@@ -7,10 +7,12 @@
 
 
 <head>
-    <link href="~/css/bids.css" rel="stylesheet" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/css/main.css" rel="stylesheet">
 </head>
 
-<h2> OUTBOX -  The bids you've made</h2>
+<h2> OUTBOX</h2>
+<p>the bids you've made</p>
 <section>
 
     <div class="container">
@@ -25,6 +27,8 @@
                         <input type="submit" value="Filter" />
                     </p>
                 </form>
+                </div>
+            <div class="col-sm-9 padding-right">
 
                 <table class="table">
                     <thead>
@@ -63,13 +67,13 @@
                         }
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
-    </div>
 </section>
  
 <p>
-    <a asp-controller="Bids" asp-action="Inbox">INBOX - View Bids placed on your asset</a>
+    <a asp-controller="Bids" asp-action="Inbox">INBOX</a>
 </p>
 
 
