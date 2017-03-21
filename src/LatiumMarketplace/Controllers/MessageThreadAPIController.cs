@@ -70,6 +70,7 @@ namespace LatiumMarketplace.Controllers
             try
             {
                 var messageThreadRetrieved = _context.MessageThread.Single(m => m.asset.assetID == input.AssetId && m.SenderId == input.SenderId);
+                messageThreadRetrieved.LastUpdateDate = DateTime.Now;
                 message = new Message(input.Subject, input.Body);
                 message.messageThread = messageThreadRetrieved;
                 _messageRepository.AddMessage(message);
@@ -81,10 +82,16 @@ namespace LatiumMarketplace.Controllers
                 _messageRepository.AddMessage(message);
                 MessageThread messageThread = new MessageThread(input.SenderId, input.RecieverId);
                 messageThread.messages.Add(message);
+                messageThread.LastUpdateDate = DateTime.Now;
+
+                messageThread.SenderEmail = _context.User.Single(u => u.Id == input.SenderId).Email;
+                messageThread.RecieverEmail = _context.User.Single(u => u.Id == input.RecieverId).Email;
+
                 if (input.AssetId != 0)
                 {
                     messageThread.asset = _context.Asset.Single(a => a.assetID == input.AssetId);
                 }
+
                 _messageThreadRepository.AddMessageThread(messageThread);
                 _messageThreadRepository.Save();
             }
@@ -96,13 +103,6 @@ namespace LatiumMarketplace.Controllers
             string redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
             Notification notification = new Notification(message.Subject, message.Body, redirectURL);
             Clients.Group(recieverUser.UserName).PresentNotification(notification);
-        }
-
-        // PUT: api/MessageThreadAPI/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-
         }
         
         // DELETE: api/ApiWithActions/5
