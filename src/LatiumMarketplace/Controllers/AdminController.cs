@@ -88,7 +88,7 @@ namespace LatiumMarketplace.Controllers
 
                 try
                 {
-                    var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId);
+                    var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId && m.RecieverId == messageThreadDTO.RecieverId);
                     message.messageThread = messageThreadRetrieved;
                     messageRepo.AddMessage(message);
                 }
