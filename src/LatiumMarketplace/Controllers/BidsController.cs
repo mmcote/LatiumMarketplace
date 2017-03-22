@@ -60,7 +60,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid, string returnUrl)
+        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace LatiumMarketplace.Controllers
                 bid.bidder = userName;
                 _context.Add(bid);
                 await _context.SaveChangesAsync();
-                
+                    // HI MICHEAL ADD YOUR NOTIFICATION HERE
                 RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
                 return redirectResult;
             }
@@ -172,10 +172,6 @@ namespace LatiumMarketplace.Controllers
             foreach (var item in myBids)
             {
                 outbox_list.Add(item);
-             /*   if (item.bidder == user.UserName)
-                {
-                    outbox_list.Add(item);
-                }*/
             }
             UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
             completeBidModel.assetModel = asset_list;
@@ -286,12 +282,19 @@ namespace LatiumMarketplace.Controllers
 
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Transcation([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
 
-        public async Task<IActionResult> Transcation()
-        {
-
-            // RedirectToActionResult redirectResult = new RedirectToActionResult("Index", "Transaction"});// new { @Id = asset_id });
-            //return redirectResult;
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var userId = user?.Id;
+                bid.chosen = true;
+                await _context.SaveChangesAsync();
+                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
+                return redirectResult;
+            }
             return View();
         }
 
