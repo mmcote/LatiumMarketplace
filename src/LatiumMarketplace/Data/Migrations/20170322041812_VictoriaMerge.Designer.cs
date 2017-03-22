@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170322024224_city001")]
-    partial class city001
+    [Migration("20170322041812_VictoriaMerge")]
+    partial class VictoriaMerge
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -246,6 +246,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("bidder");
 
+                    b.Property<bool>("chosen");
+
                     b.Property<string>("description");
 
                     b.Property<DateTime>("endDate");
@@ -306,6 +308,24 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("Assetid");
 
                     b.ToTable("MessageThread");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.TransactionViewModels.Transaction", b =>
+                {
+                    b.Property<Guid>("transactionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("end");
+
+                    b.Property<int>("price");
+
+                    b.Property<DateTime>("start");
+
+                    b.Property<DateTime>("transactionDate");
+
+                    b.HasKey("transactionId");
+
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
