@@ -83,6 +83,13 @@ namespace LatiumMarketplace.Models.AssetViewModels
         // Asset and Accesories.
         // One asset can have multiple accessories entered by a particular user
         public ICollection<Accessory> Accessory { get; set; }
+
+        // Navigation properties for one-to-many relationship between Asset and City.
+        // One asset has only one city
+        public int CityId { get; set; }
+        [ForeignKey("CityId")]
+        [Display(Name = "City")]
+        public City City { get; set; }
     }
 
 }
