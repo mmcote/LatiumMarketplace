@@ -309,6 +309,24 @@ namespace LatiumMarketplace.Data.Migrations
                     b.ToTable("MessageThread");
                 });
 
+            modelBuilder.Entity("LatiumMarketplace.Models.TransactionViewModels.Transaction", b =>
+                {
+                    b.Property<Guid>("transactionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("end");
+
+                    b.Property<int>("price");
+
+                    b.Property<DateTime>("start");
+
+                    b.Property<DateTime>("transactionDate");
+
+                    b.HasKey("transactionId");
+
+                    b.ToTable("Transaction");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id");

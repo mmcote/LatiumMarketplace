@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170322021202_transactionModel")]
-    partial class transactionModel
+    [Migration("20170322041812_VictoriaMerge")]
+    partial class VictoriaMerge
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,10 +74,32 @@ namespace LatiumMarketplace.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Accessory", b =>
+                {
+                    b.Property<int>("AccessoryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AssetId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("AccessoryId");
+
+                    b.HasIndex("AssetId");
+
+                    b.ToTable("Accessory");
+                });
+
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Asset", b =>
                 {
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CityId");
+
+                    b.Property<int?>("ImageGalleryId");
+
+                    b.Property<int>("MakeId");
 
                     b.Property<string>("accessory");
 
@@ -103,7 +125,110 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.HasKey("assetID");
 
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("ImageGalleryId")
+                        .IsUnique();
+
+                    b.HasIndex("MakeId");
+
                     b.ToTable("Asset");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.AssetCategory", b =>
+                {
+                    b.Property<int>("AssetId");
+
+                    b.Property<int>("CategoryId");
+
+                    b.HasKey("AssetId", "CategoryId");
+
+                    b.HasIndex("AssetId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("AssetCategory");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CategoryName");
+
+                    b.Property<int?>("ParentCategoryId");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("ParentCategoryId");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("CityId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Image", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FileLink")
+                        .IsRequired();
+
+                    b.Property<int?>("ImageGalleryId")
+                        .IsRequired();
+
+                    b.Property<Guid>("ImageGuid")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Title");
+
+                    b.Property<bool>("isMain");
+
+                    b.HasKey("ImageId");
+
+                    b.HasAlternateKey("ImageGuid");
+
+                    b.HasIndex("ImageGalleryId");
+
+                    b.ToTable("Image");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.ImageGallery", b =>
+                {
+                    b.Property<int>("ImageGalleryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("ImageGalleryId");
+
+                    b.ToTable("ImageGallery");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Make", b =>
+                {
+                    b.Property<int>("MakeId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("MakeId");
+
+                    b.ToTable("Make");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
@@ -166,8 +291,14 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<int?>("Assetid");
 
+                    b.Property<DateTime>("LastUpdateDate");
+
+                    b.Property<string>("RecieverEmail");
+
                     b.Property<string>("RecieverId")
                         .IsRequired();
+
+                    b.Property<string>("SenderEmail");
 
                     b.Property<string>("SenderId")
                         .IsRequired();
@@ -177,6 +308,24 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("Assetid");
 
                     b.ToTable("MessageThread");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.TransactionViewModels.Transaction", b =>
+                {
+                    b.Property<Guid>("transactionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("end");
+
+                    b.Property<int>("price");
+
+                    b.Property<DateTime>("start");
+
+                    b.Property<DateTime>("transactionDate");
+
+                    b.HasKey("transactionId");
+
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -284,6 +433,59 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Accessory", b =>
+                {
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Asset", "Asset")
+                        .WithMany("Accessory")
+                        .HasForeignKey("AssetId");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Asset", b =>
+                {
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.City", "City")
+                        .WithMany("Assets")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.ImageGallery", "ImageGallery")
+                        .WithOne("Asset")
+                        .HasForeignKey("LatiumMarketplace.Models.AssetViewModels.Asset", "ImageGalleryId");
+
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Make", "Make")
+                        .WithMany("Assets")
+                        .HasForeignKey("MakeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.AssetCategory", b =>
+                {
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Asset", "Asset")
+                        .WithMany("AssetCategories")
+                        .HasForeignKey("AssetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Category", "Category")
+                        .WithMany("AssetCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Category", b =>
+                {
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.Category", "ParentCategory")
+                        .WithMany("ChildCategory")
+                        .HasForeignKey("ParentCategoryId")
+                        .HasConstraintName("FK_Category_Category");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Image", b =>
+                {
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.ImageGallery", "ImageGallery")
+                        .WithMany("Images")
+                        .HasForeignKey("ImageGalleryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.BidViewModels.Bid", b =>
