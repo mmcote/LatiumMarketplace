@@ -23,12 +23,10 @@ namespace LatiumMarketplace.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private IHostingEnvironment _env;
-
-
-
         public AssetsController(ApplicationDbContext context,
         UserManager<ApplicationUser> userManager, IHostingEnvironment env
         )
+
         {
             _context = context;
             _userManager = userManager;
@@ -161,6 +159,7 @@ namespace LatiumMarketplace.Controllers
             viewModel.Assets = await _context.Asset
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
+                .Include(a => a.City)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
                 .AsNoTracking()
@@ -174,7 +173,7 @@ namespace LatiumMarketplace.Controllers
                     a => a.assetID == id.Value).Single();
                 viewModel.Categories = asset.AssetCategories.Select(s => s.Category);
             }
-
+            SetCityViewBag();
             return View(viewModel); 
         }
 
@@ -357,9 +356,9 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
 
+                // Save asset category to DB
                 _context.AssetCategory.Add(AssetCategory);
                 await _context.SaveChangesAsync();
-
 
                 return RedirectToAction("Index");
             }
