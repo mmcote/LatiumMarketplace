@@ -102,7 +102,7 @@ namespace LatiumMarketplace.Controllers
             // This notification redirect URL should put the user to the discussion
             string redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
             Notification notification = new Notification(message.Subject, message.Body, redirectURL);
-            Clients.Group(recieverUser.UserName).PresentNotification(notification);
+            Clients.Group(recieverUser.UserName).AddNotificationToQueue(notification);
         }
         
         // DELETE: api/ApiWithActions/5
