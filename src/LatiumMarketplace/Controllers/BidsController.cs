@@ -171,10 +171,11 @@ namespace LatiumMarketplace.Controllers
             List<Bid> outbox_list = new List<Bid>();
             foreach (var item in myBids)
             {
-                if (item.bidder == user.UserName)
+                outbox_list.Add(item);
+             /*   if (item.bidder == user.UserName)
                 {
                     outbox_list.Add(item);
-                }
+                }*/
             }
             UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
             completeBidModel.assetModel = asset_list;
@@ -285,6 +286,14 @@ namespace LatiumMarketplace.Controllers
 
         }
 
+
+        public async Task<IActionResult> Transcation()
+        {
+
+            // RedirectToActionResult redirectResult = new RedirectToActionResult("Index", "Transaction"});// new { @Id = asset_id });
+            //return redirectResult;
+            return View();
+        }
 
         // GET: Bids/Delete/5
         public async Task<IActionResult> Delete(int id)
