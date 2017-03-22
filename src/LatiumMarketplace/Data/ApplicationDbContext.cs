@@ -9,6 +9,7 @@ using LatiumMarketplace.Models.AssetViewModels;
 using LatiumMarketplace.Models.MessageViewModels;
 using Microsoft.EntityFrameworkCore.Metadata;
 using LatiumMarketplace.Models.BidViewModels;
+using LatiumMarketplace.Models.TransactionViewModels;
 
 namespace LatiumMarketplace.Data
 {
@@ -107,6 +108,8 @@ namespace LatiumMarketplace.Data
         public DbSet<MessageThread> MessageThread { get; set; }
 
         public DbSet<Bid> Bid { get; set; }
+
+        public DbSet<Transaction> Transaction { get; set; }
 
         public DbSet<ApplicationUser> User { get; set; }
 

@@ -5,54 +5,89 @@
     ViewData["Title"] = "INBOX";
 }
 
-@foreach (var asset in Model.assetModel)
-{
-    <h2>@Html.DisplayFor(modelItem => asset.name)</h2>
+<h2>INBOX</h2>
+<p> bids palced on your postings</p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Asset Name
-            </th>
-            <th>
-                Bid Price
-            </th>
-            <th>
-                Start Date
-            </th>
-            <th>
-                End Date
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.inbox)
-        {
-            if (item.asset_name == asset.name)
-            {
+<section>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <form asp-controller="Bids" asp-action="MyBids" method="get">
+                    <p>
+                        Sort by : <br>
+                        <input type="radio" name="SortBy" value="all" checked> All<br>
+                        <input type="radio" name="SortBy" value="asset"> Asset<br>
+                        <input type="radio" name="SortBy" value="request"> Request<br>
+                        <input type="submit" value="Filter" />
+                    </p>
+                </form>
+            </div>
+            <div class="col-sm-9 padding-right">
+                @foreach (var asset in Model.assetModel)
+                {
+                    <h3>@Html.DisplayFor(modelItem => asset.name)</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    User
+                                </th>
+                                <th>
+                                    Bid Price
+                                </th>
+                                <th>
+                                    Details
+                                </th>
+                                <th>
+                                    Start Date
+                                </th>
+                                <th>
+                                    End Date
+                                </th>
+                                <th>
+                                    Select a bid
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.inbox)
+                            {
+                                if (item.asset_name == asset.name)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.bidder)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.bidPrice)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.startDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.endDate)
+                                        </td>
+                                        <td>
+                                            @Html.RadioButtonFor(modelItem => item.chosen, "false") <span></span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <form asp-controller="Bids" asp-action="Transaction" method="get">
+                        <input type="submit" value="Submit" />
+                    </form>
+                }
+             </div>
+        </div>
+    </div>
+</section>
 
-
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.asset_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.bidPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.startDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.endDate)
-                </td>
-            </tr>
-            }
-        }
-    </tbody>
-</table>
-}
 <p>
     <a asp-controller="Bids" asp-action="MyBids">OUTBOX</a>
 </p>

@@ -60,7 +60,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid, string returnUrl)
+        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
         {
             if (ModelState.IsValid)
             {
@@ -70,13 +70,15 @@ namespace LatiumMarketplace.Controllers
                 bid.asset = asset;
                 bid.asset_id_model = asset_id;
                 bid.asset_name = asset.name;
+                bid.status = asset.request;
+                bid.chosen = false;
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 var userName = user?.UserName;
                 bid.bidder = userName;
                 _context.Add(bid);
                 await _context.SaveChangesAsync();
-                
+                    // HI MICHEAL ADD YOUR NOTIFICATION HERE
                 RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
                 return redirectResult;
             }
@@ -85,42 +87,92 @@ namespace LatiumMarketplace.Controllers
 
         //Listing of assets/requests belonging to a specific user
         [AllowAnonymous]
-        public async Task<IActionResult> MyBids()
+        public async Task<IActionResult> MyBids(string sortby)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
-            var MyAssets = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
-           
+            var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
+            var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
+
+            var assets = from m in my_Assets
+                         select m;
+            switch (sortby)
+            { 
+                case "request":
+                    assets = assets.Where(s => s.request.Equals(true));
+                    break;
+                case "asset":
+                    assets = assets.Where(s => s.request.Equals(false));
+                    break;
+                case "all":
+                    assets = from m in my_Assets
+                             select m;
+                    break;
+            }
+
+            var otherBids = from m in OtherBids
+                         select m;
+            switch (sortby)
+            {
+                case "request":
+                    otherBids = otherBids.Where(s => s.status.Equals(true));
+                    break;
+                case "asset":
+                    otherBids = otherBids.Where(s => s.status.Equals(false));
+                    break;
+                case "all":
+                    otherBids = from m in OtherBids
+                             select m;
+                    break;
+            }
+
+            var myBids = from m in MyBids
+                         select m;
+            switch (sortby)
+            {
+
+                case "request":
+
+                    myBids = myBids.Where(s => s.status.Equals(true));
+                    break;
+                case "asset":
+                    myBids = myBids.Where(s => s.status.Equals(false));
+                    break;
+                case "all":
+                    myBids = from m in MyBids
+                             select m;
+                    break;
+            }
+
+            List <Asset> list_asset = new List<Asset>();
+            foreach (var a in assets)
+            {
+                list_asset.Add(a);
+            }
+
             // gets all his assets 
             List<Asset> asset_list = new List<Asset>();
-            var myAset = _context.Asset.Where(s => s.assetID != 0); // get all assets
-            foreach (var a in myAset)
+            foreach (var a in list_asset)
             {
                 if (a.ownerID == userId)
                 {
                     asset_list.Add(a);
                 }
             }
-            // All posts that you made
+            // All posts that you made INBOX
             List<Bid> inbox_list = new List<Bid>();
-            foreach (var item in MyAssets)
+            foreach (var b in otherBids)
             {
-                if (item.asset.ownerID == userId)
-                {
-                    inbox_list.Add(item);
-                }
+                inbox_list.Add(b);
+               
             }
-            // All post that you bid on
+            // All post that you bid on OUTBOX
             List<Bid> outbox_list = new List<Bid>();
-            foreach (var item in MyBids)
+            foreach (var item in myBids)
             {
-                if (item.bidder == user.UserName)
-                {
-                    outbox_list.Add(item);
-                }
+                outbox_list.Add(item);
             }
-
             UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
             completeBidModel.assetModel = asset_list;
             completeBidModel.outbox = outbox_list;
@@ -132,50 +184,119 @@ namespace LatiumMarketplace.Controllers
 
         //Listing of assets/requests belonging to a specific user
         [AllowAnonymous]
-        public async Task<IActionResult> Inbox()
+        public async Task<IActionResult> Inbox(string sortby)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
-            var MyAssets = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
+            var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
+            var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
+
+            var assets = from m in my_Assets
+                         select m;
+            switch (sortby)
+            {
+                case "request":
+                    assets = assets.Where(s => s.request.Equals(true));
+                    break;
+                case "asset":
+                    assets = assets.Where(s => s.request.Equals(false));
+                    break;
+                case "all":
+                    assets = from m in my_Assets
+                             select m;
+                    break;
+            }
+
+            var otherBids = from m in OtherBids
+                            select m;
+            switch (sortby)
+            {
+                case "request":
+                    otherBids = otherBids.Where(s => s.status.Equals(true));
+                    break;
+                case "asset":
+                    otherBids = otherBids.Where(s => s.status.Equals(false));
+                    break;
+                case "all":
+                    otherBids = from m in OtherBids
+                                select m;
+                    break;
+            }
+
+            var myBids = from m in MyBids
+                         select m;
+            switch (sortby)
+            {
+
+                case "request":
+
+                    myBids = myBids.Where(s => s.status.Equals(true));
+                    break;
+                case "asset":
+                    myBids = myBids.Where(s => s.status.Equals(false));
+                    break;
+                case "all":
+                    myBids = from m in MyBids
+                             select m;
+                    break;
+            }
+
+            List<Asset> list_asset = new List<Asset>();
+            foreach (var a in assets)
+            {
+                list_asset.Add(a);
+            }
 
             // gets all his assets 
             List<Asset> asset_list = new List<Asset>();
-            var myAset = _context.Asset.Where(s => s.assetID != 0); // get all assets
-            foreach (var a in myAset)
+            foreach (var a in list_asset)
             {
                 if (a.ownerID == userId)
                 {
                     asset_list.Add(a);
                 }
             }
-            // All posts that you made
+            // All posts that you made INBOX
             List<Bid> inbox_list = new List<Bid>();
-            foreach (var item in MyAssets)
+            foreach (var b in otherBids)
             {
-                if (item.asset.ownerID == userId)
-                {
-                    inbox_list.Add(item);
-                }
+                inbox_list.Add(b);
+
             }
-            // All post that you bid on
+            // All post that you bid on OUTBOX
             List<Bid> outbox_list = new List<Bid>();
-            foreach (var item in MyBids)
+            foreach (var item in myBids)
             {
                 if (item.bidder == user.UserName)
                 {
                     outbox_list.Add(item);
                 }
             }
-
             UnitedBidViewModel completeBidModel = new UnitedBidViewModel();
             completeBidModel.assetModel = asset_list;
             completeBidModel.outbox = outbox_list;
             completeBidModel.inbox = inbox_list;
             await _context.SaveChangesAsync();
             return View(completeBidModel);
+
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Transcation([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var userId = user?.Id;
+                bid.chosen = true;
+                await _context.SaveChangesAsync();
+                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
+                return redirectResult;
+            }
+            return View();
+        }
 
         // GET: Bids/Delete/5
         public async Task<IActionResult> Delete(int id)
