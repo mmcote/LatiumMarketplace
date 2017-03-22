@@ -97,6 +97,8 @@ namespace LatiumMarketplace.Data
         public DbSet<Asset> Asset { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<AssetCategory> AssetCategory { get; set; }
+        public DbSet<Make> Make { get; set; }
+        public DbSet<City> City { get; set; }
         public DbSet<Image> Image { get; set; }
         public DbSet<ImageGallery> ImageGallery { get; set; }
         public DbSet<Accessory> Accessory { get; set; }

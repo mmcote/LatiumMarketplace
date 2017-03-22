@@ -242,6 +242,10 @@ namespace LatiumMarketplace.Controllers
         {
             // Populate asset categories
             SetCategoryViewBag();
+            // Populate asset makes
+            SetMakeViewBag();
+            // Populate cities
+            SetCityViewBag();
 
             return View();
         }
@@ -269,25 +273,29 @@ namespace LatiumMarketplace.Controllers
                 asset.addDate = today;
                 asset.ownerID = userId;
                 asset.request = false;
-                // TODO: MakeId needs to come from DB
-                asset.MakeId = 1;
-        
 
+                // Assign make to asset
+                var myMakeId = HttpContext.Request.Form["Makes"];
+                var myMakeIdNumVal = int.Parse(myMakeId);
+                asset.MakeId = myMakeIdNumVal;
 
+                // Assign a city to the asset
+                var myCityId = HttpContext.Request.Form["Cities"];
+                var myCityIdNumVal = int.Parse(myCityId);
+                asset.CityId = myCityIdNumVal;
 
-
-                // Add Images
-
+                /* Add Images */
+                // Get images from form
                 var uploadedFiles = HttpContext.Request.Form.Files;
                 // Get the wwwroot folder
                 var webRootPath = _env.WebRootPath;
                 // Set assets image folder
                 var uploadsPath = Path.Combine(webRootPath, "images\\uploads\\assets");
+
                 // Create Image Gallery to hold images only when there is
                 // at least one image uploaded
                 ImageGallery ImageGallery;
                 int ImageGalleryId = -1;
-
 
                 if (uploadedFiles.Count > 0)
                 {
@@ -298,7 +306,6 @@ namespace LatiumMarketplace.Controllers
                     await _context.SaveChangesAsync();
                     //Get Id of recently added Image Gallery
                     ImageGalleryId = ImageGallery.ImageGalleryId;
-
                 }
 
                 foreach (var uploadedFile in uploadedFiles)
@@ -350,7 +357,7 @@ namespace LatiumMarketplace.Controllers
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
 
-                // Get the category select from the form
+                // Get the category from select form
                 var myCategoryId = HttpContext.Request.Form["AssetCategories"];
                 var myCategoryIdNumVal = int.Parse(myCategoryId);
 
@@ -366,6 +373,8 @@ namespace LatiumMarketplace.Controllers
                 return RedirectToAction("Index");
             }
             SetCategoryViewBag(asset.AssetCategories);
+            SetMakeViewBag();
+            SetCityViewBag();
             return View(asset);
         }
 
@@ -484,6 +493,7 @@ namespace LatiumMarketplace.Controllers
             return _context.Asset.Any(e => e.assetID == id);
         }
 
+        // Get all categories from the database
         private void SetCategoryViewBag(ICollection<AssetCategory> AssetCategories = null)
         {
 
@@ -493,6 +503,30 @@ namespace LatiumMarketplace.Controllers
 
             else
                 ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+        }
+        
+        // Get all the city from the database
+        private void SetCityViewBag(ICollection<AssetCategory> Cities = null)
+        {
+
+            if (Cities == null)
+
+                ViewBag.Cities = new SelectList(_context.City, "CityId", "Name");
+
+            else
+                ViewBag.Cities = new SelectList(_context.City.AsEnumerable(), "CityId", "Name", Cities);
+        }
+
+        // Get all the makes from the database
+        private void SetMakeViewBag(ICollection<Make> Makes = null)
+        {
+
+            if (Makes == null)
+
+                ViewBag.Makes = new SelectList(_context.Make, "MakeId", "Name");
+
+            else
+                ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
         }
     }
 }
