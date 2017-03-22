@@ -27,7 +27,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
             priceWeekly = PriceWeekly;
             priceMonthly = PriceMonthly;
             ownerID = OwnerID;
-            location = Location;
+            Address = Location;
             request = Request;
             featuredItem = FeaturedItem;
         }
@@ -53,8 +53,8 @@ namespace LatiumMarketplace.Models.AssetViewModels
         //public List<bidList>
         [Display(Name = "Owner ID")]
         public string ownerID { get; set; }
-        [Display(Name = "Location")]
-        public string location { get; set; }
+        [Display(Name = "Address")]
+        public string Address { get; set; }
         [Display(Name = "Accessory")]
         public string accessory { get; set; }
         public bool request { get; set; }
