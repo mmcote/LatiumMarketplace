@@ -37,7 +37,7 @@
                     )
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
-            <!-- TODO: Need to show only parent categories, the children after parent is selected -->
+            <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
             <div class="form-group">
                 <label asp-for="AssetCategories" class="">Category</label>
                 @Html.DropDownList(
@@ -49,12 +49,10 @@
                 <span asp-validation-for="AssetCategories" class="text-danger" />
             </div>
             <div class="form-group">
-                <label asp-for="location" class=""></label>
-                <input asp-for="location" class="form-control" />
-                <span asp-validation-for="location" class="text-danger" />
+                <label asp-for="Address" class=""></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger" />
             </div>
-
-
             <div class="form-group">
                 <label asp-for="City" class="">City</label>
                 @Html.DropDownList(
