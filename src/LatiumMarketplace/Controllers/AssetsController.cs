@@ -245,6 +245,12 @@ namespace LatiumMarketplace.Controllers
         // Returns view for creating request
         public IActionResult CreateReq()
         {
+            // Populate asset categories
+            SetCategoryViewBag();
+            // Populate asset makes
+            SetMakeViewBag();
+            // Populate cities
+            SetCityViewBag();
             return View();
         }
 
@@ -391,10 +397,107 @@ namespace LatiumMarketplace.Controllers
                 asset.priceWeekly = 0;
                 asset.priceMonthly = 0;
                 asset.MakeId = 1;
+                asset.ImageGalleryId = -1;
+                // Assign make to asset
+                var myMakeId = HttpContext.Request.Form["Makes"];
+                var myMakeIdNumVal = int.Parse(myMakeId);
+                asset.MakeId = myMakeIdNumVal;
+
+                // Assign a city to the asset
+                var myCityId = HttpContext.Request.Form["Cities"];
+                var myCityIdNumVal = int.Parse(myCityId);
+                asset.CityId = myCityIdNumVal;
+
+                /* Add Images */
+                // Get images from form
+                var uploadedFiles = HttpContext.Request.Form.Files;
+                // Get the wwwroot folder
+                var webRootPath = _env.WebRootPath;
+                // Set assets image folder
+                var uploadsPath = Path.Combine(webRootPath, "images\\uploads\\assets");
+
+                // Create Image Gallery to hold images only when there is
+                // at least one image uploaded
+                ImageGallery ImageGallery;
+                int ImageGalleryId = -1;
+
+                if (uploadedFiles.Count > 0)
+                {
+                    ImageGallery = new ImageGallery();
+                    ImageGallery.Title = "My cool gallery";
+                    // Add Image gallery to DB
+                    _context.Add(ImageGallery);
+                    await _context.SaveChangesAsync();
+                    //Get Id of recently added Image Gallery
+                    ImageGalleryId = ImageGallery.ImageGalleryId;
+                }
+
+                foreach (var uploadedFile in uploadedFiles)
+                {
+                    if (uploadedFile != null && uploadedFile.Length > 0)
+                    {
+                        var file = uploadedFile;
+                        if (file.Length > 0)
+                        {
+                            // 1) Add image to DB
+                            Image Image = new Image();
+                            Image.ImageGalleryId = ImageGalleryId;
+                            Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
+                            _context.Add(Image);
+                            await _context.SaveChangesAsync();
+
+                            // 2) Get Id or Guid of recently added image from DB
+                            //int ImageId = Image.ImageId;
+                            Guid ImageGuid = Image.ImageGuid; // Better
+
+                            // 3) Save image to disk with Guid
+                            var fileName = ContentDispositionHeaderValue
+                                .Parse(file.ContentDisposition).FileName.Trim('"');
+                            // 3.1) Get File extension from file
+                            string fileExtesion = Path.GetExtension(fileName);
+                            // 3.2) Change file name to Guid
+                            fileName = ImageGuid + fileExtesion;
+                            Console.WriteLine(fileName);
+                            // 3.3) Save image to disk with new file name
+                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, fileName), FileMode.Create))
+                            {
+                                await file.CopyToAsync(fileStream);
+                            }
+                            // 4) Update FileLink in DB 
+                            Image.FileLink = Path.Combine("images/uploads/assets/", fileName);
+                            await _context.SaveChangesAsync();
+
+                        }
+                    }
+                }
+
+                // Attach Gallery to Asset if a new gallery is created
+                if (ImageGalleryId != -1)
+                {
+                    asset.ImageGalleryId = ImageGalleryId;
+                }
+
+                // Save asset to DB
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
+
+                // Get the category from select form
+                var myCategoryId = HttpContext.Request.Form["AssetCategories"];
+                var myCategoryIdNumVal = int.Parse(myCategoryId);
+
+                // Assign a category to the asset
+                AssetCategory AssetCategory = new AssetCategory();
+                AssetCategory.AssetId = asset.assetID;
+                AssetCategory.CategoryId = myCategoryIdNumVal;
+
+                _context.AssetCategory.Add(AssetCategory);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
+            SetCategoryViewBag();
+            SetMakeViewBag();
+            SetCityViewBag();
             return View(asset);
         }
 
