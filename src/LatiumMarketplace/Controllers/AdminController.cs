@@ -14,6 +14,8 @@ using LatiumMarketplace.Services;
 using LatiumMarketplace.Data;
 using Microsoft.VisualStudio.Web.CodeGeneration.Utils;
 using LatiumMarketplace.Models.MessageViewModels;
+using LatiumMarketplace.Models.AssetViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -31,7 +33,6 @@ namespace LatiumMarketplace.Controllers
             _context = context;
         }
 
-        // GET: Assets
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
@@ -117,6 +118,66 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
+        // GET: God mode for assets with featured iteam option to promote an item
+        [AllowAnonymous]
+        public async Task<IActionResult> AdminListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory,bool featuredItem)
+        {
+            var Myassets = _context.Asset;
+
+            IQueryable<string> locationQuery = from m in Myassets
+                                               orderby m.location
+                                               select m.location;
+
+            var assets = from m in Myassets
+                         select m;
+
+
+            switch (sortby)
+            {
+
+                case "request":
+                    if (accessory == true)
+                    {
+                        assets = assets.Where(s => s.accessory != null);
+                    }
+                    assets = assets.Where(s => s.request.Equals(true));
+                    break;
+                case "asset":
+                    if (accessory == true)
+                    {
+                        assets = assets.Where(s => s.accessory != null);
+                    }
+                    assets = assets.Where(s => s.request.Equals(false));
+                    break;
+                case "all":
+                    assets = from m in Myassets
+                             select m;
+                    if (accessory == true)
+                    {
+                        assets = assets.Where(s => s.accessory != null);
+                    }
+                    break;
+            }
+
+            if (recent == true)
+            {
+                assets = assets.OrderByDescending(s => s.addDate);
+            }
+            if (!String.IsNullOrEmpty(assetLocation))
+            {
+                assets = assets.Where(x => x.location == assetLocation);
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                assets = assets.Where(x => x.name.Contains(searchString));
+            }
+
+            var assetLocatioinVM = new AssetLocation();
+            assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
+            assetLocatioinVM.assets = await assets.ToListAsync();
+            return View(assetLocatioinVM);
+        }
         #region Helpers
 
         private IActionResult RedirectToLocal(string returnUrl)

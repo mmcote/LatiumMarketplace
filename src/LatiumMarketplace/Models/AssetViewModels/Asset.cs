@@ -16,7 +16,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
 
         public Asset() { }
 
-        public Asset(int AssetID, string Name, string Description, DateTime AddData, decimal Price, decimal PriceDaily, decimal PriceWeekly, decimal PriceMonthly, string OwnerID, string Location, bool Request)
+        public Asset(int AssetID, string Name, string Description, DateTime AddData, decimal Price, decimal PriceDaily, decimal PriceWeekly, decimal PriceMonthly, string OwnerID, string Location, bool Request, bool FeaturedItem)
         {
             assetID = AssetID;
             name = Name;
@@ -29,6 +29,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
             ownerID = OwnerID;
             location = Location;
             request = Request;
+            featuredItem = FeaturedItem;
         }
 
         [Key]
@@ -57,6 +58,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
         [Display(Name = "Accessory")]
         public string accessory { get; set; }
         public bool request { get; set; }
+        public bool featuredItem { get; set; }
         public virtual List<MessageThread> MessageThreads { get; set; }
         public virtual List<Bid> Bids { get; set; }
         

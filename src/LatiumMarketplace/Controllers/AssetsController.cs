@@ -390,6 +390,7 @@ namespace LatiumMarketplace.Controllers
                 asset.priceDaily = 0;
                 asset.priceWeekly = 0;
                 asset.priceMonthly = 0;
+                asset.MakeId = 1;
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
