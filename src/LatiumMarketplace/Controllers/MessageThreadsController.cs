@@ -41,6 +41,7 @@ namespace LatiumMarketplace.Controllers
             string userId = _userManager.GetUserId(HttpContext.User);
             OkObjectResult wrappedMessageThreads = (OkObjectResult) _messageThreadApiController.Get(userId);
             var messageThreads = (IEnumerable<MessageThread>) wrappedMessageThreads.Value;
+            messageThreads = messageThreads.OrderBy(m => m.LastUpdateDate).Reverse();
             return View(messageThreads);
         }
 
@@ -55,6 +56,7 @@ namespace LatiumMarketplace.Controllers
             string guid = id.ToString();
             OkObjectResult messagesWrapped = (OkObjectResult) _messageApiController.GetAllRelatedToThread(guid);
             IEnumerable<Message> threadMessages = (IEnumerable<Message>) messagesWrapped.Value;
+            threadMessages = threadMessages.OrderBy(m => m.SendDate).Reverse();
             if (threadMessages == null)
             {
                 return NotFound();

@@ -1,4 +1,4 @@
-@model LatiumMarketplace.Models.AssetViewModels.AssetLocation
+@model LatiumMarketplace.Models.AssetViewModels.AssetIndexData
 
 
 @{
@@ -24,9 +24,7 @@
                         <input class="form-control" type="text" name="SearchString" placeholder="Search">
                         <br />
                         <p>
-                            Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
-                                <option value="">All</option>
-                            </select>
+                            
                         </p>
                         <p>
                             Sort by : <br>
@@ -40,6 +38,14 @@
                     </form>
                     <div class="left-sidebar">
                         <h2>Category</h2>
+
+                        <!-- Just testing here -->
+                        @foreach (var category in Model.Assets)
+                        {
+                            <p>@category.MakeId</p>
+
+                        }
+
                         <div class="panel-group category-products" id="accordian">
                             <!--category-productsr-->
                             <div class="panel panel-default">
@@ -100,28 +106,44 @@
                 </div>
 
                 <div class="col-sm-9 padding-right">
-                
+                        
                 
                         <div class="features_items">
                             <!--features_items-->
                             <h2 class="title text-center">Search Result</h2>
                             <div class="col-sm-4">
-                            @foreach (var item in Model.assets)
+                            @foreach (var item in Model.Assets)
                             {
                                 <div class="product-image-wrapper">
                                     <div class="single-products">
-                                        <div class="productinfo text-center">                                       
-                                             <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="" />
+                                        <div class="productinfo text-center">                                     
+                                             @*@foreach (var image in item.ImageGallery.Images)
+                                             {
+                                                <img src="~/@image.FileLink" alt="" />
+
+                                             }
+                                            *@
+
+                                            @*This is sow that it only show the first image in*@
+                                            @if (@item.ImageGallery.Images.Any(e => e.ImageGalleryId == item.ImageGalleryId))
+                                            {
+                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="" />
+                                            }
+                                            else
+                                            {  <img src="~/images/preview-not-available.jpg" alt="" />
+                                            }
+                                               
+
                                             <h2>@Html.DisplayFor(modelItem => item.name)</h2>
-                                            <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
+                                            <p>@Html.DisplayFor(modelItem => item.price)</p>
+
+                                           
+                                            
                                             <a asp-action="Details" asp-route-id="@item.assetID" class="btn btn-default full-detail">Full Details</a>
                                         </div>
                                         <div class="product-overlay">
                                             <div class="overlay-content">
-                                                <h2>@Html.DisplayNameFor(model => model.assets[0].name): @Html.DisplayFor(modelItem => item.name)</h2>
-                                                <p>@Html.DisplayNameFor(model => model.assets[0].price): @Html.DisplayFor(modelItem => item.price)</p>
-                                                <p>@Html.DisplayNameFor(model => model.assets[0].location): @Html.DisplayFor(modelItem => item.location)</p>
-                                                <p>@Html.DisplayNameFor(model => model.assets[0].addDate): @Html.DisplayFor(modelItem => item.addDate)</p>
+                                                
                                            
                                                 <p>User Rating</p>
                                                 <p><i class="fa fa-star" aria-hidden="true"></i>

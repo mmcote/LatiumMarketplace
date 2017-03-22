@@ -57,14 +57,25 @@ namespace LatiumMarketplace.Models.MessageViewModels
         [Display(Name = "Sender ID")]
         public string SenderId { get; set;}
 
+        [Display(Name = "Sender Email")]
+        public string SenderEmail { get; set; }
+
         [Required]
         [Display(Name = "Reciever ID")]
         public string RecieverId { get; set; }
+
+        [Display(Name = "Reciever Email")]
+        public string RecieverEmail { get; set; }
 
         public virtual List<Message> messages { get; set; }
 
         [Display(Name = "Asset ID")]
         [ForeignKey("Assetid")]
         public Asset asset { get; set; }
+
+        [Required]
+        [Display(Name = "Last Updated")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm}")]
+        public DateTime LastUpdateDate { get; set; }
     }
 }

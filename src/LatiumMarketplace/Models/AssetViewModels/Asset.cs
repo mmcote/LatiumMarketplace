@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using LatiumMarketplace.Models.AssetViewModels;
 using LatiumMarketplace.Models.MessageViewModels;
 using LatiumMarketplace.Models.BidViewModels;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
@@ -57,6 +59,30 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public bool request { get; set; }
         public virtual List<MessageThread> MessageThreads { get; set; }
         public virtual List<Bid> Bids { get; set; }
+        
+        // Navigation properties for one-to-many relationship between
+        // Asset and Make.
+        // One asset can only have one make, but many makes can be shared by
+        // multiple assets.
+        public int MakeId { get; set; }
+        [ForeignKey("MakeId")]
+        public Make Make { get; set; }
+
+        // Navigation properties for many-to-many relationship between
+        // Asset and Category.
+        // One asset can have many categories (one parent and one child).
+        public ICollection<AssetCategory> AssetCategories { get; set; }
+
+        // Navigation properties for one-to-one relationship between Asset and ImageGallery.
+        // One image has only one gallery
+        [ForeignKey("ImageGalleryId")]
+        public int? ImageGalleryId { get; set; }
+        public ImageGallery ImageGallery { get; set; }
+
+        // Navigation properties for one-to-many relationship between
+        // Asset and Accesories.
+        // One asset can have multiple accessories entered by a particular user
+        public ICollection<Accessory> Accessory { get; set; }
     }
 
 }

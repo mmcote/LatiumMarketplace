@@ -88,8 +88,9 @@ namespace LatiumMarketplace.Controllers
 
                 try
                 {
-                    var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId);
+                    var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId && m.RecieverId == messageThreadDTO.RecieverId);
                     message.messageThread = messageThreadRetrieved;
+                    message.messageThread.LastUpdateDate = DateTime.Now;
                     messageRepo.AddMessage(message);
                 }
                 catch (InvalidOperationException)
@@ -97,6 +98,12 @@ namespace LatiumMarketplace.Controllers
                     messageRepo.AddMessage(message);
                     MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
                     messageThread.messages.Add(message);
+
+                    messageThread.LastUpdateDate = DateTime.Now;
+
+                    messageThread.SenderEmail = _context.User.Single(u => u.Id == messageThreadDTO.SenderId).Email;
+                    messageThread.RecieverEmail = _context.User.Single(u => u.Id == messageThreadDTO.RecieverId).Email;
+
                     messageThreadRepo.AddMessageThread(messageThread);
                 }
             }
