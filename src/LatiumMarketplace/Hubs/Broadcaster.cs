@@ -34,6 +34,6 @@ namespace LatiumMarketplace.Hubs
     {
         Task SetConnectionId(string connectionId); // Don't worry about this method, as can be seen above this is called automatically everytime a connection is made
         // Define all client side functions
-        Task PresentNotification(Notification notification);
+        Task AddNotificationToQueue(Notification notification);
     }
 }
