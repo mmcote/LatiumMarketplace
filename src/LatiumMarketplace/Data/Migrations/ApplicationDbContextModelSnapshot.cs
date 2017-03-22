@@ -94,8 +94,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
                     b.Property<int>("CityId");
 
                     b.Property<int?>("ImageGalleryId");

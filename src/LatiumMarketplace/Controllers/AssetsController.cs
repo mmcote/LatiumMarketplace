@@ -253,7 +253,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
         {
 
             if (ModelState.IsValid)
@@ -375,7 +375,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
 
             if (ModelState.IsValid)
@@ -422,7 +422,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,location,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
             if (id != asset.assetID)
             {
