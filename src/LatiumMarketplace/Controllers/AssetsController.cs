@@ -50,31 +50,22 @@ namespace LatiumMarketplace.Controllers
             var assets = from m in Myassets
                          select m;
 
-
+            if (accessory == true)
+            {
+                assets = assets.Where(s => s.accessory != null);
+            }
             switch (sortby)
             {
 
-                case "request":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
+                case "request": 
                     assets = assets.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
                     assets = assets.Where(s => s.request.Equals(false));
                     break;
                 case "all":
-                    assets = from m in Myassets
+                    assets = from m in assets
                              select m;
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
                     break;
             }
 
