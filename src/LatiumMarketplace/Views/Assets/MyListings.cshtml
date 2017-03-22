@@ -117,7 +117,10 @@
                                 @Html.DisplayNameFor(model => model.assets[0].name)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.assets[0].location)
+                                @Html.DisplayNameFor(model => model.assets[0].Address)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.assets[0].City)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.assets[0].description)
@@ -154,7 +157,10 @@
                                     @Html.DisplayFor(modelItem => item.name)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.location)
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.City)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.description)
