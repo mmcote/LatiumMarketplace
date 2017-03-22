@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170322042930_adding-assets001")]
+    partial class addingassets001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -245,8 +246,6 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("bidder");
 
-                    b.Property<bool>("chosen");
-
                     b.Property<string>("description");
 
                     b.Property<DateTime>("endDate");
@@ -307,24 +306,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("Assetid");
 
                     b.ToTable("MessageThread");
-                });
-
-            modelBuilder.Entity("LatiumMarketplace.Models.TransactionViewModels.Transaction", b =>
-                {
-                    b.Property<Guid>("transactionId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("end");
-
-                    b.Property<int>("price");
-
-                    b.Property<DateTime>("start");
-
-                    b.Property<DateTime>("transactionDate");
-
-                    b.HasKey("transactionId");
-
-                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

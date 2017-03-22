@@ -44,8 +44,8 @@ namespace LatiumMarketplace.Controllers
             var Myassets = _context.Asset.Where(s => s.ownerID == userId);
 
             IQueryable<string> locationQuery = from m in Myassets
-                                               orderby m.location
-                                               select m.location;
+                                               orderby m.Address
+                                               select m.Address;
 
             var assets = from m in Myassets
                          select m;
@@ -84,7 +84,7 @@ namespace LatiumMarketplace.Controllers
             }
             if (!String.IsNullOrEmpty(assetLocation))
             {
-                assets = assets.Where(x => x.location == assetLocation);
+                assets = assets.Where(x => x.Address == assetLocation);
             }
 
             if (!String.IsNullOrEmpty(searchString))
