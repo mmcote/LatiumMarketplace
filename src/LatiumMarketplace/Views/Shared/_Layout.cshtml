@@ -26,24 +26,58 @@
     </environment>
 </head>
 <body>
-    <ul id="NotificationList" class="list-group">
-    </ul>
+    <div id="NotificationDiv"></div>
+    
     @*<p id="header"></p>
     <p id="body"></p>
     <a id="redirectURL" href="">Click here to go to the discussion</a>*@
     @if (@User.Identity.Name != null)
     {
         <script>
+            var notificationArray = new Array();
+            function addNotificationToQueue(notification)
+            {
+                console.log("In add notification.")
+                notificationArray.push(notification);
+                updateNotificationBar();
+            }
+
+            function updateNotificationBar()
+            {
+                console.log("In update notification.")
+
+                var notificationPresent = $("#NotificationDiv").children().length;
+                if (notificationPresent == 0 && notificationArray.length > 0)
+                {
+                    presentNotification(notificationArray.pop());
+                }
+            }
+
+            function removeNotification()
+            {
+                console.log("In remove notification.")
+                $("#NotificationDiv").empty();
+                updateNotificationBar();
+            }
+
             function presentNotification(notification) {
                 console.log(notification);
-                $("#NotificationList").append('<li class="list-group-item"><a href=' + notification.redirectUrl + '>' + notification.header + '</a><p>' + notification.body + '</p></li>');
+                //$("#NotificationType").append('<li class="list-group-item"><a href=' + notification.redirectUrl + '>' + notification.header + '</a><p>' + notification.body + '</p></li>');
+                if (notification.type == 0)
+                {
+                    $("#NotificationDiv").append('<div class="alert alert-success alert-dismissable"><a onclick="removeNotification()" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>New Message:</strong>' + notification.header + '<a href="' + notification.redirectUrl + '" class="alert-link">Read this message!</a></div>');
+                }
+                else if(notification.type == 1)
+                {
+                    $("#NotificationDiv").append('<div class="alert alert-success alert-dismissable"><a onclick="removeNotification()" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>New Bid:</strong>' + notification.header + '<a href="' + notification.redirectUrl + '" class="alert-link">Review this bid!</a></div>');
+                }
             }
 
             // Connect to the broadcaster on the server
             var hub = $.connection.broadcaster;
 
             // A function we will call from the server
-            $.connection.broadcaster.client.presentNotification = presentNotification;
+            $.connection.broadcaster.client.addNotificationToQueue = addNotificationToQueue;
 
             $.connection.hub.logging = true;
 

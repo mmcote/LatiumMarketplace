@@ -94,6 +94,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CityId");
+
                     b.Property<int?>("ImageGalleryId");
 
                     b.Property<int>("MakeId");
@@ -121,6 +123,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<bool>("request");
 
                     b.HasKey("assetID");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("ImageGalleryId")
                         .IsUnique();
@@ -159,6 +163,18 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("CityId");
+
+                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Image", b =>
@@ -409,6 +425,11 @@ namespace LatiumMarketplace.Data.Migrations
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Asset", b =>
                 {
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.City", "City")
+                        .WithMany("Assets")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.ImageGallery", "ImageGallery")
                         .WithOne("Asset")
                         .HasForeignKey("LatiumMarketplace.Models.AssetViewModels.Asset", "ImageGalleryId");

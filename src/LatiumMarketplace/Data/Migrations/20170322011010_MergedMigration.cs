@@ -5,10 +5,30 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LatiumMarketplace.Data.Migrations
 {
-    public partial class MoreAssetFields001 : Migration
+    public partial class MergedMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Accessory",
+                columns: table => new
+                {
+                    AccessoryId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AssetId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Accessory", x => x.AccessoryId);
+                    table.ForeignKey(
+                        name: "FK_Accessory_Asset_AssetId",
+                        column: x => x.AssetId,
+                        principalTable: "Asset",
+                        principalColumn: "assetID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Category",
                 columns: table => new
@@ -57,6 +77,33 @@ namespace LatiumMarketplace.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bid",
+                columns: table => new
+                {
+                    bidId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AssetId = table.Column<int>(nullable: true),
+                    asset_id_model = table.Column<int>(nullable: false),
+                    asset_name = table.Column<string>(nullable: true),
+                    bidPrice = table.Column<decimal>(nullable: false),
+                    bidder = table.Column<string>(nullable: true),
+                    description = table.Column<string>(nullable: true),
+                    endDate = table.Column<DateTime>(nullable: false),
+                    startDate = table.Column<DateTime>(nullable: false),
+                    status = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bid", x => x.bidId);
+                    table.ForeignKey(
+                        name: "FK_Bid_Asset_AssetId",
+                        column: x => x.AssetId,
+                        principalTable: "Asset",
+                        principalColumn: "assetID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AssetCategory",
                 columns: table => new
                 {
@@ -88,12 +135,14 @@ namespace LatiumMarketplace.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     FileLink = table.Column<string>(nullable: false),
                     ImageGalleryId = table.Column<int>(nullable: false),
+                    ImageGuid = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
                     isMain = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Image", x => x.ImageId);
+                    table.UniqueConstraint("AK_Image_ImageGuid", x => x.ImageGuid);
                     table.ForeignKey(
                         name: "FK_Image_ImageGallery_ImageGalleryId",
                         column: x => x.ImageGalleryId,
@@ -101,6 +150,22 @@ namespace LatiumMarketplace.Data.Migrations
                         principalColumn: "ImageGalleryId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "LastUpdateDate",
+                table: "MessageThread",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<string>(
+                name: "RecieverEmail",
+                table: "MessageThread",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "SenderEmail",
+                table: "MessageThread",
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "ImageGalleryId",
@@ -113,6 +178,17 @@ namespace LatiumMarketplace.Data.Migrations
                 nullable: false,
                 defaultValue: 0);
 
+            migrationBuilder.AddColumn<string>(
+                name: "accessory",
+                table: "Asset",
+                nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "banned",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: false);
+
             migrationBuilder.CreateIndex(
                 name: "IX_Asset_ImageGalleryId",
                 table: "Asset",
@@ -123,6 +199,11 @@ namespace LatiumMarketplace.Data.Migrations
                 name: "IX_Asset_MakeId",
                 table: "Asset",
                 column: "MakeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accessory_AssetId",
+                table: "Accessory",
+                column: "AssetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssetCategory_AssetId",
@@ -143,6 +224,11 @@ namespace LatiumMarketplace.Data.Migrations
                 name: "IX_Image_ImageGalleryId",
                 table: "Image",
                 column: "ImageGalleryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bid_AssetId",
+                table: "Bid",
+                column: "AssetId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Asset_ImageGallery_ImageGalleryId",
@@ -180,12 +266,35 @@ namespace LatiumMarketplace.Data.Migrations
                 table: "Asset");
 
             migrationBuilder.DropColumn(
+                name: "LastUpdateDate",
+                table: "MessageThread");
+
+            migrationBuilder.DropColumn(
+                name: "RecieverEmail",
+                table: "MessageThread");
+
+            migrationBuilder.DropColumn(
+                name: "SenderEmail",
+                table: "MessageThread");
+
+            migrationBuilder.DropColumn(
                 name: "ImageGalleryId",
                 table: "Asset");
 
             migrationBuilder.DropColumn(
                 name: "MakeId",
                 table: "Asset");
+
+            migrationBuilder.DropColumn(
+                name: "accessory",
+                table: "Asset");
+
+            migrationBuilder.DropColumn(
+                name: "banned",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Accessory");
 
             migrationBuilder.DropTable(
                 name: "AssetCategory");
@@ -195,6 +304,9 @@ namespace LatiumMarketplace.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Make");
+
+            migrationBuilder.DropTable(
+                name: "Bid");
 
             migrationBuilder.DropTable(
                 name: "Category");
