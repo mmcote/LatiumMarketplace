@@ -431,7 +431,7 @@ namespace LatiumMarketplace.Controllers
         // POST: Bids/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             _BidsApiController.Delete(id); 
             return RedirectToAction("Index");

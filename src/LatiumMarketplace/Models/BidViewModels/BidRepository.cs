@@ -53,6 +53,22 @@ namespace LatiumMarketplace.Models.BidViewModels
             return bids;
         }
 
+        public Bid GetBidByID(int id)
+        {
+            if (id == 0)
+            {
+                throw new ArgumentNullException("This bid id is null");
+            }
+
+            var bid = _context.Bid.Single(m => m.bidId == id);
+            if (bid == null)
+            {
+                throw new KeyNotFoundException("No matching bid found with given bidId");
+            }
+            return bid;
+        }
+
+
         public void Save()
         {
             _context.SaveChanges();
