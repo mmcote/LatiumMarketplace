@@ -151,5 +151,35 @@ namespace LatiumMarketplace.Controllers
             }
             return new OkResult();
         }
+
+        // POST: api/PoastMake
+        [HttpPost("PostMake")]
+        public IActionResult PostMake([FromBody] string make)
+        {
+            Make makename = new Make();
+            makename.Name = make;
+            _context.Make.Add(makename);
+            var success = _context.SaveChanges();
+            if (success == 0)
+            {
+                return new BadRequestResult();
+            }
+            return new OkResult();
+        }
+
+        // POST: api/PoastCity
+        [HttpPost("PostCity")]
+        public IActionResult PostCity([FromBody] string city)
+        {
+            City cityname = new City();
+            cityname.Name = city;
+            _context.City.Add(cityname);
+            var success = _context.SaveChanges();
+            if (success == 0)
+            {
+                return new BadRequestResult();
+            }
+            return new OkResult();
+        }
     }
 }

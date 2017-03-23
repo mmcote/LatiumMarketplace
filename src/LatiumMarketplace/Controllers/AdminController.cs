@@ -263,58 +263,36 @@ namespace LatiumMarketplace.Controllers
         }
         //Create new category for site
         [AllowAnonymous]
-        public async Task<IActionResult> AddCategory(Category category)
+        public IActionResult AddCategory(Category category)
         {
             var MyCategory = _context.Category;
             var categories = from m in MyCategory
                              select m;
-           
 
-            //SetCategoryViewBag();
+
             return View(categories);
         }
         //Create new make for site
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMake(Make make)
+        [AllowAnonymous]
+        public IActionResult AddMake(Make make)
         {
 
-            if (ModelState.IsValid)
-            {
-                // Add make to make table
-                var myMake = HttpContext.Request.Form["Makes"];
-                make.Name = myMake;
+            var MyMake = _context.Make;
+            var Makes = from m in MyMake
+                        select m;
 
-                // Save Make to DB
-                _context.Add(make);
-                await _context.SaveChangesAsync();
-
-
-                return RedirectToAction("Index");
-            }
-            SetMakeViewBag();
-            return View(make);
+            return View(Makes);
         }
         //Create new city for site
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCity(City city)
+        [AllowAnonymous]
+        public IActionResult AddCity(City city)
         {
 
-            if (ModelState.IsValid)
-            {
-                // Assign a city to the asset
-                var myCity = HttpContext.Request.Form["Cities"];
-                city.Name = myCity;
+            var MyCity = _context.City;
+            var Cities = from m in MyCity
+                         select m;
 
-                // Save City to DB
-                _context.Add(city);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index");
-            }
-            SetCityViewBag();
-            return View(city);
+            return View(Cities);
         }
         // Get all categories from the database
         private void SetCategoryViewBag(ICollection<AssetCategory> AssetCategories = null)
