@@ -10,45 +10,60 @@
     <link href="~/css/prettyPhoto.css" rel="stylesheet">
 
 </head><!--/head-->
+<script>
+    function postCategory() {
+        console.log("In postCategory");
+        var categoryName = $('#newCategoryName').val();
+        $.ajax({
+            url: '@Url.Action("PostCategory" ,"AssetsApi")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(categoryName),
+            success: function () {
+                console.log("Success");
+                var newRow = '<tr><td>' + categoryName + '</td><td></td><td></td></tr>';
+
+                $("#categoryTable tbody").append(newRow);
+                console.log("Finished");
+                $('#newCategoryName').val('');
+            },
+            error: function (error) {
+                var x = error; //break here for debugging.
+            }
+        });
+        console.log("Test Done")
+    }
+</script>
 <h2>Categories</h2> 
     <br />
         <section>
             <div class="container">
                 <div class="row">
-                    <form asp-controller="Admin" asp-action="AddCategory" method="post">
-                        <div class="col-sm-3">
-                            <br />
-                            <br />
-                            <input class="form-control" type="text" name="CategoryName">
-                            <br />
-                            <div class="form-group">
-                                <input type="submit" value="Add" class="btn btn-primary" />
-                            </div>
+                    <div class="col-sm-3">
+                        <br />
+                        <br />
+                        <input id="newCategoryName" class="form-control" type="text" name="CategoryName">
+                        <br />
+                        <div class="form-group">
+                            <button onclick="postCategory()" value="Add" class="btn btn-primary" />
                         </div>
-                    </form>
+                    </div>
                         <div class="col-sm-9 padding-right">
-                            <table class="table">
+                            <table id="categoryTable" class="table">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CategoryId)
-                                        </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.CategoryName)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.ParentCategory)
                                         </th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CategoryId)
-                                            </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CategoryName)
                                             </td>
@@ -57,10 +72,6 @@
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.ParentCategoryId)
-                                            </td>
-                                            <td>
-                                                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                                                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
                                             </td>
                                         </tr>
                                     }
