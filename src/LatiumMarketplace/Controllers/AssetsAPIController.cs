@@ -136,5 +136,20 @@ namespace LatiumMarketplace.Controllers
         {
             return _context.Asset.Any(e => e.assetID == id);
         }
+
+        // POST: api/AssetsAPI
+        [HttpPost]
+        public async Task<IActionResult> PostCategory([FromBody] string category)
+        {
+            Category categoryname = new Category();
+            categoryname.CategoryName = category;
+            _context.Category.Add(categoryname);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+           
+            return CreatedAtAction("GetAsset", new { id = asset.assetID }, asset);
+        }
     }
 }
