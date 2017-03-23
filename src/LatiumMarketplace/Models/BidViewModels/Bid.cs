@@ -30,8 +30,6 @@ namespace LatiumMarketplace.Models.BidViewModels
         [Display(Name = "Start Date *")]
         public DateTime startDate { get; set; }
 
-
-
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "End Date *")]

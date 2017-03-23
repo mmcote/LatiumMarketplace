@@ -36,7 +36,7 @@ namespace LatiumMarketplace.Controllers
         }
 
         // GET: Bids/Details/5
-       /*public async Task<IActionResult> Details(int? id)
+       public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -50,7 +50,7 @@ namespace LatiumMarketplace.Controllers
             }
 
             return View(bid);
-        }*/
+        }
 
         // GET: Bids/Create
         public IActionResult Create()
@@ -66,7 +66,16 @@ namespace LatiumMarketplace.Controllers
             Bid bid = new Bid();
             var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
             bid.asset = Bid_asset;
-
+            DateTime current = DateTime.Now;
+            if ((DateTime.Now - bid.asset.addDate).TotalDays > 0)
+            {
+                bid.startDate = DateTime.Now;
+            }
+            else
+            {
+                bid.startDate = bid.asset.addDate;
+            }
+            bid.endDate = bid.startDate.AddDays(1);
             return View(bid);
         }
 
@@ -92,6 +101,69 @@ namespace LatiumMarketplace.Controllers
                 var userId = user?.Id;
                 var userName = user?.UserName;
                 bid.bidder = userName;
+
+                // Calculate Price
+                if (bid.asset.price > (decimal)0.00)
+                {
+                    bid.bidPrice = bid.asset.price;
+                }
+                else
+                {
+                    double numDays = (bid.endDate - bid.startDate).TotalDays;
+                    int month = 0, week = 0, remain = 0;
+                    if (bid.asset.priceMonthly > (decimal)0.00)
+                    {
+                        month = (int)numDays / 30;
+                        remain = (int)numDays % 30;
+                        bid.bidPrice = (bid.asset.priceMonthly * month);
+                    }
+                    if (bid.asset.priceWeekly > (decimal)0.00)
+                    {
+                        // Monthly rate was available
+                        if (remain > 0)
+                        {
+                            week = remain / 7;
+                            remain = remain % 7;
+                            bid.bidPrice = bid.bidPrice + (bid.asset.priceWeekly * week);
+                        } 
+                        // Monthly rental not available
+                        else if (bid.bidPrice == (decimal)0.00)
+                        {
+                            week = (int)numDays / 7;
+                            remain = (int)numDays % 7;
+                            bid.bidPrice = (bid.asset.priceWeekly * week);
+                        }
+                    }
+                    if (bid.asset.priceDaily > (decimal)0.00)
+                    {
+                        if (remain > 0)
+                        {
+                            bid.bidPrice = bid.bidPrice + (bid.asset.priceDaily * remain);
+                            remain = 0;
+                        }
+                        // Monthly and Weekly rental not available
+                        else if (bid.bidPrice == (decimal)0.00)
+                        {
+                            bid.bidPrice = (bid.asset.priceDaily * (int)numDays);
+                            remain = 0;
+                        }
+                    }
+                    // Meaning that Daily Rate is not available remain is between 6 to 1
+                    if (remain > 0)
+                    {
+                        if (bid.asset.priceWeekly > (decimal)0.00)
+                        {
+
+                            bid.bidPrice = bid.bidPrice + bid.asset.priceWeekly;
+                        }
+                        else
+                        {
+                            bid.bidPrice = bid.bidPrice + bid.asset.priceMonthly;
+                        }
+                    }
+                }
+                    
+
                 _context.Add(bid);
                 await _context.SaveChangesAsync();
 
@@ -103,7 +175,9 @@ namespace LatiumMarketplace.Controllers
                 string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
                 Clients.Group(notificationEmail).AddNotificationToQueue(notification);
 
-                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
+                //RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
+                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Bids", new { @Id = bid.bidId });
+
                 return redirectResult;
             }
             return View(bid);
@@ -308,17 +382,30 @@ namespace LatiumMarketplace.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Transcation([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
-
+        public async Task<IActionResult> Transaction([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
+            
+            //Find all bids for the given asset
+            var notChoosenBids = _context.Bid.Where(s => s.asset.assetID == bid.asset.assetID);
             if (ModelState.IsValid)
             {
+
+
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 bid.chosen = true;
                 await _context.SaveChangesAsync();
+                
+                //Find bids not chosen and remove
+                notChoosenBids = notChoosenBids.Where(s => s.chosen == false);
+                foreach (var bidToRemove in notChoosenBids)
+                {
+                    _context.Remove(bidToRemove);
+                }
+
                 RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
                 return redirectResult;
             }
+
             return View();
         }
 
