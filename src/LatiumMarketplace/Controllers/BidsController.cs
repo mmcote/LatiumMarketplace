@@ -20,12 +20,14 @@ namespace LatiumMarketplace.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly BidsAPIController _BidsApiController;
 
         public BidsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConnectionManager connectionManager)
             : base(connectionManager)
         {
             _userManager = userManager;
-            _context = context;    
+            _context = context;
+            _BidsApiController = new BidsAPIController(context);
         }
 
         // GET: Bids
@@ -426,16 +428,14 @@ namespace LatiumMarketplace.Controllers
                     return View(bid);
                 }
 
-                // POST: Bids/Delete/5
+        // POST: Bids/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-                public async Task<IActionResult> DeleteConfirmed(int id)
-                {
-                    var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
-                    _context.Bid.Remove(bid);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Index");
-                } 
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            _BidsApiController.Delete(id); 
+            return RedirectToAction("Index");
+        } 
 
         private bool BidExists(int id)
         {

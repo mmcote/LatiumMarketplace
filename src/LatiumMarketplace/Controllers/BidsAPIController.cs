@@ -11,7 +11,7 @@ using LatiumMarketplace.Data;
 
 namespace LatiumMarketplace.Controllers
 {
-    
+
     [Produces("application/json")]
     [Route("api/BidsAPIController")]
     public class BidsAPIController : Controller
@@ -26,14 +26,28 @@ namespace LatiumMarketplace.Controllers
         }
 
 
-        // GET: api/values
+        // GET: api/BidsAPI
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetBidsByAssetId([FromBody] int assetId)
         {
-            return new string[] { "value1", "value2" };
+            IEnumerable<Bid> bids = null;
+            try
+            {
+                bids = _BidRepository.GetBidsByAssetID(assetId);
+            }
+            catch (KeyNotFoundException)
+            {
+                bids = new List<Bid>();
+            }
+            catch
+            {
+                return new BadRequestObjectResult("Invalid Request");
+            }
+            return new OkObjectResult(bids.ToList());
         }
 
-        // GET api/values/5
+
+        // GET api/BidsAPI/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
@@ -55,10 +69,8 @@ namespace LatiumMarketplace.Controllers
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
-        {
-            //string myString = id.ToString();
-            //Guid guid = Guid.Parse(myString); 
-            //_BidRepository.DeleteBid(guid);
+        { 
+            _BidRepository.DeleteBid(id);
         }
     }
 }

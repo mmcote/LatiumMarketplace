@@ -10,6 +10,7 @@ namespace LatiumMarketplace.Models.BidViewModels
         void AddBid(Bid bid);
         void DeleteBid(int id);
         IEnumerable<Bid> GetBidsByAssetID(int asset_id);
+        //IEnumerable<Bid> GetBidsByUserID
         void Save();
     }
 }
