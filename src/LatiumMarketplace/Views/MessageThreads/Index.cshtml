@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RecieverEmail)
+                Discussion with:
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LastUpdateDate)
@@ -23,9 +23,18 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RecieverEmail)
-            </td>
+            @if (item.RecieverEmail == User.Identity.Name)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.SenderEmail)
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.RecieverEmail)
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.LastUpdateDate)
             </td>

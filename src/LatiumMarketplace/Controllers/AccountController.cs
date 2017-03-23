@@ -72,6 +72,11 @@ namespace LatiumMarketplace.Controllers
                         ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
                         return View(model);
                     }
+                    if (user.banned)
+                    {
+                        ModelState.AddModelError(string.Empty, "You have been banned from latium marketplace.");
+                        return View(model);
+                    }
                 }
 
                 // This doesn't count login failures towards account lockout

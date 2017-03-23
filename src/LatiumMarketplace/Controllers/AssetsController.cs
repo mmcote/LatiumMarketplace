@@ -55,7 +55,7 @@ namespace LatiumMarketplace.Controllers
             switch (sortby)
             {
 
-                case "request": 
+                case "request":
                     assets = assets.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
@@ -96,10 +96,8 @@ namespace LatiumMarketplace.Controllers
             IQueryable<string> locationQuery = from m in _context.Asset
                                                orderby m.location
                                                select m.location;
-
             var assets = from m in _context.Asset
                          select m;
-
             switch (sortby)
             {
                 case "request":
@@ -125,22 +123,18 @@ namespace LatiumMarketplace.Controllers
                     }
                     break;
             }
-
             if (recent == true)
             {
                 assets = assets.OrderByDescending(s => s.addDate);
             }
-
             if (!String.IsNullOrEmpty(assetLocation))
             {
                 assets = assets.Where(x => x.location == assetLocation);
             }
-
             if (!String.IsNullOrEmpty(searchString))
             {
                 assets = assets.Where(x => x.name.Contains(searchString));
             }
-
             var assetLocatioinVM = new AssetLocation();
             assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
             assetLocatioinVM.assets = await assets.ToListAsync();
@@ -165,7 +159,7 @@ namespace LatiumMarketplace.Controllers
                 .AsNoTracking()
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
-            
+
             if (id != null)
             {
                 ViewData["AssetID"] = id.Value;
@@ -174,7 +168,7 @@ namespace LatiumMarketplace.Controllers
                 viewModel.Categories = asset.AssetCategories.Select(s => s.Category);
             }
             SetCityViewBag();
-            return View(viewModel); 
+            return View(viewModel);
         }
 
 
@@ -514,7 +508,7 @@ namespace LatiumMarketplace.Controllers
             else
                 ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
         }
-        
+
         // Get all the city from the database
         private void SetCityViewBag(ICollection<AssetCategory> Cities = null)
         {

@@ -16,18 +16,21 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Utils;
 using LatiumMarketplace.Models.MessageViewModels;
 using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
+using LatiumMarketplace.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
     //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
     [RequireHttps]
     [Authorize]
-    public class AdminController : Controller
+    public class AdminController : ApiHubController<Broadcaster>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _userManager = userManager;
             _context = context;
@@ -85,20 +88,27 @@ namespace LatiumMarketplace.Controllers
 
                 // The reciever will always be the seller
                 Message message;
+                Notification notification;
                 message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body);
-
+                string messageThreadId;
+                string recieverEmail;
+                string redirectURL;
                 try
                 {
                     var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId && m.RecieverId == messageThreadDTO.RecieverId);
                     message.messageThread = messageThreadRetrieved;
                     message.messageThread.LastUpdateDate = DateTime.Now;
                     messageRepo.AddMessage(message);
+                    messageThreadId = message.messageThread.id.ToString();
+                    recieverEmail = message.messageThread.RecieverEmail;
                 }
                 catch (InvalidOperationException)
                 {
                     messageRepo.AddMessage(message);
                     MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
+                    messageThreadId = messageThread.id.ToString();
                     messageThread.messages.Add(message);
+                    recieverEmail = messageThread.RecieverEmail;
 
                     messageThread.LastUpdateDate = DateTime.Now;
 
@@ -107,6 +117,11 @@ namespace LatiumMarketplace.Controllers
 
                     messageThreadRepo.AddMessageThread(messageThread);
                 }
+
+                // This notification redirect URL should put the user to the discussion
+                redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
+                notification = new Notification(message.Subject, message.Body, redirectURL);
+                Clients.Group(recieverEmail).AddNotificationToQueue(notification);
             }
             _context.SaveChanges();
 
@@ -131,31 +146,26 @@ namespace LatiumMarketplace.Controllers
             var assets = from m in Myassets
                          select m;
 
-
+            if (featuredItem == true)
+            {
+                assets = assets.Where(s => s.featuredItem == true);
+            }
+            if (accessory == true)
+            {
+                assets = assets.Where(s => s.accessory != null);
+            }
             switch (sortby)
             {
 
                 case "request":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
                     assets = assets.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
                     assets = assets.Where(s => s.request.Equals(false));
                     break;
                 case "all":
-                    assets = from m in Myassets
+                    assets = from m in assets
                              select m;
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
                     break;
             }
 
@@ -178,6 +188,81 @@ namespace LatiumMarketplace.Controllers
             assetLocatioinVM.assets = await assets.ToListAsync();
             return View(assetLocatioinVM);
         }
+
+        // GET: Assets/Edit/5
+        public async Task<IActionResult> AdminEdit(int? id)
+        {
+            var Myassets = _context.Asset;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var asset = await Myassets.SingleOrDefaultAsync(m => m.assetID == id);
+            if (asset == null)
+            {
+                return NotFound();
+            }
+            // Populate asset categories
+            SetCategoryViewBag();
+            // Populate asset makes
+            SetMakeViewBag();
+            // Populate cities
+            SetCityViewBag();
+            return View(asset);
+
+        }
+
+        // POST: Assets/Edit for admin with featured item
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminEdit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory,featuredItem")] Asset asset,bool featuredItem)
+        {
+            var viewModel = new AssetIndexData();
+            viewModel.Assets = await _context.Asset
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category)
+                .Include(a => a.ImageGallery)
+                    .ThenInclude(a => a.Images)
+                .AsNoTracking()
+                .OrderBy(a => a.addDate)
+                .ToListAsync();
+            if (id != asset.assetID)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if(featuredItem == true)
+                    {
+                        asset.featuredItem = true;
+                    }
+                    _context.Update(asset);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AssetExists(asset.assetID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("AdminListings");
+            }
+            return View(asset);
+        }
+        private bool AssetExists(int id)
+        {
+            return _context.Asset.Any(e => e.assetID == id);
+        }
         #region Helpers
 
         private IActionResult RedirectToLocal(string returnUrl)
@@ -192,6 +277,41 @@ namespace LatiumMarketplace.Controllers
             }
         }
 
+        // Get all categories from the database
+        private void SetCategoryViewBag(ICollection<AssetCategory> AssetCategories = null)
+        {
+
+            if (AssetCategories == null)
+
+                ViewBag.AssetCategories = new SelectList(_context.Category, "CategoryId", "CategoryName");
+
+            else
+                ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+        }
+
+        // Get all the city from the database
+        private void SetCityViewBag(ICollection<AssetCategory> Cities = null)
+        {
+
+            if (Cities == null)
+
+                ViewBag.Cities = new SelectList(_context.City, "CityId", "Name");
+
+            else
+                ViewBag.Cities = new SelectList(_context.City.AsEnumerable(), "CityId", "Name", Cities);
+        }
+
+        // Get all the makes from the database
+        private void SetMakeViewBag(ICollection<Make> Makes = null)
+        {
+
+            if (Makes == null)
+
+                ViewBag.Makes = new SelectList(_context.Make, "MakeId", "Name");
+
+            else
+                ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
+        }
         #endregion
     }
 }

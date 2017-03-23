@@ -8,15 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.MessageViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
+using LatiumMarketplace.Hubs;
+using LatiumMarketplace.Models;
 
 namespace LatiumMarketplace.Controllers
 {
-    public class MessagesController : Controller
+    public class MessagesController : ApiHubController<Broadcaster>
     {
         private readonly ApplicationDbContext _context;
         private IMessageThreadRepository _messageThreadRepo;
         private IMessageRepository _messageRepo;
-        public MessagesController(ApplicationDbContext context)
+        public MessagesController(ApplicationDbContext context, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _messageRepo = new MessageRepository(context);
             _messageThreadRepo = new MessageThreadRepository(context);
@@ -72,8 +76,24 @@ namespace LatiumMarketplace.Controllers
                 message.SendDate = DateTime.Now;
                 _messageRepo.AddMessage(message);
                 _messageRepo.Save();
+
+                // This notification redirect URL should put the user to the discussion
+                string redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
+                Notification notification = new Notification(message.Subject, message.Body, redirectURL);
+                string notificationEmail;
+                if (message.messageThread.RecieverEmail == User.Identity.Name)
+                {
+                    notificationEmail = message.messageThread.SenderEmail;
+                }
+                else
+                {
+                    notificationEmail = message.messageThread.RecieverEmail;
+                }
+                Clients.Group(notificationEmail).AddNotificationToQueue(notification);
+
                 return RedirectToAction("Details", "MessageThreads", new { id = messageThreadId });
             }
+
             return View(message);
         }
     }
