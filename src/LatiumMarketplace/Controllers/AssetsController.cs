@@ -23,12 +23,10 @@ namespace LatiumMarketplace.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private IHostingEnvironment _env;
-
-
-
         public AssetsController(ApplicationDbContext context,
         UserManager<ApplicationUser> userManager, IHostingEnvironment env
         )
+
         {
             _context = context;
             _userManager = userManager;
@@ -57,7 +55,7 @@ namespace LatiumMarketplace.Controllers
             switch (sortby)
             {
 
-                case "request": 
+                case "request":
                     assets = assets.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
@@ -98,10 +96,8 @@ namespace LatiumMarketplace.Controllers
             IQueryable<string> locationQuery = from m in _context.Asset
                                                orderby m.location
                                                select m.location;
-
             var assets = from m in _context.Asset
                          select m;
-
             switch (sortby)
             {
                 case "request":
@@ -127,22 +123,18 @@ namespace LatiumMarketplace.Controllers
                     }
                     break;
             }
-
             if (recent == true)
             {
                 assets = assets.OrderByDescending(s => s.addDate);
             }
-
             if (!String.IsNullOrEmpty(assetLocation))
             {
                 assets = assets.Where(x => x.location == assetLocation);
             }
-
             if (!String.IsNullOrEmpty(searchString))
             {
                 assets = assets.Where(x => x.name.Contains(searchString));
             }
-
             var assetLocatioinVM = new AssetLocation();
             assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
             assetLocatioinVM.assets = await assets.ToListAsync();
@@ -167,7 +159,7 @@ namespace LatiumMarketplace.Controllers
                 .AsNoTracking()
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
-            
+
             if (id != null)
             {
                 ViewData["AssetID"] = id.Value;
@@ -175,8 +167,8 @@ namespace LatiumMarketplace.Controllers
                     a => a.assetID == id.Value).Single();
                 viewModel.Categories = asset.AssetCategories.Select(s => s.Category);
             }
-
-            return View(viewModel); 
+            SetCityViewBag();
+            return View(viewModel);
         }
 
 
@@ -364,9 +356,9 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
 
+                // Save asset category to DB
                 _context.AssetCategory.Add(AssetCategory);
                 await _context.SaveChangesAsync();
-
 
                 return RedirectToAction("Index");
             }
@@ -397,105 +389,22 @@ namespace LatiumMarketplace.Controllers
                 asset.priceDaily = 0;
                 asset.priceWeekly = 0;
                 asset.priceMonthly = 0;
-                asset.ImageGalleryId = -1;
+
                 // Assign make to asset
                 var myMakeId = HttpContext.Request.Form["Makes"];
                 var myMakeIdNumVal = int.Parse(myMakeId);
                 asset.MakeId = myMakeIdNumVal;
 
-                // Assign a city to the asset
+                // Assign a city to the request
                 var myCityId = HttpContext.Request.Form["Cities"];
                 var myCityIdNumVal = int.Parse(myCityId);
                 asset.CityId = myCityIdNumVal;
 
-                /* Add Images */
-                // Get images from form
-                var uploadedFiles = HttpContext.Request.Form.Files;
-                // Get the wwwroot folder
-                var webRootPath = _env.WebRootPath;
-                // Set assets image folder
-                var uploadsPath = Path.Combine(webRootPath, "images\\uploads\\assets");
-
-                // Create Image Gallery to hold images only when there is
-                // at least one image uploaded
-                ImageGallery ImageGallery;
-                int ImageGalleryId = -1;
-
-                if (uploadedFiles.Count > 0)
-                {
-                    ImageGallery = new ImageGallery();
-                    ImageGallery.Title = "My cool gallery";
-                    // Add Image gallery to DB
-                    _context.Add(ImageGallery);
-                    await _context.SaveChangesAsync();
-                    //Get Id of recently added Image Gallery
-                    ImageGalleryId = ImageGallery.ImageGalleryId;
-                }
-
-                foreach (var uploadedFile in uploadedFiles)
-                {
-                    if (uploadedFile != null && uploadedFile.Length > 0)
-                    {
-                        var file = uploadedFile;
-                        if (file.Length > 0)
-                        {
-                            // 1) Add image to DB
-                            Image Image = new Image();
-                            Image.ImageGalleryId = ImageGalleryId;
-                            Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
-                            _context.Add(Image);
-                            await _context.SaveChangesAsync();
-
-                            // 2) Get Id or Guid of recently added image from DB
-                            //int ImageId = Image.ImageId;
-                            Guid ImageGuid = Image.ImageGuid; // Better
-
-                            // 3) Save image to disk with Guid
-                            var fileName = ContentDispositionHeaderValue
-                                .Parse(file.ContentDisposition).FileName.Trim('"');
-                            // 3.1) Get File extension from file
-                            string fileExtesion = Path.GetExtension(fileName);
-                            // 3.2) Change file name to Guid
-                            fileName = ImageGuid + fileExtesion;
-                            Console.WriteLine(fileName);
-                            // 3.3) Save image to disk with new file name
-                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, fileName), FileMode.Create))
-                            {
-                                await file.CopyToAsync(fileStream);
-                            }
-                            // 4) Update FileLink in DB 
-                            Image.FileLink = Path.Combine("images/uploads/assets/", fileName);
-                            await _context.SaveChangesAsync();
-
-                        }
-                    }
-                }
-
-                // Attach Gallery to Asset if a new gallery is created
-                if (ImageGalleryId != -1)
-                {
-                    asset.ImageGalleryId = ImageGalleryId;
-                }
-
-                // Save asset to DB
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
-
-                // Get the category from select form
-                var myCategoryId = HttpContext.Request.Form["AssetCategories"];
-                var myCategoryIdNumVal = int.Parse(myCategoryId);
-
-                // Assign a category to the asset
-                AssetCategory AssetCategory = new AssetCategory();
-                AssetCategory.AssetId = asset.assetID;
-                AssetCategory.CategoryId = myCategoryIdNumVal;
-
-                _context.AssetCategory.Add(AssetCategory);
-                await _context.SaveChangesAsync();
-
                 return RedirectToAction("Index");
             }
-            SetCategoryViewBag();
+            SetCategoryViewBag(asset.AssetCategories);
             SetMakeViewBag();
             SetCityViewBag();
             return View(asset);
@@ -506,21 +415,7 @@ namespace LatiumMarketplace.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
-            var viewModel = new AssetIndexData();
-            viewModel.Assets = await _context.Asset.Where(m => m.assetID == id)
-                .Include(a => a.AssetCategories)
-                    .ThenInclude(a => a.Category)
-                .Include(a => a.City)
-                .Include(a => a.ImageGallery)
-                    .ThenInclude(a => a.Images)
-                .AsNoTracking()
-                .OrderBy(a => a.addDate)
-                .ToListAsync();
-
-           
-            var Myassets = _context.Asset.Where(s => s.ownerID == userId)
-                .Include(a => a.AssetCategories)
-                    .ThenInclude(a => a.Category);
+            var Myassets = _context.Asset.Where(s => s.ownerID == userId);
             if (id == null)
             {
                 return NotFound();
@@ -531,13 +426,7 @@ namespace LatiumMarketplace.Controllers
             {
                 return NotFound();
             }
-            // Populate asset categories
-            SetCategoryViewBag();
-            // Populate asset makes
-            SetMakeViewBag();
-            // Populate cities
-            SetCityViewBag();
-            return View(viewModel);
+            return View(asset);
         }
 
         // POST: Assets/Edit/5
@@ -547,16 +436,6 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
-            var viewModel = new AssetIndexData();
-            viewModel.Assets = await _context.Asset.Where(m => m.assetID == id)
-                .Include(a => a.AssetCategories)
-                    .ThenInclude(a => a.Category)
-                .Include(a => a.City)
-                .Include(a => a.ImageGallery)
-                    .ThenInclude(a => a.Images)
-                .AsNoTracking()
-                .OrderBy(a => a.addDate)
-                .ToListAsync();
             if (id != asset.assetID)
             {
                 return NotFound();
@@ -566,7 +445,7 @@ namespace LatiumMarketplace.Controllers
             {
                 try
                 {
-                    _context.Update(viewModel);
+                    _context.Update(asset);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -582,7 +461,7 @@ namespace LatiumMarketplace.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(viewModel);
+            return View(asset);
         }
 
         // GET: Assets/Delete/5
@@ -608,7 +487,6 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
-
             _context.Asset.Remove(asset);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -630,7 +508,7 @@ namespace LatiumMarketplace.Controllers
             else
                 ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
         }
-        
+
         // Get all the city from the database
         private void SetCityViewBag(ICollection<AssetCategory> Cities = null)
         {
