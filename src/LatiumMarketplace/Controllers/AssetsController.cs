@@ -244,6 +244,12 @@ namespace LatiumMarketplace.Controllers
         // Returns view for creating request
         public IActionResult CreateReq()
         {
+            // Populate asset categories
+            SetCategoryViewBag();
+            // Populate asset makes
+            SetMakeViewBag();
+            // Populate cities
+            SetCityViewBag();
             return View();
         }
 
@@ -389,11 +395,24 @@ namespace LatiumMarketplace.Controllers
                 asset.priceDaily = 0;
                 asset.priceWeekly = 0;
                 asset.priceMonthly = 0;
-                asset.MakeId = 1;
+
+                // Assign make to asset
+                var myMakeId = HttpContext.Request.Form["Makes"];
+                var myMakeIdNumVal = int.Parse(myMakeId);
+                asset.MakeId = myMakeIdNumVal;
+
+                // Assign a city to the request
+                var myCityId = HttpContext.Request.Form["Cities"];
+                var myCityIdNumVal = int.Parse(myCityId);
+                asset.CityId = myCityIdNumVal;
+
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            SetCategoryViewBag(asset.AssetCategories);
+            SetMakeViewBag();
+            SetCityViewBag();
             return View(asset);
         }
 
