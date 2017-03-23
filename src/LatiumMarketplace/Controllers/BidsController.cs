@@ -86,7 +86,7 @@ namespace LatiumMarketplace.Controllers
                 bid.asset = asset;
                 bid.asset_id_model = asset_id;
                 bid.asset_name = asset.name;
-                bid.request = asset.request;
+                bid.status = asset.request;
                 bid.chosen = false;
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
@@ -100,7 +100,7 @@ namespace LatiumMarketplace.Controllers
                 Notification notification = new Notification(bid.asset_name, 
                     "There has been a new bid placed on your asset, "+bid.asset_name+".", redirectURL);
                 notification.type = 1;
-                string notificationEmail = _context.User.Single(u => u.UserName == bid.asset.ownerName).Email;
+                string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
                 Clients.Group(notificationEmail).AddNotificationToQueue(notification);
 
                 RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
@@ -140,10 +140,10 @@ namespace LatiumMarketplace.Controllers
             switch (sortby)
             {
                 case "request":
-                    otherBids = otherBids.Where(s => s.request.Equals(true));
+                    otherBids = otherBids.Where(s => s.status.Equals(true));
                     break;
                 case "asset":
-                    otherBids = otherBids.Where(s => s.request.Equals(false));
+                    otherBids = otherBids.Where(s => s.status.Equals(false));
                     break;
                 case "all":
                     otherBids = from m in OtherBids
@@ -158,10 +158,10 @@ namespace LatiumMarketplace.Controllers
 
                 case "request":
 
-                    myBids = myBids.Where(s => s.request.Equals(true));
+                    myBids = myBids.Where(s => s.status.Equals(true));
                     break;
                 case "asset":
-                    myBids = myBids.Where(s => s.request.Equals(false));
+                    myBids = myBids.Where(s => s.status.Equals(false));
                     break;
                 case "all":
                     myBids = from m in MyBids
@@ -237,10 +237,10 @@ namespace LatiumMarketplace.Controllers
             switch (sortby)
             {
                 case "request":
-                    otherBids = otherBids.Where(s => s.request.Equals(true));
+                    otherBids = otherBids.Where(s => s.status.Equals(true));
                     break;
                 case "asset":
-                    otherBids = otherBids.Where(s => s.request.Equals(false));
+                    otherBids = otherBids.Where(s => s.status.Equals(false));
                     break;
                 case "all":
                     otherBids = from m in OtherBids
@@ -255,10 +255,10 @@ namespace LatiumMarketplace.Controllers
 
                 case "request":
 
-                    myBids = myBids.Where(s => s.request.Equals(true));
+                    myBids = myBids.Where(s => s.status.Equals(true));
                     break;
                 case "asset":
-                    myBids = myBids.Where(s => s.request.Equals(false));
+                    myBids = myBids.Where(s => s.status.Equals(false));
                     break;
                 case "all":
                     myBids = from m in MyBids
@@ -310,19 +310,16 @@ namespace LatiumMarketplace.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Transcation([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
 
-            /*if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 bid.chosen = true;
                 await _context.SaveChangesAsync();
-                RedirectToActionResult redirectResult = new RedirectToActionResult("Create", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
+                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
                 return redirectResult;
             }
-            return View();*/
-            await _context.SaveChangesAsync();
-            RedirectToActionResult redirectResult = new RedirectToActionResult("Create", "Transactions", new { @Id = bid.bidId }); // new { @Id = asset_id });
-            return redirectResult;
+            return View();
         }
 
         // GET: Bids/Delete/5

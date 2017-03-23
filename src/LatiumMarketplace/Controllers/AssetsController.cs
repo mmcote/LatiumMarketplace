@@ -256,16 +256,16 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,Address,name,ownerName,ownerID,Duration,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
         {
 
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                var userName = user?.UserName;
+                var userId = user?.Id;
                 DateTime today = DateTime.Now;
                 asset.addDate = today;
-                asset.ownerName = userName;
+                asset.ownerID = userId;
                 asset.request = false;
 
                 // Assign make to asset
@@ -378,18 +378,16 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,Address,name,ownerName,ownerID,Duration,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
 
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
-                var userName = user?.UserName;
                 var userId = user?.Id;
                 DateTime today = DateTime.Now;
                 asset.addDate = today;
                 asset.ownerID = userId;
-                asset.ownerName = userName;
                 asset.request = true;
                 asset.price = 0;
                 asset.priceDaily = 0;
@@ -440,7 +438,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,ownerName,Duration,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
             if (id != asset.assetID)
             {

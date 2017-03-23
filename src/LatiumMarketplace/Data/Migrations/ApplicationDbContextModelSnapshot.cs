@@ -94,11 +94,7 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
                     b.Property<int>("CityId");
-
-                    b.Property<string>("Duration");
 
                     b.Property<int?>("ImageGalleryId");
 
@@ -112,11 +108,11 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<bool>("featuredItem");
 
+                    b.Property<string>("location");
+
                     b.Property<string>("name");
 
                     b.Property<string>("ownerID");
-
-                    b.Property<string>("ownerName");
 
                     b.Property<decimal>("price");
 
@@ -257,9 +253,9 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<DateTime>("endDate");
 
-                    b.Property<bool>("request");
-
                     b.Property<DateTime>("startDate");
+
+                    b.Property<bool>("status");
 
                     b.HasKey("bidId");
 
@@ -320,13 +316,7 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<Guid>("transactionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("assetName");
-
-                    b.Property<string>("bidder");
-
                     b.Property<DateTime>("end");
-
-                    b.Property<string>("poster");
 
                     b.Property<int>("price");
 
