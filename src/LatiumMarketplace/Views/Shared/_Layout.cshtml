@@ -62,10 +62,9 @@
 
             function presentNotification(notification) {
                 console.log(notification);
-                //$("#NotificationType").append('<li class="list-group-item"><a href=' + notification.redirectUrl + '>' + notification.header + '</a><p>' + notification.body + '</p></li>');
                 if (notification.type == 0)
                 {
-                    $("#NotificationDiv").append('<div class="alert alert-success alert-dismissable"><a onclick="removeNotification()" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>New Message:</strong>' + notification.header + '<a href="' + notification.redirectUrl + '" class="alert-link">Read this message!</a></div>');
+                    $("#NotificationDiv").append('<div class="alert alert-info alert-dismissable"><a onclick="removeNotification()" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>New Message:</strong>' + notification.header + '<a href="' + notification.redirectUrl + '" class="alert-link">Read this message!</a></div>');
                 }
                 else if(notification.type == 1)
                 {

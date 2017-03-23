@@ -11,15 +11,18 @@ using Microsoft.AspNetCore.Identity;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
+using LatiumMarketplace.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
-    public class BidsController : Controller
+    public class BidsController : ApiHubController<Broadcaster>
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public BidsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public BidsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _userManager = userManager;
             _context = context;    
@@ -78,7 +81,15 @@ namespace LatiumMarketplace.Controllers
                 bid.bidder = userName;
                 _context.Add(bid);
                 await _context.SaveChangesAsync();
-                    // HI MICHEAL ADD YOUR NOTIFICATION HERE
+
+                // This notification redirect URL should put the user to the discussion
+                string redirectURL = "/Bids/MyBids/";
+                Notification notification = new Notification(bid.asset_name, 
+                    "There has been a new bid placed on your asset, "+bid.asset_name+".", redirectURL);
+                notification.type = 1;
+                string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
+                Clients.Group(notificationEmail).AddNotificationToQueue(notification);
+
                 RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
                 return redirectResult;
             }

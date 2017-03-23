@@ -16,18 +16,21 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Utils;
 using LatiumMarketplace.Models.MessageViewModels;
 using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
+using LatiumMarketplace.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
     //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
     [RequireHttps]
     [Authorize]
-    public class AdminController : Controller
+    public class AdminController : ApiHubController<Broadcaster>
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _userManager = userManager;
             _context = context;
@@ -85,20 +88,27 @@ namespace LatiumMarketplace.Controllers
 
                 // The reciever will always be the seller
                 Message message;
+                Notification notification;
                 message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body);
-
+                string messageThreadId;
+                string recieverEmail;
+                string redirectURL;
                 try
                 {
                     var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId && m.RecieverId == messageThreadDTO.RecieverId);
                     message.messageThread = messageThreadRetrieved;
                     message.messageThread.LastUpdateDate = DateTime.Now;
                     messageRepo.AddMessage(message);
+                    messageThreadId = message.messageThread.id.ToString();
+                    recieverEmail = message.messageThread.RecieverEmail;
                 }
                 catch (InvalidOperationException)
                 {
                     messageRepo.AddMessage(message);
                     MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
+                    messageThreadId = messageThread.id.ToString();
                     messageThread.messages.Add(message);
+                    recieverEmail = messageThread.RecieverEmail;
 
                     messageThread.LastUpdateDate = DateTime.Now;
 
@@ -107,6 +117,11 @@ namespace LatiumMarketplace.Controllers
 
                     messageThreadRepo.AddMessageThread(messageThread);
                 }
+
+                // This notification redirect URL should put the user to the discussion
+                redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
+                notification = new Notification(message.Subject, message.Body, redirectURL);
+                Clients.Group(recieverEmail).AddNotificationToQueue(notification);
             }
             _context.SaveChanges();
 
