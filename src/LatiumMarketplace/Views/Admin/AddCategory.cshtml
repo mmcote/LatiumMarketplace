@@ -1,0 +1,74 @@
+﻿@model IEnumerable<LatiumMarketplace.Models.AssetViewModels.Category>
+
+
+@{
+    ViewData["Title"] = "AddCategory";
+}
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/prettyPhoto.css" rel="stylesheet">
+
+</head><!--/head-->
+<h2>Categories</h2> 
+    <br />
+        <section>
+            <div class="container">
+                <div class="row">
+                    <form asp-controller="Admin" asp-action="AddCategory" method="post">
+                        <div class="col-sm-3">
+                            <br />
+                            <br />
+                            <input class="form-control" type="text" name="MyCategory">
+                            <br />
+                            <div class="form-group">
+                                <input type="submit" value="Add" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </form>
+                        <div class="col-sm-9 padding-right">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CategoryId)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CategoryName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ParentCategory)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CategoryId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CategoryName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ChildCategory)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ParentCategoryId)
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
+                                                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+
+</div>
+            </div>
+        </section>

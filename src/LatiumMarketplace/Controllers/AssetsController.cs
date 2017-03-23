@@ -161,6 +161,7 @@ namespace LatiumMarketplace.Controllers
             viewModel.Assets = await _context.Asset
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
+                .Include(a => a.City)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
                 .AsNoTracking()
@@ -396,7 +397,6 @@ namespace LatiumMarketplace.Controllers
                 asset.priceDaily = 0;
                 asset.priceWeekly = 0;
                 asset.priceMonthly = 0;
-                asset.MakeId = 1;
                 asset.ImageGalleryId = -1;
                 // Assign make to asset
                 var myMakeId = HttpContext.Request.Form["Makes"];
@@ -506,7 +506,21 @@ namespace LatiumMarketplace.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
-            var Myassets = _context.Asset.Where(s => s.ownerID == userId);
+            var viewModel = new AssetIndexData();
+            viewModel.Assets = await _context.Asset.Where(m => m.assetID == id)
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category)
+                .Include(a => a.City)
+                .Include(a => a.ImageGallery)
+                    .ThenInclude(a => a.Images)
+                .AsNoTracking()
+                .OrderBy(a => a.addDate)
+                .ToListAsync();
+
+           
+            var Myassets = _context.Asset.Where(s => s.ownerID == userId)
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category);
             if (id == null)
             {
                 return NotFound();
@@ -517,7 +531,13 @@ namespace LatiumMarketplace.Controllers
             {
                 return NotFound();
             }
-            return View(asset);
+            // Populate asset categories
+            SetCategoryViewBag();
+            // Populate asset makes
+            SetMakeViewBag();
+            // Populate cities
+            SetCityViewBag();
+            return View(viewModel);
         }
 
         // POST: Assets/Edit/5
@@ -527,6 +547,16 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
+            var viewModel = new AssetIndexData();
+            viewModel.Assets = await _context.Asset.Where(m => m.assetID == id)
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category)
+                .Include(a => a.City)
+                .Include(a => a.ImageGallery)
+                    .ThenInclude(a => a.Images)
+                .AsNoTracking()
+                .OrderBy(a => a.addDate)
+                .ToListAsync();
             if (id != asset.assetID)
             {
                 return NotFound();
@@ -536,7 +566,7 @@ namespace LatiumMarketplace.Controllers
             {
                 try
                 {
-                    _context.Update(asset);
+                    _context.Update(viewModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -552,7 +582,7 @@ namespace LatiumMarketplace.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(asset);
+            return View(viewModel);
         }
 
         // GET: Assets/Delete/5
@@ -578,6 +608,7 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
+
             _context.Asset.Remove(asset);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
