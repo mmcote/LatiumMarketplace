@@ -83,7 +83,7 @@ namespace LatiumMarketplace.Controllers
         }
 
         // POST: api/AssetsAPI
-        [HttpPost]
+        [HttpPost("PostAsset")]
         public async Task<IActionResult> PostAsset([FromBody] Asset asset)
         {
             if (!ModelState.IsValid)
@@ -137,19 +137,19 @@ namespace LatiumMarketplace.Controllers
             return _context.Asset.Any(e => e.assetID == id);
         }
 
-        // POST: api/AssetsAPI
-        [HttpPost]
-        public async Task<IActionResult> PostCategory([FromBody] string category)
+        // POST: api/PostCategory
+        [HttpPost("PostCategory")]
+        public IActionResult PostCategory([FromBody] string category)
         {
             Category categoryname = new Category();
             categoryname.CategoryName = category;
             _context.Category.Add(categoryname);
-            try
+            var success = _context.SaveChanges();
+            if (success == 0)
             {
-                await _context.SaveChangesAsync();
+                return new BadRequestResult();
             }
-           
-            return CreatedAtAction("GetAsset", new { id = asset.assetID }, asset);
+            return new OkResult();
         }
     }
 }
