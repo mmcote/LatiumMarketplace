@@ -85,7 +85,7 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("name");
 
-                    b.Property<string>("ownerID");
+                    b.Property<string>("ownerName");
 
                     b.Property<decimal>("price");
 

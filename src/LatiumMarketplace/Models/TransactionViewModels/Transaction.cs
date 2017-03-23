@@ -19,6 +19,15 @@ namespace LatiumMarketplace.Models.TransactionViewModels
         [Key]
         public Guid transactionId { get; set; }
 
+        //[Display(Name ="")]
+        public string assetName { get; set; }
+
+        [Display(Name ="Creator of Post")]
+        public string poster { get; set; }
+
+        [Display(Name ="Bid Winner")]
+        public string bidder { get; set; }
+
         [Display(Name = "Total Amount")]
         public int price { get; set; }
 
@@ -26,7 +35,6 @@ namespace LatiumMarketplace.Models.TransactionViewModels
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm}")]
         public DateTime transactionDate { get; set; }
 
-        
         [Display(Name = "Start Date")]
         [DisplayFormat(DataFormatString = "0:MM/dd/yyyy")]
         public DateTime start { get; set; }
@@ -34,13 +42,6 @@ namespace LatiumMarketplace.Models.TransactionViewModels
         [Display(Name = "Return Date")]
         [DisplayFormat(DataFormatString = "0:MM/dd/yyyy")]
         public DateTime end { get; set; }
-
-
-        [ForeignKey("AssetID")]
-        Asset asset { get; set; }
-
-        [ForeignKey("BidID")]
-        Bid bid { get; set; }
 
         //[ForeignKey("ReviewID")]
         //Review review { get; set; }

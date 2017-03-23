@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170322042930_adding-assets001")]
-    partial class addingassets001
+    [Migration("20170323044826_changes")]
+    partial class changes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -108,6 +108,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<DateTime>("addDate");
 
                     b.Property<string>("description");
+
+                    b.Property<bool>("featuredItem");
 
                     b.Property<string>("name");
 
@@ -246,13 +248,15 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("bidder");
 
+                    b.Property<bool>("chosen");
+
                     b.Property<string>("description");
 
                     b.Property<DateTime>("endDate");
 
-                    b.Property<DateTime>("startDate");
-
                     b.Property<bool>("request");
+
+                    b.Property<DateTime>("startDate");
 
                     b.HasKey("bidId");
 
@@ -306,6 +310,30 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("Assetid");
 
                     b.ToTable("MessageThread");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.TransactionViewModels.Transaction", b =>
+                {
+                    b.Property<Guid>("transactionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("assetName");
+
+                    b.Property<string>("bidder");
+
+                    b.Property<DateTime>("end");
+
+                    b.Property<string>("poster");
+
+                    b.Property<int>("price");
+
+                    b.Property<DateTime>("start");
+
+                    b.Property<DateTime>("transactionDate");
+
+                    b.HasKey("transactionId");
+
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>

@@ -16,7 +16,7 @@
             {<a asp-controller="Bids" asp-route-assetId="@Model.assetID" asp-action="Create_Asset_Bid">Rent/Buy </a> }
         } |
 
-        <a asp-controller="Manage" asp-route-userId="@Model.ownerID" asp-action="Profile">View owner's profile</a> |
+        <a asp-controller="Manage" asp-route-userId="@Model.ownerName" asp-action="Profile">View owner's profile</a> |
 
     </div>
 </p>
@@ -31,10 +31,10 @@
             @Html.DisplayFor(model => model.addDate)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ownerID)
+            @Html.DisplayNameFor(model => model.ownerName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ownerID)
+            @Html.DisplayFor(model => model.ownerName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.name)
@@ -93,7 +93,7 @@
     </dl>
 </div>
 <div>
-    @{if (@Model.ownerID == @UserManager.GetUserId(User)) {
+    @{if (@Model.ownerName == @UserManager.GetUserName(User)) {
             <a asp-action="Edit" asp-route-id="@Model.assetID">Edit |</a> 
             <a asp-controller="Bids" asp-action= "Inbox"> View Bids |</a>
             } }

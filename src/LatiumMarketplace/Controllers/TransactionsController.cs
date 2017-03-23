@@ -8,6 +8,7 @@ using LatiumMarketplace.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LatiumMarketplace.Models.TransactionViewModels;
+using LatiumMarketplace.Models.BidViewModels;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,31 +34,35 @@ namespace LatiumMarketplace.Controllers
 
 
         // POST: Transactions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("assetID,addDate,description,location,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")]  Transaction transaction)
-       // {
-
-           /* if (ModelState.IsValid)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("transactionId,assetName,poster,bidder,price,transactionDate,start,end")]  Transaction transaction)
+        {
+            if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                var userId = user?.Id;
+                string id = HttpContext.Request.Cookies["bidId"];
+                int bid_id = Int32.Parse(id);
+                Bid bid = _context.Bid.Single(a => a.bidId == bid_id);
+
+                // the dates will be different if an asset or request
+               // if (bid.request == true)
+                var user = await _userManager.GetUserAsync(HttpContext.User); // user is the person who placed the bid
+                var bidWinner = user?.UserName;
                 DateTime today = DateTime.Now;
                 transaction.transactionDate = today;
-                transaction. = userId;
-                asset.request = false;
-                _context.Add(asset);
+                transaction.assetName = bid.asset.name;
+                transaction.poster = bid.asset.ownerName;
+                transaction.bidder = bidWinner;
+                transaction.start = bid.startDate;
+                transaction.end = bid.endDate;
+                //asset.request = false;
+                _context.Add(transaction);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(asset);
-        }*/
-
-
-
-
+            return View(transaction);
+        }
+/*
         // GET: Bids/Details/5
         public async Task<IActionResult> Details(Guid? id)
          {
@@ -73,7 +78,7 @@ namespace LatiumMarketplace.Controllers
              }
 
              return View(trans);
-         }
+         }*/
 
     }
 }
