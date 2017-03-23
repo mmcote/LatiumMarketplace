@@ -134,14 +134,15 @@
                                         *@
 
                                         @*This is sow that it only show the first image in*@
-                                        @if (@item.ImageGallery != null) { 
-                                        @if (@item.ImageGallery.Images.Any(e => e.ImageGalleryId == item.ImageGalleryId))
+                                        @if (@item.ImageGallery != null)
                                         {
-                                            <img src="@item.ImageGallery.Images.First().FileLink" alt="" />
-                                        }
-                                        else
-                                        {  <img src="~/images/preview-not-available.jpg" alt="" />
-                                        }
+                                            @if (@item.ImageGallery.Images.Any(e => e.ImageGalleryId == item.ImageGalleryId))
+                                            {
+                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="" />
+                                            }
+                                            else
+                                            {  <img src="~/images/preview-not-available.jpg" alt="" />
+                                            }
                                         }
 
                                         <h2>@Html.DisplayFor(modelItem => item.name)</h2>
