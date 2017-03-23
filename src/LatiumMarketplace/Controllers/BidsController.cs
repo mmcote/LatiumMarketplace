@@ -58,6 +58,19 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
+
+        // GET: Bids/Create
+        // Bids for assets
+        public IActionResult Create_Asset_Bid(int assetId)
+        {
+            Bid bid = new Bid();
+            var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
+            bid.asset = Bid_asset;
+
+            return View(bid);
+        }
+
+
         // POST: Bids/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

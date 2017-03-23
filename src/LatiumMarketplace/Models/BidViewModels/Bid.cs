@@ -11,7 +11,7 @@ namespace LatiumMarketplace.Models.BidViewModels
     public class Bid
     {
 
-        private Bid()
+        public Bid()
         {
             //emtpy constructor
         }

@@ -230,8 +230,12 @@ namespace LatiumMarketplace.Controllers
             SetMakeViewBag();
             // Populate cities
             SetCityViewBag();
-
-            return View();
+            Asset asset = new Asset();
+            asset.price = (decimal)0.00;
+            asset.priceDaily = (decimal)0.00;
+            asset.priceWeekly = (decimal)0.00;
+            asset.priceMonthly = (decimal)0.00;
+            return View(asset);
         }
 
         // GET: Assets/CreateReq
