@@ -8,7 +8,14 @@
 <p>
     <div>
         <a asp-controller="MessageThreads" asp-action="Create">Respond to message</a> |
-        <a asp-controller="Bids" asp-route-id="@Model.assetID" asp-action="Create">Place a bid </a> |
+
+
+        @{if (@Model.request == true)
+            {<a asp-controller="Bids" asp-action="Create">Place a bid </a>}
+            else
+            {<a asp-controller="Bids" asp-route-assetId="@Model.assetID" asp-action="Create_Asset_Bid">Rent/Buy </a> }
+        } |
+
         <a asp-controller="Manage" asp-route-userId="@Model.ownerID" asp-action="Profile">View owner's profile</a> |
 
     </div>

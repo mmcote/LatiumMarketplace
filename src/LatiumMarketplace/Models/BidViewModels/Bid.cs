@@ -11,7 +11,7 @@ namespace LatiumMarketplace.Models.BidViewModels
     public class Bid
     {
 
-        private Bid()
+        public Bid()
         {
             //emtpy constructor
         }
@@ -29,8 +29,6 @@ namespace LatiumMarketplace.Models.BidViewModels
         [DataType(DataType.Date)]
         [Display(Name = "Start Date *")]
         public DateTime startDate { get; set; }
-
-
 
         [Required]
         [DataType(DataType.Date)]
