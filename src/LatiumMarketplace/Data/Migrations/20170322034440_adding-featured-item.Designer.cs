@@ -111,7 +111,7 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("name");
 
-                    b.Property<string>("ownerID");
+                    b.Property<string>("ownerName");
 
                     b.Property<decimal>("price");
 
@@ -238,7 +238,7 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<DateTime>("startDate");
 
-                    b.Property<bool>("status");
+                    b.Property<bool>("request");
 
                     b.HasKey("bidId");
 

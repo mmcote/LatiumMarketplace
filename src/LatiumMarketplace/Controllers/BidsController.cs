@@ -70,7 +70,7 @@ namespace LatiumMarketplace.Controllers
                 bid.asset = asset;
                 bid.asset_id_model = asset_id;
                 bid.asset_name = asset.name;
-                bid.status = asset.request;
+                bid.request = asset.request;
                 bid.chosen = false;
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
@@ -92,7 +92,7 @@ namespace LatiumMarketplace.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
-            var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
+            var OtherBids = _context.Bid.Where(s => s.asset.ownerName == userId); //shows only his assets that have bids on them
             var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
 
             var assets = from m in my_Assets
@@ -116,10 +116,10 @@ namespace LatiumMarketplace.Controllers
             switch (sortby)
             {
                 case "request":
-                    otherBids = otherBids.Where(s => s.status.Equals(true));
+                    otherBids = otherBids.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
-                    otherBids = otherBids.Where(s => s.status.Equals(false));
+                    otherBids = otherBids.Where(s => s.request.Equals(false));
                     break;
                 case "all":
                     otherBids = from m in OtherBids
@@ -134,10 +134,10 @@ namespace LatiumMarketplace.Controllers
 
                 case "request":
 
-                    myBids = myBids.Where(s => s.status.Equals(true));
+                    myBids = myBids.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
-                    myBids = myBids.Where(s => s.status.Equals(false));
+                    myBids = myBids.Where(s => s.request.Equals(false));
                     break;
                 case "all":
                     myBids = from m in MyBids
@@ -155,7 +155,7 @@ namespace LatiumMarketplace.Controllers
             List<Asset> asset_list = new List<Asset>();
             foreach (var a in list_asset)
             {
-                if (a.ownerID == userId)
+                if (a.ownerName == userId)
                 {
                     asset_list.Add(a);
                 }
@@ -187,9 +187,9 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> Inbox(string sortby)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userId = user?.Id;
+            var userName = user?.UserName;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
-            var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
+            var OtherBids = _context.Bid.Where(s => s.asset.ownerName == userName); //shows only his assets that have bids on them
             var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
 
             var assets = from m in my_Assets
@@ -213,10 +213,10 @@ namespace LatiumMarketplace.Controllers
             switch (sortby)
             {
                 case "request":
-                    otherBids = otherBids.Where(s => s.status.Equals(true));
+                    otherBids = otherBids.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
-                    otherBids = otherBids.Where(s => s.status.Equals(false));
+                    otherBids = otherBids.Where(s => s.request.Equals(false));
                     break;
                 case "all":
                     otherBids = from m in OtherBids
@@ -231,10 +231,10 @@ namespace LatiumMarketplace.Controllers
 
                 case "request":
 
-                    myBids = myBids.Where(s => s.status.Equals(true));
+                    myBids = myBids.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
-                    myBids = myBids.Where(s => s.status.Equals(false));
+                    myBids = myBids.Where(s => s.request.Equals(false));
                     break;
                 case "all":
                     myBids = from m in MyBids
@@ -252,7 +252,7 @@ namespace LatiumMarketplace.Controllers
             List<Asset> asset_list = new List<Asset>();
             foreach (var a in list_asset)
             {
-                if (a.ownerID == userId)
+                if (a.ownerName == userName)
                 {
                     asset_list.Add(a);
                 }
@@ -286,16 +286,19 @@ namespace LatiumMarketplace.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Transcation([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
 
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 bid.chosen = true;
                 await _context.SaveChangesAsync();
-                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
+                RedirectToActionResult redirectResult = new RedirectToActionResult("Create", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
                 return redirectResult;
             }
-            return View();
+            return View();*/
+            await _context.SaveChangesAsync();
+            RedirectToActionResult redirectResult = new RedirectToActionResult("Create", "Transactions", new { @Id = bid.bidId }); // new { @Id = asset_id });
+            return redirectResult;
         }
 
         // GET: Bids/Delete/5
