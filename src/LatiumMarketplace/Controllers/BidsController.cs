@@ -116,7 +116,7 @@ namespace LatiumMarketplace.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
-            var OtherBids = _context.Bid.Where(s => s.asset.ownerName == userId); //shows only his assets that have bids on them
+            var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
             var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
 
             var assets = from m in my_Assets
@@ -179,7 +179,7 @@ namespace LatiumMarketplace.Controllers
             List<Asset> asset_list = new List<Asset>();
             foreach (var a in list_asset)
             {
-                if (a.ownerName == userId)
+                if (a.ownerID == userId)
                 {
                     asset_list.Add(a);
                 }
@@ -211,9 +211,9 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> Inbox(string sortby)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userName = user?.UserName;
+            var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
-            var OtherBids = _context.Bid.Where(s => s.asset.ownerName == userName); //shows only his assets that have bids on them
+            var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
             var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
 
             var assets = from m in my_Assets
@@ -276,7 +276,7 @@ namespace LatiumMarketplace.Controllers
             List<Asset> asset_list = new List<Asset>();
             foreach (var a in list_asset)
             {
-                if (a.ownerName == userName)
+                if (a.ownerID == userId)
                 {
                     asset_list.Add(a);
                 }

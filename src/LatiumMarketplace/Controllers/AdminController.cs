@@ -218,7 +218,7 @@ namespace LatiumMarketplace.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AdminEdit(int id, [Bind("assetID,addDate,description,Address,name,ownerName,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory,featuredItem")] Asset asset,bool featuredItem)
+        public async Task<IActionResult> AdminEdit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,ownerName,Duration,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory,featuredItem")] Asset asset,bool featuredItem)
         {
             var viewModel = new AssetIndexData();
             viewModel.Assets = await _context.Asset

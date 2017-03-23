@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170323062958_moreModelChanges2")]
+    partial class moreModelChanges2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -114,7 +115,7 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("name");
 
-                    b.Property<string>("ownerID");
+                    b.Property<int>("ownerID");
 
                     b.Property<string>("ownerName");
 
