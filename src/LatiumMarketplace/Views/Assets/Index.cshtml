@@ -92,7 +92,7 @@
                             }
                             <div class="asset-summary-container">
                                 <h4>
-                                    <a asp-action="Details" asp-route-id="@item.assetID" class="">
+                                    <a id="@item.name" asp-action="Details" asp-route-id="@item.assetID" class="">
                                         @Html.DisplayFor(modelItem => item.name)
                                     </a>
                                 </h4>
