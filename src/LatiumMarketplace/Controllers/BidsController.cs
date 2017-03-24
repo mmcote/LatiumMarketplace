@@ -41,8 +41,8 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View list of bids</returns>
         public async Task<IActionResult> Index()
         {
-
-            return View(await _context.Bid.ToListAsync());
+            return RedirectToAction("MyBids");
+            //return View(await _context.Bid.ToListAsync());
         }
 
         // GET: Bids/Details/5
@@ -458,16 +458,17 @@ namespace LatiumMarketplace.Controllers
             //    }
             //}
 
-            // This notification redirect URL should put the user to the discussion
-            //string redirectURL = "/Bids/MyBids/";
-            //Notification notification = new Notification(bid.asset_name,
-            //    "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
-            //notification.type = 1;
-            //string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
-            //Clients.Group(notificationEmail).AddNotificationToQueue(notification);
-
-
             await _context.SaveChangesAsync();
+
+
+            // This notification redirect URL should put the user to the discussion
+            string redirectURL = "/Bids/MyBids/";
+            Notification notification = new Notification(bid.asset_name,
+                "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
+            notification.type = 1;
+            Clients.Group(bid.bidder).AddNotificationToQueue(notification);
+
+
 
 
             return RedirectToAction("Index");
@@ -523,13 +524,7 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            // This notification redirect URL should put the user to the discussion
-            //string redirectURL = "/Bids/MyBids/";
-            //Notification notification = new Notification(bid.asset_name,
-            //    "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
-            //notification.type = 1;
-            //string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
-            //Clients.Group(notificationEmail).AddNotificationToQueue(notification);
+
 
             return View(bid);
         }
@@ -547,7 +542,15 @@ namespace LatiumMarketplace.Controllers
             var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
             _context.Bid.Remove(bid);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+
+            // This notification redirect URL should put the user to the discussion
+            string redirectURL = "/Bids/MyBids/";
+            Notification notification = new Notification(bid.asset_name,
+                "Your bid has been rejected for " + bid.asset_name + ".", redirectURL);
+            notification.type = 1;
+            Clients.Group(bid.bidder).AddNotificationToQueue(notification);
+
+            return RedirectToAction("MyBids");
         }
 
         private bool BidExists(int id)
