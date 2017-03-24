@@ -41,8 +41,8 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View list of bids</returns>
         public async Task<IActionResult> Index()
         {
-
-            return View(await _context.Bid.ToListAsync());
+            return RedirectToAction("MyBids");
+            //return View(await _context.Bid.ToListAsync());
         }
 
         // GET: Bids/Details/5
@@ -550,7 +550,7 @@ namespace LatiumMarketplace.Controllers
             notification.type = 1;
             Clients.Group(bid.bidder).AddNotificationToQueue(notification);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("MyBids");
         }
 
         private bool BidExists(int id)
