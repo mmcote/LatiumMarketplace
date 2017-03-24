@@ -43,6 +43,27 @@ namespace LatiumMarketplace.Data
                 
                 IdentityResult result = await _userManager.AddToRoleAsync(administrator, "Administrator");
             }
+
+            AdminEmail = "test2@test.com";
+            AdminPassword = "abc123ABC123&";
+
+            if (await _userManager.FindByEmailAsync(AdminEmail) == null)
+            {
+                ApplicationUser administrator = new ApplicationUser()
+                {
+                    UserName = AdminEmail,
+                    Email = AdminEmail
+                };
+
+                var result01 = await _userManager.CreateAsync(administrator, AdminPassword);
+
+                var user = _context.User.Single(u => u.UserName == administrator.UserName);
+                user.EmailConfirmed = true;
+                var result02 = _context.SaveChanges();
+                var resutl03 = await _roleManager.CreateAsync(new IdentityRole("Administrator"));
+
+                IdentityResult result = await _userManager.AddToRoleAsync(administrator, "Administrator");
+            }
         }
     }
 }

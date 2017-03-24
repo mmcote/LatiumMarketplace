@@ -94,6 +94,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Address");
+
                     b.Property<int>("CityId");
 
                     b.Property<int?>("ImageGalleryId");
@@ -107,8 +109,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("description");
 
                     b.Property<bool>("featuredItem");
-
-                    b.Property<string>("location");
 
                     b.Property<string>("name");
 
@@ -447,8 +447,7 @@ namespace LatiumMarketplace.Data.Migrations
                 {
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.City", "City")
                         .WithMany("Assets")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CityId");
 
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.ImageGallery", "ImageGallery")
                         .WithOne("Asset")
@@ -456,8 +455,7 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.Make", "Make")
                         .WithMany("Assets")
-                        .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MakeId");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.AssetCategory", b =>

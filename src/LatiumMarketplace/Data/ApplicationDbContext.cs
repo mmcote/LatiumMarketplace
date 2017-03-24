@@ -59,6 +59,26 @@ namespace LatiumMarketplace.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             /**
+             * Configure one-to-many relationship between Make and Asset
+             */
+            builder.Entity<Make>()
+               .HasMany<Asset>(g => g.Assets)
+               .WithOne(g => g.Make)
+               .HasForeignKey(g => g.MakeId)
+               .OnDelete(DeleteBehavior.Restrict)
+               .IsRequired();
+
+            /**
+             * Configure one-to-many relationship between City and Asset
+             */
+            builder.Entity<City>()
+               .HasMany<Asset>(g => g.Assets)
+               .WithOne(g => g.City)
+               .HasForeignKey(g => g.CityId)
+               .OnDelete(DeleteBehavior.Restrict)
+               .IsRequired();
+
+            /**
              * Configure one-to-many relationship between Image and ImageGallery
              */
             builder.Entity<ImageGallery>()
