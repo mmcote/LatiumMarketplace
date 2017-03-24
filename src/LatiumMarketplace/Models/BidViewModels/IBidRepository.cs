@@ -13,6 +13,7 @@ namespace LatiumMarketplace.Models.BidViewModels
         IEnumerable<Bid> GetBidsByAssetID(int asset_id);
         IEnumerable<Bid> GetMyBids( string name);
         IEnumerable<Bid> GetOthersBids(string id);
+        IEnumerable<Bid> GetAll();
         void Save();
     }
 }

@@ -38,6 +38,11 @@ namespace LatiumMarketplace.Models.BidViewModels
             return;
         }
 
+        public IEnumerable<Bid> GetAll()
+        {
+            return _context.Bid.ToList();
+        }
+
         public IEnumerable<Bid> GetBidsByAssetID(int asset_id)
         {
             if (asset_id == 0)
