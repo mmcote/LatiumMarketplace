@@ -34,7 +34,6 @@
                             new { @class = "form-control" }
                         )
                 </div>
-
                 <div class="sort-by">
                     <h4>Sort by</h4>
                     <input type="radio" name="SortBy" value="all" checked> All<br>
@@ -68,6 +67,15 @@
                                     <div class="asset-image-container">
                                         <a asp-action="Details" asp-route-id="@item.assetID" class="">
                                             <img src="@item.ImageGallery.Images.First().FileLink" alt="@item.name"
+                                                 class="img-responsive" />
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="asset-image-container">
+                                        <a asp-action="Details" asp-route-id="@item.assetID" class="">
+                                            <img src="~/images/preview-not-available.jpg" alt="No asset image"
                                                  class="img-responsive" />
                                         </a>
                                     </div>

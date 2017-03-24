@@ -23,28 +23,29 @@ namespace LatiumMarketplace.Controllers
 
         // GET: api/AssetsAPI
         [HttpGet]
-        public IEnumerable<Asset> GetAsset()
+        public IActionResult GetAsset()
         {
-            return _context.Asset;
+            var list = _context.Asset.ToList();
+            return new OkObjectResult(list);
         }
 
         // GET: api/AssetsAPI/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsset([FromRoute] int id)
+        public IActionResult GetAsset([FromBody] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            Asset asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
+            Asset asset = _context.Asset.Single(m => m.assetID == id);
 
             if (asset == null)
             {
                 return NotFound();
             }
 
-            return Ok(asset);
+            return new OkObjectResult(asset);
         }
 
         // PUT: api/AssetsAPI/5
@@ -84,17 +85,12 @@ namespace LatiumMarketplace.Controllers
 
         // POST: api/AssetsAPI
         [HttpPost("PostAsset")]
-        public async Task<IActionResult> PostAsset([FromBody] Asset asset)
+        public IActionResult PostAsset([FromBody] Asset asset)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             _context.Asset.Add(asset);
             try
             {
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -108,7 +104,7 @@ namespace LatiumMarketplace.Controllers
                 }
             }
 
-            return CreatedAtAction("GetAsset", new { id = asset.assetID }, asset);
+            return new OkObjectResult(asset);
         }
 
         // DELETE: api/AssetsAPI/5
@@ -129,7 +125,7 @@ namespace LatiumMarketplace.Controllers
             _context.Asset.Remove(asset);
             await _context.SaveChangesAsync();
 
-            return Ok(asset);
+            return Ok();
         }
 
         private bool AssetExists(int id)

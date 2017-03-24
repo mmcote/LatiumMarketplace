@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.SignalR.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
+    /// <summary>
+    /// ApiHubController allows other controllers to inherit from it to be able to send use
+    /// notifications. Specifically the functions in the hub function
+    /// </summary>
     // https://raw.githubusercontent.com/matthamil/Chatazon/master/Controllers/ApiHubController.cs
     public abstract class ApiHubController<T> : Controller
         where T : Hub

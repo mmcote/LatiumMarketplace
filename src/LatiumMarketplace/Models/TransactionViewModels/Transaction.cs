@@ -35,11 +35,8 @@ namespace LatiumMarketplace.Models.TransactionViewModels
         [DisplayFormat(DataFormatString = "0:MM/dd/yyyy")]
         public DateTime end { get; set; }
 
-
-        [ForeignKey("AssetID")]
         Asset asset { get; set; }
 
-        [ForeignKey("BidID")]
         Bid bid { get; set; }
 
         //[ForeignKey("ReviewID")]

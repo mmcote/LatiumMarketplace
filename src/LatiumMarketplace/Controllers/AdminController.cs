@@ -19,7 +19,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LatiumMarketplace.Controllers
 {
-    //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
+    /// <summary>
+    /// Admin Controller handles all of the functioning of the admin panel.
+    /// The admin panel handles mass messaging users, banning members, and handling requests.
+    /// </summary>
     [RequireHttps]
     [Authorize]
     public class AdminController : Controller
@@ -33,15 +36,22 @@ namespace LatiumMarketplace.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Main admin pannel, this shows a list of all users.
+        /// </summary>
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var users = _context.User.Where(u => u.Email != User.Identity.Name);
             return View(users);
         }
 
+        /// <summary>
+        /// This API request will ban the user after given the users email.
+        /// </summary>
+        /// <param name="email"></param>
         [AllowAnonymous]
-        public async Task<IActionResult> BanMember(string email)
+        public IActionResult BanMember(string email)
         {
             var user = _context.User.Single(u => u.Email == email);
             user.banned = true;
@@ -50,8 +60,12 @@ namespace LatiumMarketplace.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// This API request will ban the user after given the users email.
+        /// </summary>
+        /// <param name="email"></param>
         [AllowAnonymous]
-        public async Task<IActionResult> UnbanMember(string email)
+        public IActionResult UnbanMember(string email)
         {
             var user = _context.User.Single(u => u.Email == email);
             user.banned = false;
@@ -60,6 +74,10 @@ namespace LatiumMarketplace.Controllers
             return View(user);
         }
 
+        /// <summary>
+        /// Send to all will send a message to all users, that have registered to the 
+        /// website. Even to other admin.
+        /// </summary>
         [AllowAnonymous]
         public async Task<IActionResult> SendToAll()
         {
@@ -67,6 +85,11 @@ namespace LatiumMarketplace.Controllers
             return View(messageThreadDTO);
         }
 
+        /// <summary>
+        /// Send to all will send a message to all users, that have registered to the 
+        /// website. Even to other admin.
+        /// </summary>
+        /// <param name="messageThreadDTO"></param>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> SendToAll([Bind("Subject, Body")] MessageThreadDTO messageThreadDTO)
@@ -248,7 +271,6 @@ namespace LatiumMarketplace.Controllers
         {
             return _context.Asset.Any(e => e.assetID == id);
         }
-        #region Helpers
 
         private IActionResult RedirectToLocal(string returnUrl)
         {
@@ -329,6 +351,8 @@ namespace LatiumMarketplace.Controllers
             else
                 ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
         }
+        #region Helpers
+
         #endregion
     }
 }

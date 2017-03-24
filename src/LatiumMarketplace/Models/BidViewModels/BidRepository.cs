@@ -38,6 +38,11 @@ namespace LatiumMarketplace.Models.BidViewModels
             return;
         }
 
+        public IEnumerable<Bid> GetAll()
+        {
+            return _context.Bid.ToList();
+        }
+
         public IEnumerable<Bid> GetBidsByAssetID(int asset_id)
         {
             if (asset_id == 0)
@@ -51,6 +56,50 @@ namespace LatiumMarketplace.Models.BidViewModels
                 throw new KeyNotFoundException("No matching bids foudn by the given assetid");
             }
             return bids;
+        }
+
+        public Bid GetBidByID(int id)
+        {
+            if (id == 0)
+            {
+                throw new ArgumentNullException("This bid id is null");
+            }
+
+            var bid = _context.Bid.Single(m => m.bidId == id);
+            if (bid == null)
+            {
+                throw new KeyNotFoundException("No matching bid found with given bidId");
+            }
+            return bid;
+        }
+
+        public IEnumerable<Bid> GetMyBids(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("The user name is null");
+            }
+            var bids = _context.Bid.Where(m => m.bidder == name);
+            if (bids == null)
+            {
+                throw new KeyNotFoundException("No matching name found by username ");
+            }
+
+            return bids;
+        }
+        public IEnumerable<Bid> GetOthersBids(string id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("The id is null");
+            }
+            var bids = _context.Bid.Where(m => m.asset.ownerID == id);
+            if (bids == null)
+            {
+                throw new KeyNotFoundException("No matching id found by id");
+            }
+            return bids;
+
         }
 
         public void Save()
