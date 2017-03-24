@@ -66,6 +66,10 @@
     border: 1px solid #CCC;
 }
 
+.asset-summary-container {
+    padding: 6px 16px 16px 16px;
+}
+
 /* Asset Creation Page */
 .asset-rates {
     /*display: none;*/
