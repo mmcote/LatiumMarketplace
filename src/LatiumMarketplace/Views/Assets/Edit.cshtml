@@ -1,4 +1,5 @@
-@model LatiumMarketplace.Models.AssetViewModels.AssetIndexData
+@model LatiumMarketplace.Models.AssetViewModels.Asset
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,118 +7,126 @@
 
 <h2>Edit</h2>
 
-<form asp-action="Edit" enctype="multipart/form-data">
-    <h4>Asset Information</h4>
-    <hr />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <!-- TODO: Need to replace this with actual data-->
-
-    <div class="form-group">
-        <label class="radio-inline">
-            <input type="radio" name="assetCreateOptions" id="for-sale" value="IsForSale"> For Sale
-        </label>
-        <label class="radio-inline">
-            <input type="radio" name="assetCreateOptions" id="for-rent" value="IsForRent"> For Rent
-        </label>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            @foreach (var category in Model.Assets)
-                        {
-                            <p>@category.MakeId</p>
-
-                        }
-        @foreach (var assets in Model.Assets)
-        {
-            <div class="form-group">
-                
-                <label asp-for="@assets.name" class=""></label>
-                <input asp-for="@assets.name" class="form-control" />
-                <span asp-validation-for="@assets.name" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="@assets.Make" class="">Make</label>
-                @Html.DisplayFor(modelitem => assets.MakeId)
-                @Html.DropDownList(
-                      "Makes",
-                      (SelectList)ViewBag.Makes,
-                      "--- Select a category ---",
-                      new { @class = "form-control" }
-                      )
-                <span asp-validation-for="@assets.Make" class="text-danger" />
-            </div>
-            <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
-            <div class="form-group">
-                <label asp-for="@assets.AssetCategories" class="">Category</label>
-                @Html.DropDownList(
-                      "AssetCategories",
-                      (SelectList)ViewBag.AssetCategories,
-                      "--- Select a category ---",
-                      new { @class = "form-control" }
-                      )
-                <span asp-validation-for="@assets.AssetCategories" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="@assets.Address" class=""></label>
-                <input asp-for="@assets.Address" class="form-control" />
-                <span asp-validation-for="@assets.Address" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="@assets.City" class="">City</label>
-                @Html.DropDownList(
-                      "Cities",
-                      (SelectList)ViewBag.Cities,
-                      "--- Select a city ---",
-                      new { @class = "form-control" }
-                      )
-                <span asp-validation-for="@assets.City" class="text-danger" />
-            </div>
-
-            <div class="form-group">
-                <label asp-for="@assets.description" class=""></label>
-                <textarea asp-for="@assets.description" rows="3" class="form-control"></textarea>
-                <span asp-validation-for="@assets.description" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="@assets.accessory" class=""></label>
-                <textarea asp-for="@assets.accessory" rows="3" class="form-control"></textarea>
-                <span asp-validation-for="@assets.accessory" class="text-danger" />
-            </div>
-            <div id="IsForSale" class="asset-rates">
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Asset</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="assetID" />
+        <div class="form-group">
+            <label class="radio-inline">
+                <input type="radio" name="assetCreateOptions" id="for-sale" value="IsForSale"> For Sale
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="assetCreateOptions" id="for-rent" value="IsForRent"> For Rent
+            </label>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="@assets.price" class=""></label>
-                    <input asp-for="@assets.price" class="form-control" />
-                    <span asp-validation-for="@assets.price" class="text-danger" />
-                </div>
-            </div>
-            <div id="IsForRent" class="asset-rates">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label asp-for="@assets.priceDaily" class=""></label>
-                        <input asp-for="@assets.priceDaily" class="form-control" />
-                        <span asp-validation-for="@assets.priceDaily" class="text-danger" />
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="@assets.priceWeekly" class=""></label>
-                        <input asp-for="@assets.priceWeekly" class="form-control" />
-                        <span asp-validation-for="@assets.priceWeekly" class="text-danger" />
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="@assets.priceMonthly" class=""></label>
-                        <input asp-for="@assets.priceMonthly" class="form-control" />
-                        <span asp-validation-for="@assets.priceMonthly" class="text-danger" />
+                    <label asp-for="addDate" class=""></label>
+                    <div class="">
+                        <input asp-for="addDate" class="form-control" />
+                        <span asp-validation-for="addDate" class="text-danger" />
                     </div>
                 </div>
-                <input type="checkbox" name="featuredItem" value=true>Mark as Featured<br>
-                
+                <div class="form-group">
+                    <div class="">
+                        <input type="hidden" asp-for="ownerID" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="name" class=""></label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Make" class="">Make</label>
+                    @Html.DropDownList(
+                    "Makes",
+                    (SelectList)ViewBag.Makes,
+                    "--- Select a make ---",
+                    new { @class = "form-control" }
+                    )
+                    <span asp-validation-for="Make" class="text-danger" />
+                </div>
+                <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
+                <div class="form-group">
+                    <label asp-for="AssetCategories" class="">Category</label>
+                    @Html.DropDownList(
+                    "AssetCategories",
+                    (SelectList)ViewBag.AssetCategories,
+                    "--- Select a category ---",
+                    new { @class = "form-control" }
+                    )
+                    <span asp-validation-for="AssetCategories" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class=""></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="">City</label>
+                    @Html.DropDownList(
+                    "Cities",
+                    (SelectList)ViewBag.Cities,
+                    "--- Select a city ---",
+                    new { @class = "form-control" }
+                    )
+                    <span asp-validation-for="City" class="text-danger" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="description" class=""></label>
+                    <textarea asp-for="description" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="description" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="accessory" class=""></label>
+                    <textarea asp-for="accessory" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="accessory" class="text-danger" />
+                </div>
+                <div id="IsForSale" class="asset-rates">
+                    <div class="form-group">
+                        <label asp-for="price" class=""></label>
+                        <input asp-for="price" class="form-control" />
+                        <span asp-validation-for="price" class="text-danger" />
+                    </div>
+                </div>
+                <div id="IsForRent" class="asset-rates">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label asp-for="priceDaily" class=""></label>
+                            <input asp-for="priceDaily" class="form-control" />
+                            <span asp-validation-for="priceDaily" class="text-danger" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="priceWeekly" class=""></label>
+                            <input asp-for="priceWeekly" class="form-control" />
+                            <span asp-validation-for="priceWeekly" class="text-danger" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="priceMonthly" class=""></label>
+                            <input asp-for="priceMonthly" class="form-control" />
+                            <span asp-validation-for="priceMonthly" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="">Upload your images</label>
+                    <input type="file" name="AssetImages" multiple />
+                </div>
+                <div class="form-group">
+                    <div class="">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
-}
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
-    </div>
 </form>
+
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
