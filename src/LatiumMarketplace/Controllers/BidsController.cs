@@ -39,7 +39,7 @@ namespace LatiumMarketplace.Controllers
         }
 
         // GET: Bids/Details/5
-       public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -128,7 +128,7 @@ namespace LatiumMarketplace.Controllers
                             week = remain / 7;
                             remain = remain % 7;
                             bid.bidPrice = bid.bidPrice + (bid.asset.priceWeekly * week);
-                        } 
+                        }
                         // Monthly rental not available
                         else if (bid.bidPrice == (decimal)0.00)
                         {
@@ -165,15 +165,15 @@ namespace LatiumMarketplace.Controllers
                         }
                     }
                 }
-                    
+
 
                 _context.Add(bid);
                 await _context.SaveChangesAsync();
 
                 // This notification redirect URL should put the user to the discussion
                 string redirectURL = "/Bids/MyBids/";
-                Notification notification = new Notification(bid.asset_name, 
-                    "There has been a new bid placed on your asset, "+bid.asset_name+".", redirectURL);
+                Notification notification = new Notification(bid.asset_name,
+                    "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
                 notification.type = 1;
                 string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
                 Clients.Group(notificationEmail).AddNotificationToQueue(notification);
@@ -195,11 +195,11 @@ namespace LatiumMarketplace.Controllers
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
             var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
             var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
-           
+
             var assets = from m in my_Assets
                          select m;
             switch (sortby)
-            { 
+            {
                 case "request":
                     assets = assets.Where(s => s.request.Equals(true));
                     break;
@@ -213,7 +213,7 @@ namespace LatiumMarketplace.Controllers
             }
 
             var otherBids = from m in OtherBids
-                         select m;
+                            select m;
             switch (sortby)
             {
                 case "request":
@@ -224,7 +224,7 @@ namespace LatiumMarketplace.Controllers
                     break;
                 case "all":
                     otherBids = from m in OtherBids
-                             select m;
+                                select m;
                     break;
             }
 
@@ -246,7 +246,7 @@ namespace LatiumMarketplace.Controllers
                     break;
             }
 
-            List <Asset> list_asset = new List<Asset>();
+            List<Asset> list_asset = new List<Asset>();
             foreach (var a in assets)
             {
                 list_asset.Add(a);
@@ -266,7 +266,7 @@ namespace LatiumMarketplace.Controllers
             foreach (var b in otherBids)
             {
                 inbox_list.Add(b);
-               
+
             }
             // All post that you bid on OUTBOX
             List<Bid> outbox_list = new List<Bid>();
@@ -279,7 +279,7 @@ namespace LatiumMarketplace.Controllers
             completeBidModel.outbox = outbox_list;
             completeBidModel.inbox = inbox_list;
             await _context.SaveChangesAsync();
-            return View(completeBidModel); 
+            return View(completeBidModel);
         }
 
 
@@ -383,60 +383,120 @@ namespace LatiumMarketplace.Controllers
 
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Transaction([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
-            
-            //Find all bids for the given asset
-            var notChoosenBids = _context.Bid.Where(s => s.asset.assetID == bid.asset.assetID);
-            if (ModelState.IsValid)
-            {
+        public async Task<IActionResult> Choose(int? id) {
+            var bid = _context.Bid.Single(s => s.bidId == id);
+            bid.chosen = true;
+
+            //var listBid = _context.Bid.Where(s => s.asset.assetID == bid.asset.assetID);
 
 
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-                var userId = user?.Id;
-                bid.chosen = true;
-                await _context.SaveChangesAsync();
-                
-                //Find bids not chosen and remove
-                notChoosenBids = notChoosenBids.Where(s => s.chosen == false);
-                foreach (var bidToRemove in notChoosenBids)
-                {
-                    _context.Remove(bidToRemove);
-                }
 
-                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
-                return redirectResult;
-            }
+            //Remove ALL bids if sale or request 
+            //Remove the correlating Asset as well
+            //if ((bid.asset.price > (decimal)0.00) || (bid.asset.request == true))
+            //{
+            //    foreach (var bidToRemove in listBid)
+            //    {
+            //        if (bidToRemove.bidId != id)
+            //        {
+            //            _context.Bid.Remove(bidToRemove);
+            //        }
+            //    }
+            //    _context.Asset.Remove(bid.asset);
+            //}
+            ////Remove bid of rental
+            //else
+            //{
+            //    foreach (var bidToRemove in listBid)
+            //    {
+            //        if ((bidToRemove.startDate < bid.endDate) && (bidToRemove.bidId != id))
+            //        {
+            //            _context.Bid.Remove(bidToRemove);
+            //        }
+            //    }
+            //}
 
-            return View();
+            // This notification redirect URL should put the user to the discussion
+            //string redirectURL = "/Bids/MyBids/";
+            //Notification notification = new Notification(bid.asset_name,
+            //    "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
+            //notification.type = 1;
+            //string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
+            //Clients.Group(notificationEmail).AddNotificationToQueue(notification);
+
+
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction("Index");
         }
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Transaction([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
+
+        //    //Find all bids for the given asset
+        //    var notChoosenBids = _context.Bid.Where(s => s.asset.assetID == bid.asset.assetID);
+        //    if (ModelState.IsValid)
+        //    {
+
+
+        //        var user = await _userManager.GetUserAsync(HttpContext.User);
+        //        var userId = user?.Id;
+        //        bid.chosen = true;
+        //        await _context.SaveChangesAsync();
+
+        //        //Find bids not chosen and remove
+        //        notChoosenBids = notChoosenBids.Where(s => s.chosen == false);
+        //        foreach (var bidToRemove in notChoosenBids)
+        //        {
+        //            _context.Remove(bidToRemove);
+        //        }
+
+        //        RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
+        //        return redirectResult;
+        //    }
+
+        //    return View();
+        //}
+
+
 
         // GET: Bids/Delete/5
         public async Task<IActionResult> Delete(int id)
-                {
-                    if (id == 0)
-                    {
-                        return NotFound();
-                    }
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
 
-                    var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
-                    if (bid == null)
-                    {
-                        return NotFound();
-                    }
+            var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
+            if (bid == null)
+            {
+                return NotFound();
+            }
 
-                    return View(bid);
-                }
+            // This notification redirect URL should put the user to the discussion
+            //string redirectURL = "/Bids/MyBids/";
+            //Notification notification = new Notification(bid.asset_name,
+            //    "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
+            //notification.type = 1;
+            //string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
+            //Clients.Group(notificationEmail).AddNotificationToQueue(notification);
+
+            return View(bid);
+        }
 
         // POST: Bids/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _BidsApiController.Delete(id); 
+            var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
+            _context.Bid.Remove(bid);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-        } 
+        }
 
         private bool BidExists(int id)
         {
