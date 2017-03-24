@@ -51,14 +51,31 @@ namespace LatiumMarketplace.Controllers
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            var bidRepo = _BidRepository.GetBidByID(id);
             return "value";
         }
 
-        // POST api/values
+        // POST api/BidsAPI
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]Bid bid)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _BidRepository.AddBid(bid);
+            try
+            {
+                 _BidRepository.Save();
+            }
+            catch
+            {
+                throw;
+            }
+            return NoContent();
         }
+
 
         // PUT api/values/5
         [HttpPut("{id}")]

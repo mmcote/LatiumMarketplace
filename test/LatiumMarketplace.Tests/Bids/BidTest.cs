@@ -10,8 +10,7 @@ using Xunit;
 namespace LatiumMarketplace.Tests.Bids
 {
     public class BidTest
-    {
-        
+    { 
         // This covers testing for adding/saving a bid
         [Fact]
         public void testAddBid()
@@ -29,7 +28,6 @@ namespace LatiumMarketplace.Tests.Bids
             bid.description = description;
             bid.startDate = start;
             bid.endDate = end;
-           
 
             using (ApplicationDbContext context = new ApplicationDbContext(options))
             {
@@ -48,46 +46,47 @@ namespace LatiumMarketplace.Tests.Bids
             }
         }
 
-        // Test to see if we can delete a message
-        /*[Fact]
-        public void testDeleteMessage()
+        // Test to see if we can delete a bid
+        [Fact]
+        public void testDeleteBid()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "Delete_message_from_database")
+                .UseInMemoryDatabase(databaseName: "Delete_bid_from_db")
                 .Options;
 
-            string subject = "Test Subject";
-            string body = "Test Body";
 
-            Message message = new Message(
-                subject,
-                body
-            );
+            int price = 230;
+            string description = "This is how much you owe me";
+            var start = new DateTime(2017 / 01 / 12);
+            var end = new DateTime(2017 / 01 / 12);
+            Bid bid = new Bid();
+            bid.bidPrice = price;
+            bid.description = description;
+            bid.startDate = start;
+            bid.endDate = end;
 
             using (ApplicationDbContext context = new ApplicationDbContext(options))
             {
-                IMessageRepository messageRepo = new MessageRepository(context);
-                messageRepo.AddMessage(message);
-                messageRepo.Save();
+                IBidRepository bidRepo = new BidRepository(context);
+                bidRepo.AddBid(bid);
+                bidRepo.Save();
             }
 
-            // Use a separate instance of the context to verify correct data was saved to database
+            // Use a seperate instance of the context to verify correct data was saved to the db
             using (var context = new ApplicationDbContext(options))
             {
-                Assert.True(context.Message.Count() == 1);
+                Assert.True(context.Bid.Count() == 1);
             }
-
             using (var context = new ApplicationDbContext(options))
             {
-                IMessageRepository messageRepo = new MessageRepository(context);
-                messageRepo.DeleteMessage(message.id);
-                messageRepo.Save();
+                IBidRepository bidRepo = new BidRepository(context);
+                bidRepo.DeleteBid(bid.bidId);
+                bidRepo.Save();
             }
-
             using (var context = new ApplicationDbContext(options))
             {
-                Assert.True(context.Message.Count() == 0);
+                Assert.False(context.Bid.Count() == 0);
             }
-        }*/
+        }
     }    
 }

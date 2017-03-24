@@ -68,6 +68,34 @@ namespace LatiumMarketplace.Models.BidViewModels
             return bid;
         }
 
+        public IEnumerable<Bid> GetMyBids(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("The user name is null");
+            }
+            var bids = _context.Bid.Where(m => m.bidder == name);
+            if (bids == null)
+            {
+                throw new KeyNotFoundException("No matching name found by username ");
+            }
+
+            return bids;
+        }
+        public IEnumerable<Bid> GetOthersBids(string id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("The id is null");
+            }
+            var bids = _context.Bid.Where(m => m.asset.ownerID == id);
+            if (bids == null)
+            {
+                throw new KeyNotFoundException("No matching id found by id");
+            }
+            return bids;
+
+        }
 
         public void Save()
         {

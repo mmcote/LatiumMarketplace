@@ -9,9 +9,10 @@ namespace LatiumMarketplace.Models.BidViewModels
     {
         void AddBid(Bid bid);
         void DeleteBid(int id);
-        IEnumerable<Bid> GetBidsByAssetID(int asset_id);
         Bid GetBidByID(int id);
-        //IEnumerable<Bid> GetBidsByUserID
+        IEnumerable<Bid> GetBidsByAssetID(int asset_id);
+        IEnumerable<Bid> GetMyBids( string name);
+        IEnumerable<Bid> GetOthersBids(string id);
         void Save();
     }
 }
