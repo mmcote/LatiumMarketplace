@@ -16,21 +16,18 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Utils;
 using LatiumMarketplace.Models.MessageViewModels;
 using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.SignalR.Infrastructure;
-using LatiumMarketplace.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
     //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
     [RequireHttps]
     [Authorize]
-    public class AdminController : ApiHubController<Broadcaster>
+    public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConnectionManager connectionManager)
-            : base(connectionManager)
+        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _context = context;
@@ -88,27 +85,20 @@ namespace LatiumMarketplace.Controllers
 
                 // The reciever will always be the seller
                 Message message;
-                Notification notification;
                 message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body);
-                string messageThreadId;
-                string recieverEmail;
-                string redirectURL;
+
                 try
                 {
                     var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId && m.RecieverId == messageThreadDTO.RecieverId);
                     message.messageThread = messageThreadRetrieved;
                     message.messageThread.LastUpdateDate = DateTime.Now;
                     messageRepo.AddMessage(message);
-                    messageThreadId = message.messageThread.id.ToString();
-                    recieverEmail = message.messageThread.RecieverEmail;
                 }
                 catch (InvalidOperationException)
                 {
                     messageRepo.AddMessage(message);
                     MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
-                    messageThreadId = messageThread.id.ToString();
                     messageThread.messages.Add(message);
-                    recieverEmail = messageThread.RecieverEmail;
 
                     messageThread.LastUpdateDate = DateTime.Now;
 
@@ -117,11 +107,6 @@ namespace LatiumMarketplace.Controllers
 
                     messageThreadRepo.AddMessageThread(messageThread);
                 }
-
-                // This notification redirect URL should put the user to the discussion
-                redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
-                notification = new Notification(message.Subject, message.Body, redirectURL);
-                Clients.Group(recieverEmail).AddNotificationToQueue(notification);
             }
             _context.SaveChanges();
 
@@ -278,65 +263,36 @@ namespace LatiumMarketplace.Controllers
         }
         //Create new category for site
         [AllowAnonymous]
-        public async Task<IActionResult> AddCategory(Category category)
+        public IActionResult AddCategory(Category category)
         {
             var MyCategory = _context.Category;
             var categories = from m in MyCategory
                              select m;
-            if (ModelState.IsValid)
-            {
-               category.CategoryName = HttpContext.Request.Form["MyCategory"].ToString();
-                _context.Add(category);
-                await _context.SaveChangesAsync();
 
-                return RedirectToAction("AddCategory");
-            }
 
-            //SetCategoryViewBag();
             return View(categories);
         }
         //Create new make for site
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMake(Make make)
+        [AllowAnonymous]
+        public IActionResult AddMake(Make make)
         {
 
-            if (ModelState.IsValid)
-            {
-                // Add make to make table
-                var myMake = HttpContext.Request.Form["Makes"];
-                make.Name = myMake;
+            var MyMake = _context.Make;
+            var Makes = from m in MyMake
+                        select m;
 
-                // Save Make to DB
-                _context.Add(make);
-                await _context.SaveChangesAsync();
-
-
-                return RedirectToAction("Index");
-            }
-            SetMakeViewBag();
-            return View(make);
+            return View(Makes);
         }
         //Create new city for site
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCity(City city)
+        [AllowAnonymous]
+        public IActionResult AddCity(City city)
         {
 
-            if (ModelState.IsValid)
-            {
-                // Assign a city to the asset
-                var myCity = HttpContext.Request.Form["Cities"];
-                city.Name = myCity;
+            var MyCity = _context.City;
+            var Cities = from m in MyCity
+                         select m;
 
-                // Save City to DB
-                _context.Add(city);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index");
-            }
-            SetCityViewBag();
-            return View(city);
+            return View(Cities);
         }
         // Get all categories from the database
         private void SetCategoryViewBag(ICollection<AssetCategory> AssetCategories = null)

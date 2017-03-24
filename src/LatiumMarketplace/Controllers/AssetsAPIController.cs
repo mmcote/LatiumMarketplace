@@ -83,7 +83,7 @@ namespace LatiumMarketplace.Controllers
         }
 
         // POST: api/AssetsAPI
-        [HttpPost]
+        [HttpPost("PostAsset")]
         public async Task<IActionResult> PostAsset([FromBody] Asset asset)
         {
             if (!ModelState.IsValid)
@@ -135,6 +135,51 @@ namespace LatiumMarketplace.Controllers
         private bool AssetExists(int id)
         {
             return _context.Asset.Any(e => e.assetID == id);
+        }
+
+        // POST: api/PostCategory
+        [HttpPost("PostCategory")]
+        public IActionResult PostCategory([FromBody] string category)
+        {
+            Category categoryname = new Category();
+            categoryname.CategoryName = category;
+            _context.Category.Add(categoryname);
+            var success = _context.SaveChanges();
+            if (success == 0)
+            {
+                return new BadRequestResult();
+            }
+            return new OkResult();
+        }
+
+        // POST: api/PoastMake
+        [HttpPost("PostMake")]
+        public IActionResult PostMake([FromBody] string make)
+        {
+            Make makename = new Make();
+            makename.Name = make;
+            _context.Make.Add(makename);
+            var success = _context.SaveChanges();
+            if (success == 0)
+            {
+                return new BadRequestResult();
+            }
+            return new OkResult();
+        }
+
+        // POST: api/PoastCity
+        [HttpPost("PostCity")]
+        public IActionResult PostCity([FromBody] string city)
+        {
+            City cityname = new City();
+            cityname.Name = city;
+            _context.City.Add(cityname);
+            var success = _context.SaveChanges();
+            if (success == 0)
+            {
+                return new BadRequestResult();
+            }
+            return new OkResult();
         }
     }
 }

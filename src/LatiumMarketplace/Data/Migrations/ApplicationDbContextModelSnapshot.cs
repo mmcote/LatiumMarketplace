@@ -447,8 +447,7 @@ namespace LatiumMarketplace.Data.Migrations
                 {
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.City", "City")
                         .WithMany("Assets")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CityId");
 
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.ImageGallery", "ImageGallery")
                         .WithOne("Asset")
@@ -456,8 +455,7 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.Make", "Make")
                         .WithMany("Assets")
-                        .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MakeId");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.AssetCategory", b =>
