@@ -71,6 +71,15 @@
                                         </a>
                                     </div>
                                 }
+                                else
+                                {
+                                    <div class="asset-image-container">
+                                        <a asp-action="Details" asp-route-id="@item.assetID" class="">
+                                            <img src="~/images/preview-not-available.jpg" alt="No asset image"
+                                                 class="img-responsive" />
+                                        </a>
+                                    </div>
+                                }
                             }
                             else
                             {
