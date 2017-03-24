@@ -153,6 +153,7 @@ namespace LatiumMarketplace.Controllers
             viewModel.Assets = await _context.Asset
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
+                .Include(a => a.Make)
                 .Include(a => a.City)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
@@ -430,6 +431,9 @@ namespace LatiumMarketplace.Controllers
             {
                 return NotFound();
             }
+            SetCategoryViewBag(asset.AssetCategories);
+            SetMakeViewBag();
+            SetCityViewBag();
             return View(asset);
         }
 
@@ -449,6 +453,16 @@ namespace LatiumMarketplace.Controllers
             {
                 try
                 {
+                    // Assign make to asset
+                    var myMakeId = HttpContext.Request.Form["Makes"];
+                    var myMakeIdNumVal = int.Parse(myMakeId);
+                    asset.MakeId = myMakeIdNumVal;
+
+                    // Assign a city to the request
+                    var myCityId = HttpContext.Request.Form["Cities"];
+                    var myCityIdNumVal = int.Parse(myCityId);
+                    asset.CityId = myCityIdNumVal;
+
                     _context.Update(asset);
                     await _context.SaveChangesAsync();
                 }
@@ -463,6 +477,7 @@ namespace LatiumMarketplace.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction("Index");
             }
             return View(asset);

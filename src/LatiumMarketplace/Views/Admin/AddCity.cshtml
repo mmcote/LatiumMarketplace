@@ -1,8 +1,8 @@
-﻿@model IEnumerable<LatiumMarketplace.Models.AssetViewModels.Category>
+﻿@model IEnumerable<LatiumMarketplace.Models.AssetViewModels.City>
 
 
 @{
-    ViewData["Title"] = "AddCategory";
+    ViewData["Title"] = "AddCity";
 }
 <head>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -10,21 +10,21 @@
 
 </head><!--/head-->
 <script>
-    function postCateogry() {
-        console.log("In PostCategory");
-        var categoryName = $('#newCategoryName').val();
+    function postCity() {
+        console.log("In PostCity");
+        var cityName = $('#newCityName').val();
         $.ajax({
-            url: '@Url.Action("PostCategory", "AssetsApi")',
+            url: '@Url.Action("PostCity", "AssetsApi")',
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify(categoryName),
+            data: JSON.stringify(cityName),
             success: function () {
                 console.log("Success");
-                var newRow = '<tr><td></td><td>' + categoryName + '</td><td></td>';
+                var newRow = '<tr><td></td><td>' + cityName + '</td>';
 
-                $("#categoryTable tbody").append(newRow);
+                $("#cityTable tbody").append(newRow);
                 console.log("Finished");
-                $('#newCategoryName').val('');
+                $('#newCityName').val('');
             },
             error: function (error) {
                 var x = error; //break here for debugging.
@@ -33,7 +33,7 @@
         console.log("Test Done")
     }
 </script>
-<h2>Categories</h2>
+<h2>Cities</h2>
 <br />
 <section>
     <div class="container">
@@ -41,27 +41,24 @@
             <div class="col-sm-3">
                 <br />
                 <br />
-                <input id="newCategoryName" class="form-control" type="text" name="CategoryName" placeholder="New Category">
+                <input id="newCityName" class="form-control" type="text" name="CityName" placeholder="New City">
                 <br />
                 <br />
                 <br />
                 <br />
                 <div class="form-group">
-                    <input onclick="postCateogry()" value="Add" class="btn btn-primary" />
+                    <input onclick="postCity()" value="Add" class="btn btn-primary" />
                 </div>
             </div>
             <div class="col-sm-9 padding-right">
-                <table id="categoryTable" class="table">
+                <table id="cityTable" class="table">
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.CategoryId)
+                                @Html.DisplayNameFor(model => model.CityId)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CategoryName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ParentCategory)
+                                @Html.DisplayNameFor(model => model.Name)
                             </th>
                         </tr>
                     </thead>
@@ -70,13 +67,10 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryId)
+                                    @Html.DisplayFor(modelItem => item.CityId)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ParentCategory)
+                                    @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                             </tr>
                         }
