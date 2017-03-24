@@ -76,15 +76,9 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public ICollection<AssetCategory> AssetCategories { get; set; }
 
         // Navigation properties for one-to-one relationship between Asset and ImageGallery.
-        // One image has only one gallery
         [ForeignKey("ImageGalleryId")]
         public int? ImageGalleryId { get; set; }
         public ImageGallery ImageGallery { get; set; }
-
-        // Navigation properties for one-to-many relationship between
-        // Asset and Accesories.
-        // One asset can have multiple accessories entered by a particular user
-        public ICollection<Accessory> Accessory { get; set; }
 
         // Navigation properties for one-to-many relationship between Asset and City.
         // One asset has only one city
@@ -92,6 +86,16 @@ namespace LatiumMarketplace.Models.AssetViewModels
         [ForeignKey("CityId")]
         [Display(Name = "City")]
         public City City { get; set; }
+
+        // Navigation properties for one-to-one relationship between Asset and AccessoryList.
+        [ForeignKey("AccessoryListId")]
+        public int? AccessoryListId { get; set; }
+        public AccessoryList AccessoryList { get; set; }
+
+        // Navigation properties for many-to-many relationship between
+        // Asset and Feature.
+        // One asset can have many features.
+        public ICollection<AssetFeature> AssetFeatures { get; set; }
     }
 
 }
