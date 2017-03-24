@@ -11,7 +11,9 @@ using LatiumMarketplace.Data;
 
 namespace LatiumMarketplace.Controllers
 {
-
+    /// <summary>
+    /// Bid API Controller
+    /// </summary>
     [Produces("application/json")]
     [Route("api/BidsAPIController")]
     public class BidsAPIController : Controller
@@ -19,13 +21,23 @@ namespace LatiumMarketplace.Controllers
         private IBidRepository _BidRepository;
         private ApplicationDbContext _context;
 
+        /// <summary>
+        /// Bids API initial context and repo
+        /// </summary>
+        /// <param name="context">Sets the context</param>
+        /// <param name="bidRepository">Set the bidRepo</param>
         public BidsAPIController(ApplicationDbContext context, IBidRepository bidRepository)
         {
             _context = context;
             _BidRepository = bidRepository; //new BidRepository(context);
         }
 
-
+        /// <summary>
+        /// GET: api/BidsAPI
+        /// Get bids associated to an asset
+        /// </summary>
+        /// <param name="assetId">AssetID to GET</param>
+        /// <returns>JSON object of Bid</returns>
         // GET: api/BidsAPI
         [HttpGet]
         public IActionResult GetBidsByAssetId([FromBody] int assetId)
@@ -45,7 +57,11 @@ namespace LatiumMarketplace.Controllers
             }
             return new OkObjectResult(bids.ToList());
         }
-
+        
+        /// <summary>
+        /// GET all bids 
+        /// </summary>
+        /// <returns>JSON of bids</returns>
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -65,7 +81,11 @@ namespace LatiumMarketplace.Controllers
             return new OkObjectResult(bids.ToList());
         }
 
-
+        /// <summary>
+        /// Get bid by ID
+        /// </summary>
+        /// <param name="id">ID of specific bid</param>
+        /// <returns>JSON of bid</returns>
         // GET api/BidsAPI/5
         [HttpGet("{id}")]
         public string Get(int id)
@@ -75,6 +95,11 @@ namespace LatiumMarketplace.Controllers
         }
 
 
+        /// <summary>
+        /// Get id of user
+        /// </summary>
+        /// <param name="id">User Id</param>
+        /// <returns>JSON of bids of a user</returns>
         // GETMINE api/BidsAPI/5
         [HttpGet("{id}")]
         public IActionResult GetMine( string id)
@@ -95,6 +120,11 @@ namespace LatiumMarketplace.Controllers
             return new OkObjectResult(bids.ToList());
         }
 
+        /// <summary>
+        /// Get bids of other user
+        /// </summary>
+        /// <param name="id">ID of specific user</param>
+        /// <returns>HTTP Response, JSON of bids of other user</returns>
         [HttpGet("{id}")]
         public IActionResult GetOthers(string id)
         {
@@ -115,6 +145,11 @@ namespace LatiumMarketplace.Controllers
         }
 
         // POST api/BidsAPI
+        /// <summary>
+        /// POST method for bids
+        /// </summary>
+        /// <param name="bid">BID</param>
+        /// <returns>HTTP Response</returns>
         [HttpPost]
         public IActionResult Post([FromBody]Bid bid)
         {
@@ -135,13 +170,21 @@ namespace LatiumMarketplace.Controllers
             return NoContent();
         }
 
-
+        /// <summary>
+        /// PUT bid value
+        /// </summary>
+        /// <param name="id">Bid ID</param>
+        /// <param name="value">Price of bid</param>
         // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
 
+        /// <summary>
+        /// Delete a specific bid
+        /// </summary>
+        /// <param name="id">Bid ID</param>
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
