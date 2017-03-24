@@ -42,7 +42,7 @@ namespace LatiumMarketplace.Tests.Bids
             {
                 IBidRepository bidRepo = new BidRepository(context);
                 var bidRecieved = bidRepo.GetBidByID(bid.bidId);
-                Assert.False(bidRecieved.bidPrice == price);
+                Assert.True(bidRecieved.bidPrice == price);
             }
         }
 
@@ -85,7 +85,7 @@ namespace LatiumMarketplace.Tests.Bids
             }
             using (var context = new ApplicationDbContext(options))
             {
-                Assert.False(context.Bid.Count() == 0);
+                Assert.True(context.Bid.Count() == 0);
             }
         }
     }    
