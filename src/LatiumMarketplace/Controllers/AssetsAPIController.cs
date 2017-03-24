@@ -23,14 +23,15 @@ namespace LatiumMarketplace.Controllers
 
         // GET: api/AssetsAPI
         [HttpGet]
-        public IEnumerable<Asset> GetAsset()
+        public IActionResult GetAsset()
         {
-            return _context.Asset;
+            var list = _context.Asset.ToList();
+            return new OkObjectResult(list);
         }
 
         // GET: api/AssetsAPI/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsset([FromRoute] int id)
+        public async Task<IActionResult> GetAsset([FromBody] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -44,7 +45,7 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            return Ok(asset);
+            return new OkObjectResult(asset);
         }
 
         // PUT: api/AssetsAPI/5
