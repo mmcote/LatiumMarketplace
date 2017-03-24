@@ -205,10 +205,9 @@ namespace LatiumMarketplace.Controllers
                 string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
                 Clients.Group(notificationEmail).AddNotificationToQueue(notification);
 
-                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
                 //RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Bids", new { @Id = bid.bidId });
 
-                return redirectResult;
+                return RedirectToAction("MyBids");
             }
             return View(bid);
         }
