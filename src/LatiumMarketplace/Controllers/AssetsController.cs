@@ -186,6 +186,12 @@ namespace LatiumMarketplace.Controllers
             {
                 viewModel.Assets = viewModel.Assets.Where(s => s.accessory != null);
             }
+
+            if (assetLocation != null)
+            {
+                viewModel.Assets = viewModel.Assets.Where(s => s.CityId == int.Parse(assetLocation));
+            }
+
             switch (sortby)
             {
 
@@ -205,10 +211,10 @@ namespace LatiumMarketplace.Controllers
             {
                 viewModel.Assets = viewModel.Assets.OrderByDescending(s => s.addDate);
             }
-            if (!String.IsNullOrEmpty(assetLocation))
-            {
-                viewModel.Assets = viewModel.Assets.Where(x => x.Address == assetLocation);
-            }
+            //if (!String.IsNullOrEmpty(assetLocation))
+            //{
+            //    viewModel.Assets = viewModel.Assets.Where(x => x.Address == assetLocation);
+            //}
 
             if (!String.IsNullOrEmpty(searchString))
             {
