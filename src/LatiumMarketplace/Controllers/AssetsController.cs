@@ -179,15 +179,6 @@ namespace LatiumMarketplace.Controllers
 
         /*============================= */
 
-
-
-
-
-
-
-
-
-
         // GET: Assets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -196,7 +187,14 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
+            var asset = await _context.Asset
+                .Include(a => a.Make)
+                .Include(a => a.City)
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category)
+                .Include(a => a.ImageGallery)
+                    .ThenInclude(a => a.Images)
+                .SingleOrDefaultAsync(m => m.assetID == id);
             if (asset == null)
             {
                 return NotFound();
@@ -218,7 +216,9 @@ namespace LatiumMarketplace.Controllers
                     Secure = false
                 }
             );
-
+            SetCategoryViewBag(asset.AssetCategories);
+            SetMakeViewBag();
+            SetCityViewBag();
             return View(asset);
         }
 
@@ -421,12 +421,17 @@ namespace LatiumMarketplace.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
             var Myassets = _context.Asset.Where(s => s.ownerID == userId);
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var asset = await Myassets.SingleOrDefaultAsync(m => m.assetID == id);
+            var asset = await Myassets
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category)
+                .SingleOrDefaultAsync(m => m.assetID == id);
+
             if (asset == null)
             {
                 return NotFound();
@@ -453,6 +458,8 @@ namespace LatiumMarketplace.Controllers
             {
                 try
                 {
+                    //TODO: Find ways to update categories and Image Gallery
+
                     // Assign make to asset
                     var myMakeId = HttpContext.Request.Form["Makes"];
                     var myMakeIdNumVal = int.Parse(myMakeId);
@@ -477,7 +484,9 @@ namespace LatiumMarketplace.Controllers
                         throw;
                     }
                 }
-
+                SetCategoryViewBag(asset.AssetCategories);
+                SetMakeViewBag();
+                SetCityViewBag();
                 return RedirectToAction("Index");
             }
             return View(asset);
@@ -550,6 +559,6 @@ namespace LatiumMarketplace.Controllers
 
             else
                 ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
-        }
+        }       
     }
 }

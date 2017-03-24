@@ -8,11 +8,26 @@ namespace LatiumMarketplace.Models.AssetViewModels
 {
     public class AssetIndexData
     {
+        public Asset Asset { get; set; }
         public IEnumerable<Asset> Assets { get; set; }
         public IEnumerable<Make> Makes { get; set; }
         public IEnumerable<Category> Categories { get; set; }
         public IEnumerable<City> Cities { get; set; }
         public IEnumerable<Image> Images { get; set; }
+
+        private List<int> _selectedCategories;
+        public List<int> SelectedCategories
+        {
+            get
+            {
+                if (_selectedCategories == null)
+                {
+                    _selectedCategories = Asset.AssetCategories.Select(m => m.CategoryId).ToList();
+                }
+                return _selectedCategories;
+            }
+            set { _selectedCategories = value; }
+        }
         
     }
 }
