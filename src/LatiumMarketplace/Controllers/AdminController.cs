@@ -131,12 +131,11 @@ namespace LatiumMarketplace.Controllers
                     MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
                     messageThreadId = messageThread.id.ToString();
                     messageThread.messages.Add(message);
-                    recieverEmail = messageThread.RecieverEmail;
-
                     messageThread.LastUpdateDate = DateTime.Now;
 
                     messageThread.SenderEmail = _context.User.Single(u => u.Id == messageThreadDTO.SenderId).Email;
                     messageThread.RecieverEmail = _context.User.Single(u => u.Id == messageThreadDTO.RecieverId).Email;
+                    recieverEmail = messageThread.RecieverEmail;
 
                     messageThreadRepo.AddMessageThread(messageThread);
                 }
