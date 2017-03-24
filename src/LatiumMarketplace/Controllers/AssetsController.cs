@@ -32,7 +32,14 @@ namespace LatiumMarketplace.Controllers
             _userManager = userManager;
             _env = env;
         }
-
+        /// <summary>
+        /// A method for showing user's own list of items in server
+        /// </summary>
+        /// <param name="assetLocation">getting the location from drop down list inview</param>
+        /// <param name="searchString">getting searchstring from search bar</param>
+        /// <param name="sortby">getting sortby value from view</param>
+        /// <param name="recent">sorting item in recent order</param>
+        /// <param name="accessory">sorting item with accessory</param>
         //Listing of assets/requests belonging to a specific user
         [AllowAnonymous]
         public async Task<IActionResult> MyListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory)
@@ -187,8 +194,10 @@ namespace LatiumMarketplace.Controllers
 
 
 
-
-        // GET: Assets/Details/5
+        /// <summary>
+        /// GET: Assets/Details/5
+        /// </summary>
+        /// <param name="id">info of a item id</param>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -221,8 +230,9 @@ namespace LatiumMarketplace.Controllers
 
             return View(asset);
         }
-
-        // GET: Assets/Create
+        /// <summary>
+        /// GET: Assets/Create
+        /// </summary>
         public IActionResult Create()
         {
             // Populate asset categories
@@ -239,8 +249,10 @@ namespace LatiumMarketplace.Controllers
             return View(asset);
         }
 
-        // GET: Assets/CreateReq
-        // Returns view for creating request
+        /// <summary>
+        /// GET: Assets/CreateReq
+        /// Returns view for creating request
+        /// </summary>
         public IActionResult CreateReq()
         {
             // Populate asset categories
@@ -252,9 +264,12 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
-        // POST: Assets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// POST: Assets/Create
+        /// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        /// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// </summary>
+        /// <param name="asset">binding view data for asset</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
@@ -373,10 +388,13 @@ namespace LatiumMarketplace.Controllers
             return View(asset);
         }
 
-        // POST: Assets/CreateReq
-        // Used for creating requests
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// POST: Assets/CreateReq
+        /// Used for creating requests
+        /// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        /// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// </summary>
+        /// <param name="asset">binding view data for request</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
@@ -414,8 +432,11 @@ namespace LatiumMarketplace.Controllers
             SetCityViewBag();
             return View(asset);
         }
-
-        // GET: Assets/Edit/5
+        /// <summary>
+        /// GET: Assets/Edit/5
+        /// Used for edit requests
+        /// </summary>
+        /// <param name="id">setting up edit view by id</param> 
         public async Task<IActionResult> Edit(int? id)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -436,10 +457,11 @@ namespace LatiumMarketplace.Controllers
             SetCityViewBag();
             return View(asset);
         }
-
-        // POST: Assets/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// POST: Assets/Edit/5
+        /// Used for edit requests
+        /// </summary>
+        /// <param name="asset">bind data from view for asset</param> 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
@@ -482,8 +504,11 @@ namespace LatiumMarketplace.Controllers
             }
             return View(asset);
         }
-
-        // GET: Assets/Delete/5
+        /// <summary>
+        /// GET: Assets/Delete/5
+        /// Used for delete item from server
+        /// </summary>
+        /// <param name="id">check if this item can be delete base on id</param> 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -500,7 +525,11 @@ namespace LatiumMarketplace.Controllers
             return View(asset);
         }
 
-        // POST: Assets/Delete/5
+        /// <summary>
+        /// POST: Assets/Delete/5
+        /// Used for delete item from server
+        /// </summary>
+        /// <param name="id">delete item by this id</param> 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -510,7 +539,11 @@ namespace LatiumMarketplace.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
+        /// <summary>
+        /// GET: Asset/Check
+        /// Used for delete item from server
+        /// </summary>
+        /// <param name="id">delete item by this id</param> 
         private bool AssetExists(int id)
         {
             return _context.Asset.Any(e => e.assetID == id);
