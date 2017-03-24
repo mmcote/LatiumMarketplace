@@ -14,7 +14,6 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public string CategoryName { get; set; }
         public int? ParentCategoryId { get; set; }
 
-
         // Navigation properties for self-referecing Category Table
         // A parent category can have many other categories as sub-categories,
         // and one sub-caterogy only has one parent category

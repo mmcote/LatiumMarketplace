@@ -106,13 +106,31 @@ namespace LatiumMarketplace.Data
                 .HasAlternateKey(c => c.ImageGuid);
 
             /**
-             * Configure one-to-many relation between Asset and Accessory
+             * Configure one-to-one relation between Asset and AccessoryList
              */
-            builder.Entity<Accessory>()
-               .HasOne<Asset>(a => a.Asset)
-               .WithMany(ac => ac.Accessory)
-               .OnDelete(DeleteBehavior.Restrict);
-               
+            builder.Entity<AccessoryList>()
+               .HasOne(a => a.Asset)
+               .WithOne(i => i.AccessoryList)
+               .HasForeignKey<Asset>(g => g.AccessoryListId)
+               .OnDelete(DeleteBehavior.Restrict)
+               .IsRequired(false);
+
+            /**
+             * Configure the Many-to-Many Asset and Feature relationship
+             */
+            builder.Entity<AssetFeature>()
+                .HasKey(af => new { af.AssetId, af.FeatureId });
+
+            builder.Entity<AssetFeature>()
+                .HasOne(af => af.Asset)
+                .WithMany(a => a.AssetFeatures)
+                .HasForeignKey(af => af.AssetId);
+
+            builder.Entity<AssetFeature>()
+                .HasOne(af => af.Feature)
+                .WithMany(a => a.AssetFeatures)
+                .HasForeignKey(af => af.FeatureId);
+
         }
 
         public DbSet<Asset> Asset { get; set; }
@@ -123,6 +141,9 @@ namespace LatiumMarketplace.Data
         public DbSet<Image> Image { get; set; }
         public DbSet<ImageGallery> ImageGallery { get; set; }
         public DbSet<Accessory> Accessory { get; set; }
+        public DbSet<AccessoryList> AccessoryList { get; set; }
+        public DbSet<Feature> Feature { get; set; }
+        public DbSet<AssetFeature> AssetFeature { get; set; }
         public DbSet<Message> Message { get; set; }
 
         public DbSet<MessageThread> MessageThread { get; set; }
