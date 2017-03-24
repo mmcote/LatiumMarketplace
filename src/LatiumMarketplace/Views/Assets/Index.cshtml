@@ -28,11 +28,11 @@
                 <div class="">
                     <label class="">Search by Location</label>
                     @Html.DropDownList(
-                            "Cities",
-                            (SelectList)ViewBag.Cities,
-                            "All",
-                            new { @class = "" }
-                        )
+                    "Cities",
+                    (SelectList)ViewBag.Cities,
+                    "--- Select a city ---",
+                    new { @class = "form-control" }
+                    )
                 </div>
                 <div class="sort-by">
                     <h4>Sort by</h4>
@@ -41,6 +41,7 @@
                     <input type="radio" name="SortBy" value="request"> Request<br>
                     Most recent : <input type="checkbox" name="recent" value=true><br>
                     With accessory : <input type="checkbox" name="accessory" value=true><br>
+                    Featured Item : <input type="checkbox" name="featuredItem" value=true><br>
                     <input type="submit" value="Filter" />
                 </div>
 
