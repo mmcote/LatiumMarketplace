@@ -72,16 +72,14 @@
                                             @Html.DisplayFor(modelItem => item.endDate)
                                         </td>
                                         <td>
-                                            @Html.RadioButtonFor(modelItem => item.chosen, "false") <span></span>
+                                            <a asp-controller="Bids" asp-action="Choose" asp-route-id=@item.bidId>Accept Bid</a> <br/>
+                                            <a asp-controller="Bids" asp-action="Delete" asp-route-id=@item.bidId>Decline Bid</a>
                                         </td>
                                     </tr>
                                 }
                             }
                         </tbody>
                     </table>
-                    <form asp-controller="Bids" asp-action="Transaction" method="get">
-                        <input type="submit" value="Submit" />
-                    </form>
                 }
              </div>
         </div>
