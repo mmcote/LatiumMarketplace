@@ -18,11 +18,8 @@ namespace LatiumMarketplace.Tests.AssetTest
     public class AssetsAPITest
     {
         [Fact]
-        public async void testGetInd()
+        public void testGetAllAssets()
         {
-            string subject = "This is a test subject.";
-            string body = "This is a test body";
-
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "API_GetInd_Database")
                 .Options;
@@ -56,42 +53,58 @@ namespace LatiumMarketplace.Tests.AssetTest
                 List<Asset> assetList = (List<Asset>)result.Value;
                 Assert.True(assetList.Count == 2);
             }
+        }
+
+        [Fact]
+        public void testGetAssetId()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "API_GetInd_Database")
+                .Options;
 
             using (var context = new ApplicationDbContext(options))
             {
-                IMessageRepository messageRepo = new MessageRepository(context);
-                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
-                context.MessageThread.Add(messageThread);
+                var controller = new AssetsAPIController(context);
+                Asset asset = new Asset();
+                asset.name = "TestAsset01";
+                context.Asset.Add(asset);
                 context.SaveChanges();
-                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
-
-                MessageDTO messageDTO = new MessageDTO(subject, body, messageThread.id.ToString());
-                controller.Post(messageDTO);
+                var assetList = context.Asset.ToList();
+                Assert.True(assetList.Count == 1);
             }
 
             using (var context = new ApplicationDbContext(options))
             {
-                IMessageRepository messageRepo = new MessageRepository(context);
-                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+                var controller = new AssetsAPIController(context);
+                var result = (OkObjectResult)controller.GetAsset(1);
+                Asset asset = (Asset)result.Value;
+                Assert.True(asset.name == "TestAsset01");
+            }
+        }
 
-                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
+        [Fact]
+        public void testPostAsset()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "API_GetInd_Database")
+                .Options;
 
-                OkObjectResult getResult = (OkObjectResult)controller.Get();
-                List<Message> messageList = (List<Message>)getResult.Value;
-                Assert.True(messageList.Count == 1);
+            using (var context = new ApplicationDbContext(options))
+            {
+                var assetList = context.Asset.ToList();
+                Assert.True(assetList.Count == 0);
             }
 
             using (var context = new ApplicationDbContext(options))
             {
-                IMessageRepository messageRepo = new MessageRepository(context);
-                IMessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+                var controller = new AssetsAPIController(context);
+                Asset asset = new Asset();
+                asset.name = "TestAsset01";
 
-                var controller = new MessagesAPIController(messageRepo, messageThreadRepo);
-
-                Guid messageIdGuid = context.Message.Single(m => m.Subject == subject).id;
-                OkObjectResult messageRetrievedObject = (OkObjectResult)controller.Get(messageIdGuid.ToString());
-                Message messageRetrieved = (Message)messageRetrievedObject.Value;
-                Assert.True(messageRetrieved.id == messageIdGuid);
+                var result = (OkObjectResult)controller.PostAsset(asset);
+                Asset returnAsset = (Asset)result.Value;
+                Assert.True(returnAsset.name == "TestAsset01");
+                Assert.True(context.Asset.ToList().Count == 1);
             }
         }
     }

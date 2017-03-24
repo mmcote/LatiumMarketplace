@@ -17,6 +17,13 @@ using LatiumMarketplace.Models.MessageViewModels;
  */
 namespace LatiumMarketplace.Controllers
 {
+    /// <summary>
+    /// The messages API tests all necessary functions needed of the messages. 
+    /// To respond to messages the messages API post method is tested. 
+    /// To get an individual message the messages API get by id method is tested. 
+    /// Even though not used in the application the messages API delete method is tested. 
+    /// (Please refer to messageTest.cs, and messageAPITest.cs)
+    /// </summary>
     [Produces("application/json")]
     [Route("api/MessagesAPI")]
     public class MessagesAPIController : Controller
@@ -30,6 +37,10 @@ namespace LatiumMarketplace.Controllers
             _messageRepository = messageRepository;
         }
 
+        /// <summary>
+        /// Get all messages
+        /// </summary>
+        /// <returns></returns>
         // GET: api/MessagesAPI
         [HttpGet]
         public IActionResult Get()
@@ -37,6 +48,10 @@ namespace LatiumMarketplace.Controllers
             return new OkObjectResult(_messageRepository.GetAll());
         }
 
+        /// <summary>
+        /// Get specific message, need to be accessed by id, typically it is found through the messagethread.
+        /// </summary>
+        /// <param name="id"></param>
         // GET: api/MessagesAPI/5
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(string id)
@@ -57,6 +72,10 @@ namespace LatiumMarketplace.Controllers
             }
         }
 
+        /// <summary>
+        /// Get all messages within a specific thread. This is especially useful to for the inbox.
+        /// </summary>
+        /// <param name="id"></param>
         // GET: api/MessagesAPI/5
         [HttpGet("{id}", Name = "GetAll")]
         public IActionResult GetAllRelatedToThread([FromBody]string id)
@@ -77,6 +96,10 @@ namespace LatiumMarketplace.Controllers
             }
         }
 
+        /// <summary>
+        /// Post a new message, this will handle if this is the first message of a message thread or being added to an existing messagethread.
+        /// </summary>
+        /// <param name="messageDTO"></param>
         // POST: api/MessagesAPI
         [HttpPost]
         public IActionResult Post([FromBody]MessageDTO messageDTO)
@@ -97,6 +120,10 @@ namespace LatiumMarketplace.Controllers
             return new OkResult();
         }
         
+        /// <summary>
+        /// Delete a specific message, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)

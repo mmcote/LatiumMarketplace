@@ -15,6 +15,13 @@ using LatiumMarketplace.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
+    /// <summary>
+    /// The messageThreads API tests all necessary functions needed to have a conversation. 
+    /// To start a new messageThread the messageThreads API post method is tested. 
+    /// To get all message threads a user participates in, such as for an inbox, 
+    /// the messageThreads API get method is tested. Then to delete a conversation the messageThreads 
+    /// API delete method is tested. 
+    /// </summary>
     [Produces("application/json")]
     [Route("api/MessageThreadAPI")]
     public class MessageThreadAPIController : ApiHubController<Broadcaster>
@@ -31,6 +38,10 @@ namespace LatiumMarketplace.Controllers
             _messageThreadRepository = new MessageThreadRepository(context);
         }
 
+        /// <summary>
+        /// Get all message threads for a given user. All it needs is a specific userId.
+        /// </summary>
+        /// <param name="userId"></param>
         // GET: api/MessageThreadAPI
         [HttpGet]
         public IActionResult Get([FromBody]string userId = "")
@@ -51,6 +62,11 @@ namespace LatiumMarketplace.Controllers
             return new OkObjectResult(userMessageTheads.ToList());
         }
 
+        /// <summary>
+        /// Get a specific messsage thread. All that is needed as an argument is the id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/MessageThreadAPI/5
         [HttpGet("{id}", Name = "GetMessageThread")]
         [Route("api/MessageThreadAPI/GetMessageThread")]
@@ -61,6 +77,12 @@ namespace LatiumMarketplace.Controllers
             return "value";
         }
 
+        /// <summary>
+        /// Add a new message thread, this will create a new message thread if needed.
+        /// Although this is dependent on if there is a given messagethread already 
+        /// dedicated to the asset and person who is querying the asset.
+        /// </summary>
+        /// <param name="input"></param>
         // POST: api/MessageThreadAPI
         [HttpPost]
         public void Post([FromBody]MessageThreadDTO input)
@@ -105,6 +127,10 @@ namespace LatiumMarketplace.Controllers
             Clients.Group(recieverUser.UserName).AddNotificationToQueue(notification);
         }
         
+        /// <summary>
+        /// Delete a specific thread.
+        /// </summary>
+        /// <param name="id"></param>
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(string id)
