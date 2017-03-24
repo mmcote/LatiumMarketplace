@@ -16,6 +16,9 @@ using LatiumMarketplace.Hubs;
 
 namespace LatiumMarketplace.Controllers
 {
+    /// <summary>
+    /// BidsController
+    /// </summary>
     public class BidsController : ApiHubController<Broadcaster>
     {
         private readonly ApplicationDbContext _context;
@@ -32,13 +35,22 @@ namespace LatiumMarketplace.Controllers
         }
 
         // GET: Bids
+        /// <summary>
+        /// Index for bids
+        /// </summary>
+        /// <returns>View list of bids</returns>
         public async Task<IActionResult> Index()
         {
-
-            return View(await _context.Bid.ToListAsync());
+            return RedirectToAction("MyBids");
+            //return View(await _context.Bid.ToListAsync());
         }
 
         // GET: Bids/Details/5
+        /// <summary>
+        /// Bid controller for Details
+        /// </summary>
+        /// <param name="id">Bid ID</param>
+        /// <returns>Returns Details of Bid</returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -56,6 +68,10 @@ namespace LatiumMarketplace.Controllers
         }
 
         // GET: Bids/Create
+        /// <summary>
+        /// Bid controller for create
+        /// </summary>
+        /// <returns>View for create</returns>
         public IActionResult Create()
         {
             return View();
@@ -64,6 +80,12 @@ namespace LatiumMarketplace.Controllers
 
         // GET: Bids/Create
         // Bids for assets
+        /// <summary>
+        /// Bid controller for asset create
+        /// Create bid for specific asset
+        /// </summary>
+        /// <param name="assetId">Asset Id</param>
+        /// <returns>View of bid</returns>
         public IActionResult Create_Asset_Bid(int assetId)
         {
             Bid bid = new Bid();
@@ -86,6 +108,11 @@ namespace LatiumMarketplace.Controllers
         // POST: Bids/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Bid Create POST
+        /// </summary>
+        /// <param name="bid">Input from form</param>
+        /// <returns>View with created bid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
@@ -178,15 +205,19 @@ namespace LatiumMarketplace.Controllers
                 string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
                 Clients.Group(notificationEmail).AddNotificationToQueue(notification);
 
-                RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Assets", new { @Id = asset_id });
                 //RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Bids", new { @Id = bid.bidId });
 
-                return redirectResult;
+                return RedirectToAction("MyBids");
             }
             return View(bid);
         }
 
         //Listing of assets/requests belonging to a specific user
+        /// <summary>
+        /// List of bids associated with the user
+        /// </summary>
+        /// <param name="sortby">Enter paramters to sortby</param>
+        /// <returns>View List of your bids </returns>
         [AllowAnonymous]
         public async Task<IActionResult> MyBids(string sortby)
         {
@@ -284,6 +315,11 @@ namespace LatiumMarketplace.Controllers
 
 
         //Listing of assets/requests belonging to a specific user
+        /// <summary>
+        /// Bids that are placed on your asset
+        /// </summary>
+        /// <param name="sortby">Enter parameter to sortby</param>
+        /// <returns>View list of bids that are placed on your asset</returns>
         [AllowAnonymous]
         public async Task<IActionResult> Inbox(string sortby)
         {
@@ -383,6 +419,11 @@ namespace LatiumMarketplace.Controllers
 
         }
 
+        /// <summary>
+        /// Accept a bid
+        /// </summary>
+        /// <param name="id">Bid ID of accpeted bid</param>
+        /// <returns>Returns to index</returns>
         public async Task<IActionResult> Choose(int? id) {
             var bid = _context.Bid.Single(s => s.bidId == id);
             bid.chosen = true;
@@ -416,16 +457,17 @@ namespace LatiumMarketplace.Controllers
             //    }
             //}
 
-            // This notification redirect URL should put the user to the discussion
-            //string redirectURL = "/Bids/MyBids/";
-            //Notification notification = new Notification(bid.asset_name,
-            //    "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
-            //notification.type = 1;
-            //string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
-            //Clients.Group(notificationEmail).AddNotificationToQueue(notification);
-
-
             await _context.SaveChangesAsync();
+
+
+            // This notification redirect URL should put the user to the discussion
+            string redirectURL = "/Bids/MyBids/";
+            Notification notification = new Notification(bid.asset_name,
+                "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
+            notification.type = 1;
+            Clients.Group(bid.bidder).AddNotificationToQueue(notification);
+
+
 
 
             return RedirectToAction("Index");
@@ -463,6 +505,11 @@ namespace LatiumMarketplace.Controllers
 
 
         // GET: Bids/Delete/5
+        /// <summary>
+        /// Bid controller for Delete bid 
+        /// </summary>
+        /// <param name="id">Bid ID of bid to remove</param>
+        /// <returns>Return view of confirmation delete</returns>
         public async Task<IActionResult> Delete(int id)
         {
             if (id == 0)
@@ -476,18 +523,17 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            // This notification redirect URL should put the user to the discussion
-            //string redirectURL = "/Bids/MyBids/";
-            //Notification notification = new Notification(bid.asset_name,
-            //    "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
-            //notification.type = 1;
-            //string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
-            //Clients.Group(notificationEmail).AddNotificationToQueue(notification);
+
 
             return View(bid);
         }
 
         // POST: Bids/Delete/5
+        /// <summary>
+        /// Bid controller POST of delete bid
+        /// </summary>
+        /// <param name="id">Bid id of delete bids</param>
+        /// <returns>View Index with bid deleted</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -495,7 +541,15 @@ namespace LatiumMarketplace.Controllers
             var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
             _context.Bid.Remove(bid);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+
+            // This notification redirect URL should put the user to the discussion
+            string redirectURL = "/Bids/MyBids/";
+            Notification notification = new Notification(bid.asset_name,
+                "Your bid has been rejected for " + bid.asset_name + ".", redirectURL);
+            notification.type = 1;
+            Clients.Group(bid.bidder).AddNotificationToQueue(notification);
+
+            return RedirectToAction("MyBids");
         }
 
         private bool BidExists(int id)

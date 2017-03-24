@@ -42,7 +42,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="accessory">sorting item with accessory</param>
         //Listing of assets/requests belonging to a specific user
         [AllowAnonymous]
-        public async Task<IActionResult> MyListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory)
+        public async Task<IActionResult> MyListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory, bool featuredItem)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user?.Id;
@@ -54,7 +54,10 @@ namespace LatiumMarketplace.Controllers
 
             var assets = from m in Myassets
                          select m;
-
+            if (featuredItem == true)
+            {
+                assets = assets.Where(s => s.featuredItem == true);
+            }
             if (accessory == true)
             {
                 assets = assets.Where(s => s.accessory != null);
@@ -154,7 +157,7 @@ namespace LatiumMarketplace.Controllers
 
         // GET: Assets
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int? id, int? assetId)
+        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem)
         {
             var viewModel = new AssetIndexData();
             viewModel.Assets = await _context.Asset
@@ -167,13 +170,55 @@ namespace LatiumMarketplace.Controllers
                 .AsNoTracking()
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
-
+            // Assign a city to the asset
             if (id != null)
             {
                 ViewData["AssetID"] = id.Value;
                 Asset asset = viewModel.Assets.Where(
                     a => a.assetID == id.Value).Single();
                 viewModel.Categories = asset.AssetCategories.Select(s => s.Category);
+            }
+            if (featuredItem == true)
+            {
+                viewModel.Assets = viewModel.Assets.Where(s => s.featuredItem == true);
+            }
+            if (accessory == true)
+            {
+                viewModel.Assets = viewModel.Assets.Where(s => s.accessory != null);
+            }
+
+            if (assetLocation != null)
+            {
+                viewModel.Assets = viewModel.Assets.Where(s => s.CityId == int.Parse(assetLocation));
+            }
+
+            switch (sortby)
+            {
+
+                case "request":
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(true));
+                    break;
+                case "asset":
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+                    break;
+                case "all":
+                    viewModel.Assets = from m in viewModel.Assets
+                                       select m;
+                    break;
+            }
+
+            if (recent == true)
+            {
+                viewModel.Assets = viewModel.Assets.OrderByDescending(s => s.addDate);
+            }
+            //if (!String.IsNullOrEmpty(assetLocation))
+            //{
+            //    viewModel.Assets = viewModel.Assets.Where(x => x.Address == assetLocation);
+            //}
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
             }
             SetCityViewBag();
             return View(viewModel);
