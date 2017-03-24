@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170322034440_adding-featured-item")]
-    partial class addingfeatureditem
+    [Migration("20170324013244_fresh001")]
+    partial class fresh001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,6 +95,10 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<int>("assetID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Address");
+
+                    b.Property<int>("CityId");
+
                     b.Property<int?>("ImageGalleryId");
 
                     b.Property<int>("MakeId");
@@ -106,8 +110,6 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("description");
 
                     b.Property<bool>("featuredItem");
-
-                    b.Property<string>("location");
 
                     b.Property<string>("name");
 
@@ -124,6 +126,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<bool>("request");
 
                     b.HasKey("assetID");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("ImageGalleryId")
                         .IsUnique();
@@ -162,6 +166,18 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("CityId");
+
+                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Image", b =>
@@ -232,6 +248,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<string>("bidder");
 
+                    b.Property<bool>("chosen");
+
                     b.Property<string>("description");
 
                     b.Property<DateTime>("endDate");
@@ -292,6 +310,24 @@ namespace LatiumMarketplace.Data.Migrations
                     b.HasIndex("Assetid");
 
                     b.ToTable("MessageThread");
+                });
+
+            modelBuilder.Entity("LatiumMarketplace.Models.TransactionViewModels.Transaction", b =>
+                {
+                    b.Property<Guid>("transactionId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("end");
+
+                    b.Property<int>("price");
+
+                    b.Property<DateTime>("start");
+
+                    b.Property<DateTime>("transactionDate");
+
+                    b.HasKey("transactionId");
+
+                    b.ToTable("Transaction");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
@@ -410,14 +446,17 @@ namespace LatiumMarketplace.Data.Migrations
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.Asset", b =>
                 {
+                    b.HasOne("LatiumMarketplace.Models.AssetViewModels.City", "City")
+                        .WithMany("Assets")
+                        .HasForeignKey("CityId");
+
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.ImageGallery", "ImageGallery")
                         .WithOne("Asset")
                         .HasForeignKey("LatiumMarketplace.Models.AssetViewModels.Asset", "ImageGalleryId");
 
                     b.HasOne("LatiumMarketplace.Models.AssetViewModels.Make", "Make")
                         .WithMany("Assets")
-                        .HasForeignKey("MakeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MakeId");
                 });
 
             modelBuilder.Entity("LatiumMarketplace.Models.AssetViewModels.AssetCategory", b =>
