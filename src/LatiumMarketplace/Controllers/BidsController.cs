@@ -41,8 +41,8 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View list of bids</returns>
         public async Task<IActionResult> Index()
         {
-
-            return View(await _context.Bid.ToListAsync());
+            return RedirectToAction("MyBids");
+            //return View(await _context.Bid.ToListAsync());
         }
 
         // GET: Bids/Details/5
@@ -547,7 +547,7 @@ namespace LatiumMarketplace.Controllers
             var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
             _context.Bid.Remove(bid);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("MyBids");
         }
 
         private bool BidExists(int id)
