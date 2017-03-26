@@ -8,9 +8,10 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170325185355_MessageThreadUpdate")]
+    partial class MessageThreadUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -359,14 +360,12 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("RecieverId")
                         .IsRequired();
 
-                    b.Property<int>("RecieverUnreadMessageCount");
-
                     b.Property<string>("SenderEmail");
 
                     b.Property<string>("SenderId")
                         .IsRequired();
 
-                    b.Property<int>("SenderUnreadMessageCount");
+                    b.Property<int>("UnreadMessageCount");
 
                     b.HasKey("id");
 

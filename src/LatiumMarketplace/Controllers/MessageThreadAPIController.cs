@@ -70,11 +70,11 @@ namespace LatiumMarketplace.Controllers
         // GET: api/MessageThreadAPI/5
         [HttpGet("{id}", Name = "GetMessageThread")]
         [Route("api/MessageThreadAPI/GetMessageThread")]
-        public string GetMessageThread(string id)
+        public IActionResult GetMessageThread(string id)
         {
             Guid guid = Guid.Parse(id);
             var messageThread = _messageThreadRepository.GetMessageThreadByID(guid);
-            return "value";
+            return new OkObjectResult(messageThread);
         }
 
         /// <summary>

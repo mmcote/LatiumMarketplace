@@ -44,6 +44,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
             Subject = subject;
             Body = body;
             SendDate = DateTime.Now;
+            Unread = true;
         }
 
         [Key]
@@ -62,5 +63,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
 
         [ForeignKey("MessageThreadid")]
         public MessageThread messageThread { get; set; }
+
+        public bool Unread { get; set; }
     }
 }

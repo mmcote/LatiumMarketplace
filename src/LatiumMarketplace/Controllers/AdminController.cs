@@ -123,20 +123,38 @@ namespace LatiumMarketplace.Controllers
                     message.messageThread.LastUpdateDate = DateTime.Now;
                     messageRepo.AddMessage(message);
                     messageThreadId = message.messageThread.id.ToString();
-                    recieverEmail = message.messageThread.RecieverEmail;
+                    if (User.Identity.Name == message.messageThread.RecieverEmail)
+                    {
+                        recieverEmail = message.messageThread.SenderEmail;
+                        message.messageThread.SenderUnreadMessageCount += 1;
+                    }
+                    else
+                    {
+                        recieverEmail = message.messageThread.RecieverEmail;
+                        message.messageThread.RecieverUnreadMessageCount += 1;
+                    }
                 }
                 catch (InvalidOperationException)
                 {
                     messageRepo.AddMessage(message);
                     MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
-                    messageThreadId = messageThread.id.ToString();
-                    messageThread.messages.Add(message);
-                    messageThread.LastUpdateDate = DateTime.Now;
-
                     messageThread.SenderEmail = _context.User.Single(u => u.Id == messageThreadDTO.SenderId).Email;
                     messageThread.RecieverEmail = _context.User.Single(u => u.Id == messageThreadDTO.RecieverId).Email;
-                    recieverEmail = messageThread.RecieverEmail;
 
+                    messageThreadId = messageThread.id.ToString();
+                    messageThread.messages.Add(message);
+                    if (User.Identity.Name == messageThread.RecieverEmail)
+                    {
+                        recieverEmail = messageThread.SenderEmail;
+                        messageThread.SenderUnreadMessageCount += 1;
+                    }
+                    else
+                    {
+                        recieverEmail = messageThread.RecieverEmail;
+                        messageThread.RecieverUnreadMessageCount += 1;
+                    }
+
+                    messageThread.LastUpdateDate = DateTime.Now;
                     messageThreadRepo.AddMessageThread(messageThread);
                 }
 

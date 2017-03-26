@@ -4,7 +4,11 @@
     ViewData["Title"] = "Messages";
 }
 
-<h2>Previous Messages</h2>
+<h2>Conversation with @Model.OpposingEmail</h2>
+@if (Model.DiscussedAsset != null)
+{
+    <h3>Discussing asset named @Model.DiscussedAsset.name</h3>
+}
 
 <p>
     <a asp-controller="Messages" asp-action="Create">Respond to message</a>

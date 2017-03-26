@@ -3,6 +3,9 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+<script>
+
+</script>
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -10,15 +13,16 @@
         <ul class="nav navbar-nav navbar-right">
             <li>
                 <div class="dropdown">
-                    <button class="btn btn-link navbar-btn navbar-link" type="button" data-toggle="dropdown">
-                        Hello @UserManager.GetUserName(User)!
+                    <button id="userNavButton" class="btn btn-link navbar-btn navbar-link" type="button" data-toggle="dropdown">
+                        @UserManager.GetUserName(User)!
                         <span class="caret"></span>
+                        <span id="overallNotificationCount" class="label label-default"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul id="userNavDropDown"class="dropdown-menu">
                         <li><a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">My Profile</a></li>
                         <li><a asp-area="" asp-controller="Assets" asp-action="MyListings" title="Assets">My MyListings</a></li>
-                        <li><a asp-area="" asp-controller="Bids" asp-action="MyBids" title="Bids">My Bids</a></li>
-                        <li><a asp-controller="MessageThreads" asp-action="Index">My Messages</a></li>
+                        <li><a asp-area="" asp-controller="Bids" asp-action="MyBids" title="Bids">My Bids <span id="bidsNotificationCount" class="label label-default"></span></a></li>
+                        <li><a asp-controller="MessageThreads" asp-action="Index">My Messages <span id="messageNotificationCount" class="label label-default"></span></a></li>
                         <li><a a href="javascript:{}" onclick="document.getElementById('logoutForm').submit();">Log Off</a></li>
                     </ul>
                 </div>                

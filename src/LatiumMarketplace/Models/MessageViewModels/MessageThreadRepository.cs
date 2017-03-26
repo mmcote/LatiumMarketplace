@@ -62,7 +62,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
             MessageThread messageThread = null;
             try
             {
-                messageThread = _context.MessageThread.Single(m => m.id == messageThreadID);
+                messageThread = _context.MessageThread.Include(t => t.asset).Include(t => t.messages).Single(t => t.id == messageThreadID);
             }
             catch
             {
