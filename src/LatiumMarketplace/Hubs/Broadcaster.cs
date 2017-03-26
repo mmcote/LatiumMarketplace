@@ -34,24 +34,21 @@ namespace LatiumMarketplace.Hubs
         public Counts GetNotificationCounts(string email)
         {
             Counts counts = new Counts();
-            using (var context = new ApplicationDbContext())
-            {
-                MessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
-                var id = context.User.Single(u => u.Email == email).Id;
-                var messageThreads = messageThreadRepo.GetAllMessages(id);
-                var messageThreadsNext = context.MessageThread.Single(m => m.RecieverEmail == email || m.SenderEmail == email);
-                foreach (MessageThread thread in messageThreads)
-                {
-                    if (email == thread.SenderEmail)
-                    {
-                        counts.UnreadMessages += thread.SenderUnreadMessageCount;
-                    }
-                    else
-                    {
-                        counts.UnreadMessages += thread.RecieverUnreadMessageCount;
-                    }
-                }
-            }
+            //    MessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
+            //    var id = context.User.Single(u => u.Email == email).Id;
+            //    var messageThreads = messageThreadRepo.GetAllMessages(id);
+            //    var messageThreadsNext = context.MessageThread.Single(m => m.RecieverEmail == email || m.SenderEmail == email);
+            //    foreach (MessageThread thread in messageThreads)
+            //    {
+            //        if (email == thread.SenderEmail)
+            //        {
+            //            counts.UnreadMessages += thread.SenderUnreadMessageCount;
+            //        }
+            //        else
+            //        {
+            //            counts.UnreadMessages += thread.RecieverUnreadMessageCount;
+            //        }
+            //    }
             return counts;
         }
     }

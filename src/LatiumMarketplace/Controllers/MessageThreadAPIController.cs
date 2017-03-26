@@ -77,6 +77,25 @@ namespace LatiumMarketplace.Controllers
             return new OkObjectResult(messageThread);
         }
 
+        [HttpPost("email")]
+        public IActionResult GetMessageNotificationCount([FromBody]string email)
+        {
+            int count = 0;
+            var id = _context.User.Single(u => u.Email == email).Id;
+            var messageThreads = _messageThreadRepository.GetAllMessages(id);
+            foreach (MessageThread thread in messageThreads)
+            {
+                if (email == thread.SenderEmail)
+                {
+                    count += thread.SenderUnreadMessageCount;
+                }
+                else
+                {
+                    count += thread.RecieverUnreadMessageCount;
+                }
+            }
+            return new OkObjectResult(count);
+        }
         /// <summary>
         /// Add a new message thread, this will create a new message thread if needed.
         /// Although this is dependent on if there is a given messagethread already 
@@ -96,6 +115,16 @@ namespace LatiumMarketplace.Controllers
                 message = new Message(input.Subject, input.Body);
                 message.messageThread = messageThreadRetrieved;
                 _messageRepository.AddMessage(message);
+
+                if (User.Identity.Name == message.messageThread.RecieverEmail)
+                {
+                    message.messageThread.SenderUnreadMessageCount += 1;
+                }
+                else
+                {
+                    message.messageThread.RecieverUnreadMessageCount += 1;
+                }
+
                 _messageRepository.Save();
             }
             catch (InvalidOperationException)
@@ -115,6 +144,16 @@ namespace LatiumMarketplace.Controllers
                 }
 
                 _messageThreadRepository.AddMessageThread(messageThread);
+
+                if (User.Identity.Name == messageThread.RecieverEmail)
+                {
+                    messageThread.SenderUnreadMessageCount += 1;
+                }
+                else
+                {
+                    messageThread.RecieverUnreadMessageCount += 1;
+                }
+
                 _messageThreadRepository.Save();
             }
 

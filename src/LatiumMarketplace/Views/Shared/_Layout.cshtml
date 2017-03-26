@@ -34,35 +34,65 @@
     @if (@User.Identity.Name != null)
     {
         <script>
-            function updateNotificationCount() {
-                console.log("Updating the notification count.");
-                var counts = hub.server.getNotificationCounts('@User.Identity.Name').done(function (counts) {
-                    console.log("Success");
-                    console.log(counts);
-                    var totalNotifications = counts.unreadMessages + counts.unseenBids;
-                    if (totalNotifications != 0)
-                    {
-                        $('#overallNotificationCount').html(counts.unreadMessages + counts.unseenBids);
+            var messageNotificationCount = 0;
+            var bidNotificationCount = 0;
+
+            function updateMessageNotificationCount()
+            {
+                $.ajax({
+                    url: '@Url.Action("GetMessageNotificationCount", "MessageThreadAPI")',
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify('@User.Identity.Name'),
+                    success: function (messageCount) {
+                        messageNotificationCount = messageCount;
+                        if (messageNotificationCount != 0) {
+                            $('#messageNotificationCount').html(messageNotificationCount);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        var x = error; //break here for debugging.
                     }
-                    if (counts.unreadMessages != 0)
-                    {
-                        $('#messageNotificationCount').html(counts.unreadMessages);
-                    }
-                    if (counts.unseenBids != 0) {
-                        $('#bidsNotificationCount').html(counts.unreadMessages);
-                    }
-                }).fail(function (error) {
-                    console.log('Invocation of GetNotificationCounts failed. Error: ' + error);
                 });
             }
+
+            function updateBidNotificationCount()
+            {
+
+            }
+            @*var counts = hub.server.getNotificationCounts('@User.Identity.Name').done(function (counts) {
+                console.log("Success");
+                console.log(counts);
+                var totalNotifications = counts.unreadMessages + counts.unseenBids;
+                if (totalNotifications != 0)
+                {
+                    $('#overallNotificationCount').html(counts.unreadMessages + counts.unseenBids);
+                }
+                if (counts.unreadMessages != 0)
+                {
+                    $('#messageNotificationCount').html(counts.unreadMessages);
+                }
+                if (counts.unseenBids != 0) {
+                    $('#bidsNotificationCount').html(counts.unreadMessages);
+                }
+            }).fail(function (error) {
+                console.log('Invocation of GetNotificationCounts failed. Error: ' + error);
+            });*@
 
             var notificationArray = new Array();
             function addNotificationToQueue(notification)
             {
-                console.log("In add notification.")
                 notificationArray.push(notification);
                 updateNotificationBar();
-                updateNotificationCount();
+                if (notification.type == 0)
+                {
+                    updateMessageNotificationCount();
+                }
+                else
+                {
+                    updateBidNotificationCount();
+                }
             }
 
             function updateNotificationBar()
@@ -110,7 +140,9 @@
                 // You could use this method to subscribe to a specific chatroom,
                 // listen for updates to a specific resource, or whatever you would want to "subscribe" to.
                 hub.server.subscribe('@User.Identity.Name');
-                updateNotificationCount();
+                updateMessageNotificationCount();
+                updateBidNotificationCount();
+                updateOverallNotificationCount();
             }).fail(function (error) {
                 // Just in case we fail to connect
                 console.log('Failed to start connection! Error: ', error);

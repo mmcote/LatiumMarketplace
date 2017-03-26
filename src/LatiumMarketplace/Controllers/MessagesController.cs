@@ -75,7 +75,6 @@ namespace LatiumMarketplace.Controllers
                 message.id = Guid.NewGuid();
                 message.SendDate = DateTime.Now;
                 _messageRepo.AddMessage(message);
-                _messageRepo.Save();
 
                 // This notification redirect URL should put the user to the discussion
                 string redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
@@ -84,13 +83,16 @@ namespace LatiumMarketplace.Controllers
                 if (message.messageThread.RecieverEmail == User.Identity.Name)
                 {
                     notificationEmail = message.messageThread.SenderEmail;
+                    message.messageThread.SenderUnreadMessageCount += 1;
                 }
                 else
                 {
                     notificationEmail = message.messageThread.RecieverEmail;
+                    message.messageThread.RecieverUnreadMessageCount += 1;
                 }
-                Clients.Group(notificationEmail).AddNotificationToQueue(notification);
+                _messageRepo.Save();
 
+                Clients.Group(notificationEmail).AddNotificationToQueue(notification);
                 return RedirectToAction("Details", "MessageThreads", new { id = messageThreadId });
             }
 
