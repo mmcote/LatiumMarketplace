@@ -116,7 +116,8 @@ namespace LatiumMarketplace.Controllers
                 message.messageThread = messageThreadRetrieved;
                 _messageRepository.AddMessage(message);
 
-                if (User.Identity.Name == message.messageThread.RecieverEmail)
+                //if (User.Identity.Name == message.messageThread.RecieverEmail)
+                if (!input.IsSender)
                 {
                     message.messageThread.SenderUnreadMessageCount += 1;
                 }
@@ -145,7 +146,8 @@ namespace LatiumMarketplace.Controllers
 
                 _messageThreadRepository.AddMessageThread(messageThread);
 
-                if (User.Identity.Name == messageThread.RecieverEmail)
+                //if (User.Identity.Name == messageThread.RecieverEmail)
+                if (!input.IsSender)
                 {
                     messageThread.SenderUnreadMessageCount += 1;
                 }

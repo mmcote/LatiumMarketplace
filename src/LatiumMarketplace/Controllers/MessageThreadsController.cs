@@ -108,6 +108,7 @@ namespace LatiumMarketplace.Controllers
             string userId = await _userManager.GetUserIdAsync(user);
             messageThreadDTO.RecieverId = HttpContext.Request.Cookies["assetOwnerId"];
             messageThreadDTO.SenderId = userId;
+            messageThreadDTO.IsSender = true;
             messageThreadDTO.AssetId = assetId;
             _messageThreadApiController.Post(messageThreadDTO);
 

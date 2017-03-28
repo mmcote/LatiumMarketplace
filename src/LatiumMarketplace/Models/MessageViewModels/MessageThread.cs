@@ -36,6 +36,8 @@ namespace LatiumMarketplace.Models.MessageViewModels
 
         [Required]
         public string Body { get; set; }
+
+        public bool IsSender { get; set; }
     }
 
     public class MessageThread
