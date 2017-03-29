@@ -184,5 +184,80 @@ namespace LatiumMarketplace.Controllers
             _messageThreadRepository.DeleteMessageThread(guid);
             _messageThreadRepository.Save();
         }
+
+        /// <summary>
+        /// Mark a specific message as unread, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
+        [Route("api/MessageThreadAPI/DecrementMessageNotificationCount")]
+        public IActionResult DecrementMessageNotificationCount([FromBody] MessageReadUnreadDTO ajaxPackage)
+        {
+            try
+            {
+                Guid guid = Guid.Parse(ajaxPackage.Id);
+                var messageThreadRetrieved = _context.MessageThread.Single(m => m.id == guid);
+
+                if(ajaxPackage.IsSender && messageThreadRetrieved.SenderUnreadMessageCount > 0)
+                {
+                    messageThreadRetrieved.SenderUnreadMessageCount -= 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.SenderEmail).UpdateOverallNotificationCount();
+                }
+                else if(messageThreadRetrieved.RecieverUnreadMessageCount > 0)
+                {
+                    messageThreadRetrieved.RecieverUnreadMessageCount -= 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.RecieverEmail).UpdateOverallNotificationCount();
+                }
+
+                _messageThreadRepository.Save();
+                return new OkResult();
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
+        }
+
+        /// <summary>
+        /// Mark a specific message as unread, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
+        [Route("api/MessageThreadAPI/IncrementMessageNotificationCount")]
+        public IActionResult IncrementMessageNotificationCount([FromBody] MessageReadUnreadDTO ajaxPackage)
+        {
+            try
+            {
+                Guid guid = Guid.Parse(ajaxPackage.Id);
+                var messageThreadRetrieved = _context.MessageThread.Single(m => m.id == guid);
+
+                if (ajaxPackage.IsSender && messageThreadRetrieved.SenderUnreadMessageCount >= 0)
+                {
+                    messageThreadRetrieved.SenderUnreadMessageCount += 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.SenderEmail).UpdateOverallNotificationCount();
+                }
+                else if (messageThreadRetrieved.RecieverUnreadMessageCount >= 0)
+                {
+                    messageThreadRetrieved.RecieverUnreadMessageCount += 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.RecieverEmail).UpdateOverallNotificationCount();
+                }
+
+                return new OkResult();
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
+        }
     }
 }

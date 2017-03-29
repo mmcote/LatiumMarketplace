@@ -28,9 +28,6 @@
 <body>
     <div id="NotificationDiv"></div>
     
-    @*<p id="header"></p>
-    <p id="body"></p>
-    <a id="redirectURL" href="">Click here to go to the discussion</a>*@
     @if (@User.Identity.Name != null)
     {
         <script>
@@ -46,8 +43,12 @@
                     data: JSON.stringify('@User.Identity.Name'),
                     success: function (messageCount) {
                         messageNotificationCount = messageCount;
-                        if (messageNotificationCount != 0) {
-                            $('#messageNotificationCount').html(messageNotificationCount);
+                        $('#messageNotificationCount').html(messageNotificationCount);
+                        if (messageNotificationCount == 0) {
+                            $('#messageNotificationCount').hide();
+                        }
+                        else {
+                            $('#messageNotificationCount').show();
                         }
                     },
                     error: function (error) {
@@ -60,6 +61,12 @@
             function updateBidNotificationCount()
             {
 
+            }
+
+            function updateOverallNotificationCount()
+            {
+                updateMessageNotificationCount();
+                updateBidNotificationCount();
             }
             @*var counts = hub.server.getNotificationCounts('@User.Identity.Name').done(function (counts) {
                 console.log("Success");
@@ -130,7 +137,7 @@
 
             // A function we will call from the server
             $.connection.broadcaster.client.addNotificationToQueue = addNotificationToQueue;
-
+            $.connection.broadcaster.client.updateOverallNotificationCount = updateOverallNotificationCount;
             $.connection.hub.logging = true;
 
             $.connection.hub.start().done(function (signalr) {
@@ -140,8 +147,6 @@
                 // You could use this method to subscribe to a specific chatroom,
                 // listen for updates to a specific resource, or whatever you would want to "subscribe" to.
                 hub.server.subscribe('@User.Identity.Name');
-                updateMessageNotificationCount();
-                updateBidNotificationCount();
                 updateOverallNotificationCount();
             }).fail(function (error) {
                 // Just in case we fail to connect

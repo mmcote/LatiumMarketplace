@@ -84,11 +84,13 @@ namespace LatiumMarketplace.Controllers
                 {
                     notificationEmail = message.messageThread.SenderEmail;
                     message.messageThread.SenderUnreadMessageCount += 1;
+                    message.SenderUnread = true;
                 }
                 else
                 {
                     notificationEmail = message.messageThread.RecieverEmail;
                     message.messageThread.RecieverUnreadMessageCount += 1;
+                    message.RecieverUnread = true;
                 }
                 _messageRepo.Save();
 

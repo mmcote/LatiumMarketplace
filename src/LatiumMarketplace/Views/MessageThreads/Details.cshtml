@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
 @model LatiumMarketplace.Models.MessageViewModels.MessageDetailsView
 
 @{
@@ -67,6 +69,8 @@
 </div>
 <script>
     var isSender = false;
+    var messageNotificationCount = 0;
+
     @if (Model.IsSender)
     {
         <text>
@@ -90,6 +94,7 @@
             contentType: "application/json",
             data: JSON.stringify(messageReadUnreadDTO),
             success: function () {
+                decrementMessageNotificationCount();
                 $("#"+UnreadElementId).hide();
                 $("#"+ReadElementId).show();
             },
@@ -117,8 +122,69 @@
             contentType: "application/json",
             data: JSON.stringify(messageReadUnreadDTO),
             success: function () {
+                incrementMessageNotificationCount();
                 $("#" + UnreadElementId).show();
                 $("#" + ReadElementId).hide();
+            },
+            error: function (error) {
+                console.log(error)
+                var x = error; //break here for debugging.
+            }
+        });
+    }
+
+    @*function updateMessageNotificationCount() {
+        $.ajax({
+            url: '@Url.Action("GetMessageNotificationCount", "MessageThreadAPI")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify('@User.Identity.Name'),
+            success: function (messageCount) {
+                messageNotificationCount = messageCount;
+                $('#messageNotificationCount').html(messageNotificationCount);
+                if (messageNotificationCount == 0) {
+                    $('#messageNotificationCount').hide();
+                }
+                else
+                {
+                    $('#messageNotificationCount').show();
+                }
+            },
+            error: function (error) {
+                console.log(error)
+                var x = error; //break here for debugging.
+            }
+        });
+    }*@
+
+    function decrementMessageNotificationCount() {
+        console.log("In decrementMessageNotificationCount.");
+        var messageReadUnreadDTO = { Id: '@Model.MessageThreadId', IsSender: isSender };
+        $.ajax({
+            url: '@Url.Action("DecrementMessageNotificationCount", "MessageThreadAPI")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(messageReadUnreadDTO),
+            success: function () {
+                console.log("Successfully decremented count");
+            },
+            error: function (error) {
+                console.log(error)
+                var x = error; //break here for debugging.
+            }
+        });
+    }
+
+    function incrementMessageNotificationCount() {
+        console.log("In incrementMessageNotificationCount.");
+        var messageReadUnreadDTO = { Id: '@Model.MessageThreadId', IsSender: isSender };
+        $.ajax({
+            url: '@Url.Action("IncrementMessageNotificationCount", "MessageThreadAPI")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(messageReadUnreadDTO),
+            success: function () {
+                console.log("Successfully incremented count");
             },
             error: function (error) {
                 console.log(error)
