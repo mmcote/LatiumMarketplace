@@ -3,21 +3,20 @@
     ViewData["Title"] = "Create";
 }
 
-
 <h2>Create</h2>
 
-<form asp-action="Create" enctype="multipart/form-data">
+<form asp-action="Create" enctype="multipart/form-data" autocomplete="off">
     <h4>Asset Information</h4>
     <hr />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <!-- TODO: Need to replace this with actual data-->
-    
-    <div class="form-group">
+
+    <div id="asset-create-options-form" class="form-group">
         <label class="radio-inline">
-            <input type="radio" name="assetCreateOptions" id="for-sale" value="IsForSale"> For Sale
+            <input type="radio" name="assetCreateOptions" checked="checked" id="for-sale" class="asset-creation-radio" value="IsForSale"> For Sale
         </label>
         <label class="radio-inline">
-            <input type="radio" name="assetCreateOptions" id="for-rent" value="IsForRent"> For Rent
+            <input type="radio" name="assetCreateOptions" id="for-rent" class="asset-creation-radio" value="IsForRent"> For Rent
         </label>
     </div>
     <div class="row">
@@ -33,7 +32,7 @@
                     "Makes",
                     (SelectList)ViewBag.Makes,
                     "--- Select a make ---",
-                    new { @class =  "form-control" }
+                    new { @class = "form-control" }
                     )
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
@@ -84,22 +83,56 @@
             <div id="IsForRent" class="asset-rates">
                 <div class="row">
                     <div class="col-md-4">
-                        <label asp-for="priceDaily" class=""></label>
-                        <input asp-for="priceDaily" class="form-control" />
-                        <span asp-validation-for="priceDaily" class="text-danger" />
+                        <div class="form-group">
+                            <label asp-for="priceDaily" class=""></label>
+                            <input asp-for="priceDaily" class="form-control" />
+                            <span asp-validation-for="priceDaily" class="text-danger" />
+                        </div>
                     </div>
+
                     <div class="col-md-4">
-                        <label asp-for="priceWeekly" class=""></label>
-                        <input asp-for="priceWeekly" class="form-control" />
-                        <span asp-validation-for="priceWeekly" class="text-danger" />
+                        <div class="form-group">
+                            <label asp-for="priceWeekly" class=""></label>
+                            <input asp-for="priceWeekly" class="form-control" />
+                            <span asp-validation-for="priceWeekly" class="text-danger" />
+                        </div>
                     </div>
+
                     <div class="col-md-4">
-                        <label asp-for="priceMonthly" class=""></label>
-                        <input asp-for="priceMonthly" class="form-control" />
-                        <span asp-validation-for="priceMonthly" class="text-danger" />
+                        <div class="form-group">
+                            <label asp-for="priceMonthly" class=""></label>
+                            <input asp-for="priceMonthly" class="form-control" />
+                            <span asp-validation-for="priceMonthly" class="text-danger" />
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Begin accessories -->
+            <div id="accessories-container">
+                <div>
+                    <button type="button" id="add-accessory-item" class="btn btn-default btn-lg">Add Accessory</button>
+                </div>
+                <div class="accessory-item row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Accessory Name</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            
+            
+            
             <div class="form-group">
                 <label class="">Upload your images</label>
                 <input type="file" name="AssetImages" multiple />
