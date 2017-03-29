@@ -112,7 +112,7 @@ namespace LatiumMarketplace.Controllers
                 // The reciever will always be the seller
                 Message message;
                 Notification notification;
-                message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body);
+                message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body, false, false);
                 string messageThreadId;
                 string recieverEmail;
                 string redirectURL;
@@ -127,11 +127,13 @@ namespace LatiumMarketplace.Controllers
                     {
                         recieverEmail = message.messageThread.SenderEmail;
                         message.messageThread.SenderUnreadMessageCount += 1;
+                        message.SenderUnread = true;
                     }
                     else
                     {
                         recieverEmail = message.messageThread.RecieverEmail;
                         message.messageThread.RecieverUnreadMessageCount += 1;
+                        message.RecieverUnread = true;
                     }
                 }
                 catch (InvalidOperationException)
@@ -147,11 +149,13 @@ namespace LatiumMarketplace.Controllers
                     {
                         recieverEmail = messageThread.SenderEmail;
                         messageThread.SenderUnreadMessageCount += 1;
+                        message.SenderUnread = true;
                     }
                     else
                     {
                         recieverEmail = messageThread.RecieverEmail;
                         messageThread.RecieverUnreadMessageCount += 1;
+                        message.RecieverUnread = true;
                     }
 
                     messageThread.LastUpdateDate = DateTime.Now;

@@ -67,12 +67,12 @@ namespace LatiumMarketplace.Controllers
             if (user.Id == messageThread.SenderId)
             {
                 string email = messageThread.RecieverEmail;
-                messageDetailsView = new MessageDetailsView(guid, threadMessages, email, messageThread.asset);
+                messageDetailsView = new MessageDetailsView(guid, threadMessages, email, true, messageThread.asset);
             }
             else
             {
                 string email = messageThread.SenderEmail;
-                messageDetailsView = new MessageDetailsView(guid, threadMessages, email, messageThread.asset);
+                messageDetailsView = new MessageDetailsView(guid, threadMessages, email, false, messageThread.asset);
             }
 
             HttpContext.Response.Cookies.Append(

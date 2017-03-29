@@ -13,6 +13,8 @@ namespace LatiumMarketplace.Models.MessageViewModels
         IEnumerable<Message> GetAll();
         void AddMessage(Message message);
         void DeleteMessage(Guid messageID);
+        void MessageRead(Guid messageID, bool isSender);
+        void MessageUnread(Guid messageID, bool isSender);
         void UpdateMessage(Message message);
         void Save();
     }

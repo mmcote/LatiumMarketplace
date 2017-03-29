@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.MessageViewModels;
+using Newtonsoft.Json.Linq;
 
 /*
  * MessagesAPIController can be used to get certain messages
@@ -104,7 +105,7 @@ namespace LatiumMarketplace.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]MessageDTO messageDTO)
         {
-            Message message = new Message(messageDTO.subject, messageDTO.body);
+            Message message = new Message(messageDTO.subject, messageDTO.body, false, false);
             Guid guid = Guid.Parse(messageDTO.messageThreadId);
             try
             {
@@ -137,6 +138,68 @@ namespace LatiumMarketplace.Controllers
                     return null;
                 }
                 _messageRepository.DeleteMessage(guid);
+                _messageRepository.Save();
+                return new OkObjectResult(true);
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Mark a specific message as read, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
+        [Route("api/MessagesAPI/MarkAsRead")]
+        public IActionResult MarkMessageAsRead([FromBody] MessageReadUnreadDTO messageReadUnreadDTO)
+        {
+            Guid guid = Guid.Parse(messageReadUnreadDTO.Id);
+            try
+            {
+                Message message = _messageRepository.GetMessageByID(guid);
+                if (message == null)
+                {
+                    return null;
+                }
+                _messageRepository.MessageRead(guid, messageReadUnreadDTO.IsSender);
+                _messageRepository.Save();
+                return new OkObjectResult(true);
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Mark a specific message as unread, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
+        [Route("api/MessagesAPI/MarkAsUnread")]
+        public IActionResult MarkMessageAsUnread([FromBody] MessageReadUnreadDTO messageReadUnreadDTO)
+        {
+            Guid guid = Guid.Parse(messageReadUnreadDTO.Id);
+            try
+            {
+                Message message = _messageRepository.GetMessageByID(guid);
+                if (message == null)
+                {
+                    return null;
+                }
+                _messageRepository.MessageUnread(guid, messageReadUnreadDTO.IsSender);
                 _messageRepository.Save();
                 return new OkObjectResult(true);
             }

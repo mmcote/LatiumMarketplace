@@ -112,7 +112,7 @@ namespace LatiumMarketplace.Controllers
             {
                 var messageThreadRetrieved = _context.MessageThread.Single(m => m.asset.assetID == input.AssetId && m.SenderId == input.SenderId);
                 messageThreadRetrieved.LastUpdateDate = DateTime.Now;
-                message = new Message(input.Subject, input.Body);
+                message = new Message(input.Subject, input.Body, false, false);
                 message.messageThread = messageThreadRetrieved;
                 _messageRepository.AddMessage(message);
 
@@ -120,17 +120,19 @@ namespace LatiumMarketplace.Controllers
                 if (!input.IsSender)
                 {
                     message.messageThread.SenderUnreadMessageCount += 1;
+                    message.SenderUnread = true;
                 }
                 else
                 {
                     message.messageThread.RecieverUnreadMessageCount += 1;
+                    message.RecieverUnread = true;
                 }
 
                 _messageRepository.Save();
             }
             catch (InvalidOperationException)
             {
-                message = new Message(input.Subject, input.Body);
+                message = new Message(input.Subject, input.Body, false, false);
                 _messageRepository.AddMessage(message);
                 MessageThread messageThread = new MessageThread(input.SenderId, input.RecieverId);
                 messageThread.messages.Add(message);
@@ -150,10 +152,12 @@ namespace LatiumMarketplace.Controllers
                 if (!input.IsSender)
                 {
                     messageThread.SenderUnreadMessageCount += 1;
+                    message.SenderUnread = true;
                 }
                 else
                 {
                     messageThread.RecieverUnreadMessageCount += 1;
+                    message.RecieverUnread = true;
                 }
 
                 _messageThreadRepository.Save();

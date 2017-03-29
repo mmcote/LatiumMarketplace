@@ -82,5 +82,51 @@ namespace LatiumMarketplace.Models.MessageViewModels
             }
             return messages;
         }
+
+        public void MessageRead(Guid messageID, bool isSender)
+        {
+            if (messageID == null)
+            {
+                throw new ArgumentNullException("The messageID given was null. No messageID's are null.");
+            }
+
+            var message = _context.Message.Single(m => m.id == messageID);
+            if (message == null)
+            {
+                throw new Exception("No message found by the given messageID");
+            };
+            if (isSender)
+            {
+                message.SenderUnread = false;
+            }
+            else
+            {
+                message.RecieverUnread = false;
+            }
+            return;
+        }
+
+        public void MessageUnread(Guid messageID, bool isSender)
+        {
+            if (messageID == null)
+            {
+                throw new ArgumentNullException("The messageID given was null. No messageID's are null.");
+            }
+
+            var message = _context.Message.Single(m => m.id == messageID);
+            if (message == null)
+            {
+                throw new Exception("No message found by the given messageID");
+            };
+            if (isSender)
+            {
+                message.SenderUnread = true;
+            }
+            else
+            {
+                message.RecieverUnread = true;
+            }
+            return;
+        }
     }
 }

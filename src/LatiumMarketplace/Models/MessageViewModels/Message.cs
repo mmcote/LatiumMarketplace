@@ -39,12 +39,13 @@ namespace LatiumMarketplace.Models.MessageViewModels
          */
         private Message() { }
 
-        public Message(string subject, string body)
+        public Message(string subject, string body, bool senderUnread, bool recieverUnread)
         {
             Subject = subject;
             Body = body;
             SendDate = DateTime.Now;
-            Unread = true;
+            RecieverUnread = recieverUnread;
+            SenderUnread = senderUnread;
         }
 
         [Key]
@@ -64,6 +65,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
         [ForeignKey("MessageThreadid")]
         public MessageThread messageThread { get; set; }
 
-        public bool Unread { get; set; }
+        public bool SenderUnread { get; set; }
+        public bool RecieverUnread { get; set; }
     }
 }

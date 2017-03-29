@@ -27,6 +27,7 @@
                 @Html.DisplayNameFor(model => model.Messages.First().Body)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -42,6 +43,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Body)
                 </td>
+                <td>
+                    <a asp-controller="Messages" asp-action="Details" asp-route-id="@item.id">View Message</a>
+                </td>
+                <td>
+                    @if ((Model.IsSender && item.SenderUnread) || (Model.IsSender == false && item.RecieverUnread))
+                    {
+                        <button id="@item.id.ToString()unread" type="button" onclick="markAsRead('@item.id.ToString()')" class="btn btn-outline-primary">Mark As Read</button>
+                        <button id="@item.id.ToString()read" type="button" onclick="markAsUnread('@item.id.ToString()')" class="btn btn-outline-primary" style="display: none">Mark As Unread</button>
+                    }
+                    else
+                    {
+                        <button id="@item.id.ToString()unread" type="button" onclick="markAsRead('@item.id.ToString()')" class="btn btn-outline-primary" style="display: none">Mark As Read</button>
+                        <button id="@item.id.ToString()read" type="button" onclick="markAsUnread('@item.id.ToString()')" class="btn btn-outline-primary">Mark As Unread</button>
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -49,3 +65,65 @@
 <div>
     <a asp-action="Index">Back to all message threads</a>
 </div>
+<script>
+    var isSender = false;
+    @if (Model.IsSender)
+    {
+        <text>
+            isSender = true;
+        </text>
+    }
+    function markAsRead(id) {
+        console.log("In mark as read.");
+        var messageReadUnreadDTO = { Id: id, IsSender: isSender };
+        console.log(messageReadUnreadDTO);
+        var idElement = "#";
+        var unread = "unread";
+        var read = "read";
+        var UnreadElementId = id.concat(unread);
+        console.log(UnreadElementId);
+        var ReadElementId = id.concat(read);
+        console.log(ReadElementId);
+        $.ajax({
+        url: '@Url.Action("MarkMessageAsRead", "MessagesAPI")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(messageReadUnreadDTO),
+            success: function () {
+                $("#"+UnreadElementId).hide();
+                $("#"+ReadElementId).show();
+            },
+            error: function (error) {
+                console.log(error)
+                var x = error; //break here for debugging.
+            }
+        });
+    }
+
+    function markAsUnread(id) {
+        console.log("In mark as unread.");
+        var messageReadUnreadDTO = { Id: id, IsSender: isSender };
+        console.log(messageReadUnreadDTO);
+        var idElement = "#";
+        var unread = "unread";
+        var read = "read";
+        var UnreadElementId = id.concat(unread);
+        console.log(UnreadElementId);
+        var ReadElementId = id.concat(read);
+        console.log(ReadElementId);
+        $.ajax({
+            url: '@Url.Action("MarkMessageAsUnread", "MessagesAPI")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(messageReadUnreadDTO),
+            success: function () {
+                $("#" + UnreadElementId).show();
+                $("#" + ReadElementId).hide();
+            },
+            error: function (error) {
+                console.log(error)
+                var x = error; //break here for debugging.
+            }
+        });
+    }
+</script>

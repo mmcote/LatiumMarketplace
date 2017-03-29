@@ -8,16 +8,18 @@ namespace LatiumMarketplace.Models.MessageViewModels
 {
     public class MessageDetailsView
     {
-        public MessageDetailsView(string messageThreadId, IEnumerable<Message> messages, string opposingEmail, Asset asset = null)
+        public MessageDetailsView(string messageThreadId, IEnumerable<Message> messages, string opposingEmail, bool isSender, Asset asset = null)
         {
             MessageThreadId = messageThreadId;
             Messages = messages;
             DiscussedAsset = asset;
             OpposingEmail = opposingEmail;
+            IsSender = isSender;
         }
         public string MessageThreadId;
         public Asset DiscussedAsset;
         public string OpposingEmail;
         public IEnumerable<Message> Messages;
+        public bool IsSender;
     }
 }
