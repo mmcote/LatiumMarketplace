@@ -19,13 +19,48 @@
     padding-right: 15px;
 }
 
-/* Carousel */
+/* Main carousel */
+#main-carousel {
+    position: relative;
+}
 .carousel {
     margin-top: -20px;
 }
 .carousel-caption p {
     font-size: 20px;
     line-height: 1.4;
+}
+
+#search-form-container {
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    background: rgba(255, 255, 255, 0.9) ;
+    width: 40%;
+    padding: 20px 40px;
+    z-index: 20;
+}
+
+.search-toggle {
+    font-weight: bold;
+}
+
+.search-toggle ul li {
+    border-left: 1px solid #CCC;
+    padding-left: 10px;
+}
+
+.search-toggle ul li:first-child {
+    border-left: none;
+    padding-left: 5px;
+}
+
+.search-toggle ul li a {
+    color: #333;
+}
+
+.search-items {
+    text-align: center;
 }
 
 /* buttons and links extension to use brackets: [ click me ] */
@@ -57,8 +92,7 @@
 }
 /*Home screen search bar*/
 #searchForm {
-	position:absolute;
-  	top:45%;
+	
 }
 
 /* Asset Index Page */
@@ -71,6 +105,6 @@
 }
 
 /* Asset Creation Page */
-.asset-rates {
+#IsForRent {
     /*display: none;*/
 }
