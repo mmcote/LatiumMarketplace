@@ -39,6 +39,7 @@
                 $.ajax({
                     url: '@Url.Action("GetMessageNotificationCount", "MessageThreadAPI")',
                     type: "POST",
+                    async: false,
                     contentType: "application/json",
                     data: JSON.stringify('@User.Identity.Name'),
                     success: function (messageCount) {
@@ -67,6 +68,15 @@
             {
                 updateMessageNotificationCount();
                 updateBidNotificationCount();
+                var totalNotifications = messageNotificationCount + bidNotificationCount;
+                $('#overallNotificationCount').html(totalNotifications);
+                if (messageNotificationCount == 0) {
+                    $('#overallNotificationCount').hide();
+                }
+                else {
+                    $('#overallNotificationCount').show();
+                }
+
             }
             @*var counts = hub.server.getNotificationCounts('@User.Identity.Name').done(function (counts) {
                 console.log("Success");

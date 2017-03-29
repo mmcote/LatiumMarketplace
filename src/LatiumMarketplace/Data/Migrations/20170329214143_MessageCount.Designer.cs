@@ -8,8 +8,8 @@ using LatiumMarketplace.Data;
 namespace LatiumMarketplace.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170325185355_MessageThreadUpdate")]
-    partial class MessageThreadUpdate
+    [Migration("20170329214143_MessageCount")]
+    partial class MessageCount
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -332,12 +332,14 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<Guid?>("MessageThreadid");
 
+                    b.Property<bool>("RecieverUnread");
+
                     b.Property<DateTime>("SendDate");
+
+                    b.Property<bool>("SenderUnread");
 
                     b.Property<string>("Subject")
                         .IsRequired();
-
-                    b.Property<bool>("Unread");
 
                     b.HasKey("id");
 
@@ -360,12 +362,14 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<string>("RecieverId")
                         .IsRequired();
 
+                    b.Property<int>("RecieverUnreadMessageCount");
+
                     b.Property<string>("SenderEmail");
 
                     b.Property<string>("SenderId")
                         .IsRequired();
 
-                    b.Property<int>("UnreadMessageCount");
+                    b.Property<int>("SenderUnreadMessageCount");
 
                     b.HasKey("id");
 

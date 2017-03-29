@@ -169,6 +169,11 @@ namespace LatiumMarketplace.Controllers
             }
             _context.SaveChanges();
 
+            foreach(ApplicationUser user in users)
+            {
+                Clients.Group(user.Email).UpdateOverallNotificationCount();
+            }
+
             return RedirectToAction(nameof(AdminController.Index));
         }
 
