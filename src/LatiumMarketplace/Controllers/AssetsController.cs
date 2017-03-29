@@ -462,7 +462,7 @@ namespace LatiumMarketplace.Controllers
                 // Assign a city to the request
                 var myCityId = HttpContext.Request.Form["Cities"];
                 var myCityIdNumVal = int.Parse(myCityId);
-                asset.CityId = myCityIdNumVal;
+                asset.CityId = myCityIdNumVal; 
 
                 _context.Add(asset);
                 await _context.SaveChangesAsync();

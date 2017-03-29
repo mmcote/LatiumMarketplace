@@ -1,0 +1,89 @@
+@model LatiumMarketplace.Models.RequestViewModel.Request
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Request</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="AccessoryListId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="AccessoryListId" class ="form-control" asp-items="ViewBag.AccessoryListId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CityId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="CityId" class ="form-control" asp-items="ViewBag.CityId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="accessory" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="accessory" class="form-control" />
+                <span asp-validation-for="accessory" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="address" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="address" class="form-control" />
+                <span asp-validation-for="address" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="description" class="form-control" />
+                <span asp-validation-for="description" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="duration" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="duration" class="form-control" />
+                <span asp-validation-for="duration" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ownerID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ownerID" class="form-control" />
+                <span asp-validation-for="ownerID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ownerName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ownerName" class="form-control" />
+                <span asp-validation-for="ownerName" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

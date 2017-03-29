@@ -10,6 +10,7 @@ using LatiumMarketplace.Models.MessageViewModels;
 using Microsoft.EntityFrameworkCore.Metadata;
 using LatiumMarketplace.Models.BidViewModels;
 using LatiumMarketplace.Models.TransactionViewModels;
+using LatiumMarketplace.Models.RequestViewModel;
 
 namespace LatiumMarketplace.Data
 {
@@ -161,5 +162,7 @@ namespace LatiumMarketplace.Data
                 optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EFProviders.InMemory;Trusted_Connection=True;");
             }
         }
+
+        public DbSet<Request> Request { get; set; }
     }
 }

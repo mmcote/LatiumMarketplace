@@ -1,0 +1,60 @@
+@model LatiumMarketplace.Models.RequestViewModel.Request
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Request</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.accessory)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.accessory)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.duration)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.duration)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ownerID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ownerID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ownerName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ownerName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.requestID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
