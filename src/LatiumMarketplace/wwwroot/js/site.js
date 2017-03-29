@@ -1,4 +1,3 @@
-﻿
 $(document).ready(function () {
     // Show rates based on radio button selection
     // If asset is for sale or for rent 

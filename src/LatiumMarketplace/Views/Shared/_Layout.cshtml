@@ -28,18 +28,88 @@
 <body>
     <div id="NotificationDiv"></div>
     
-    @*<p id="header"></p>
-    <p id="body"></p>
-    <a id="redirectURL" href="">Click here to go to the discussion</a>*@
     @if (@User.Identity.Name != null)
     {
         <script>
+            var messageNotificationCount = 0;
+            var bidNotificationCount = 0;
+
+            function updateMessageNotificationCount()
+            {
+                $.ajax({
+                    url: '@Url.Action("GetMessageNotificationCount", "MessageThreadAPI")',
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json",
+                    data: JSON.stringify('@User.Identity.Name'),
+                    success: function (messageCount) {
+                        messageNotificationCount = messageCount;
+                        $('#messageNotificationCount').html(messageNotificationCount);
+                        if (messageNotificationCount == 0) {
+                            $('#messageNotificationCount').hide();
+                        }
+                        else {
+                            $('#messageNotificationCount').show();
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        var x = error; //break here for debugging.
+                    }
+                });
+            }
+
+            function updateBidNotificationCount()
+            {
+
+            }
+
+            function updateOverallNotificationCount()
+            {
+                updateMessageNotificationCount();
+                updateBidNotificationCount();
+                var totalNotifications = messageNotificationCount + bidNotificationCount;
+                $('#overallNotificationCount').html(totalNotifications);
+                if (messageNotificationCount == 0) {
+                    $('#overallNotificationCount').hide();
+                }
+                else {
+                    $('#overallNotificationCount').show();
+                }
+
+            }
+            @*var counts = hub.server.getNotificationCounts('@User.Identity.Name').done(function (counts) {
+                console.log("Success");
+                console.log(counts);
+                var totalNotifications = counts.unreadMessages + counts.unseenBids;
+                if (totalNotifications != 0)
+                {
+                    $('#overallNotificationCount').html(counts.unreadMessages + counts.unseenBids);
+                }
+                if (counts.unreadMessages != 0)
+                {
+                    $('#messageNotificationCount').html(counts.unreadMessages);
+                }
+                if (counts.unseenBids != 0) {
+                    $('#bidsNotificationCount').html(counts.unreadMessages);
+                }
+            }).fail(function (error) {
+                console.log('Invocation of GetNotificationCounts failed. Error: ' + error);
+            });*@
+
             var notificationArray = new Array();
             function addNotificationToQueue(notification)
             {
-                console.log("In add notification.")
                 notificationArray.push(notification);
                 updateNotificationBar();
+                if (notification.type == 0)
+                {
+                    updateMessageNotificationCount();
+                }
+                else
+                {
+                    updateBidNotificationCount();
+                }
             }
 
             function updateNotificationBar()
@@ -77,7 +147,7 @@
 
             // A function we will call from the server
             $.connection.broadcaster.client.addNotificationToQueue = addNotificationToQueue;
-
+            $.connection.broadcaster.client.updateOverallNotificationCount = updateOverallNotificationCount;
             $.connection.hub.logging = true;
 
             $.connection.hub.start().done(function (signalr) {
@@ -87,10 +157,12 @@
                 // You could use this method to subscribe to a specific chatroom,
                 // listen for updates to a specific resource, or whatever you would want to "subscribe" to.
                 hub.server.subscribe('@User.Identity.Name');
+                updateOverallNotificationCount();
             }).fail(function (error) {
                 // Just in case we fail to connect
                 console.log('Failed to start connection! Error: ', error);
             });
+
         </script>
     }
     <div class="navbar navbar-inverse navbar-fixed-top">

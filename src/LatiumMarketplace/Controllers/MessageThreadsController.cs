@@ -54,14 +54,26 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
             string guid = id.ToString();
-            OkObjectResult messagesWrapped = (OkObjectResult) _messageApiController.GetAllRelatedToThread(guid);
-            IEnumerable<Message> threadMessages = (IEnumerable<Message>) messagesWrapped.Value;
+            OkObjectResult messageThreadWrapped = (OkObjectResult) _messageThreadApiController.GetMessageThread(guid);
+            MessageThread messageThread = (MessageThread) messageThreadWrapped.Value;
+            IEnumerable<Message> threadMessages = messageThread.messages;
             threadMessages = threadMessages.OrderBy(m => m.SendDate).Reverse();
             if (threadMessages == null)
             {
                 return NotFound();
             }
-            MessageDetailsView messageDetailsView = new MessageDetailsView(guid, threadMessages);
+            MessageDetailsView messageDetailsView;
+            ApplicationUser user = _context.User.Single(u => u.Email == User.Identity.Name);
+            if (user.Id == messageThread.SenderId)
+            {
+                string email = messageThread.RecieverEmail;
+                messageDetailsView = new MessageDetailsView(guid, threadMessages, email, true, messageThread.asset);
+            }
+            else
+            {
+                string email = messageThread.SenderEmail;
+                messageDetailsView = new MessageDetailsView(guid, threadMessages, email, false, messageThread.asset);
+            }
 
             HttpContext.Response.Cookies.Append(
                 "threadId",
@@ -96,6 +108,7 @@ namespace LatiumMarketplace.Controllers
             string userId = await _userManager.GetUserIdAsync(user);
             messageThreadDTO.RecieverId = HttpContext.Request.Cookies["assetOwnerId"];
             messageThreadDTO.SenderId = userId;
+            messageThreadDTO.IsSender = true;
             messageThreadDTO.AssetId = assetId;
             _messageThreadApiController.Post(messageThreadDTO);
 

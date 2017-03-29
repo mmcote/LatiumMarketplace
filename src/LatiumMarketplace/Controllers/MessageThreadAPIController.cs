@@ -70,13 +70,32 @@ namespace LatiumMarketplace.Controllers
         // GET: api/MessageThreadAPI/5
         [HttpGet("{id}", Name = "GetMessageThread")]
         [Route("api/MessageThreadAPI/GetMessageThread")]
-        public string GetMessageThread(string id)
+        public IActionResult GetMessageThread(string id)
         {
             Guid guid = Guid.Parse(id);
             var messageThread = _messageThreadRepository.GetMessageThreadByID(guid);
-            return "value";
+            return new OkObjectResult(messageThread);
         }
 
+        [HttpPost("email")]
+        public IActionResult GetMessageNotificationCount([FromBody]string email)
+        {
+            int count = 0;
+            var id = _context.User.Single(u => u.Email == email).Id;
+            var messageThreads = _messageThreadRepository.GetAllMessages(id);
+            foreach (MessageThread thread in messageThreads)
+            {
+                if (email == thread.SenderEmail)
+                {
+                    count += thread.SenderUnreadMessageCount;
+                }
+                else
+                {
+                    count += thread.RecieverUnreadMessageCount;
+                }
+            }
+            return new OkObjectResult(count);
+        }
         /// <summary>
         /// Add a new message thread, this will create a new message thread if needed.
         /// Although this is dependent on if there is a given messagethread already 
@@ -93,14 +112,27 @@ namespace LatiumMarketplace.Controllers
             {
                 var messageThreadRetrieved = _context.MessageThread.Single(m => m.asset.assetID == input.AssetId && m.SenderId == input.SenderId);
                 messageThreadRetrieved.LastUpdateDate = DateTime.Now;
-                message = new Message(input.Subject, input.Body);
+                message = new Message(input.Subject, input.Body, false, false);
                 message.messageThread = messageThreadRetrieved;
                 _messageRepository.AddMessage(message);
+
+                //if (User.Identity.Name == message.messageThread.RecieverEmail)
+                if (!input.IsSender)
+                {
+                    message.messageThread.SenderUnreadMessageCount += 1;
+                    message.SenderUnread = true;
+                }
+                else
+                {
+                    message.messageThread.RecieverUnreadMessageCount += 1;
+                    message.RecieverUnread = true;
+                }
+
                 _messageRepository.Save();
             }
             catch (InvalidOperationException)
             {
-                message = new Message(input.Subject, input.Body);
+                message = new Message(input.Subject, input.Body, false, false);
                 _messageRepository.AddMessage(message);
                 MessageThread messageThread = new MessageThread(input.SenderId, input.RecieverId);
                 messageThread.messages.Add(message);
@@ -115,6 +147,19 @@ namespace LatiumMarketplace.Controllers
                 }
 
                 _messageThreadRepository.AddMessageThread(messageThread);
+
+                //if (User.Identity.Name == messageThread.RecieverEmail)
+                if (!input.IsSender)
+                {
+                    messageThread.SenderUnreadMessageCount += 1;
+                    message.SenderUnread = true;
+                }
+                else
+                {
+                    messageThread.RecieverUnreadMessageCount += 1;
+                    message.RecieverUnread = true;
+                }
+
                 _messageThreadRepository.Save();
             }
 
@@ -124,9 +169,10 @@ namespace LatiumMarketplace.Controllers
             // This notification redirect URL should put the user to the discussion
             string redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
             Notification notification = new Notification(message.Subject, message.Body, redirectURL);
+            Clients.Group(recieverUser.UserName).UpdateOverallNotificationCount();
             Clients.Group(recieverUser.UserName).AddNotificationToQueue(notification);
         }
-        
+
         /// <summary>
         /// Delete a specific thread.
         /// </summary>
@@ -138,6 +184,80 @@ namespace LatiumMarketplace.Controllers
             Guid guid = Guid.Parse(id);
             _messageThreadRepository.DeleteMessageThread(guid);
             _messageThreadRepository.Save();
+        }
+
+        /// <summary>
+        /// Mark a specific message as unread, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
+        [Route("api/MessageThreadAPI/DecrementMessageNotificationCount")]
+        public IActionResult DecrementMessageNotificationCount([FromBody] MessageReadUnreadDTO ajaxPackage)
+        {
+            try
+            {
+                Guid guid = Guid.Parse(ajaxPackage.Id);
+                var messageThreadRetrieved = _context.MessageThread.Single(m => m.id == guid);
+
+                if(ajaxPackage.IsSender && messageThreadRetrieved.SenderUnreadMessageCount > 0)
+                {
+                    messageThreadRetrieved.SenderUnreadMessageCount -= 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.SenderEmail).UpdateOverallNotificationCount();
+                }
+                else if(messageThreadRetrieved.RecieverUnreadMessageCount > 0)
+                {
+                    messageThreadRetrieved.RecieverUnreadMessageCount -= 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.RecieverEmail).UpdateOverallNotificationCount();
+                }
+
+                return new OkResult();
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
+        }
+
+        /// <summary>
+        /// Mark a specific message as unread, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
+        [Route("api/MessageThreadAPI/IncrementMessageNotificationCount")]
+        public IActionResult IncrementMessageNotificationCount([FromBody] MessageReadUnreadDTO ajaxPackage)
+        {
+            try
+            {
+                Guid guid = Guid.Parse(ajaxPackage.Id);
+                var messageThreadRetrieved = _context.MessageThread.Single(m => m.id == guid);
+
+                if (ajaxPackage.IsSender && messageThreadRetrieved.SenderUnreadMessageCount >= 0)
+                {
+                    messageThreadRetrieved.SenderUnreadMessageCount += 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.SenderEmail).UpdateOverallNotificationCount();
+                }
+                else if (messageThreadRetrieved.RecieverUnreadMessageCount >= 0)
+                {
+                    messageThreadRetrieved.RecieverUnreadMessageCount += 1;
+                    _messageThreadRepository.Save();
+
+                    Clients.Group(messageThreadRetrieved.RecieverEmail).UpdateOverallNotificationCount();
+                }
+
+                return new OkResult();
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
         }
     }
 }

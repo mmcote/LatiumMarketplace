@@ -112,7 +112,7 @@ namespace LatiumMarketplace.Controllers
                 // The reciever will always be the seller
                 Message message;
                 Notification notification;
-                message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body);
+                message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body, false, false);
                 string messageThreadId;
                 string recieverEmail;
                 string redirectURL;
@@ -123,20 +123,42 @@ namespace LatiumMarketplace.Controllers
                     message.messageThread.LastUpdateDate = DateTime.Now;
                     messageRepo.AddMessage(message);
                     messageThreadId = message.messageThread.id.ToString();
-                    recieverEmail = message.messageThread.RecieverEmail;
+                    if (User.Identity.Name == message.messageThread.RecieverEmail)
+                    {
+                        recieverEmail = message.messageThread.SenderEmail;
+                        message.messageThread.SenderUnreadMessageCount += 1;
+                        message.SenderUnread = true;
+                    }
+                    else
+                    {
+                        recieverEmail = message.messageThread.RecieverEmail;
+                        message.messageThread.RecieverUnreadMessageCount += 1;
+                        message.RecieverUnread = true;
+                    }
                 }
                 catch (InvalidOperationException)
                 {
                     messageRepo.AddMessage(message);
                     MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
-                    messageThreadId = messageThread.id.ToString();
-                    messageThread.messages.Add(message);
-                    messageThread.LastUpdateDate = DateTime.Now;
-
                     messageThread.SenderEmail = _context.User.Single(u => u.Id == messageThreadDTO.SenderId).Email;
                     messageThread.RecieverEmail = _context.User.Single(u => u.Id == messageThreadDTO.RecieverId).Email;
-                    recieverEmail = messageThread.RecieverEmail;
 
+                    messageThreadId = messageThread.id.ToString();
+                    messageThread.messages.Add(message);
+                    if (User.Identity.Name == messageThread.RecieverEmail)
+                    {
+                        recieverEmail = messageThread.SenderEmail;
+                        messageThread.SenderUnreadMessageCount += 1;
+                        message.SenderUnread = true;
+                    }
+                    else
+                    {
+                        recieverEmail = messageThread.RecieverEmail;
+                        messageThread.RecieverUnreadMessageCount += 1;
+                        message.RecieverUnread = true;
+                    }
+
+                    messageThread.LastUpdateDate = DateTime.Now;
                     messageThreadRepo.AddMessageThread(messageThread);
                 }
 
@@ -146,6 +168,11 @@ namespace LatiumMarketplace.Controllers
                 Clients.Group(recieverEmail).AddNotificationToQueue(notification);
             }
             _context.SaveChanges();
+
+            foreach(ApplicationUser user in users)
+            {
+                Clients.Group(user.Email).UpdateOverallNotificationCount();
+            }
 
             return RedirectToAction(nameof(AdminController.Index));
         }

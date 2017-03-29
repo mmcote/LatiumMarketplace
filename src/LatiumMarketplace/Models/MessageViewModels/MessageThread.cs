@@ -36,6 +36,8 @@ namespace LatiumMarketplace.Models.MessageViewModels
 
         [Required]
         public string Body { get; set; }
+
+        public bool IsSender { get; set; }
     }
 
     public class MessageThread
@@ -48,6 +50,8 @@ namespace LatiumMarketplace.Models.MessageViewModels
             SenderId = senderId;
             RecieverId = recieverId;
             messages = new List<Message>();
+            SenderUnreadMessageCount = 0;
+            RecieverUnreadMessageCount = 0;
         }
 
         [Key]
@@ -77,5 +81,9 @@ namespace LatiumMarketplace.Models.MessageViewModels
         [Display(Name = "Last Updated")]
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy HH:mm}")]
         public DateTime LastUpdateDate { get; set; }
+
+        public int SenderUnreadMessageCount { get; set; }
+        public int RecieverUnreadMessageCount { get; set; }
+
     }
 }
