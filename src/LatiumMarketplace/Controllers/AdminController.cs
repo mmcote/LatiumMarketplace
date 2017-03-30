@@ -60,6 +60,7 @@ namespace LatiumMarketplace.Controllers
             user.banned = true;
             _context.SaveChanges();
 
+            Clients.Group(user.Email).CheckBan();
             return View(user);
         }
 

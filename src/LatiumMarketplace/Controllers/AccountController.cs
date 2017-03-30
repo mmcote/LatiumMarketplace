@@ -160,6 +160,17 @@ namespace LatiumMarketplace.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
+        ////
+        //// POST: /Account/LogOff
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> BannedLogOff()
+        //{
+        //    await _signInManager.SignOutAsync();
+        //    _logger.LogInformation(4, "User has been banned by admin, now being logged off.");
+        //    return RedirectToAction(nameof(HomeController.Index), "Home");
+        //}
+
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
