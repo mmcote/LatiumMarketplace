@@ -30,27 +30,6 @@ namespace LatiumMarketplace.Hubs
         {
             return Groups.Remove(Context.ConnectionId, email.ToString());
         }
-
-        public Counts GetNotificationCounts(string email)
-        {
-            Counts counts = new Counts();
-            //    MessageThreadRepository messageThreadRepo = new MessageThreadRepository(context);
-            //    var id = context.User.Single(u => u.Email == email).Id;
-            //    var messageThreads = messageThreadRepo.GetAllMessages(id);
-            //    var messageThreadsNext = context.MessageThread.Single(m => m.RecieverEmail == email || m.SenderEmail == email);
-            //    foreach (MessageThread thread in messageThreads)
-            //    {
-            //        if (email == thread.SenderEmail)
-            //        {
-            //            counts.UnreadMessages += thread.SenderUnreadMessageCount;
-            //        }
-            //        else
-            //        {
-            //            counts.UnreadMessages += thread.RecieverUnreadMessageCount;
-            //        }
-            //    }
-            return counts;
-        }
     }
 
     // Client side methods to be invoked by Broadcaster Hub
@@ -60,5 +39,7 @@ namespace LatiumMarketplace.Hubs
         // Define all client side functions
         Task AddNotificationToQueue(Notification notification);
         Task UpdateOverallNotificationCount();
+        Task CheckBan();
+
     }
 }
