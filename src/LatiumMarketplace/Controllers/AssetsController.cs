@@ -154,8 +154,9 @@ namespace LatiumMarketplace.Controllers
         */
 
         /*============================ */
-
-        // GET: Assets
+        
+      
+        // GET: Assets - Filtered
         [AllowAnonymous]
         public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem)
         {
@@ -170,6 +171,9 @@ namespace LatiumMarketplace.Controllers
                 .AsNoTracking()
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
+            // default
+            viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+
             // Assign a city to the asset
             if (id != null)
             {
@@ -194,16 +198,17 @@ namespace LatiumMarketplace.Controllers
 
             switch (sortby)
             {
-
                 case "request":
                     viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(true));
                     break;
                 case "asset":
                     viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
                     break;
-                case "all":
-                    viewModel.Assets = from m in viewModel.Assets
-                                       select m;
+                 case "rent":
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false) && s.priceDaily != 0);
+                    break;
+                case "sale":
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false) && s.price != 0);
                     break;
             }
 
@@ -225,6 +230,7 @@ namespace LatiumMarketplace.Controllers
         }
 
         /*============================= */
+
 
         /// <summary>
         /// GET: Assets/Details/5
@@ -473,6 +479,7 @@ namespace LatiumMarketplace.Controllers
             SetCityViewBag();
             return View(asset);
         }
+        
         /// <summary>
         /// GET: Assets/Edit/5
         /// Used for edit requests
@@ -503,6 +510,8 @@ namespace LatiumMarketplace.Controllers
             SetCityViewBag();
             return View(asset);
         }
+        
+        
         /// <summary>
         /// POST: Assets/Edit/5
         /// Used for edit requests

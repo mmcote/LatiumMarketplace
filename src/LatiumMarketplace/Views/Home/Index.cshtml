@@ -45,32 +45,44 @@
         </div><!-- Begin carousel -->
         <!-- Begin search-form-container -->
         <div id="search-form-container" class="">
-            <div class="search-toggle">
-                <ul class="list-unstyled list-inline">
-                    <li class="for-rent"><a href="#">For rent</a></li>
-                    <li class="for-sale"><a href="#">For sale</a></li>
-                    <li class="wanted"><a href="#">Wanted</a></li>
-                </ul>
-            </div>
-            <div class="search-items">
-                <form asp-controller="Assets" asp-action="Index" method="get" class="clearfix" id="searchForm">
+            <form asp-controller="Assets" asp-action="Index" method="get" class="clearfix" id="searchForm">
+
+                <div class="search-toggle">
+                    <ul class="list-unstyled list-inline">
+                        <li>
+                            <input type="radio" value="rent" name="SortBy" id='1' />
+                            <label for='1'>For rent</label>
+                        </li>
+                        <li>
+                            <input type="radio" value="sale" name="SortBy" id="2" />
+                            <label for='2'>For sale</label>
+                        </li>
+                        <li>
+                            <input type="radio" value="request" name="SortBy" id="3" />
+                            <label for='3'>Wanted</label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="search-items">
                     <div class="row">
                         <div class="col-md-10">
                             <div class="form-group">
-                                <input class="form-control input-lg" type="text" name="SearchString" placeholder="Search Asset For Rent" required>
+                                <input class="form-control input-lg" type="text" name="SearchString" placeholder="What are you looking for" required>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-lg btn-success">Search</button>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </div> <!-- End of row-->
+                </div> <!-- End of search-items-->
+            </form>
         <div>
-            <p>Advanced search</p>
+            <p>
+                <a asp-controller="Assets" asp-action="Index">Advanced search</a>
+            </p>
         </div>
         </div><!-- End search-form-container -->
-    </div>
+    </div> <!-- End of main carousel -->
 }
 
 <!-- Featured Assets -->
