@@ -237,10 +237,6 @@ namespace LatiumMarketplace.Controllers
                 case "asset":
                     assets = assets.Where(s => s.request.Equals(false));
                     break;
-                case "all":
-                    assets = from m in my_Assets
-                             select m;
-                    break;
             }
 
             var otherBids = from m in OtherBids
@@ -252,10 +248,6 @@ namespace LatiumMarketplace.Controllers
                     break;
                 case "asset":
                     otherBids = otherBids.Where(s => s.status.Equals(false));
-                    break;
-                case "all":
-                    otherBids = from m in OtherBids
-                                select m;
                     break;
             }
 
@@ -270,10 +262,6 @@ namespace LatiumMarketplace.Controllers
                     break;
                 case "asset":
                     myBids = myBids.Where(s => s.status.Equals(false));
-                    break;
-                case "all":
-                    myBids = from m in MyBids
-                             select m;
                     break;
             }
 
@@ -339,10 +327,6 @@ namespace LatiumMarketplace.Controllers
                 case "asset":
                     assets = assets.Where(s => s.request.Equals(false));
                     break;
-                case "all":
-                    assets = from m in my_Assets
-                             select m;
-                    break;
             }
 
             var otherBids = from m in OtherBids
@@ -354,10 +338,6 @@ namespace LatiumMarketplace.Controllers
                     break;
                 case "asset":
                     otherBids = otherBids.Where(s => s.status.Equals(false));
-                    break;
-                case "all":
-                    otherBids = from m in OtherBids
-                                select m;
                     break;
             }
 
@@ -372,10 +352,6 @@ namespace LatiumMarketplace.Controllers
                     break;
                 case "asset":
                     myBids = myBids.Where(s => s.status.Equals(false));
-                    break;
-                case "all":
-                    myBids = from m in MyBids
-                             select m;
                     break;
             }
 

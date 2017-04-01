@@ -461,13 +461,3 @@ h2.title {
 
 .fa-plus{content:"\f067";}
 
-input {
-    visibility:hidden;
-}
-label {
-    cursor: pointer;
-}
-
-input:checked + label {
-    background: blue;
-}

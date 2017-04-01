@@ -172,7 +172,7 @@ namespace LatiumMarketplace.Controllers
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
             // default
-            viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+            //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
 
             // Assign a city to the asset
             if (id != null)

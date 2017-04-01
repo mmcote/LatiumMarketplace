@@ -50,7 +50,8 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public decimal priceWeekly { get; set; }
         [Display(Name = "Monthly Price")]
         public decimal priceMonthly { get; set; }
-        //public List<bidList>
+        [Display(Name = "Duration")]
+        public string duration { get; set; }
         [Display(Name = "Owner ID")]
         public string ownerID { get; set; }
         [Display(Name = "Address")]
