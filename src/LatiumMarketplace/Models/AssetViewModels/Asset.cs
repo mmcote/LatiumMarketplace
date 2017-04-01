@@ -42,12 +42,16 @@ namespace LatiumMarketplace.Models.AssetViewModels
         [Display(Name = "Avaliable Date")]
         [DataType(DataType.Date)]
         public DateTime addDate { get; set; }
+        [AssetPriceAttribute]
         [Display(Name = "Sale Price")]
         public decimal price { get; set; }
+        [AssetPriceAttribute]
         [Display(Name = "Daily Rate")]
         public decimal priceDaily { get; set; }
+        [AssetPriceAttribute]
         [Display(Name = "Weekly Rate")]
         public decimal priceWeekly { get; set; }
+        [AssetPriceAttribute]
         [Display(Name = "Monthly Price")]
         public decimal priceMonthly { get; set; }
         [Display(Name = "Duration")]
@@ -62,7 +66,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public bool featuredItem { get; set; }
         public virtual List<MessageThread> MessageThreads { get; set; }
         public virtual List<Bid> Bids { get; set; }
-        
+
         // Navigation properties for one-to-many relationship between
         // Asset and Make.
         // One asset can only have one make, but many makes can be shared by
@@ -98,5 +102,20 @@ namespace LatiumMarketplace.Models.AssetViewModels
         // One asset can have many features.
         public ICollection<AssetFeature> AssetFeatures { get; set; }
     }
+    public class AssetPriceAttribute : ValidationAttribute
+    {
 
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            Asset asset = (Asset)validationContext.ObjectInstance;
+
+            if (((asset.price + asset.priceDaily + asset.priceWeekly + asset.priceMonthly) < (decimal)(0.01)) && (asset.request == false))
+            {
+                return new ValidationResult("You need a price");
+            }
+
+            return ValidationResult.Success;
+        }
+
+    }
 }
