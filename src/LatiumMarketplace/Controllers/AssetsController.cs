@@ -678,7 +678,13 @@ namespace LatiumMarketplace.Controllers
         // Get all the makes from the database
         private void SetMakeViewBag(ICollection<Make> Makes = null)
         {
-            ViewBag.Makes = _context.Make.ToArray();
-        }       
+
+            if (Makes == null)
+
+                ViewBag.Makes = new SelectList(_context.Make, "MakeId", "Name");
+
+            else
+                ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
+        }
     }
 }
