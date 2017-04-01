@@ -5,7 +5,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>"@Model.Make.Name"</h2>
 
 <form asp-action="Edit">
     <div class="form-horizontal">
@@ -42,6 +42,8 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Make" class="">Make</label>
+                   @* @Html.LabelFor(Model => Model.Make)*@
+                    @*@Html.DropDownListFor(Model => Model.Make, (SelectList)ViewBag.Makes)*@
                     @Html.DropDownList(
                     "Makes",
                     (SelectList)ViewBag.Makes,

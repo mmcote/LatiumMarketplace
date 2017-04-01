@@ -17,7 +17,7 @@ using System.Net.Http.Headers;
 
 namespace LatiumMarketplace.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AssetsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -41,7 +41,6 @@ namespace LatiumMarketplace.Controllers
         /// <param name="recent">sorting item in recent order</param>
         /// <param name="accessory">sorting item with accessory</param>
         //Listing of assets/requests belonging to a specific user
-        [AllowAnonymous]
         public async Task<IActionResult> MyListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory, bool featuredItem)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -64,7 +63,6 @@ namespace LatiumMarketplace.Controllers
             }
             switch (sortby)
             {
-
                 case "request":
                     assets = assets.Where(s => s.request.Equals(true));
                     break;
@@ -156,7 +154,6 @@ namespace LatiumMarketplace.Controllers
         /*============================ */
 
         // GET: Assets
-        [AllowAnonymous]
         public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem)
         {
             var viewModel = new AssetIndexData();
@@ -490,6 +487,7 @@ namespace LatiumMarketplace.Controllers
             }
 
             var asset = await Myassets
+                .Include(a => a.Make)
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
                 .SingleOrDefaultAsync(m => m.assetID == id);
@@ -628,8 +626,11 @@ namespace LatiumMarketplace.Controllers
         {
 
             if (Makes == null)
-
+            {
                 ViewBag.Makes = new SelectList(_context.Make, "MakeId", "Name");
+            }
+
+
 
             else
                 ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
