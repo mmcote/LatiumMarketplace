@@ -50,7 +50,7 @@
                         <a asp-action="BanMember" asp-route-email="@item.Email">Ban</a>
                     }
                      | 
-                    <a asp-controller="Admin" asp-action="SendMessage" asp-route-id="@item.Email">Send Message</a>
+                    <a asp-controller="Admin" asp-action="SendMessageToUser" asp-route-id="@item.Id.ToString()">Send Message</a>
                 </td>
             </tr>
         }
