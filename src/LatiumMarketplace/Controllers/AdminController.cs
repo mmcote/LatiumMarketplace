@@ -186,7 +186,7 @@ namespace LatiumMarketplace.Controllers
 
         // GET: God mode for assets with featured iteam option to promote an item
         [AllowAnonymous]
-        public async Task<IActionResult> AdminListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory,bool featuredItem)
+        public async Task<IActionResult> AdminListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory,bool featuredItem, bool featured)
         {
             var Myassets = _context.Asset;
 
@@ -214,10 +214,6 @@ namespace LatiumMarketplace.Controllers
                 case "asset":
                     assets = assets.Where(s => s.request.Equals(false));
                     break;
-                case "all":
-                    assets = from m in assets
-                             select m;
-                    break;
             }
 
             if (recent == true)
@@ -234,10 +230,28 @@ namespace LatiumMarketplace.Controllers
                 assets = assets.Where(x => x.name.Contains(searchString));
             }
 
+            foreach(var item in assets)
+            {
+                if (featured == true)
+                {
+                    item.featuredItem.Equals(true);
+                }
+            }
+
             var assetLocatioinVM = new AssetLocation();
             assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
             assetLocatioinVM.assets = await assets.ToListAsync();
             return View(assetLocatioinVM);
+        }
+
+        // Get: Admin/FeaturedItems
+        public  async Task<IActionResult> AddFeature(int? id)
+        {
+            var asset = _context.Asset.Single(s =>s.assetID == id );
+            asset.featuredItem = true;
+            await _context.SaveChangesAsync();
+        
+            return RedirectToAction("AdminListings");
         }
 
         // GET: Assets/Edit/5

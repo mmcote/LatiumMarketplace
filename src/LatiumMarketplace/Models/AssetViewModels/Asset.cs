@@ -58,6 +58,8 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public string duration { get; set; }
         [Display(Name = "Owner ID")]
         public string ownerID { get; set; }
+        [Display(Name = "User")]
+        public string ownerName { get; set; }
         [Display(Name = "Address")]
         public string Address { get; set; }
         [Display(Name = "Accessory")]

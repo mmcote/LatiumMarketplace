@@ -17,178 +17,121 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
-                <form asp-controller="Admin" asp-action="AdminListings" method="get">
-                    <input class="form-control" type="text" name="SearchString" placeholder="Search">
-                    <br />
-                    <p>
-                        Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
-                            <option value="">All</option>
-                        </select>
-                    </p>
-                    <p>
-                        Sort by : <br>
-                        <input type="radio" name="SortBy" value="all" checked> All<br>
-                        <input type="radio" name="SortBy" value="asset"> Asset<br>
-                        <input type="radio" name="SortBy" value="request"> Request<br>
-                        Most recent : <input type="checkbox" name="recent" value=true><br>
-                        With accessory : <input type="checkbox" name="accessory" value=true><br>
-                        Featured Item : <input type="checkbox" name="featuredItem" value=true><br>
-                        <input type="submit" value="Filter" />
-                    </p>
-                </form>
+                <div class="col-sm-3">
+                    <form asp-controller="Admin" asp-action="AdminListings" method="get">
 
-                <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian">
-                        <!--category-productsr-->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#truck">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Truck
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="truck" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">GMC </a></li>
-                                        <li><a href="#">CHEV </a></li>
-                                        <li><a href="#">FORD </a></li>
-                                        <li><a href="#">HUMMER</a></li>
-                                        <li><a href="#">Made in china</a></li>
-                                    </ul>
+                        <input class="form-control" type="text" name="SearchString" placeholder="Search"><br />
+                        <p>
+                            Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
+                                <option value="">All</option>
+                            </select>
+                        </p>
+                        <p>
+                            Sort by : <br>
+                            <input type="radio" name="SortBy" value="asset"> Asset<br>
+                            <input type="radio" name="SortBy" value="request"> Request<br>
+                            Most recent : <input type="checkbox" name="recent" value=true><br>
+                            With accessory : <input type="checkbox" name="accessory" value=true><br>
+                            Featured Item : <input type="checkbox" name="featuredItem" value=true><br>
+                            <input type="submit" value="Filter" />
+                        </p>
+                        <div class="left-sidebar">
+                            <h2>Category</h2>
+                            <div class="panel-group category-products" id="accordian">
+                                <!--category-productsr-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordian" href="#truck">
+                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                Truck
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="truck" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li><a href="#">GMC </a></li>
+                                                <li><a href="#">CHEV </a></li>
+                                                <li><a href="#">FORD </a></li>
+                                                <li><a href="#">HUMMER</a></li>
+                                                <li><a href="#">Made in china</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div><!--/category-products-->
                         </div>
-
-                    </div><!--/category-products-->
-
-                    <div class="brands_products">
-                        <!--brands_products-->
-                        <h2>Brands</h2>
-                        <div class="brands-name">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#"> <span class="pull-right">(50)</span>Chevy</a></li>
-                                <li><a href="#"> <span class="pull-right">(56)</span>GMC</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/brands_products-->
-
-                    <div class="price-range">
-                        <!--price-range-->
-                        <h2>Price Range</h2>
-                        <div data-role="main" class="ui-content">
-
-                        </div>
-                        <div class="well text-center">
-                            <form method="get" action="#">
-                                <div data-role="rangeslider">
-                                    <label for="price-min">Min Price:</label>
-                                    <input type="range" name="price-min" id="price-min" value="0" min="0" max="100000">
-                                    <label for="price-max">Max Price:</label>
-                                    <input type="range" name="price-max" id="price-max" value="3000" min="0" max="100000">
-                                </div>
-                                <input type="submit" data-inline="true" value="Submit">
-                            </form>
-                        </div>
-                    </div><!--/price-range-->
-
+                    </form>
                 </div>
-            </div>
-
-            <div class="col-sm-9 padding-right">
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].addDate)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].ownerID)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].Address)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].City)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].description)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].accessory)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].price)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].priceDaily)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].priceMonthly)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].priceWeekly)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.assets)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.addDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ownerID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Address)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.City)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.accessory)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.price)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.priceDaily)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.priceMonthly)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.priceWeekly)
-                                </td>
-                                <td>
-                                    <a asp-action="AdminEdit" asp-route-id="@item.assetID">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-
+                <div class="col-sm-9 padding-right">
+                         <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Date Added
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.assets[0].ownerName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.assets[0].name)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.assets[0].Address)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.assets[0].City)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.assets[0].description)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.assets[0].accessory)
+                                        </th>
+                                        <th>
+                                           Featured Item
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.assets)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.addDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ownerName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Address)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.City)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.accessory)
+                                            </td>
+                                            <td>
+                                                <a asp-action="AddFeature" asp-route-id="@item.assetID">Add</a>
+                                            </td>
+                                            <td>
+                                                <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID">Details</a> |
+                                                <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                </div>
         </div>
     </div>
 </section>

@@ -193,7 +193,7 @@ namespace LatiumMarketplace.Controllers
             }
             if (accessory == true)
             {
-                viewModel.Assets = viewModel.Assets.Where(s => s.accessory != null);
+                viewModel.Assets = viewModel.Assets.Where(s => s.AccessoryListId != null & s.accessory != null );
             }
 
             if (assetLocation != null)
@@ -325,7 +325,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">binding view data for asset</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,duration,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -336,9 +336,11 @@ namespace LatiumMarketplace.Controllers
             if (ModelState.IsValid)
             {
                 var userId = user?.Id;
+                var userName = user?.UserName;
                 DateTime today = DateTime.Now;
                 asset.addDate = today;
                 asset.ownerID = userId;
+                asset.ownerName = userName;
                 asset.request = false;
 
                 // Assign make to asset
@@ -454,7 +456,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">binding view data for request</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,duration,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -465,9 +467,11 @@ namespace LatiumMarketplace.Controllers
             if (ModelState.IsValid)
             {
                 var userId = user?.Id;
+                var userName = user?.UserName;
                 DateTime today = DateTime.Now;
                 asset.addDate = today;
                 asset.ownerID = userId;
+                asset.ownerName = userName;
                 asset.request = true;
                 asset.price = 0;
                 asset.priceDaily = 0;
