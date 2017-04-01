@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.SignalR.Infrastructure;
 namespace LatiumMarketplace.Controllers
 {
     [RequireHttps]
-    [Authorize]
+
     public class MessageThreadsController : ApiHubController<Broadcaster>
     {
         private readonly ApplicationDbContext _context;
@@ -102,9 +102,13 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Subject, Body")] MessageThreadDTO messageThreadDTO)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             string assetIdString = HttpContext.Request.Cookies["assetId"];
             int assetId = int.Parse(assetIdString);
-            var user = await _userManager.GetUserAsync(HttpContext.User);
             string userId = await _userManager.GetUserIdAsync(user);
             messageThreadDTO.RecieverId = HttpContext.Request.Cookies["assetOwnerId"];
             messageThreadDTO.SenderId = userId;
@@ -118,6 +122,11 @@ namespace LatiumMarketplace.Controllers
         // GET: MessageThreads/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             if (id == null)
             {
                 return NotFound();

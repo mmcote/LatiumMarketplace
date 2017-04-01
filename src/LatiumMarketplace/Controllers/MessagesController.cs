@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
 using LatiumMarketplace.Hubs;
 using LatiumMarketplace.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -19,23 +20,37 @@ namespace LatiumMarketplace.Controllers
         private readonly ApplicationDbContext _context;
         private IMessageThreadRepository _messageThreadRepo;
         private IMessageRepository _messageRepo;
-        public MessagesController(ApplicationDbContext context, IConnectionManager connectionManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public MessagesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IConnectionManager connectionManager)
             : base(connectionManager)
         {
             _messageRepo = new MessageRepository(context);
             _messageThreadRepo = new MessageThreadRepository(context);
             _context = context;
+            _userManager = userManager;
+
         }
 
         // GET: Messages
         public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             return View(await _context.Message.ToListAsync());
         }
 
         // GET: Messages/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -63,6 +78,11 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ThreadId, Body, Subject")] Message message)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             string messageThreadId  = HttpContext.Request.Cookies["threadId"];
 
             Guid messageThreadIdGuid = Guid.Parse(messageThreadId);

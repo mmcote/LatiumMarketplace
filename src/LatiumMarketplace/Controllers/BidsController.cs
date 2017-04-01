@@ -41,6 +41,11 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View list of bids</returns>
         public async Task<IActionResult> Index()
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             return RedirectToAction("MyBids");
             //return View(await _context.Bid.ToListAsync());
         }
@@ -53,6 +58,11 @@ namespace LatiumMarketplace.Controllers
         /// <returns>Returns Details of Bid</returns>
         public async Task<IActionResult> Details(int? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -117,6 +127,11 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             if (ModelState.IsValid)
             {
                 string id = HttpContext.Request.Cookies["assetId"];
@@ -127,7 +142,6 @@ namespace LatiumMarketplace.Controllers
                 bid.asset_name = asset.name;
                 bid.status = asset.request;
                 bid.chosen = false;
-                var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 var userName = user?.UserName;
                 bid.bidder = userName;
@@ -222,6 +236,10 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> MyBids(string sortby)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
             var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
@@ -312,6 +330,10 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> Inbox(string sortby)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             var userId = user?.Id;
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
             var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
@@ -401,6 +423,11 @@ namespace LatiumMarketplace.Controllers
         /// <param name="id">Bid ID of accpeted bid</param>
         /// <returns>Returns to index</returns>
         public async Task<IActionResult> Choose(int? id) {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             var bid = _context.Bid.Single(s => s.bidId == id);
             bid.chosen = true;
 
@@ -488,6 +515,12 @@ namespace LatiumMarketplace.Controllers
         /// <returns>Return view of confirmation delete</returns>
         public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+
             if (id == 0)
             {
                 return NotFound();
@@ -514,6 +547,12 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+
             var bid = await _context.Bid.SingleOrDefaultAsync(m => m.bidId == id);
             _context.Bid.Remove(bid);
             await _context.SaveChangesAsync();

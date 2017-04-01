@@ -18,7 +18,7 @@ namespace LatiumMarketplace.Controllers
 {
     //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
     [RequireHttps]
-    [Authorize]
+
     public class ManageController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -47,16 +47,21 @@ namespace LatiumMarketplace.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile(string userId)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             /// Returns current user profile
             if (userId == null)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
+                user = await _userManager.GetUserAsync(HttpContext.User);
                 return View(user);
             }
             /// Returns specified user profile
             else
             {
-                var user = await _userManager.FindByIdAsync(userId);
+                user = await _userManager.FindByIdAsync(userId);
                 return View(user);
             }
             

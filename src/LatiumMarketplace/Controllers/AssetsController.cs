@@ -17,7 +17,7 @@ using System.Net.Http.Headers;
 
 namespace LatiumMarketplace.Controllers
 {
-    [Authorize]
+ 
     public class AssetsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -45,6 +45,11 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> MyListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory, bool featuredItem)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+
             var userId = user?.Id;
             var Myassets = _context.Asset.Where(s => s.ownerID == userId);
 
@@ -238,6 +243,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="id">info of a item id</param>
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
@@ -321,10 +327,14 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 DateTime today = DateTime.Now;
                 asset.addDate = today;
@@ -446,10 +456,14 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(HttpContext.User);
                 var userId = user?.Id;
                 DateTime today = DateTime.Now;
                 asset.addDate = today;
@@ -488,6 +502,10 @@ namespace LatiumMarketplace.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             var userId = user?.Id;
             var Myassets = _context.Asset.Where(s => s.ownerID == userId);
 
@@ -521,6 +539,12 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+
             if (id != asset.assetID)
             {
                 return NotFound();
@@ -570,6 +594,12 @@ namespace LatiumMarketplace.Controllers
         /// <param name="id">check if this item can be delete base on id</param> 
         public async Task<IActionResult> Delete(int? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -593,6 +623,11 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
             _context.Asset.Remove(asset);
             await _context.SaveChangesAsync();
