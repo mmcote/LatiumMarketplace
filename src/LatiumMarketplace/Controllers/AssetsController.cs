@@ -325,7 +325,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">binding view data for asset</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,duration,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -454,7 +454,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">binding view data for request</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> CreateReq([Bind("assetID,addDate,description,duration,Address,name,ownerID,price,priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -537,7 +537,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">bind data from view for asset</param> 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)

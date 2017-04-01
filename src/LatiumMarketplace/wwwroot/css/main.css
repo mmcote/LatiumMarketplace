@@ -461,3 +461,6 @@ h2.title {
 
 .fa-plus{content:"\f067";}
 
+.form-control {
+    width: 20%;
+}

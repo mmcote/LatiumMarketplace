@@ -14,105 +14,30 @@
 
 
 <section>
-
+    <link href="~/css/main.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet">
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+            <div>
                 <p>
                     <a asp-action="Create">Create New Asset</a> <br>
                     <a asp-action="CreateReq">Create New Request</a>
                 </p>
                 <form asp-controller="Assets" asp-action="MyListings" method="get">
-                    <input class="form-control" type="text" name="SearchString" placeholder="Search">
-                    <br />
-                    <p>
-                        Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
-                            <option value="">All</option>
-                        </select>
-                    </p>
-                    <p>
-                        Sort by : <br>
-                        <input type="radio" name="SortBy" value="all" checked> All<br>
-                        <input type="radio" name="SortBy" value="asset"> Asset<br>
-                        <input type="radio" name="SortBy" value="request"> Request<br>
-                        Most recent : <input type="checkbox" name="recent" value=true><br>
-                        With accessory : <input type="checkbox" name="accessory" value=true><br>
-                        Featured Item : <input type="checkbox" name="featuredItem" value=true><br>
-                        <input type="submit" value="Filter" />
-                    </p>
+                    <input class="form-control" type="text" name="SearchString" placeholder="Search"> <br>
+                    <input type="submit" value="Filter" />
                 </form>
 
-                <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <div class="panel-group category-products" id="accordian">
-                        <!--category-productsr-->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#truck">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        Truck
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="truck" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li><a href="#">GMC </a></li>
-                                        <li><a href="#">CHEV </a></li>
-                                        <li><a href="#">FORD </a></li>
-                                        <li><a href="#">HUMMER</a></li>
-                                        <li><a href="#">Made in china</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div><!--/category-products-->
-
-                    <div class="brands_products">
-                        <!--brands_products-->
-                        <h2>Brands</h2>
-                        <div class="brands-name">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#"> <span class="pull-right">(50)</span>Chevy</a></li>
-                                <li><a href="#"> <span class="pull-right">(56)</span>GMC</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/brands_products-->
-
-                    <div class="price-range">
-                        <!--price-range-->
-                        <h2>Price Range</h2>
-                        <div data-role="main" class="ui-content">
-
-                        </div>
-                        <div class="well text-center">
-                            <form method="get" action="#">
-                                <div data-role="rangeslider">
-                                    <label for="price-min">Min Price:</label>
-                                    <input type="range" name="price-min" id="price-min" value="0" min="0" max="100000">
-                                    <label for="price-max">Max Price:</label>
-                                    <input type="range" name="price-max" id="price-max" value="3000" min="0" max="100000">
-                                </div>
-                                <input type="submit" data-inline="true" value="Submit">
-                            </form>
-                        </div>
-                    </div><!--/price-range-->
-
-                </div>
             </div>
 
-            <div class="col-sm-9 padding-right">
-
+            <!--<div class="col-sm-9 padding-right">-->
+            <div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.assets[0].addDate)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].ownerID)
+                               <!-- Html.DisplayNameFor(model => model.assets[0].addDate)-->
+                                <p>Date Added</p>
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.assets[0].name)
@@ -130,17 +55,9 @@
                                 @Html.DisplayNameFor(model => model.assets[0].accessory)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.assets[0].price)
+                                @Html.DisplayNameFor(model => model.assets[0].duration)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].priceDaily)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].priceMonthly)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].priceWeekly)
-                            </th>
+                         
                             <th></th>
                         </tr>
                     </thead>
@@ -150,9 +67,6 @@
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.addDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ownerID)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.name)
@@ -170,17 +84,9 @@
                                     @Html.DisplayFor(modelItem => item.accessory)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.price)
+                                    @Html.DisplayFor(modelItem => item.duration) 
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.priceDaily)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.priceMonthly)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.priceWeekly)
-                                </td>
+                                
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a> |
                                     <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
@@ -191,8 +97,6 @@
                     </tbody>
                 </table>
             </div>
-
-
         </div>
     </div>
 </section>
