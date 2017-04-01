@@ -18,6 +18,7 @@ using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
 using LatiumMarketplace.Hubs;
+using Microsoft.AspNetCore.Http;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -178,9 +179,87 @@ namespace LatiumMarketplace.Controllers
             return RedirectToAction(nameof(AdminController.Index));
         }
 
-
-        public async Task<IActionResult> MessageSentToAll()
+        /// <summary>
+        /// Send to all will send a message to all users, that have registered to the 
+        /// website. Even to other admin.
+        /// </summary>
+        /// <param name="messageThreadDTO"></param>
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult SendMessageToUser([Bind("AssetId, Subject, Body, SenderId, RecieverId")] MessageThreadDTO messageThreadDTO)
         {
+            messageThreadDTO.RecieverId = HttpContext.Request.Cookies["RecieverId"];
+            var adminUser = _context.User.Single(u => u.Email == User.Identity.Name);
+            messageThreadDTO.SenderId = adminUser.Id;
+            messageThreadDTO.AssetId = 0;
+
+            MessageRepository messageRepo = new MessageRepository(_context);
+            MessageThreadRepository messageThreadRepo = new MessageThreadRepository(_context);
+
+            // The reciever will always be the seller
+            Message message;
+            Notification notification;
+
+            message = new Message(messageThreadDTO.Subject, messageThreadDTO.Body, false, false);
+            string messageThreadId;
+            string recieverEmail;
+            string redirectURL;
+            try
+            {
+                var messageThreadRetrieved = _context.MessageThread.Single(m => m.SenderId == messageThreadDTO.SenderId && m.RecieverId == messageThreadDTO.RecieverId);
+                message.messageThread = messageThreadRetrieved;
+                message.messageThread.LastUpdateDate = DateTime.Now;
+                messageRepo.AddMessage(message);
+                messageThreadId = message.messageThread.id.ToString();
+
+                recieverEmail = message.messageThread.RecieverEmail;
+                message.messageThread.RecieverUnreadMessageCount += 1;
+                message.RecieverUnread = true;
+            }
+            catch (InvalidOperationException)
+            {
+                messageRepo.AddMessage(message);
+                MessageThread messageThread = new MessageThread(messageThreadDTO.SenderId, messageThreadDTO.RecieverId);
+                messageThread.SenderEmail = _context.User.Single(u => u.Id == messageThreadDTO.SenderId).Email;
+                messageThread.RecieverEmail = _context.User.Single(u => u.Id == messageThreadDTO.RecieverId).Email;
+
+                messageThreadId = messageThread.id.ToString();
+                messageThread.messages.Add(message);
+
+                recieverEmail = messageThread.RecieverEmail;
+                messageThread.RecieverUnreadMessageCount += 1;
+                message.RecieverUnread = true;
+
+                messageThread.LastUpdateDate = DateTime.Now;
+                messageThreadRepo.AddMessageThread(messageThread);
+            }
+
+            // This notification redirect URL should put the user to the discussion
+            redirectURL = "/MessageThreads/Details/" + message.messageThread.id.ToString();
+            notification = new Notification(message.Subject, message.Body, redirectURL);
+            Clients.Group(recieverEmail).AddNotificationToQueue(notification);
+            _context.SaveChanges();
+
+            Clients.Group(recieverEmail).UpdateOverallNotificationCount();
+
+            return RedirectToAction(nameof(AdminController.Index));
+        }
+
+        public IActionResult MessageSentToAll()
+        {
+            return View();
+        }
+
+        public IActionResult SendMessageToUser(string id)
+        {
+            HttpContext.Response.Cookies.Append("RecieverId", id,
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
             return View();
         }
 

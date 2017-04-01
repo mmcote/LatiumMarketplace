@@ -519,17 +519,22 @@ namespace LatiumMarketplace.Controllers
             }
 
             var asset = await Myassets
+                .Include(a => a.Make)
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
                 .SingleOrDefaultAsync(m => m.assetID == id);
+
+            var makes = _context.Make.ToArray();
 
             if (asset == null)
             {
                 return NotFound();
             }
+
             SetCategoryViewBag(asset.AssetCategories);
             SetMakeViewBag();
             SetCityViewBag();
+            
             return View(asset);
         }
         
@@ -541,7 +546,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">bind data from view for asset</param> 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,pricep,riceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,price, priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -561,12 +566,12 @@ namespace LatiumMarketplace.Controllers
                     //TODO: Find ways to update categories and Image Gallery
 
                     // Assign make to asset
-                    var myMakeId = HttpContext.Request.Form["Makes"];
+                    var myMakeId = HttpContext.Request.Form["Make.MakeId"];
                     var myMakeIdNumVal = int.Parse(myMakeId);
                     asset.MakeId = myMakeIdNumVal;
 
                     // Assign a city to the request
-                    var myCityId = HttpContext.Request.Form["Cities"];
+                    var myCityId = HttpContext.Request.Form["CityId"];
                     var myCityIdNumVal = int.Parse(myCityId);
                     asset.CityId = myCityIdNumVal;
 
@@ -662,7 +667,6 @@ namespace LatiumMarketplace.Controllers
         // Get all the city from the database
         private void SetCityViewBag(ICollection<AssetCategory> Cities = null)
         {
-
             if (Cities == null)
 
                 ViewBag.Cities = new SelectList(_context.City, "CityId", "Name");
@@ -674,13 +678,7 @@ namespace LatiumMarketplace.Controllers
         // Get all the makes from the database
         private void SetMakeViewBag(ICollection<Make> Makes = null)
         {
-
-            if (Makes == null)
-
-                ViewBag.Makes = new SelectList(_context.Make, "MakeId", "Name");
-
-            else
-                ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
+            ViewBag.Makes = _context.Make.ToArray();
         }       
     }
 }
