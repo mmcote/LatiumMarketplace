@@ -316,10 +316,6 @@ namespace LatiumMarketplace.Controllers
             // Populate cities
             SetCityViewBag();
             Asset asset = new Asset();
-            asset.price = (decimal)0.01;
-            asset.priceDaily = (decimal)0.01;
-            asset.priceWeekly = (decimal)0.01;
-            asset.priceMonthly = (decimal)0.01;
             asset.request = true;
             return View(asset);
         }
@@ -470,8 +466,7 @@ namespace LatiumMarketplace.Controllers
             {
                 return Redirect("/Account/Login");
             }
-            asset.request = true;
-            asset.price = 100;
+
             if (ModelState.IsValid)
             {
                 var userId = user?.Id;
