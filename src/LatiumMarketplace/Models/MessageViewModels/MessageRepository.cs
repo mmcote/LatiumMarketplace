@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LatiumMarketplace.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
@@ -44,7 +45,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
                 throw new ArgumentNullException("The messageID given was null. No messageID's are null.");
             }
 
-            var message = _context.Message.Single(m => m.id == messageID);
+            var message = _context.Message.Include(m => m.messageThread).Single(m => m.id == messageID);
             if (message == null)
             {
                 throw new KeyNotFoundException("No message found by the given messageID");
