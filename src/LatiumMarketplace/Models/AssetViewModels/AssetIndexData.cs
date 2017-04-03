@@ -15,19 +15,10 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public IEnumerable<City> Cities { get; set; }
         public IEnumerable<Image> Images { get; set; }
 
-        private List<int> _selectedCategories;
-        public List<int> SelectedCategories
-        {
-            get
-            {
-                if (_selectedCategories == null)
-                {
-                    _selectedCategories = Asset.AssetCategories.Select(m => m.CategoryId).ToList();
-                }
-                return _selectedCategories;
-            }
-            set { _selectedCategories = value; }
-        }
-        
+        public List<SelectListItem> CategoryLevel1 { get; set; }
+        public int? CategoryIdLevel1 { get; set; }
+
+        public int? CategoryIdLevel2 { get; set; }
+
     }
 }

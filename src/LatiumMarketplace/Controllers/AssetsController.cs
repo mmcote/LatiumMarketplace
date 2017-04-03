@@ -660,11 +660,28 @@ namespace LatiumMarketplace.Controllers
         {
 
             if (AssetCategories == null)
-
-                ViewBag.AssetCategories = new SelectList(_context.Category, "CategoryId", "CategoryName");
+                ViewBag.AssetCategories = new SelectList(_context.Category.Where(Category => Category.ParentCategoryId == null), "CategoryId", "CategoryName");
+            //ViewBag.AssetCategories = new SelectList(_context.Category.Where(Category => Category.ParentCategoryId == null), "CategoryId", "CategoryName");
+            //ViewBag.AssetCategories = new SelectList(_context.Category, "CategoryId", "CategoryName");
 
             else
-                ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+                ViewBag.AssetCategories = new SelectList(_context.Category.Where(Category => Category.ParentCategoryId == null).AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+            // ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+        }
+        [HttpGet("SetSubCategoryViewBag")]
+        public ActionResult SetSubCategoryViewBag(int? categoryID, ICollection<AssetCategory> AssetCategories = null)
+        {
+
+            if (AssetCategories == null)
+                ViewBag.AssetSubCategories = new SelectList(_context.Category.Where(Category => Category.ParentCategoryId == categoryID), "CategoryId", "CategoryName");
+            //ViewBag.AssetCategories = new SelectList(_context.Category.Where(Category => Category.ParentCategoryId == null), "CategoryId", "CategoryName");
+            //ViewBag.AssetCategories = new SelectList(_context.Category, "CategoryId", "CategoryName");
+
+            else
+                ViewBag.AssetSubCategories = new SelectList(_context.Category.Where(Category => Category.ParentCategoryId == categoryID).AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+            // ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+
+            return Json(ViewBag.AssetSubCategories);
         }
 
         // Get all the city from the database

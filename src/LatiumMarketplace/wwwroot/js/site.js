@@ -16,7 +16,7 @@ $(document).ready(function () {
         });
     }
     chooseAssetOption();
-    
+
     function addAccessoryItem() {
         var maxFields = 10; // Max number of accessories that can be added
         var count = 1;
@@ -33,6 +33,40 @@ $(document).ready(function () {
         $(".accessory-item:first").attr("id", "accessory-item1");
     }
     addAccessoryItem();
+
+    function postMainCategory(categoryID) {
+
+        $.ajax({
+            url: '/GetSubCategories/AssetsAPIController',
+            type: "POST",
+            contentType: "application/json",
+            data: { CategoryId: categoryID },
+            success: function (data) {
+                alert("HI");
+                console.log("Success");
+
+                console.log("Finished");
+            },
+            error: function (error) {
+                var x = error; //break here for debugging.
+            }
+        });
+        console.log("Test Done")
+    }
+
+    function getSubCategory() {
+        $("#AssetCategories").change(function () {
+            $("select#AssetCategories option:selected").each(function () {
+                var currentCat = $(this).val();
+                if (currentCat != '') {
+                    alert("Before postMain");
+                    postMainCategory(currentCat);
+                }
+            });
+        });
+    }
+    getSubCategory();
+
 
 });
 

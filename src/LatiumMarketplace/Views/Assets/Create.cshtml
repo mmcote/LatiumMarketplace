@@ -37,7 +37,7 @@
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
             <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
-            <div class="form-group">
+            <div class="form-group" id="maincCategoryContainer">
                 <label asp-for="AssetCategories" class="">Category</label>
                 @Html.DropDownList(
                     "AssetCategories",
