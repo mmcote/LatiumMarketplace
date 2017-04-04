@@ -32,7 +32,7 @@ namespace LatiumMarketplace.Controllers
             _context = context;
             _userManager = userManager;
             _messageThreadApiController = new MessageThreadAPIController(context, connectionManager);
-            _messageApiController = new MessagesAPIController(new MessageRepository(context), new MessageThreadRepository(context));
+            _messageApiController = new MessagesAPIController(new MessageRepository(context), new MessageThreadRepository(context), connectionManager);
         }
 
         // GET: MessageThreads

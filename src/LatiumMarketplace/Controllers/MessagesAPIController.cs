@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using LatiumMarketplace.Data;
 using LatiumMarketplace.Models.MessageViewModels;
 using Newtonsoft.Json.Linq;
+using LatiumMarketplace.Hubs;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
 
 /*
  * MessagesAPIController can be used to get certain messages
@@ -27,12 +29,13 @@ namespace LatiumMarketplace.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/MessagesAPI")]
-    public class MessagesAPIController : Controller
+    public class MessagesAPIController : ApiHubController<Broadcaster>
     {
         private IMessageRepository _messageRepository;
         private IMessageThreadRepository _messageThreadRepository;
 
-        public MessagesAPIController(IMessageRepository messageRepository, IMessageThreadRepository messageThreadRepository)
+        public MessagesAPIController(IMessageRepository messageRepository, IMessageThreadRepository messageThreadRepository, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _messageThreadRepository = messageThreadRepository;
             _messageRepository = messageRepository;
@@ -170,6 +173,7 @@ namespace LatiumMarketplace.Controllers
                 }
                 _messageRepository.MessageRead(guid, messageReadUnreadDTO.IsSender);
                 _messageRepository.Save();
+
                 return new OkObjectResult(true);
             }
             catch (KeyNotFoundException)
@@ -181,6 +185,67 @@ namespace LatiumMarketplace.Controllers
                 return null;
             }
         }
+
+        /// <summary>
+        /// Mark a specific message as read, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
+        [Route("api/MessagesAPI/ViewMessageMarkAsRead")]
+        public IActionResult ViewMessageMarkAsRead([FromBody] string id)
+        {
+            Guid guid = Guid.Parse(id);
+            try
+            {
+                Message message = _messageRepository.GetMessageByID(guid);
+                if (message == null)
+                {
+                    return null;
+                }
+
+                var isSender = false;
+                if (message.messageThread.SenderEmail == User.Identity.Name)
+                {
+                    isSender = true;
+                    if (message.SenderUnread == true)
+                    {
+                        message.messageThread.SenderUnreadMessageCount--;
+                    }
+                }
+                else
+                {
+                    if (message.RecieverUnread == true)
+                    {
+                        message.messageThread.RecieverUnreadMessageCount--;
+                    }
+                }
+
+
+                _messageRepository.MessageRead(guid, isSender);
+                _messageRepository.Save();
+
+                if (message.messageThread.SenderEmail == User.Identity.Name)
+                {
+                    Clients.Group(message.messageThread.SenderEmail).UpdateOverallNotificationCount();
+                }
+                else if (message.messageThread.RecieverEmail == User.Identity.Name)
+                {
+                    Clients.Group(message.messageThread.RecieverEmail).UpdateOverallNotificationCount();
+                }
+
+                return new OkObjectResult(true);
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
         /// <summary>
         /// Mark a specific message as unread, no need to know the messagethread it is contained in.

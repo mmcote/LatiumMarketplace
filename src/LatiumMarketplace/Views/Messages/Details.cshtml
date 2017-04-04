@@ -4,6 +4,25 @@
     ViewData["Title"] = "Details";
 }
 
+<script>
+    function markAsRead(id) {
+        console.log("In view message, mark as read.");
+        $.ajax({
+        url: '@Url.Action("ViewMessageMarkAsRead", "MessagesAPI")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(id),
+            success: function () {
+                console.log("Marked as read.")
+            },
+            error: function (error) {
+                console.log(error)
+                var x = error; //break here for debugging.
+            }
+        });
+    }
+    markAsRead('@Model.id');
+</script>
 <h2>Details</h2>
 
 <div>
@@ -31,6 +50,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
