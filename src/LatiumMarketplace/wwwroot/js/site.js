@@ -34,21 +34,43 @@ $(document).ready(function () {
     }
     addAccessoryItem();
 
-    function postMainCategory(categoryID) {
-
+    // myURL was set in View
+    function getSubCategoryAjax(categoryId) {
         $.ajax({
-            url: '/GetSubCategories/AssetsAPIController',
-            type: "POST",
-            contentType: "application/json",
-            data: { CategoryId: categoryID },
-            success: function (data) {
-                alert("HI");
-                console.log("Success");
+            url: myURL,
+            type: 'GET',
+            contentType: 'application/json; charset=utf8',
+            data: { CategoryId : categoryId },
+            success: function (result) {
+                var subCat = "";
+                
+                for (var i = 0; i < result.length; ++i) {
+                    //if (result[i] && result[i].categoryName) {
+                        //var subCatId, subCatName;
+                        //subCatName = result[i].categoryName;
+                        //alert(result[i].categoryName);
+                    //}
+                    try {
+                        var subCatId, subCatName;
+                        subCatId = result[i].categoryId;
+                        subCatName = result[i].categoryName;
+                        //alert(subCatId + " " + subCatName);
+                        subCat += '<option value="' + subCatId + '">' + subCatName + '</option>';
+                    } catch (err) {
+                        console.log(err);
+                    }
+                }
+                
+                
+               //(subCat).appendTo("div#subCategoryContainer");
+               $("div#subCategoryContainer select").html(subCat);
 
+                console.log("Success");
+                console.log(result);
                 console.log("Finished");
             },
-            error: function (error) {
-                var x = error; //break here for debugging.
+            error: function (result) {
+                alert("Something went wrong");
             }
         });
         console.log("Test Done")
@@ -59,8 +81,7 @@ $(document).ready(function () {
             $("select#AssetCategories option:selected").each(function () {
                 var currentCat = $(this).val();
                 if (currentCat != '') {
-                    alert("Before postMain");
-                    postMainCategory(currentCat);
+                    getSubCategoryAjax(currentCat);
                 }
             });
         });

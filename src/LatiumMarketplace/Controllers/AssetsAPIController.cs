@@ -223,13 +223,5 @@ namespace LatiumMarketplace.Controllers
             }
             return new OkResult();
         }
-
-   
-        [HttpPost("GetSubCategories")]
-        public IActionResult GetSubCategories([FromBody] int? categoryID)
-        {
-            var query = _context.Category.Where(Category => Category.ParentCategoryId == categoryID);
-            return Json(query.ToList());
-        }
     }
 }

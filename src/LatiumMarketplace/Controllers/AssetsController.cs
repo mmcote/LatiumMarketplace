@@ -706,5 +706,12 @@ namespace LatiumMarketplace.Controllers
             else
                 ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
         }
+
+        //[HttpGet]
+        public JsonResult GetSubCategoriesTest(int CategoryId)
+        {
+            var query = _context.Category.Where(Category => Category.ParentCategoryId == CategoryId);
+            return Json(query.ToList());
+        }
     }
 }
