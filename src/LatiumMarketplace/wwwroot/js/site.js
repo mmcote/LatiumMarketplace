@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    // Show rates based on radio button selection
-    // If asset is for sale or for rent 
+    /* Show rates based on radio button selection. If asset is for sale or for rent */
     function chooseAssetOption() {
         $("#IsForRent").hide();
         $("input[name=assetCreateOptions]")
@@ -17,6 +16,7 @@ $(document).ready(function () {
     }
     chooseAssetOption();
 
+    /* Add accessory item to fom submission */
     function addAccessoryItem() {
         var maxFields = 10; // Max number of accessories that can be added
         var count = 1;
@@ -34,22 +34,18 @@ $(document).ready(function () {
     }
     addAccessoryItem();
 
-    // myURL was set in View
+    /* Helper function to get subcategories of a selected category from DB */
     function getSubCategoryAjax(categoryId) {
+        // myURL was set in View
         $.ajax({
             url: myURL,
             type: 'GET',
             contentType: 'application/json; charset=utf8',
             data: { CategoryId : categoryId },
             success: function (result) {
-                var subCat = "";
+                var subCat = '<option value>--- Select a sub-category ---</option>'; // Holds all the subcategories option menues
                 
                 for (var i = 0; i < result.length; ++i) {
-                    //if (result[i] && result[i].categoryName) {
-                        //var subCatId, subCatName;
-                        //subCatName = result[i].categoryName;
-                        //alert(result[i].categoryName);
-                    //}
                     try {
                         var subCatId, subCatName;
                         subCatId = result[i].categoryId;
@@ -60,11 +56,9 @@ $(document).ready(function () {
                         console.log(err);
                     }
                 }
+                $("div#subCategoryContainer select").html(subCat);
                 
-                
-               //(subCat).appendTo("div#subCategoryContainer");
-               $("div#subCategoryContainer select").html(subCat);
-
+                // Debug messages
                 console.log("Success");
                 console.log(result);
                 console.log("Finished");
@@ -73,15 +67,21 @@ $(document).ready(function () {
                 alert("Something went wrong");
             }
         });
-        console.log("Test Done")
     }
 
+    /* Get subcategories and display them in form */
     function getSubCategory() {
+        $("div#subCategoryContainer").hide();
+
         $("#AssetCategories").change(function () {
             $("select#AssetCategories option:selected").each(function () {
                 var currentCat = $(this).val();
                 if (currentCat != '') {
+                    $("div#subCategoryContainer").show();
                     getSubCategoryAjax(currentCat);
+                }
+                else {
+                    $("div#subCategoryContainer").hide();
                 }
             });
         });
