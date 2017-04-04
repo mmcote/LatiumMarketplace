@@ -34,6 +34,34 @@ $(document).ready(function () {
     }
     addAccessoryItem();
 
+    /* Helper function to get the number of subcategories. This function sets async to false*/
+    function getNumSubCategoryAjax(categoryId) {
+        // myURL was set in View
+        var numSubCategories;
+        $.ajax({
+            url: myURL,
+            type: 'GET',
+            contentType: 'application/json; charset=utf8',
+            data: { CategoryId: categoryId },
+            success: function (result) {
+                if (result.length > 0) {
+                    numSubCategories = result.length;
+                }
+                // Debug messages
+                console.log("Success");
+                console.log(result);
+                console.log("Finished");
+
+            },
+            async: false,
+            error: function (result) {
+                console.log("Something went wrong");
+            }
+        });
+
+        return numSubCategories;
+    }
+
     /* Helper function to get subcategories of a selected category from DB */
     function getSubCategoryAjax(categoryId) {
         // myURL was set in View
@@ -41,26 +69,29 @@ $(document).ready(function () {
             url: myURL,
             type: 'GET',
             contentType: 'application/json; charset=utf8',
-            data: { CategoryId : categoryId },
+            data: { CategoryId: categoryId },
             success: function (result) {
                 var subCat = '<option value>--- Select a sub-category ---</option>'; // Holds all the subcategories option menues
-                
-                for (var i = 0; i < result.length; ++i) {
-                    try {
-                        var subCatId, subCatName;
-                        subCatId = result[i].categoryId;
-                        subCatName = result[i].categoryName;
-                        subCat += '<option value="' + subCatId + '">' + subCatName + '</option>';
-                    } catch (err) {
-                        console.log(err);
+
+                if (result.length > 0) {
+                    for (var i = 0; i < result.length; ++i) {
+                        try {
+                            var subCatId, subCatName;
+                            subCatId = result[i].categoryId;
+                            subCatName = result[i].categoryName;
+                            subCat += '<option value="' + subCatId + '">' + subCatName + '</option>';
+                        } catch (err) {
+                            console.log(err);
+                        }
                     }
+                    $("div#subCategoryContainer select").html(subCat);
                 }
-                $("div#subCategoryContainer select").html(subCat);
-                
+
                 // Debug messages
                 console.log("Success");
                 console.log(result);
                 console.log("Finished");
+
             },
             error: function (result) {
                 console.log("Something went wrong");
@@ -75,12 +106,14 @@ $(document).ready(function () {
         $("#AssetCategories").change(function () {
             $("select#AssetCategories option:selected").each(function () {
                 var currentCat = $(this).val();
-                if (currentCat != '') {
+                var myResult = getNumSubCategoryAjax(currentCat);
+                if (currentCat != '' && myResult != '') {
                     $("div#subCategoryContainer").show();
                     getSubCategoryAjax(currentCat);
                 }
-                else {
+                if (myResult == undefined || myResult == '') {
                     $("div#subCategoryContainer").hide();
+                    $("div#subCategoryContainer option").remove();
                 }
             });
         });
