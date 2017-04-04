@@ -21,7 +21,7 @@
     </div>
 </p>
 <div>
-    <h4>Asset</h4>
+    <h4>@Html.DisplayFor(model => model.name)</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -30,24 +30,17 @@
         <dd>
             @Html.DisplayFor(model => model.addDate)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.duration)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.duration)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ownerID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ownerID)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
+        @{
+            if (Model.request == true)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.duration)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.duration)
+                </dd>
+            }
+        }
         <dt>
             @Html.DisplayNameFor(model => model.Make)
         </dt>
@@ -78,30 +71,43 @@
         <dd>
             @Html.DisplayFor(model => model.accessory)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.priceDaily)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.priceDaily)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.priceMonthly)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.priceMonthly)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.priceWeekly)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.priceWeekly)
-        </dd>
+        @{
+            if (Model.request == false)
+            {
+                if (Model.price > 0)
+                {
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.price)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.price)
+                    </dd>
+                }
+                else
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.priceDaily)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.priceDaily)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.priceMonthly)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.priceMonthly)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.priceWeekly)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.priceWeekly)
+                    </dd>
+                }
+
+            }
+        }   
     </dl>
 </div>
 

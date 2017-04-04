@@ -74,12 +74,12 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="name" class=""></label>
+                <label asp-for="name" class="">Asset Name *</label>
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger" />
             </div>
             <div class="form-group">
-                <label asp-for="Make" class="">Make</label>
+                <label asp-for="Make" class="">Make *</label>
                 @Html.DropDownList(
                     "Makes",
                     (SelectList)ViewBag.Makes,
@@ -90,7 +90,7 @@
             </div>
             <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
             <div class="form-group" id="mainCategoryContainer">
-                <label asp-for="AssetCategories" class="">Category</label>
+                <label asp-for="AssetCategories" class="">Category *</label>
                 @Html.DropDownList(
                     "AssetCategories",
                     (SelectList)ViewBag.AssetCategories,
@@ -110,7 +110,7 @@
                 <span asp-validation-for="Address" class="text-danger" />
             </div>
             <div class="form-group">
-                <label asp-for="City" class="">City</label>
+                <label asp-for="City" class="">City *</label>
                 @Html.DropDownList(
                     "Cities",
                     (SelectList)ViewBag.Cities,
@@ -132,7 +132,7 @@
             </div>
             <div id="IsForSale" class="asset-rates">
                 <div class="form-group">
-                    <label asp-for="price" class=""></label>
+                    <label asp-for="price" class=""> Sale Price *</label>
                     <input asp-for="price" class="form-control" />
                     <span asp-validation-for="price" class="text-danger" />
                 </div>
@@ -141,7 +141,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label asp-for="priceDaily" class=""></label>
+                            <label asp-for="priceDaily" class=""> Daily Price *</label>
                             <input asp-for="priceDaily" class="form-control" />
                             <span asp-validation-for="priceDaily" class="text-danger" />
                         </div>
@@ -149,7 +149,7 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label asp-for="priceWeekly" class=""></label>
+                            <label asp-for="priceWeekly" class="">Weekly Price *</label>
                             <input asp-for="priceWeekly" class="form-control" />
                             <span asp-validation-for="priceWeekly" class="text-danger" />
                         </div>
@@ -157,7 +157,7 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label asp-for="priceMonthly" class=""></label>
+                            <label asp-for="priceMonthly" class="">Monthly Price *</label>
                             <input asp-for="priceMonthly" class="form-control" />
                             <span asp-validation-for="priceMonthly" class="text-danger" />
                         </div>
