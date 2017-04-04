@@ -428,25 +428,32 @@ namespace LatiumMarketplace.Controllers
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 
-                // Get the category and subcategory from select form
+                // Get the category from select form
                 var myCategoryId = HttpContext.Request.Form["AssetCategories"];
                 var myCategoryIdNumVal = int.Parse(myCategoryId);
-                var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
-                var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
 
                 // Assign a category to the asset
                 AssetCategory AssetCategory = new AssetCategory();
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
 
-                // Assign a subcategory to the asset
-                AssetCategory AssetSubCategory = new AssetCategory();
-                AssetSubCategory.AssetId = asset.assetID;
-                AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
-
                 // Save asset category to DB
                 _context.AssetCategory.Add(AssetCategory);
-                _context.AssetCategory.Add(AssetSubCategory);
+
+                // Get the subcategory from select form
+                var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
+                if (!(String.IsNullOrEmpty(mySubCategoryId)))
+                {
+                    var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
+                    // Assign a subcategory to the asset
+                    AssetCategory AssetSubCategory = new AssetCategory();
+                    AssetSubCategory.AssetId = asset.assetID;
+                    AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
+
+                    // Save asset subcategory to DB
+                    _context.AssetCategory.Add(AssetSubCategory);
+                }
+
                 await _context.SaveChangesAsync();
                
 
