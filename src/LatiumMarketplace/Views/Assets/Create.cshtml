@@ -31,7 +31,11 @@
     }
 </style>
 
+@* Set the URL variable here since Razor syntax can't be included in JS files*@
 <script>
+    //var myURL = '@Url.Action("GetSubCategories", "AssetsController")';
+    var myURL = 'GetSubCategories';
+
       $(function() {
         $('.image-editor').cropit({
           imageState: {
@@ -85,7 +89,7 @@
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
             <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
-            <div class="form-group">
+            <div class="form-group" id="mainCategoryContainer">
                 <label asp-for="AssetCategories" class="">Category</label>
                 @Html.DropDownList(
                     "AssetCategories",
@@ -94,6 +98,11 @@
                     new { @class = "form-control" }
                     )
                 <span asp-validation-for="AssetCategories" class="text-danger" />
+            </div>
+            <div class="form-group" id="subCategoryContainer">
+                <label class="">Sub-category</label>
+                <select class="form-control" id="AssetSubcategories" name="AssetSubcategories">          
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class=""></label>
