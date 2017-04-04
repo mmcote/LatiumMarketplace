@@ -427,19 +427,28 @@ namespace LatiumMarketplace.Controllers
                 // Save asset to DB
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
-
-                // Get the category from select form
+                
+                // Get the category and subcategory from select form
                 var myCategoryId = HttpContext.Request.Form["AssetCategories"];
                 var myCategoryIdNumVal = int.Parse(myCategoryId);
+                var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
+                var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
 
                 // Assign a category to the asset
                 AssetCategory AssetCategory = new AssetCategory();
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
 
+                // Assign a subcategory to the asset
+                AssetCategory AssetSubCategory = new AssetCategory();
+                AssetSubCategory.AssetId = asset.assetID;
+                AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
+
                 // Save asset category to DB
                 _context.AssetCategory.Add(AssetCategory);
+                _context.AssetCategory.Add(AssetSubCategory);
                 await _context.SaveChangesAsync();
+               
 
                 return RedirectToAction("Index");
             }
@@ -659,11 +668,25 @@ namespace LatiumMarketplace.Controllers
         {
 
             if (AssetCategories == null)
+            { 
+                ViewBag.AssetCategories = new SelectList(
+                    _context.Category.Where(Category => Category.ParentCategoryId == null), 
+                    "CategoryId", "CategoryName"
+                    );
+            }
+            else {
+                ViewBag.AssetCategories = new SelectList(
+                    _context.Category.Where(Category => Category.ParentCategoryId == null)
+                    .AsEnumerable(), "CategoryId", "CategoryName", AssetCategories
+                    );
+            }
+        }
 
-                ViewBag.AssetCategories = new SelectList(_context.Category, "CategoryId", "CategoryName");
-
-            else
-                ViewBag.AssetCategories = new SelectList(_context.Category.AsEnumerable(), "CategoryId", "CategoryName", AssetCategories);
+        // Get subcategories from DB
+        public JsonResult GetSubCategories(int CategoryId)
+        {
+            var query = _context.Category.Where(Category => Category.ParentCategoryId == CategoryId);
+            return Json(query.ToList());
         }
 
         // Get all the city from the database
