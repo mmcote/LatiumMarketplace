@@ -5,8 +5,8 @@
 
 @* Set the URL variable here since Razor syntax can't be included in JS files*@
 <script>
-    //var myURL = '@Url.Action("GetSubCategoriesTest", "AssetsController")';
-    var myURL = 'GetSubCategoriesTest';
+    //var myURL = '@Url.Action("GetSubCategories", "AssetsController")';
+    var myURL = 'GetSubCategories';
 </script>
 
 <h2>Create</h2>
@@ -55,11 +55,8 @@
             </div>
             <div class="form-group" id="subCategoryContainer">
                 <label class="">Sub-category</label>
-                <select class="form-control" id="Subcategories" name="Subcategories">
-                    
+                <select class="form-control" id="AssetSubcategories" name="AssetSubcategories">          
                 </select>
-                
-                
             </div>
             <div class="form-group">
                 <label asp-for="Address" class=""></label>

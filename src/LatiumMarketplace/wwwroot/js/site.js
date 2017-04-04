@@ -50,7 +50,6 @@ $(document).ready(function () {
                         var subCatId, subCatName;
                         subCatId = result[i].categoryId;
                         subCatName = result[i].categoryName;
-                        //alert(subCatId + " " + subCatName);
                         subCat += '<option value="' + subCatId + '">' + subCatName + '</option>';
                     } catch (err) {
                         console.log(err);
@@ -64,7 +63,7 @@ $(document).ready(function () {
                 console.log("Finished");
             },
             error: function (result) {
-                alert("Something went wrong");
+                console.log("Something went wrong");
             }
         });
     }
