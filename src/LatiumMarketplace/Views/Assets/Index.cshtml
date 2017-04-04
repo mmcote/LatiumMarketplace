@@ -66,8 +66,9 @@
                                 {
                                     <div class="asset-image-container">
                                         <a asp-action="Details" asp-route-id="@item.assetID" class="">
-                                            <img src="@item.ImageGallery.Images.First().FileLink" alt="@item.name"
-                                                 class="img-responsive" />
+                                            <div class="imageItem">
+                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="@item.name" class="img-responsive resize" />
+                                            </div>
                                         </a>
                                     </div>
                                 }
@@ -107,3 +108,10 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(function () {
+        $('.single-asset-container').matchHeight();
+    });
+</script>

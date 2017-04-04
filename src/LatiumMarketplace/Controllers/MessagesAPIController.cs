@@ -247,12 +247,12 @@ namespace LatiumMarketplace.Controllers
         }
 
 
-/// <summary>
-/// Mark a specific message as unread, no need to know the messagethread it is contained in.
-/// </summary>
-/// <param name="id"></param>
-// POST: api/ApiWithActions/5
-[HttpPost("{id}")]
+        /// <summary>
+        /// Mark a specific message as unread, no need to know the messagethread it is contained in.
+        /// </summary>
+        /// <param name="id"></param>
+        // POST: api/ApiWithActions/5
+        [HttpPost("{id}")]
         [Route("api/MessagesAPI/MarkAsUnread")]
         public IActionResult MarkMessageAsUnread([FromBody] MessageReadUnreadDTO messageReadUnreadDTO)
         {

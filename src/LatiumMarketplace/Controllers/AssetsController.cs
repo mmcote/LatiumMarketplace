@@ -17,7 +17,6 @@ using System.Net.Http.Headers;
 
 namespace LatiumMarketplace.Controllers
 {
- 
     public class AssetsController : Controller
     {
         private readonly ApplicationDbContext _context;
