@@ -31,20 +31,22 @@ namespace LatiumMarketplace.Data
                 {
                     new Category {CategoryName = "Car" },
                     new Category { CategoryName = "Truck" },
-                    new Category { CategoryName = "Bus" }
+                    new Category { CategoryName = "Bus" },
+                    new Category { CategoryName = "Other" }
                 };
 
                 var city = new City[]
                 {
                     new City {Name = "Edmonton"},
                     new City {Name = "Calgary"},
-                    new City {Name = "Vancouver"}
+                    new City {Name = "Vancouver"},
             };
                 var make = new Make[]
                {
                     new Make {Name = "BMW"},
                     new Make {Name = "FORD"},
-                    new Make {Name = "CHEVY"}
+                    new Make {Name = "CHEVY"},
+                    new Make {Name = "Other"}
            };
                 foreach (Asset s in assets)
                 {
