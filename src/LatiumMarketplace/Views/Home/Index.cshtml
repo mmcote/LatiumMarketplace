@@ -1,4 +1,5 @@
-﻿@{
+﻿@model LatiumMarketplace.Models.AssetViewModels.AssetIndexData
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -90,6 +91,65 @@
     <div class="col-md-12">
         <h2 class="text-center">Featured Assets</h2>
     </div>
+
+    @{   
+        <div class="col-md-12">
+        <ul id="all-assets" class="row list-unstyled">
+           @foreach(var item in Model.Assets)
+           { 
+                <div class="col-md-4">
+                    
+                    <li id="asset-@item.assetID" class="single-asset margin-bottom-30">
+                        <!-- Begin single-asset-wrapper -->
+                        <div class="single-asset-container">
+                            @if (@item.ImageGallery != null)
+                            {
+                                @*Show only the first image in gallery*@
+                                @if (@item.ImageGallery.Images.Any(e => e.ImageGalleryId == item.ImageGalleryId))
+                                {
+                                    <div class="asset-image-container">
+                                        <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
+                                            <div class="imageItem">
+                                                <img src="@item.ImageGallery.Images.First().FileLink" style="width:100% !important"  alt="@item.name" class="img-responsive resize" />
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="asset-image-container">
+                                        <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
+                                            <img src="~/images/preview-not-available.jpg" style="width:100% !important" alt="No asset image"
+                                                 class="img-responsive" />
+                                        </a>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="asset-image-container">
+                                    <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
+                                        <img src="~/images/preview-not-available.jpg" style="width:100% !important" alt="No asset image"
+                                             class="img-responsive" />
+                                    </a>
+                                </div>
+                            }
+                            <div class="asset-summary-container">
+                                <h4>
+                                    <a asp-controller="Assets" id="@item.name" asp-action="Details" asp-route-id="@item.assetID" class="">
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </a>
+                                </h4>
+                                <p>$@Html.DisplayFor(modelItem => item.price)</p>
+                            </div>
+
+                        </div><!-- End single-asset-wrapper -->
+                    </li>
+                </div>
+             }
+        </ul>
+    </div>
+    }
     <div class="col-md-4">
         <div class="thumbnail">
             <a href="#">

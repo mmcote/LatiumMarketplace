@@ -121,10 +121,12 @@
                                                 @Html.DisplayFor(modelItem => item.accessory)
                                             </td>
                                             <td>
-                                                <a asp-action="AddFeature" asp-route-id="@item.assetID">Add</a>
+                                                <a asp-action="AddFeature" asp-route-id="@item.assetID">Add</a> |
+                                                <a asp-action="RemoveFeature" asp-route-id="@item.assetID">Remove</a> 
+
                                             </td>
                                             <td>
-                                                <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID">Details</a> |
+                                                <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID">Details</a> 
                                                 <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
                                             </td>
                                         </tr>
