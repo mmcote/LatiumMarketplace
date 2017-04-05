@@ -10,7 +10,7 @@
     <link href="~/css/prettyPhoto.css" rel="stylesheet">
 
 </head><!--/head-->
-<h2>My Listings</h2>
+<h2>All Listings</h2>
 
 
 <section>
@@ -120,11 +120,18 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.accessory)
                                             </td>
-                                            <td>
-                                                <a asp-action="AddFeature" asp-route-id="@item.assetID">Add</a> |
-                                                <a asp-action="RemoveFeature" asp-route-id="@item.assetID">Remove</a> 
-
-                                            </td>
+                                            @if (item.featuredItem == false)
+                                            {
+                                                <td>
+                                                    <a asp-action="AddFeature" asp-route-id="@item.assetID">Add</a>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <a asp-action="RemoveFeature" asp-route-id="@item.assetID">Remove</a>
+                                                </td>
+                                            }
                                             <td>
                                                 <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID">Details</a> 
                                                 <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>

@@ -35,6 +35,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
         [Key]
         [Display(Name = "Asset ID")]
         public int assetID { get; set; }
+        [Required]
         [Display(Name = "Asset Name")]
         public string name { get; set; }
         [Display(Name = "Description")]
