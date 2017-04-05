@@ -242,6 +242,35 @@
 
         </script>
     }
+
+    <script>
+        $('#imageLogo').hide();
+        $('#writtenLogo').hide();
+
+        $(window).ready(function () {
+            if ($(this).width() >= 1024) {
+                console.log("In the greater than.");    
+                $('#imageLogo').show();
+                $('#writtenLogo').hide();
+            } else {
+                $('#imageLogo').hide();
+                $('#writtenLogo').show();
+
+            }
+        }
+        );
+        $(window).resize(function () {
+
+            if ($(this).width() < 1024) {
+
+                $('#imageLogo').hide();
+                $('#writtenLogo').show();
+            } else {
+                $('#writtenLogo').hide();
+                $('#imageLogo').show();
+            }
+        });
+    </script>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -251,7 +280,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LatiumMarketplace</a>
+                <a id="imageLogo" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/images/brand/logo.png" style="margin: -20px;"/></a>
+                <a id="writtenLogo" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Latium Marketplace</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

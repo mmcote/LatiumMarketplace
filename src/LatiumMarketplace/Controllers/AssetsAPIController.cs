@@ -27,6 +27,37 @@ namespace LatiumMarketplace.Controllers
             _context = context;
         }
 
+        private static Random rng = new Random();
+
+        public static void Shuffle<T>(IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+
+        /// <summary>
+        /// POST method for asset category
+        /// </summary>
+        /// <param name="category">Category for POST request</param>
+        /// <returns>HTTP response for POST category</returns>
+        // POST: api/PostCategory
+        [HttpPost("GetRandomCategories")]
+        [Route("api/AssetsAPI/GetRandomCategories")]
+
+        public IActionResult GetRandomCategories()
+        {
+            var allCategories = _context.Category.ToList();
+            Shuffle(allCategories);
+            return new OkObjectResult(allCategories);
+        }
+
         /// <summary>
         /// GET method for asset
         /// </summary>
