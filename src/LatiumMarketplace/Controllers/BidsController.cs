@@ -31,7 +31,7 @@ namespace LatiumMarketplace.Controllers
         {
             _userManager = userManager;
             _context = context;
-            _BidsApiController = new BidsAPIController(context, _bidRepo);
+            _BidsApiController = new BidsAPIController(context, _bidRepo, connectionManager);
         }
 
         // GET: Bids
