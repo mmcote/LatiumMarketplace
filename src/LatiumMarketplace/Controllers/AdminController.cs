@@ -481,6 +481,55 @@ namespace LatiumMarketplace.Controllers
 
             return View(Cities);
         }
+
+        /// <summary>
+        /// GET: Admin/Delete/5
+        /// Used for delete item from server
+        /// </summary>
+        /// <param name="id">check if this item can be delete base on id</param> 
+        public async Task<IActionResult> Delete(int? id)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
+            if (asset == null)
+            {
+                return NotFound();
+            }
+
+            return View(asset);
+        }
+
+        /// <summary>
+        /// POST: Admin/Delete/5
+        /// Used for delete item from server
+        /// </summary>
+        /// <param name="id">delete item by this id</param> 
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
+            _context.Asset.Remove(asset);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("AdminListings");
+        }
+
+
         // Get all categories from the database
         private void SetCategoryViewBag(ICollection<AssetCategory> AssetCategories = null)
         {
