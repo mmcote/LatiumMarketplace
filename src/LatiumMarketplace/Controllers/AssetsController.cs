@@ -571,8 +571,6 @@ namespace LatiumMarketplace.Controllers
                     .ThenInclude(a => a.Category)
                 .SingleOrDefaultAsync(m => m.assetID == id);
 
-            var makes = _context.Make.ToArray();
-
             if (asset == null)
             {
                 return NotFound();

@@ -349,23 +349,33 @@ namespace LatiumMarketplace.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("AdminListings");
         }
-
+        /*admin can no longer edit an asset
         // GET: Assets/Edit/5
         public async Task<IActionResult> AdminEdit(int? id)
         {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
             var Myassets = _context.Asset;
             if (id == null)
             {
                 return NotFound();
             }
 
-            var asset = await Myassets.SingleOrDefaultAsync(m => m.assetID == id);
+            var asset = await Myassets
+               .Include(a => a.Make)
+               .Include(a => a.AssetCategories)
+                   .ThenInclude(a => a.Category)
+               .SingleOrDefaultAsync(m => m.assetID == id);
+
             if (asset == null)
             {
                 return NotFound();
             }
             // Populate asset categories
-            SetCategoryViewBag();
+            SetCategoryViewBag(asset.AssetCategories);
             // Populate asset makes
             SetMakeViewBag();
             // Populate cities
@@ -417,9 +427,11 @@ namespace LatiumMarketplace.Controllers
                     }
                 }
                 return RedirectToAction("AdminListings");
+
             }
             return View(asset);
         }
+        */
         private bool AssetExists(int id)
         {
             return _context.Asset.Any(e => e.assetID == id);
