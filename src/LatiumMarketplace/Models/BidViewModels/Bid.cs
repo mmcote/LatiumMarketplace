@@ -37,7 +37,6 @@ namespace LatiumMarketplace.Models.BidViewModels
 
         [Display(Name = "Description")]
         public string description { get; set; }
-
         
         //public bool bidType { get; set; }
         [Display(Name = "User")]
@@ -53,8 +52,9 @@ namespace LatiumMarketplace.Models.BidViewModels
         public bool status { get; set; }
 
         public bool chosen { get; set; }
+
+        public bool bidderNotificationPending { get; set; }
+
+        public bool assetOwnerNotificationPending { get; set; }
     }
-    
-
-
 }

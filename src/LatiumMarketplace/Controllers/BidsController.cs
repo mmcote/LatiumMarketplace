@@ -31,7 +31,7 @@ namespace LatiumMarketplace.Controllers
         {
             _userManager = userManager;
             _context = context;
-            _BidsApiController = new BidsAPIController(context, _bidRepo);
+            _BidsApiController = new BidsAPIController(context, _bidRepo, connectionManager);
         }
 
         // GET: Bids
@@ -101,6 +101,7 @@ namespace LatiumMarketplace.Controllers
             Bid bid = new Bid();
             var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
             bid.asset = Bid_asset;
+
             DateTime current = DateTime.Now;
             if ((DateTime.Now - bid.asset.addDate).TotalDays > 0)
             {
@@ -111,6 +112,7 @@ namespace LatiumMarketplace.Controllers
                 bid.startDate = bid.asset.addDate;
             }
             bid.endDate = bid.startDate.AddDays(1);
+
             return View(bid);
         }
 
@@ -138,6 +140,8 @@ namespace LatiumMarketplace.Controllers
                 int asset_id = Int32.Parse(id);
                 Asset asset = _context.Asset.Single(a => a.assetID == asset_id);
                 bid.asset = asset;
+                bid.assetOwnerNotificationPending = true;
+                bid.bidderNotificationPending = false;
                 bid.asset_id_model = asset_id;
                 bid.asset_name = asset.name;
                 bid.status = asset.request;
@@ -218,7 +222,7 @@ namespace LatiumMarketplace.Controllers
                 notification.type = 1;
                 string notificationEmail = _context.User.Single(u => u.Id == bid.asset.ownerID).Email;
                 Clients.Group(notificationEmail).AddNotificationToQueue(notification);
-
+                Clients.Group(notificationEmail).UpdateOverallNotificationCount();
                 //RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Bids", new { @Id = bid.bidId });
 
                 return RedirectToAction("MyBids");
@@ -244,7 +248,10 @@ namespace LatiumMarketplace.Controllers
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
             var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
             var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
-
+            foreach(Bid bid in MyBids)
+            {
+                bid.bidderNotificationPending = false;
+            }
             var assets = from m in my_Assets
                          select m;
             switch (sortby)
@@ -430,6 +437,8 @@ namespace LatiumMarketplace.Controllers
             }
             var bid = _context.Bid.Single(s => s.bidId == id);
             bid.chosen = true;
+            bid.assetOwnerNotificationPending = false;
+            bid.bidderNotificationPending = true;
 
             //var listBid = _context.Bid.Where(s => s.asset.assetID == bid.asset.assetID);
 
@@ -469,9 +478,7 @@ namespace LatiumMarketplace.Controllers
                 "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
             notification.type = 1;
             Clients.Group(bid.bidder).AddNotificationToQueue(notification);
-
-
-
+            Clients.Group(bid.bidder).UpdateOverallNotificationCount();
 
             return RedirectToAction("Index");
         }

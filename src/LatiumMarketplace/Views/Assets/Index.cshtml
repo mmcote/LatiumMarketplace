@@ -16,10 +16,15 @@
         <!-- ==== Begin left-bar ==== -->
         <div class="col-md-3">
             <!-- Begin create action ==== -->
-            <ul class="list-unstyled">
-                <li><a asp-action="Create">Create New Asset</a></li>
-                <li><a asp-action="CreateReq">Create New Request</a></li>
-            </ul>
+            @{if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="list-unstyled">
+                        <li><a asp-action="Create">Create New Asset</a></li>
+                        <li><a asp-action="CreateReq">Create New Request</a></li>
+                    </ul>
+
+                    }
+                }
             <!-- End of Create action === -->
             <!-- === Begin search form === -->
             <form asp-controller="Assets" asp-action="Index" method="get">

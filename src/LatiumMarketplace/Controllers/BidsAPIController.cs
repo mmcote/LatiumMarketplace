@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.BidViewModels;
 using LatiumMarketplace.Data;
+using Microsoft.EntityFrameworkCore;
+using LatiumMarketplace.Hubs;
+using Microsoft.AspNetCore.SignalR.Infrastructure;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,7 +19,7 @@ namespace LatiumMarketplace.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/BidsAPIController")]
-    public class BidsAPIController : Controller
+    public class BidsAPIController : ApiHubController<Broadcaster>
     {
         private IBidRepository _BidRepository;
         private ApplicationDbContext _context;
@@ -26,7 +29,8 @@ namespace LatiumMarketplace.Controllers
         /// </summary>
         /// <param name="context">Sets the context</param>
         /// <param name="bidRepository">Set the bidRepo</param>
-        public BidsAPIController(ApplicationDbContext context, IBidRepository bidRepository)
+        public BidsAPIController(ApplicationDbContext context, IBidRepository bidRepository, IConnectionManager connectionManager)
+            : base(connectionManager)
         {
             _context = context;
             _BidRepository = bidRepository; //new BidRepository(context);
@@ -144,6 +148,22 @@ namespace LatiumMarketplace.Controllers
             return new OkObjectResult(bids.ToList());
         }
 
+        [HttpPost("email")]
+        [Route("api/BidsAPIController/GetAssetOwnerNotificationCount")]
+        public IActionResult GetAssetOwnerNotificationCount([FromBody]string email)
+        {
+            int count = _context.Bid.Include(b => b.asset).Where(b => b.asset.ownerName == email && b.assetOwnerNotificationPending == true).Count();
+            return new OkObjectResult(count);
+        }
+
+        [HttpPost("email")]
+        [Route("api/BidsAPIController/GetBidderNotificationCount")]
+        public IActionResult GetBidderNotificationCount([FromBody]string email)
+        {
+            int count = _context.Bid.Where(b => b.bidder == email && b.bidderNotificationPending == true).Count();
+            return new OkObjectResult(count);
+        }
+
         // POST api/BidsAPI
         /// <summary>
         /// POST method for bids
@@ -168,6 +188,70 @@ namespace LatiumMarketplace.Controllers
                 throw;
             }
             return NoContent();
+        }
+
+        // POST api/BidsAPI
+        /// <summary>
+        /// POST method for bids
+        /// </summary>
+        /// <param name="bid">BID</param>
+        /// <returns>HTTP Response</returns>
+        [HttpPost]
+        [Route("api/BidsAPIController/AcceptBid")]
+        public IActionResult AcceptBid([FromBody] int bidId)
+        {
+            try
+            {
+                Bid bid = _context.Bid.Single(b => b.bidId == bidId);
+                bid.assetOwnerNotificationPending = false;
+                bid.chosen = true;
+                _context.SaveChanges();
+
+                string redirectURL = "/Bids/MyBids/";
+                Notification notification = new Notification(bid.asset_name,
+                    "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
+                notification.type = 1;
+                Clients.Group(bid.bidder).AddNotificationToQueue(notification);
+                Clients.Group(bid.bidder).UpdateOverallNotificationCount();
+
+                return new OkResult();
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
+        }
+
+        // POST api/BidsAPI
+        /// <summary>
+        /// POST method for bids
+        /// </summary>
+        /// <param name="bid">BID</param>
+        /// <returns>HTTP Response</returns>
+        [HttpPost]
+        [Route("api/BidsAPIController/DeclineBid")]
+        public IActionResult DeclineBid([FromBody] int bidId)
+        {
+            try
+            {
+                Bid bid = _context.Bid.Single(b => b.bidId == bidId);
+                bid.assetOwnerNotificationPending = false;
+                bid.chosen = false;
+                _context.SaveChanges();
+
+                string redirectURL = "/Bids/MyBids/";
+                Notification notification = new Notification(bid.asset_name,
+                    "Your bid has been declined for " + bid.asset_name + ".", redirectURL);
+                notification.type = 1;
+                Clients.Group(bid.bidder).AddNotificationToQueue(notification);
+                Clients.Group(bid.bidder).UpdateOverallNotificationCount();
+
+                return new OkResult();
+            }
+            catch
+            {
+                return new BadRequestResult();
+            }
         }
 
         /// <summary>
