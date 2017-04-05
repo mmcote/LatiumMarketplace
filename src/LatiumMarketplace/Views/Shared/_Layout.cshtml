@@ -43,7 +43,7 @@
                         {
                             console.log("You have been banned.");
                             // similar behavior as an HTTP redirect
-                            window.location.replace("@Url.Action("Index", "Home")");
+                            window.location.replace("@Url.Action("Banned", "Account")");
                         }
                         else
                         {
@@ -59,6 +59,7 @@
 
 
             var messageNotificationCount = 0;
+            var offersNotificationCount = 0;
             var bidNotificationCount = 0;
 
             function updateMessageNotificationCount()
@@ -86,18 +87,65 @@
                 });
             }
 
-            function updateBidNotificationCount()
+            function updateOfferNotificationCount()
             {
+                $.ajax({
+                    url: '@Url.Action("GetAssetOwnerNotificationCount", "BidsAPI")',
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json",
+                    data: JSON.stringify('@User.Identity.Name'),
+                    success: function (count) {
+                        offersNotificationCount = count;
+                        $('#offersNotificationCount').html(offersNotificationCount);
+                        if (offersNotificationCount == 0) {
+                            $('#offersNotificationCount').hide();
+                        }
+                        else {
+                            $('#offersNotificationCount').show();
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        var x = error; //break here for debugging.
+                    }
+                });
+            }
 
+            function updateBidNotificationCount() {
+                $.ajax({
+                    url: '@Url.Action("GetBidderNotificationCount", "BidsAPI")',
+                    type: "POST",
+                    async: false,
+                    contentType: "application/json",
+                    data: JSON.stringify('@User.Identity.Name'),
+                    success: function (count) {
+                        bidNotificationCount = count;
+                        $('#bidsNotificationCount').html(bidNotificationCount);
+                        if (bidNotificationCount == 0) {
+                            $('#bidsNotificationCount').hide();
+                        }
+                        else {
+                            $('#bidsNotificationCount').show();
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        var x = error; //break here for debugging.
+                    }
+                });
             }
 
             function updateOverallNotificationCount()
             {
                 updateMessageNotificationCount();
+                updateOfferNotificationCount();
                 updateBidNotificationCount();
-                var totalNotifications = messageNotificationCount + bidNotificationCount;
+                var totalNotifications = messageNotificationCount + bidNotificationCount + offersNotificationCount;
+                console.log("TotalNotifications: ");
+                console.log(totalNotifications);
                 $('#overallNotificationCount').html(totalNotifications);
-                if (messageNotificationCount == 0) {
+                if (totalNotifications == 0) {
                     $('#overallNotificationCount').hide();
                 }
                 else {
@@ -249,7 +297,6 @@
         <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="~/lib/cropit/dist/jquery.cropit.js"></script>
         <script src="~/lib/matchHeight/dist/jquery.matchHeight.js"></script>
-
     </environment>
     @RenderSection("scripts", required: false)
 </body>

@@ -324,12 +324,29 @@ namespace LatiumMarketplace.Controllers
         }
 
         // Get: Admin/FeaturedItems
-        public  async Task<IActionResult> AddFeature(int? id)
+        public async Task<IActionResult> AddFeature(int? id)
         {
-            var asset = _context.Asset.Single(s =>s.assetID == id );
-            asset.featuredItem = true;
+            var all = _context.Asset.Where(s => s.featuredItem == true);
+            var asset = _context.Asset.Single(s => s.assetID == id);
+
+            if (all.Count() <= 3)
+            {
+                asset.featuredItem = true;
+                await _context.SaveChangesAsync();
+                return RedirectToAction("AdminListings");
+            }
+            else
+            {
+                return RedirectToAction("AdminListings");
+            }
+        }
+
+        // GET: Admin/FeaturedItems
+        public async Task<IActionResult> RemoveFeature(int? id)
+        {
+            var asset = _context.Asset.Single(s => s.assetID == id);
+            asset.featuredItem = false;
             await _context.SaveChangesAsync();
-        
             return RedirectToAction("AdminListings");
         }
 

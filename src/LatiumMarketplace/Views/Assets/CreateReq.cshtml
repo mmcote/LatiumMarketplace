@@ -4,10 +4,16 @@
     ViewData["Title"] = "CreateReq";
 }
 
+@* Set the URL variable here since Razor syntax can't be included in JS files*@
+<script>
+    //var myURL = '@Url.Action("GetSubCategories", "AssetsController")';
+    var myURL = 'GetSubCategories';
+</script>
+
 <h2>Create</h2>
 
 <form asp-action="CreateReq">
-    <h4>Asset</h4>
+    <h4>Request</h4>
     <hr />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
@@ -19,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="duration" class="">Duration *</label>
-                <input asp-for="duration" class="form-control" />
+                <input asp-for="duration" class="form-control" required ="required" />
                 <span asp-validation-for="duration" class="text-danger" />
             </div>
             <div class="form-group">
@@ -28,7 +34,7 @@
                     "Makes",
                     (SelectList)ViewBag.Makes,
                     "--- Select a make ---",
-                    new { @class = "form-control" }
+                    new { @class = "form-control", required = "required" }
                     )
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
@@ -39,9 +45,13 @@
                     "AssetCategories",
                     (SelectList)ViewBag.AssetCategories,
                     "--- Select a category ---",
-                    new { @class = "form-control" }
+                    new { @class = "form-control", required = "required" }
                     )
                 <span asp-validation-for="AssetCategories" class="text-danger" />
+            </div>
+            <div class="form-group" id="subCategoryContainer">
+                <label class="">Sub-category</label>
+                <select class="form-control" id="AssetSubcategories" name="AssetSubcategories" required ="required"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="">Address *</label>
@@ -54,7 +64,7 @@
                     "Cities",
                     (SelectList)ViewBag.Cities,
                     "--- Select a city ---",
-                    new { @class = "form-control" }
+                    new { @class = "form-control", required = "required" }
                     )
                 <span asp-validation-for="City" class="text-danger" />
             </div>
