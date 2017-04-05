@@ -9,18 +9,30 @@
     @if (Model.asset.price > (decimal)0.00)
     {
         <form asp-action="Create">
-            <div class="form-horizontal">
+            <div>
                 <h2>Buy Now!</h2>
                 <hr />
-                <h3>@Model.asset.name</h3>
-                <h4>@Model.asset.description</h4>
-                <h4>Price: $@Model.asset.price</h4>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input type="submit" value="BUY" class="btn btn-default" />
+                <h4>@Model.asset.name</h4>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.description)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.description)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.asset.price)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.asset.price)
+                    </dd>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="BUY" class="btn btn-default" />
+                        </div>
                     </div>
-                </div>
+                </dl>
             </div>
         </form>
     }
@@ -30,56 +42,94 @@
             <div class="form-horizontal">
                 <h2>Rent Now!</h2>
                 <hr />
-                <h3>@Model.asset.name</h3>
-                <h4>@Model.asset.description</h4>
-                @if(@Model.asset.priceDaily == (decimal)0.00){
-                    <h4>Daily Rental Not Available</h4>
-                }
-                else
-                {
-                    <h4>Daily Rate: $@Model.asset.priceDaily</h4>
-                }
-                @if (@Model.asset.priceWeekly == (decimal)0.00)
-                {
-                    <h4>Weekly Rental Not Available</h4>
-                }
-                else
-                {
-                    <h4>Weekly Rate: $@Model.asset.priceWeekly</h4>
-                }
-                @if (@Model.asset.priceMonthly == (decimal)0.00)
-                {
-                    <h4>Monthly Rental Not Available</h4>
-                }
-                else
-                {
-                    <h4>Monthly Rate: $@Model.asset.priceMonthly</h4>
-                }
-                <h4>Available Starting From: @availableDate</h4>
+                <h4>@Model.asset.name</h4>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.description)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.description)
+                    </dd>
+                    @if (@Model.asset.priceDaily == (decimal)0.00)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.asset.priceDaily)
+                        </dt>
+                        <dd>
+                            Not available
+                        </dd>                    
+                    } else
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.asset.priceDaily)
+                        </dt>
+                        <dd>
+                            $@Html.DisplayFor(model => model.asset.priceDaily)
+                        </dd>
+                    }
+                    @if (@Model.asset.priceWeekly == (decimal)0.00)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.asset.priceWeekly)
+                        </dt>
+                        <dd>
+                            Not available
+                        </dd>
+                    }
+                    else
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.asset.priceWeekly)
+                        </dt>
+                        <dd>
+                            $@Html.DisplayFor(model => model.asset.priceWeekly)
+                        </dd>
+                    }
+                    @if (@Model.asset.priceMonthly == (decimal)0.00)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.asset.priceMonthly)
+                        </dt>
+                        <dd>
+                            Not available
+                        </dd>
+                    }
+                    else
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.asset.priceMonthly)
+                        </dt>
+                        <dd>
+                            $@Html.DisplayFor(model => model.asset.priceMonthly)
+                        </dd>                           
+                    }
+                    <dt> Available Starting From </dt>
+                    <dd> @availableDate</dd>
+                    </dl>
                 <hr />
 
-                <h4>Choose Your Rental Period</h4>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="startDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="startDate" class="form-control" />
-                        <span asp-validation-for="startDate" class="text-danger" />
+                    <h4>Pick Your Rental Period</h4>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="startDate" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="startDate" class="form-control" />
+                            <span asp-validation-for="startDate" class="text-danger" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="endDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="endDate" class="form-control" />
-                        <span asp-validation-for="endDate" class="text-danger" />
+                    <div class="form-group">
+                        <label asp-for="endDate" class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <input asp-for="endDate" class="form-control" />
+                            <span asp-validation-for="endDate" class="text-danger" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <input type="submit" value="Rent" class="btn btn-default" />
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="Rent" class="btn btn-default" />
+                        </div>
                     </div>
-                </div>
-            </div>
+</div>
         </form>
     }
 }

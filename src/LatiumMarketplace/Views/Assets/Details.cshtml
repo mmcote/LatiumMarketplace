@@ -11,7 +11,7 @@
 
 
         @{if (@Model.request == true)
-            {<a asp-controller="Bids" asp-action="Create">Place a bid </a>}
+            {<a asp-controller="Bids" asp-route-assetID="@Model.assetID" asp-action="Create">Place a bid </a>}
             else
             {<a asp-controller="Bids" asp-route-assetId="@Model.assetID" asp-action="Create_Asset_Bid">Rent/Buy </a> }
         } |

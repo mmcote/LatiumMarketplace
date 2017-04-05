@@ -110,7 +110,7 @@
                                     <div class="asset-image-container">
                                         <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
                                             <div class="imageItem">
-                                                <img src="@item.ImageGallery.Images.First().FileLink" style="width:100% !important"  alt="@item.name" class="img-responsive resize" />
+                                                <img src="@item.ImageGallery.Images.First().FileLink" class="img-responsive"  alt="@item.name" class="img-responsive resize" />
                                             </div>
                                         </a>
                                     </div>
@@ -156,77 +156,36 @@
     <div class="col-md-12">
         <h2 class="text-center">Shop by Category</h2>
     </div>
-    <div class="col-md-2">
-        <div class="thumbnail">
-            <a href="#">
-                <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="Tractor" />
-                <div class="caption">
-                    <h3>
-                        Category #1
-                    </h3>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="thumbnail">
-            <a href="#">
-                <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="Tractor" />
-                <div class="caption">
-                    <h3>
-                        Category #2
-                    </h3>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="thumbnail">
-            <a href="#">
-                <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="Tractor" />
-                <div class="caption">
-                    <h3>
-                        Category #3
-                    </h3>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="thumbnail">
-            <a href="#">
-                <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="Tractor" />
-                <div class="caption">
-                    <h3>
-                        Category #4
-                    </h3>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="thumbnail">
-            <a href="#">
-                <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="Tractor" />
-                <div class="caption">
-                    <h3>
-                        Category #5
-                    </h3>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="thumbnail">
-            <a href="#">
-                <img src="~/images/placeholders/featured-assets/featured-asset1.jpg" alt="Tractor" />
-                <div class="caption">
-                    <h3>
-                        Category #6
-                    </h3>
-                </div>
-            </a>
-        </div>
-    </div>
+    <link href="~/dist/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="~/dist/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <script>
+        function getRandomCategories() {
+            $.ajax({
+                url: '@Url.Action("GetRandomCategories", "AssetsAPI")',
+                type: "POST",
+                contentType: "application/json",
+                success: function (categories) {
+                    console.log(categories[1]);
+                    var count = categories.length;
+                    if (count > 4)
+                    {
+                        count = 4;
+                    }
+                    for (i = 0; i < count; i++) {
+                        //$("#categoriesRow").append($('<div class="col-md-3"><div class="panel panel-primary"><div class="panel-heading">Category</div><a href="#"><div class="caption"><div class="panel-body">' + categories[i].categoryName + '</div></div></a></div></div>'));
+                        $("#categoriesRow").append('<div class="col-md-3"><div class="small-box bg-light-blue"><div class="inner"><h3>' + categories[i].categoryName + '</h3><p>New Orders</p></div><div class="icon"><i class="ion ion-bag"></i></div><a href="#" class="small-box-footer">View Category <i class="fa fa-arrow-circle-right"></i></a></div></div>');
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    var x = error; //break here for debugging.
+                }
+            });
+        }
+        getRandomCategories();
+    </script>
+    <div id="categoriesRow"></div>
 </div>
 <!-- End of Shop by Category -->
