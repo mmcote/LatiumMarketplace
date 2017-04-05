@@ -428,32 +428,32 @@ namespace LatiumMarketplace.Controllers
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
                 
-                // Get the categoryfrom select form
+                // Get the category from select form
                 var myCategoryId = HttpContext.Request.Form["AssetCategories"];
                 var myCategoryIdNumVal = int.Parse(myCategoryId);
-         
 
                 // Assign a category to the asset
                 AssetCategory AssetCategory = new AssetCategory();
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
                 
-                //get subcategoryform if there is one
+                // Save asset category to DB
+                _context.AssetCategory.Add(AssetCategory);
+
+                // Get the subcategory from select form
                 var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
-                if (mySubCategoryId.Count > 0)
+                if (!(String.IsNullOrEmpty(mySubCategoryId)))
                 {
                     var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
                     // Assign a subcategory to the asset
                     AssetCategory AssetSubCategory = new AssetCategory();
                     AssetSubCategory.AssetId = asset.assetID;
                     AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
+
+                    // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
-
-
                 // Save asset category to DB
-                _context.AssetCategory.Add(AssetCategory);
-
                 await _context.SaveChangesAsync();
                
 
@@ -519,22 +519,24 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
 
+                // Save asset category to DB
+                _context.AssetCategory.Add(AssetCategory);
+
+
                 //get subcategoryform if there is one
                 var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
-                if (mySubCategoryId.Count > 0)
+                if (!(String.IsNullOrEmpty(mySubCategoryId)))
                 {
                     var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
                     // Assign a subcategory to the asset
                     AssetCategory AssetSubCategory = new AssetCategory();
                     AssetSubCategory.AssetId = asset.assetID;
                     AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
+
+                    // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
-
-
                 // Save asset category to DB
-                _context.AssetCategory.Add(AssetCategory);
-
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
@@ -570,8 +572,6 @@ namespace LatiumMarketplace.Controllers
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
                 .SingleOrDefaultAsync(m => m.assetID == id);
-
-            var makes = _context.Make.ToArray();
 
             if (asset == null)
             {
