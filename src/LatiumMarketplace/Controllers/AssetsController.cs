@@ -437,20 +437,6 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
                 
-                //get subcategoryform if there is one
-                var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
-                if (mySubCategoryId.Count > 0)
-                {
-                    var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
-                    // Assign a subcategory to the asset
-                    AssetCategory AssetSubCategory = new AssetCategory();
-                    AssetSubCategory.AssetId = asset.assetID;
-                    AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
-                    _context.AssetCategory.Add(AssetSubCategory);
-                }
-                
-                // Save asset category to DB
-                _context.AssetCategory.Add(AssetCategory);
 
                 // Get the subcategory from select form
                 var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
@@ -465,7 +451,7 @@ namespace LatiumMarketplace.Controllers
                     // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
-
+                // Save asset category to DB
                 await _context.SaveChangesAsync();
                
 
@@ -533,20 +519,18 @@ namespace LatiumMarketplace.Controllers
 
                 //get subcategoryform if there is one
                 var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
-                if (mySubCategoryId.Count > 0)
+                if (!(String.IsNullOrEmpty(mySubCategoryId)))
                 {
                     var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
                     // Assign a subcategory to the asset
                     AssetCategory AssetSubCategory = new AssetCategory();
                     AssetSubCategory.AssetId = asset.assetID;
                     AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
+
+                    // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
-
-
                 // Save asset category to DB
-                _context.AssetCategory.Add(AssetCategory);
-
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
