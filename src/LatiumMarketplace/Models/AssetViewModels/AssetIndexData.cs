@@ -20,5 +20,6 @@ namespace LatiumMarketplace.Models.AssetViewModels
 
         public int? CategoryIdLevel2 { get; set; }
 
+
     }
 }
