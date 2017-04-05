@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using LatiumMarketplace.Models;
 using LatiumMarketplace.Models.BidViewModels;
 using LatiumMarketplace.Data;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -142,6 +143,22 @@ namespace LatiumMarketplace.Controllers
                 return new BadRequestObjectResult("Invalid Request");
             }
             return new OkObjectResult(bids.ToList());
+        }
+
+        [HttpPost("email")]
+        [Route("api/BidsAPIController/GetAssetOwnerNotificationCount")]
+        public IActionResult GetAssetOwnerNotificationCount([FromBody]string email)
+        {
+            int count = _context.Bid.Include(b => b.asset).Where(b => b.asset.ownerName == email && b.assetOwnerNotificationPending == true).Count();
+            return new OkObjectResult(count);
+        }
+
+        [HttpPost("email")]
+        [Route("api/BidsAPIController/GetBidderNotificationCount")]
+        public IActionResult GetBidderNotificationCount([FromBody]string email)
+        {
+            int count = _context.Bid.Where(b => b.bidder == email && b.bidderNotificationPending == true).Count();
+            return new OkObjectResult(count);
         }
 
         // POST api/BidsAPI
