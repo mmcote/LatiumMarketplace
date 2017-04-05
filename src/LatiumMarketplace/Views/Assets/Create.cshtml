@@ -79,12 +79,12 @@
                 <span asp-validation-for="name" class="text-danger" />
             </div>
             <div class="form-group">
-                <label asp-for="Make" class="">Make *</label>
+                <label asp-for="Make" class="" id="Makeinput">Make *</label>
                 @Html.DropDownList(
                     "Makes",
                     (SelectList)ViewBag.Makes,
                     "--- Select a make ---",
-                    new { @class = "form-control" }
+                    new { @class = "form-control", required = "required" }
                     )
                 <span asp-validation-for="Make" class="text-danger" />
             </div>
@@ -95,13 +95,13 @@
                     "AssetCategories",
                     (SelectList)ViewBag.AssetCategories,
                     "--- Select a category ---",
-                    new { @class = "form-control" }
+                    new { @class = "form-control", required = "required" }
                     )
                 <span asp-validation-for="AssetCategories" class="text-danger" />
             </div>
             <div class="form-group" id="subCategoryContainer">
                 <label class="">Sub-category</label>
-                <select class="form-control" id="AssetSubcategories" name="AssetSubcategories">          
+                <select class="form-control" id="AssetSubcategories" name="AssetSubcategories"  required ="required">          
                 </select>
             </div>
             <div class="form-group">
@@ -115,7 +115,7 @@
                     "Cities",
                     (SelectList)ViewBag.Cities,
                     "--- Select a city ---",
-                    new { @class = "form-control" }
+                    new { @class = "form-control", required = "required" }
                     )
                 <span asp-validation-for="City" class="text-danger" />
             </div>
