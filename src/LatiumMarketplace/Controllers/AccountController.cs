@@ -117,6 +117,13 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Banned()
+        {
+            return View();
+        }
+
         //
         // POST: /Account/Register
         [HttpPost]
@@ -140,7 +147,7 @@ namespace LatiumMarketplace.Controllers
                     //preventing a newly registered user from being automatically logged on
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return View("VerifyEmail", user.Email);
                 }
                 AddErrors(result);
             }
