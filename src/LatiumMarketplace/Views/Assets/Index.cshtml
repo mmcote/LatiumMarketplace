@@ -23,8 +23,8 @@
                         <li><a asp-action="CreateReq">Create New Request</a></li>
                     </ul>
 
-                    }
                 }
+            }
             <!-- End of Create action === -->
             <!-- === Begin search form === -->
             <form asp-controller="Assets" asp-action="Index" method="get">
@@ -51,6 +51,38 @@
 
                 <div class="asset-categories">
                     <h4>Category</h4>
+                </div>
+                <div class="left-sidebar">
+                    <h2>Category</h2>
+                    <div class="panel-group category-products" id="accordian">
+                        <!--category-productsr-->
+
+                        <div class="panel panel-default">
+                            @foreach (var maincategory in Model.Categories.Where(e => e.ParentCategoryId == null))
+                            {
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordian" href="#@maincategory.CategoryId">
+                                            <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                            @maincategory.CategoryName
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="@maincategory.CategoryId" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        @foreach (var subcategory in Model.Categories.Where(e => e.ParentCategoryId == maincategory.CategoryId))
+                                        {
+                                            <ul>
+                                                <li><a href="#"> @subcategory.CategoryName </a></li>
+                                            </ul>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div><!--/category-products-->
                 </div>
             </form>
             <!-- === End of search form === -->
@@ -105,7 +137,7 @@
                                 <p>$@Html.DisplayFor(modelItem => item.price)</p>
                             </div>
 
-                        </div><!-- End single-asset-wrapper -->    
+                        </div><!-- End single-asset-wrapper -->
                     </li>
 
                 }

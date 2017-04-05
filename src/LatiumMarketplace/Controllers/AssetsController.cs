@@ -175,6 +175,7 @@ namespace LatiumMarketplace.Controllers
                 .AsNoTracking()
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
+            viewModel.Categories = _context.Category;
             // default
             //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
 
@@ -230,6 +231,7 @@ namespace LatiumMarketplace.Controllers
                 viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
             }
             SetCityViewBag();
+            SetCategoryViewBag();
             return View(viewModel);
         }
 
