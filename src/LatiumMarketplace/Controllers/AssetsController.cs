@@ -437,6 +437,8 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
                 
+                // Save asset category to DB
+                _context.AssetCategory.Add(AssetCategory);
 
                 // Get the subcategory from select form
                 var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
@@ -516,6 +518,10 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory AssetCategory = new AssetCategory();
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
+
+                // Save asset category to DB
+                _context.AssetCategory.Add(AssetCategory);
+
 
                 //get subcategoryform if there is one
                 var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
