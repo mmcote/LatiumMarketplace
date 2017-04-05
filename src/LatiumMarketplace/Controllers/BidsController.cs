@@ -127,24 +127,22 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View with created bid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
+        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid, int assetId)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
             {
                 return Redirect("/Account/Login");
             }
+
+            var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
+            bid.asset = Bid_asset;
             if (ModelState.IsValid)
             {
-                string id = HttpContext.Request.Cookies["assetId"];
-                int asset_id = Int32.Parse(id);
-                Asset asset = _context.Asset.Single(a => a.assetID == asset_id);
-                bid.asset = asset;
                 bid.assetOwnerNotificationPending = true;
                 bid.bidderNotificationPending = false;
-                bid.asset_id_model = asset_id;
-                bid.asset_name = asset.name;
-                bid.status = asset.request;
+                bid.asset_id_model = assetId;
+                bid.status = Bid_asset.request;
                 bid.chosen = false;
                 var userId = user?.Id;
                 var userName = user?.UserName;
