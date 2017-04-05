@@ -171,11 +171,9 @@ namespace LatiumMarketplace.Controllers
         /// <returns>HTTP response for POST category</returns>
         // POST: api/PostCategory
         [HttpPost("PostCategory")]
-        public IActionResult PostCategory([FromBody] string category)
+        public IActionResult PostCategory([FromBody]Category category)
         {
-            Category categoryname = new Category();
-            categoryname.CategoryName = category;
-            _context.Category.Add(categoryname);
+            _context.Category.Add(category);
             var success = _context.SaveChanges();
             if (success == 0)
             {
