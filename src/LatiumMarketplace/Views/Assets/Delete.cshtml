@@ -59,8 +59,14 @@
         <form asp-action="Delete">
             <div class="form-actions no-color">
                 <input type="submit" value="Delete" class="btn btn-default" /> |
-                <a asp-action="Index">Back to List</a>
+                <a href="" onclick=goBack()>Back</a>
+                <!--<a asp-action="Edit">Edit</a>-->
+                <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                </script>
             </div>
         </form>
     </div>
-    </div>
+</div>
