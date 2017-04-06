@@ -693,20 +693,23 @@ namespace LatiumMarketplace.Controllers
 
                     var updateAssetCategoriesAsset = _context.Asset.Include(s => s.AssetCategories).Single(a => a.assetID == asset.assetID);
 
-                    Category category = _context.Category.Single(s => s.CategoryId == myCategoryIdNumVal);
-                    //ICollection<AssetCategory> assetCategories = new List<AssetCategory>();
-                    AssetCategory assetCategory = new AssetCategory();
-                    assetCategory.AssetId = asset.assetID;
-                    assetCategory.Asset = asset;
-                    assetCategory.Category = category;
-                    assetCategory.CategoryId = category.CategoryId;
-                    //assetCategories.Add(assetCategory);
-                    //var existingCategories = _context.AssetCategory.Where(ac => ac.AssetId == asset.assetID);
-                    updateAssetCategoriesAsset.AssetCategories.Clear();
-                    updateAssetCategoriesAsset.AssetCategories.Add(assetCategory);
+                    if (updateAssetCategoriesAsset.AssetCategories.First().CategoryId != myCategoryIdNumVal)
+                    {
+                        Category category = _context.Category.Single(s => s.CategoryId == myCategoryIdNumVal);
+                        //ICollection<AssetCategory> assetCategories = new List<AssetCategory>();
+                        AssetCategory assetCategory = new AssetCategory();
+                        assetCategory.AssetId = asset.assetID;
+                        assetCategory.Asset = asset;
+                        assetCategory.Category = category;
+                        assetCategory.CategoryId = category.CategoryId;
+                        //assetCategories.Add(assetCategory);
+                        //var existingCategories = _context.AssetCategory.Where(ac => ac.AssetId == asset.assetID);
+                        updateAssetCategoriesAsset.AssetCategories.Clear();
+                        updateAssetCategoriesAsset.AssetCategories.Add(assetCategory);
 
 
-                    await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
