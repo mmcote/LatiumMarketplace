@@ -13,6 +13,7 @@ using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
 using LatiumMarketplace.Hubs;
+using Microsoft.AspNetCore.Http;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -113,6 +114,15 @@ namespace LatiumMarketplace.Controllers
             }
             bid.endDate = bid.startDate.AddDays(1);
 
+            HttpContext.Response.Cookies.Append("assetId", assetId.ToString(),
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
+
             return View(bid);
         }
 
@@ -127,7 +137,7 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View with created bid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid, int assetId)
+        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -135,14 +145,18 @@ namespace LatiumMarketplace.Controllers
                 return Redirect("/Account/Login");
             }
 
-            var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
-            bid.asset = Bid_asset;
             if (ModelState.IsValid)
             {
+                string id = HttpContext.Request.Cookies["assetId"];
+                int asset_id = Int32.Parse(id);
+                Asset asset = _context.Asset.Single(a => a.assetID == asset_id);
+
+                bid.asset = asset;
                 bid.assetOwnerNotificationPending = true;
                 bid.bidderNotificationPending = false;
-                bid.asset_id_model = assetId;
-                bid.status = Bid_asset.request;
+                bid.asset_id_model = asset_id;
+                bid.asset_name = asset.name;
+                bid.status = asset.request;
                 bid.chosen = false;
                 var userId = user?.Id;
                 var userName = user?.UserName;
@@ -438,35 +452,6 @@ namespace LatiumMarketplace.Controllers
             bid.assetOwnerNotificationPending = false;
             bid.bidderNotificationPending = true;
 
-            //var listBid = _context.Bid.Where(s => s.asset.assetID == bid.asset.assetID);
-
-
-
-            //Remove ALL bids if sale or request 
-            //Remove the correlating Asset as well
-            //if ((bid.asset.price > (decimal)0.00) || (bid.asset.request == true))
-            //{
-            //    foreach (var bidToRemove in listBid)
-            //    {
-            //        if (bidToRemove.bidId != id)
-            //        {
-            //            _context.Bid.Remove(bidToRemove);
-            //        }
-            //    }
-            //    _context.Asset.Remove(bid.asset);
-            //}
-            ////Remove bid of rental
-            //else
-            //{
-            //    foreach (var bidToRemove in listBid)
-            //    {
-            //        if ((bidToRemove.startDate < bid.endDate) && (bidToRemove.bidId != id))
-            //        {
-            //            _context.Bid.Remove(bidToRemove);
-            //        }
-            //    }
-            //}
-
             await _context.SaveChangesAsync();
 
 
@@ -478,37 +463,48 @@ namespace LatiumMarketplace.Controllers
             Clients.Group(bid.bidder).AddNotificationToQueue(notification);
             Clients.Group(bid.bidder).UpdateOverallNotificationCount();
 
+            //Handles Request
+            if (bid.asset.request == true)
+            {
+                _context.Asset.Remove(bid.asset);
+            }
+            //Handles Rental
+            else if (bid.asset.price == 0)
+            {
+                bid.asset.addDate = bid.endDate;
+            }
+            //Handles Sale
+            else
+            {
+                _context.Asset.Remove(bid.asset);
+            }
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> Transaction([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid) {
+        /// <summary>
+        /// Bid Transaction Controller
+        /// </summary>
+        /// <returns>Returns view of accepted bids associated with the current user</returns>
+        [AllowAnonymous]
+        public async Task<IActionResult> Transaction() {
 
-        //    //Find all bids for the given asset
-        //    var notChoosenBids = _context.Bid.Where(s => s.asset.assetID == bid.asset.assetID);
-        //    if (ModelState.IsValid)
-        //    {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user == null)
+            {
+                return Redirect("/Account/Login");
+            }
+            var userId = user?.Id;
+            var ListBid = _context.Bid.Where(s => s.bidder == user.UserName || s.asset.ownerID == userId);
+            var ChosenOnes = ListBid.Where(s => s.chosen == true);
 
+            if (ChosenOnes != null)
+            {
+                return View(ChosenOnes);
+            }
 
-        //        var user = await _userManager.GetUserAsync(HttpContext.User);
-        //        var userId = user?.Id;
-        //        bid.chosen = true;
-        //        await _context.SaveChangesAsync();
-
-        //        //Find bids not chosen and remove
-        //        notChoosenBids = notChoosenBids.Where(s => s.chosen == false);
-        //        foreach (var bidToRemove in notChoosenBids)
-        //        {
-        //            _context.Remove(bidToRemove);
-        //        }
-
-        //        RedirectToActionResult redirectResult = new RedirectToActionResult("Details", "Transaction", new { @Id = bid.bidId }); // new { @Id = asset_id });
-        //        return redirectResult;
-        //    }
-
-        //    return View();
-        //}
+            return View();
+        }
 
 
 

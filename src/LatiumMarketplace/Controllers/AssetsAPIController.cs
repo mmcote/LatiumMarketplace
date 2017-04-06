@@ -53,7 +53,7 @@ namespace LatiumMarketplace.Controllers
 
         public IActionResult GetRandomCategories()
         {
-            var allCategories = _context.Category.Include(c => c.ParentCategory).ToList();
+            var allCategories = _context.Category.Include(c => c.ParentCategory).Where(c => c.ParentCategoryId == null).ToList();
             Shuffle(allCategories);
             return new OkObjectResult(allCategories);
         }
