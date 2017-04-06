@@ -56,7 +56,6 @@ $(document).ready(function () {
                         //Give an id to the accessory
                         $content.find(".accessory-item:last")
                             .attr("id", "accessory-item" + count);
-
                     }
 
                 }).on("click", ".btn-remove", function (e) {
@@ -67,81 +66,12 @@ $(document).ready(function () {
                     return false;
                 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                /*
-                var tempItem = $(".accessory-item:first").clone();
-
-                var maxFields = 10; // Max number of accessories that can be added
-                var count = 1;
-                // Give the first accessory an id
-                $(".accessory-item:first").attr("id", "accessory-item1");
-
-
-                $(".accessory-item:last .btn-add").on("click", function (e) {
-                    e.preventDefault();
-                    if (count < maxFields) {
-                        count++;
-                        var item = tempItem.clone().insertAfter(".accessory-item:last");
-                        // Give an id to the accessory
-                        item.attr("id", "accessory-item" + count).addClass("remove-item");
-
-                        
-                        $("#asset-accessories-content-container")
-                            .find(".accessory-item:not(:last) .btn")
-                            .removeClass("btn-success btn-add")
-                            .addClass("btn-danger btn-remove");
-
-                        $("#asset-accessories-content-container")
-                            .find(".accessory-item:not(:last) .glyphicon")
-                            .removeClass("glyphicon-plus")
-                            .addClass("glyphicon-minus");
-                           
-                    }
-                });
-                */
-    
-                /*
-                $("#add-accessory-item-btn").click(function (e) {
-                    e.preventDefault();
-                    if (count < maxFields) {
-                        count++;
-                        var item = tempItem.clone().appendTo("#asset-accessories-content-container");
-                        // Give an id to the accessory
-                        item.attr("id", "accessory-item" + count).addClass("remove-item");
-                    }
-                });
-                */
-
-
-
-
             }
             if (this.value === "No") {
                 $("#asset-accessories-content-container").hide();
             }
         });
-        
+
     }
     addAccessoryItem();
 
