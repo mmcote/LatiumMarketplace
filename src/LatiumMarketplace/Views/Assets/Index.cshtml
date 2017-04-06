@@ -103,6 +103,24 @@
                         </div>
 
                     </div><!--/category-products-->
+                    <h2>Make</h2>
+                    <div class="panel-group category-products" id="accordian">
+                        <!--make-productsr-->
+
+                        <div class="panel panel-default">
+                            @foreach (var make in Model.Makes)
+                            {
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-parent="#accordian" href="@Url.Action("Index", "Assets")?Makeid=@make.MakeId">
+                                            @make.Name
+                                        </a>
+                                    </h4>
+                                </div>
+                            }
+                        </div>
+
+                    </div><!--/category-products-->
                 </div>
             </form>
             <!-- === End of search form === -->
