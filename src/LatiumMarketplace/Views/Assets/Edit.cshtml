@@ -21,17 +21,6 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="assetID" />
-            @if (Model.request == false)
-            {
-                <div class="form-group">
-                    <label class="radio-inline">
-                        <input type="radio" name="assetCreateOptions" id="for-sale" value="IsForSale"> For Sale
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="assetCreateOptions" id="for-rent" value="IsForRent"> For Rent
-                    </label>
-                </div>
-            }
             <div class="row">
                 <div class="col-md-6">
                     @if (Model.request == false)
@@ -95,32 +84,38 @@
                     </div>
                     @if (Model.request == false)
                     {
-                        <div id="IsForSale" class="asset-rates">
-                            <div class="form-group">
-                                <label asp-for="price" class=""></label>
-                                <input asp-for="price" class="form-control" />
-                                <span asp-validation-for="price" class="text-danger" />
-                            </div>
-                        </div>
-                        <div id="IsForRent" class="asset-rates">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label asp-for="priceDaily" class=""></label>
-                                    <input asp-for="priceDaily" class="form-control" />
-                                    <span asp-validation-for="priceDaily" class="text-danger" />
+                        @if (Model.priceDaily == 0 && Model.priceWeekly == 0 && Model.priceMonthly == 0)
+                        {
+
+                                <div class="form-group">
+                                    <label asp-for="price" class=""></label>
+                                    <input asp-for="price" class="form-control" />
+                                    <span asp-validation-for="price" class="text-danger" />
                                 </div>
-                                <div class="col-md-4">
-                                    <label asp-for="priceWeekly" class=""></label>
-                                    <input asp-for="priceWeekly" class="form-control" />
-                                    <span asp-validation-for="priceWeekly" class="text-danger" />
+    
+                        }
+                        else if (Model.price == 0)
+                        {
+                   
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label asp-for="priceDaily" class=""></label>
+                                        <input asp-for="priceDaily" class="form-control" />
+                                        <span asp-validation-for="priceDaily" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="priceWeekly" class=""></label>
+                                        <input asp-for="priceWeekly" class="form-control" />
+                                        <span asp-validation-for="priceWeekly" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="priceMonthly" class=""></label>
+                                        <input asp-for="priceMonthly" class="form-control" />
+                                        <span asp-validation-for="priceMonthly" class="text-danger" />
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label asp-for="priceMonthly" class=""></label>
-                                    <input asp-for="priceMonthly" class="form-control" />
-                                    <span asp-validation-for="priceMonthly" class="text-danger" />
-                                </div>
-                            </div>
-                        </div>
+                           
+                        }
                     }
                     <div class="form-group">
                         <div class="">
@@ -132,7 +127,13 @@
         </div>
     </form>
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a href="" onclick=goBack()>Back</a>
+        <!--<a asp-action="Edit">Edit</a>-->
+        <script>
+function goBack() {
+    window.history.back();
+}
+        </script>
     </div>
 
 </div>

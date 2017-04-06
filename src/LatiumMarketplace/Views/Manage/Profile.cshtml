@@ -34,9 +34,12 @@
         </dl>
     </div>
     <div>
-        <a asp-action="Edit" asp-route-id="@Model">Edit</a>  |
-        <!--<a asp-controller="Manage" asp-action="Edit" class="btn-bracketed">Edit</a>-->
-        <a asp-action="Index">Back to List</a>
-        <!--<a asp-action="Edit">Edit</a>-->
+        <a href ="" onclick=goBack()>Back</a>
+                <!--<a asp-action="Edit">Edit</a>-->
+        <script>
+function goBack() {
+    window.history.back();
+}
+        </script>
     </div>
 </div>
