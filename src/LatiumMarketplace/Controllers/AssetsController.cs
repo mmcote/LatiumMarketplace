@@ -118,6 +118,7 @@ namespace LatiumMarketplace.Controllers
                 .Include(a => a.Bids)
                 .Include(a => a.Make)
                 .Include(a => a.City)
+                .Include(a => a.AccessoryList)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
                 .AsNoTracking()
@@ -156,7 +157,7 @@ namespace LatiumMarketplace.Controllers
             }
             if (accessory == true)
             {
-                viewModel.Assets = viewModel.Assets.Where(s => s.AccessoryListId != null & s.accessory != null );
+                viewModel.Assets = viewModel.Assets.Where(s => s.AccessoryListId != null || s.accessory != null);
             }
 
             if (assetLocation != null)
