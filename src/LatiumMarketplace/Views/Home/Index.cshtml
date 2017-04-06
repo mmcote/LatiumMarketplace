@@ -2,6 +2,12 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+        width: 350px;
+        height: 280px;
+    }
+</style>
 
 @section jumbotron {
     <div id="main-carousel">
@@ -79,13 +85,12 @@
     <div class="col-md-12">
         <h2 class="text-center poppinsFont"><strong>Featured Assets</strong></h2>
     </div>
-
-    @{   
+ 
         <div class="col-md-12">
         <ul id="all-assets" class="row list-unstyled">
-           @foreach(var item in Model.Assets)
-           { 
-                <div class="col-md-4">
+           @foreach (var item in Model.Assets)
+           {
+                <div class="col-md-3">
                     
                     <li id="asset-@item.assetID" class="single-asset margin-bottom-30">
                         <!-- Begin single-asset-wrapper -->
@@ -98,7 +103,7 @@
                                     <div class="asset-image-container">
                                         <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
                                             <div class="imageItem">
-                                                <img src="@item.ImageGallery.Images.First().FileLink" class="img-responsive"  alt="@item.name" class="img-responsive resize" />
+                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="@item.name" class="img-responsive resize" />
                                             </div>
                                         </a>
                                     </div>
@@ -107,7 +112,7 @@
                                 {
                                     <div class="asset-image-container">
                                         <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
-                                            <img src="~/images/preview-not-available.jpg" style="width:100% !important" alt="No asset image"
+                                            <img src="~/images/preview-not-available.jpg"  alt="No asset image"
                                                  class="img-responsive" />
                                         </a>
                                     </div>
@@ -117,7 +122,7 @@
                             {
                                 <div class="asset-image-container">
                                     <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
-                                        <img src="~/images/preview-not-available.jpg" style="width:100% !important" alt="No asset image"
+                                        <img src="~/images/preview-not-available.jpg" alt="No asset image"
                                              class="img-responsive" />
                                     </a>
                                 </div>
@@ -130,14 +135,18 @@
                                 </h3>
                                 <p>@Html.DisplayFor(modelItem => item.description)</p>
                             </div>
+                            <script>
+                             $(function () {
+                            $('.single-asset-container').matchHeight();
+                             });
+                            </script>
 
                         </div><!-- End single-asset-wrapper -->
                     </li>
                 </div>
-             }
+           }
         </ul>
     </div>
-    }
 <!-- End of Featured Assets-->
 <!-- Shop by Category -->
 <div class="row">

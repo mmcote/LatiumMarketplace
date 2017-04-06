@@ -9,8 +9,12 @@
     <p>
         <div>
             <a asp-controller="MessageThreads" asp-action="Create">Respond to message</a> |
-
-
+<style>
+    .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+        width: 350px;
+        height: 280px;
+    }
+</style>
             @{if (@Model.request == true)
             {<a asp-controller="Bids" asp-route-assetID="@Model.assetID" asp-action="Create">Place a bid </a>}
             else
@@ -161,7 +165,6 @@
                          class="img-responsive" />
                 </div>
             }
-
         }
         else
         {
