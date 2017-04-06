@@ -21,26 +21,6 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="assetID" />
-            @if (Model.request == false)
-            {
-                <div class="form-group">
-                    @if (Model.priceDaily == 0 && Model.priceWeekly == 0 && Model.priceMonthly == 0)
-                    {
-                        <label class="radio-inline">
-                            <input type="radio" name="assetCreateOptions" id="for-sale" value="IsForSale" checked /> For Sale
-                        </label>
-                    }
-                    else
-                    {
-                        <label class="radio-inline">
-                            <input type="radio" name="assetCreateOptions" id="for-sale" value="IsForSale"> For Sale
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="assetCreateOptions" id="for-rent" value="IsForRent" checked /> For Rent
-                        </label>
-                    }
-                </div>
-            }
             <div class="row">
                 <div class="col-md-6">
                     @if (Model.request == false)
@@ -104,57 +84,38 @@
                     </div>
                     @if (Model.request == false)
                     {
-                        @if (Model.price > 0)
+                        @if (Model.priceDaily == 0 && Model.priceWeekly == 0 && Model.priceMonthly == 0)
                         {
-                            <div id="IsForSale" class="asset-rates">
+
                                 <div class="form-group">
                                     <label asp-for="price" class=""></label>
-                                    <input asp-for="price" class="form-control" onchange="updatePrice('s');"/>
+                                    <input asp-for="price" class="form-control" />
                                     <span asp-validation-for="price" class="text-danger" />
                                 </div>
-                            </div>
+    
                         }
-                        else
+                        else if (Model.price == 0)
                         {
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label asp-for="priceDaily" class=""></label>
-                                    <input asp-for="priceDaily" class="form-control" onchange="updatePrice('r');"/>
-                                    <span asp-validation-for="priceDaily" class="text-danger" />
+                   
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label asp-for="priceDaily" class=""></label>
+                                        <input asp-for="priceDaily" class="form-control" />
+                                        <span asp-validation-for="priceDaily" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="priceWeekly" class=""></label>
+                                        <input asp-for="priceWeekly" class="form-control" />
+                                        <span asp-validation-for="priceWeekly" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label asp-for="priceMonthly" class=""></label>
+                                        <input asp-for="priceMonthly" class="form-control" />
+                                        <span asp-validation-for="priceMonthly" class="text-danger" />
+                                    </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label asp-for="priceWeekly" class=""></label>
-                                    <input asp-for="priceWeekly" class="form-control" onchange="updatePrice('r');"/>
-                                    <span asp-validation-for="priceWeekly" class="text-danger" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label asp-for="priceMonthly" class=""></label>
-                                    <input asp-for="priceMonthly" class="form-control" onchange="updatePrice('r');"/>
-                                    <span asp-validation-for="priceMonthly" class="text-danger" />
-                                </div>
-                            </div>
+                           
                         }
-                        <div id="IsForRent" class="asset-rates">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label asp-for="priceDaily" class=""></label>
-                                    <input asp-for="priceDaily" class="form-control" onchange="updatePrice('r');"/>
-                                    <span asp-validation-for="priceDaily" class="text-danger" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label asp-for="priceWeekly" class=""></label>
-                                    <input asp-for="priceWeekly" class="form-control" onchange="updatePrice('r');"/>
-                                    <span asp-validation-for="priceWeekly" class="text-danger" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label asp-for="priceMonthly" class=""></label>
-                                    <input asp-for="priceMonthly" class="form-control" onchange="updatePrice('r');"/>
-                                    <span asp-validation-for="priceMonthly" class="text-danger" />
-                                </div>
-                            </div>
-                        </div>
-
-
                     }
                     <div class="form-group">
                         <div class="">
@@ -173,5 +134,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-<script></script>
