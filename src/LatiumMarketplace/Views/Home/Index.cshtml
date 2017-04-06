@@ -160,6 +160,7 @@
                 type: "POST",
                 contentType: "application/json",
                 success: function (categories) {
+                    console.log(categories[1]);
                     var count = categories.length;
                     if (count > 4)
                     {
@@ -176,7 +177,7 @@
                         {
                             parentClass = "Featured Category";
                         }
-                        element = '<div class="col-md-3"><div class="small-box bg-light-blue"><div class="inner"><h3>' + categories[i].categoryName + '</h3><p>'+ parentClass +'</p></div><div class="icon"><i class="ion ion-bag"></i></div><a href="#" class="small-box-footer">View Category <i class="fa fa-arrow-circle-right"></i></a></div></div>';
+                        element = '<div class="col-md-3"><div class="small-box bg-light-blue"><div class="inner"><h3>' + categories[i].categoryName + '</h3><p>' + parentClass + '</p></div><div class="icon"><i class="ion ion-bag"></i></div><a href="' + '@Url.Action("Index", "Assets")?mainCategoryname=' + categories[i].categoryName + '" class="small-box-footer">View Category <i class="fa fa-arrow-circle-right"></i></a></div></div>';
                         //$("#categoriesRow").append($('<div class="col-md-3"><div class="panel panel-primary"><div class="panel-heading">Category</div><a href="#"><div class="caption"><div class="panel-body">' + categories[i].categoryName + '</div></div></a></div></div>'));
                         $("#categoriesRow").append(element);
                     }

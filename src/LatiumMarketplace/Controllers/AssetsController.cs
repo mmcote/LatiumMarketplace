@@ -163,7 +163,7 @@ namespace LatiumMarketplace.Controllers
       
         // GET: Assets - Filtered
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid)
+        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid, string mainCategoryname)
         {
             var viewModel = new AssetIndexData();
             viewModel.Assets = await _context.Asset
@@ -182,6 +182,10 @@ namespace LatiumMarketplace.Controllers
             if (Categoryid > 0)
             {
                 viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.CategoryId == Categoryid));
+            }
+            if (!String.IsNullOrEmpty(mainCategoryname))
+            {
+                viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.Category.CategoryName == mainCategoryname));
             }
             // Assign a city to the asset
             if (id != null)
