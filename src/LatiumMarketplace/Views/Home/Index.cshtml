@@ -2,6 +2,12 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    .assetImage {
+        width: 350px;
+        height: 280px;
+    }
+</style>
 
 @section jumbotron {
     <div id="main-carousel">
@@ -10,27 +16,15 @@
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-                <li data-target="#myCarousel" data-slide-to="3"></li>
             </ol>
             <div class="carousel-inner" role="listbox">
                 <div class="item active">
-                    <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
+                    <img src="~/images/jumbotron/constructionJumbo.jpeg" alt="ASP.NET" class="img-responsive" />
                     <div class="carousel-caption" role="option">
                     </div>
                 </div>
                 <div class="item">
-                    <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-                    <div class="carousel-caption" role="option">
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="~/images/banner3.svg" alt="Package Management" class="img-responsive" />
-                    <div class="carousel-caption" role="option">
-                    </div>
-                </div>
-                <div class="item">
-                    <img src="~/images/banner4.svg" alt="Microsoft Azure" class="img-responsive" />
+                    <img src="~/images/jumbotron/blueprintJumbo.jpeg" alt="Visual Studio" class="img-responsive" />
                     <div class="carousel-caption" role="option">
                     </div>
                 </div>
@@ -89,15 +83,14 @@
 <!-- Featured Assets -->
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-center">Featured Assets</h2>
+        <h2 class="text-center poppinsFont"><strong>Featured Assets</strong></h2>
     </div>
-
-    @{   
+ 
         <div class="col-md-12">
         <ul id="all-assets" class="row list-unstyled">
-           @foreach(var item in Model.Assets)
-           { 
-                <div class="col-md-4">
+           @foreach (var item in Model.Assets)
+           {
+                <div class="col-md-3">
                     
                     <li id="asset-@item.assetID" class="single-asset margin-bottom-30">
                         <!-- Begin single-asset-wrapper -->
@@ -110,7 +103,7 @@
                                     <div class="asset-image-container">
                                         <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
                                             <div class="imageItem">
-                                                <img src="@item.ImageGallery.Images.First().FileLink" class="img-responsive"  alt="@item.name" class="img-responsive resize" />
+                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="@item.name" class="assetImage img-responsive resize" />
                                             </div>
                                         </a>
                                     </div>
@@ -119,8 +112,8 @@
                                 {
                                     <div class="asset-image-container">
                                         <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
-                                            <img src="~/images/preview-not-available.jpg" style="width:100% !important" alt="No asset image"
-                                                 class="img-responsive" />
+                                            <img src="~/images/preview-not-available.jpg"  alt="No asset image"
+                                                 class="assetImage img-responsive" />
                                         </a>
                                     </div>
                                 }
@@ -129,8 +122,8 @@
                             {
                                 <div class="asset-image-container">
                                     <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
-                                        <img src="~/images/preview-not-available.jpg" style="width:100% !important" alt="No asset image"
-                                             class="img-responsive" />
+                                        <img src="~/images/preview-not-available.jpg" alt="No asset image"
+                                             class="assetImage img-responsive" />
                                     </a>
                                 </div>
                             }
@@ -142,24 +135,24 @@
                                 </h3>
                                 <p>@Html.DisplayFor(modelItem => item.description)</p>
                             </div>
+                            <script>
+                             $(function () {
+                            $('.single-asset-container').matchHeight();
+                             });
+                            </script>
 
                         </div><!-- End single-asset-wrapper -->
                     </li>
                 </div>
-             }
+           }
         </ul>
     </div>
-    }
 <!-- End of Featured Assets-->
 <!-- Shop by Category -->
 <div class="row">
     <div class="col-md-12">
-        <h2 class="text-center">Shop by Category</h2>
+        <h2 class="text-center poppinsFont"><strong>Shop by Category</strong></h2>
     </div>
-    <link href="~/dist/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="~/dist/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
     <script>
         function getRandomCategories() {
             $.ajax({
@@ -173,9 +166,20 @@
                     {
                         count = 4;
                     }
+                    var parentClass = " ";
+                    var element = '';
                     for (i = 0; i < count; i++) {
+                        if (categories[i].parentClass != null)
+                        {
+                            parentClass = "Within the category of: " + categories[i].parentClass.categoryName;
+                        }
+                        else
+                        {
+                            parentClass = "Featured Category";
+                        }
+                        element = '<div class="col-md-3"><div class="small-box bg-light-blue"><div class="inner"><h3>' + categories[i].categoryName + '</h3><p>'+ parentClass +'</p></div><div class="icon"><i class="ion ion-bag"></i></div><a href="#" class="small-box-footer">View Category <i class="fa fa-arrow-circle-right"></i></a></div></div>';
                         //$("#categoriesRow").append($('<div class="col-md-3"><div class="panel panel-primary"><div class="panel-heading">Category</div><a href="#"><div class="caption"><div class="panel-body">' + categories[i].categoryName + '</div></div></a></div></div>'));
-                        $("#categoriesRow").append('<div class="col-md-3"><div class="small-box bg-light-blue"><div class="inner"><h3>' + categories[i].categoryName + '</h3><p>New Orders</p></div><div class="icon"><i class="ion ion-bag"></i></div><a href="#" class="small-box-footer">View Category <i class="fa fa-arrow-circle-right"></i></a></div></div>');
+                        $("#categoriesRow").append(element);
                     }
                 },
                 error: function (error) {

@@ -329,7 +329,7 @@ namespace LatiumMarketplace.Controllers
             var all = _context.Asset.Where(s => s.featuredItem == true);
             var asset = _context.Asset.Single(s => s.assetID == id);
 
-            if (all.Count() <= 3)
+            if (all.Count() <= 4)
             {
                 asset.featuredItem = true;
                 await _context.SaveChangesAsync();

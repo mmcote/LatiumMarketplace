@@ -4,106 +4,104 @@
 @{
     ViewData["Title"] = "INBOX";
 }
+<div class="spaceUnderLogo">
 
-<h2>INBOX</h2>
-<p> bids placed on your postings</p>
-
-<section>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <form asp-controller="Bids" asp-action="Inbox" method="get">
-                    <p>
-                        Sort by : <br>
-                        <input type="radio" name="SortBy" value="asset"> Asset<br>
-                        <input type="radio" name="SortBy" value="request"> Request<br>
-                        <input type="submit" value="Filter" />
-                    </p>
-                </form>
-            </div>
-            <div class="col-sm-9 padding-right">
-                @foreach (var asset in Model.assetModel)
-                {
-                    <h3>@Html.DisplayFor(modelItem => asset.name)</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    User
-                                </th>
-                                <th>
-                                    Bid Price
-                                </th>
-                                <th>
-                                    Details
-                                </th>
-                                <th>
-                                    Start Date
-                                </th>
-                                <th>
-                                    End Date
-                                </th>
-                                <th>
-                                </th>
-                                <th>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.inbox)
-                            {
-                                if (item.asset_name == asset.name && (item.assetOwnerNotificationPending == false && item.chosen == true || item.assetOwnerNotificationPending == true))
+    <h2>INBOX</h2>
+    <p> bids placed on your postings</p>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <form asp-controller="Bids" asp-action="Inbox" method="get">
+                        <p>
+                            Sort by : <br>
+                            <input type="radio" name="SortBy" value="asset"> Asset<br>
+                            <input type="radio" name="SortBy" value="request"> Request<br>
+                            <input type="submit" value="Filter" />
+                        </p>
+                    </form>
+                </div>
+                <div class="col-sm-9 padding-right">
+                    @foreach (var asset in Model.assetModel)
+                    {
+                        <h3>@Html.DisplayFor(modelItem => asset.name)</h3>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        User
+                                    </th>
+                                    <th>
+                                        Bid Price
+                                    </th>
+                                    <th>
+                                        Details
+                                    </th>
+                                    <th>
+                                        Start Date
+                                    </th>
+                                    <th>
+                                        End Date
+                                    </th>
+                                    <th>
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.inbox)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.bidder)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.bidPrice)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.description)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.startDate)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.endDate)
-                                        </td>
-                                        @if (item.chosen == true)
-                                        {
+                                    if (item.asset_name == asset.name && (item.assetOwnerNotificationPending == false && item.chosen == true || item.assetOwnerNotificationPending == true))
+                                    {
+                                        <tr>
                                             <td>
-                                                <span class="label label-success">Completed</span>
-                                            </td>
-                                            <td></td>
-                                        }
-                                        else if (item.assetOwnerNotificationPending == true)
-                                        {
-                                            <td>
-                                                <button id="@item.bidId.ToString()accept" type="button" onclick="acceptBid('@item.bidId.ToString()')" class="btn btn-outline-primary">Accept</button>
+                                                @Html.DisplayFor(modelItem => item.bidder)
                                             </td>
                                             <td>
-                                                <button id="@item.bidId.ToString()accept" type="button" onclick="declineBid('@item.bidId.ToString()')" class="btn btn-outline-primary">Decline</button>
+                                                @Html.DisplayFor(modelItem => item.bidPrice)
                                             </td>
-                                        }
-                                        else
-                                        {
-                                            <td></td>
-                                            <td></td>
-                                        }
-                                    </tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.startDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.endDate)
+                                            </td>
+                                            @if (item.chosen == true)
+                                            {
+                                                <td>
+                                                    <span class="label label-success">Completed</span>
+                                                </td>
+                                                <td></td>
+                                            }
+                                            else if (item.assetOwnerNotificationPending == true)
+                                            {
+                                                <td>
+                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="acceptBid('@item.bidId.ToString()')" class="btn btn-outline-primary">Accept</button>
+                                                </td>
+                                                <td>
+                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="declineBid('@item.bidId.ToString()')" class="btn btn-outline-primary">Decline</button>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                                <td></td>
+                                            }
+                                        </tr>
+                                    }
                                 }
-                            }
-                        </tbody>
-                    </table>
-                }
-             </div>
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
         </div>
-    </div>
-</section>
-
-<script>
+    </section>
+    <script>
     function acceptBid(bidId) {
         //var AcceptButtonId = bidId.concat(accept);
         $.ajax({
@@ -136,9 +134,8 @@
             }
         });
     }
-</script>
-
-<p>
-    <a asp-controller="Bids" asp-action="MyBids">OUTBOX</a>
-</p>
-
+    </script>
+    <p>
+        <a asp-controller="Bids" asp-action="MyBids">OUTBOX</a>
+    </p>
+</div>

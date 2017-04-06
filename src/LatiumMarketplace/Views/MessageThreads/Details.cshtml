@@ -5,69 +5,69 @@
 @{
     ViewData["Title"] = "Messages";
 }
+<div class="spaceUnderLogo">
 
-<h2>Conversation with @Model.OpposingEmail</h2>
-@if (Model.DiscussedAsset != null)
-{
-    <h3>Discussing asset named @Model.DiscussedAsset.name</h3>
-}
-
-<p>
-    <a asp-controller="Messages" asp-action="Create">Respond to message</a>
-</p>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Messages.First().SendDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Messages.First().Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Messages.First().Body)
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Messages)
-        {
+    <h2>Conversation with @Model.OpposingEmail</h2>
+    @if (Model.DiscussedAsset != null)
+    {
+        <h3>Discussing asset named @Model.DiscussedAsset.name</h3>
+    }
+    <p>
+        <a asp-controller="Messages" asp-action="Create">Respond to message</a>
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SendDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Body)
-                </td>
-                <td>
-                    <a asp-controller="Messages" asp-action="Details" asp-route-id="@item.id">View Message</a>
-                </td>
-                <td>
-                    @if ((Model.IsSender && item.SenderUnread) || (Model.IsSender == false && item.RecieverUnread))
-                    {
-                        <button id="@item.id.ToString()unread" type="button" onclick="markAsRead('@item.id.ToString()')" class="btn btn-outline-primary">Mark As Read</button>
-                        <button id="@item.id.ToString()read" type="button" onclick="markAsUnread('@item.id.ToString()')" class="btn btn-outline-primary" style="display: none">Mark As Unread</button>
-                    }
-                    else
-                    {
-                        <button id="@item.id.ToString()unread" type="button" onclick="markAsRead('@item.id.ToString()')" class="btn btn-outline-primary" style="display: none">Mark As Read</button>
-                        <button id="@item.id.ToString()read" type="button" onclick="markAsUnread('@item.id.ToString()')" class="btn btn-outline-primary">Mark As Unread</button>
-                    }
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Messages.First().SendDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Messages.First().Subject)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Messages.First().Body)
+                </th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
-<div>
-    <a asp-action="Index">Back to all message threads</a>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Messages)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SendDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Body)
+                    </td>
+                    <td>
+                        <a asp-controller="Messages" asp-action="Details" asp-route-id="@item.id">View Message</a>
+                    </td>
+                    <td>
+                        @if ((Model.IsSender && item.SenderUnread) || (Model.IsSender == false && item.RecieverUnread))
+                        {
+                            <button id="@item.id.ToString()unread" type="button" onclick="markAsRead('@item.id.ToString()')" class="btn btn-outline-primary">Mark As Read</button>
+                            <button id="@item.id.ToString()read" type="button" onclick="markAsUnread('@item.id.ToString()')" class="btn btn-outline-primary" style="display: none">Mark As Unread</button>
+                        }
+                        else
+                        {
+                            <button id="@item.id.ToString()unread" type="button" onclick="markAsRead('@item.id.ToString()')" class="btn btn-outline-primary" style="display: none">Mark As Read</button>
+                            <button id="@item.id.ToString()read" type="button" onclick="markAsUnread('@item.id.ToString()')" class="btn btn-outline-primary">Mark As Unread</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <a asp-action="Index">Back to all message threads</a>
+    </div>
 </div>
-<script>
+    <script>
     var isSender = false;
     var messageNotificationCount = 0;
 
@@ -192,4 +192,4 @@
             }
         });
     }
-</script>
+    </script>

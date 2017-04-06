@@ -37,50 +37,52 @@
         });
     });
 </script>
-<h2>Makes</h2>
-<br />
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <br />
-                <br />
-                <form action="" method="POST" id="addmake" role="form">
-                    <input id="newMakeName" class="form-control" type="text" name="CategoryName" placeholder="New Make"  required="required">
-                    <br />
+<div class="spaceUnderLogo">
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-sm-9 padding-right">
-                <table id="makeTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.MakeId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Name)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+    <h2>Makes</h2>
+    <br />
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <br />
+                    <br />
+                    <form action="" method="POST" id="addmake" role="form">
+                        <input id="newMakeName" class="form-control" type="text" name="CategoryName" placeholder="New Make" required="required">
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-9 padding-right">
+                    <table id="makeTable" class="table">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MakeId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.MakeId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MakeId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    </section>
     </div>
-</section>

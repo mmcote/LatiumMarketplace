@@ -2,56 +2,59 @@
 @{
     ViewData["Title"] = "Admin Panel";
 }
+<div class="spaceUnderLogo">
 
-<h2>Admin Panel</h2>
-<p>
-    <a asp-controller="Admin" asp-action="SendToAll">Send message to all users</a> |
-    <a asp-area="" asp-controller="Admin" asp-action="AdminListings" title="Admin">All Listings</a> |
-    <a asp-area="" asp-controller="Admin" asp-action="AddCategory" title="AddCategory">All Categories</a> |
-    <a asp-area="" asp-controller="Admin" asp-action="AddMake" title="AddMake">All Makes</a> |
-    <a asp-area="" asp-controller="Admin" asp-action="AddCity" title="AddCity">All Cities</a> 
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                E-mail:
-            </th>
-            <th>
-                First Name:
-            </th>
-            <th>
-                Last Name:
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <h2>Admin Panel</h2>
+
+    <p>
+        <a asp-controller="Admin" asp-action="SendToAll">Send message to all users</a> |
+        <a asp-area="" asp-controller="Admin" asp-action="AdminListings" title="Admin">All Listings</a> |
+        <a asp-area="" asp-controller="Admin" asp-action="AddCategory" title="AddCategory">All Categories</a> |
+        <a asp-area="" asp-controller="Admin" asp-action="AddMake" title="AddMake">All Makes</a> |
+        <a asp-area="" asp-controller="Admin" asp-action="AddCity" title="AddCity">All Cities</a>
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.firstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.lastName)
-                </td>
-                <td>
-                    @if (item.banned)
-                    {
-                        <a asp-action="UnbanMember" asp-route-email="@item.Email">Unban</a>
-                    }
-                    else
-                    {
-                        <a asp-action="BanMember" asp-route-email="@item.Email">Ban</a>
-                    }
-                     | 
-                    <a asp-controller="Admin" asp-action="SendMessageToUser" asp-route-id="@item.Id.ToString()">Send Message</a>
-                </td>
+                <th>
+                    E-mail:
+                </th>
+                <th>
+                    First Name:
+                </th>
+                <th>
+                    Last Name:
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.firstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lastName)
+                    </td>
+                    <td>
+                        @if (item.banned)
+                        {
+                            <a asp-action="UnbanMember" asp-route-email="@item.Email">Unban</a>
+                        }
+                        else
+                        {
+                            <a asp-action="BanMember" asp-route-email="@item.Email">Ban</a>
+                        }
+                        |
+                        <a asp-controller="Admin" asp-action="SendMessageToUser" asp-route-id="@item.Id.ToString()">Send Message</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
