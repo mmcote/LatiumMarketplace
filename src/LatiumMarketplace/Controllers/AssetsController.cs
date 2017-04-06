@@ -121,8 +121,10 @@ namespace LatiumMarketplace.Controllers
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
             viewModel.Categories = _context.Category;
-            // default
-            //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+
+            // default set to only assets first 
+            viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+
             if (Categoryid > 0)
             {
                 viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.CategoryId == Categoryid));

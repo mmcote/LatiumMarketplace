@@ -20,9 +20,22 @@
 </head><!--/head-->
 <div class="container spaceUnderLogo">
     <div class="row">
-        <br />
-        <br />
-        <br />
+        
+        @{
+            if (Model.Assets != null)
+            {
+                var request = Model.Assets.First().request;
+                
+                if (request == true)
+                {
+                    <h2>REQUESTS</h2>
+                }
+                else
+                {
+                    <h2>ASSETS</h2>
+                }
+            }
+        }
         <!-- ==== Begin left-bar ==== -->
         <div class="col-md-3">
             <!-- Begin create action ==== -->
