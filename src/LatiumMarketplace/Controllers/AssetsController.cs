@@ -279,6 +279,19 @@ namespace LatiumMarketplace.Controllers
                     Secure = false
                 }
             );
+
+            if (asset.ImageGalleryId != null)
+            {
+                HttpContext.Response.Cookies.Append("imageGallaryId", asset.ImageGalleryId.ToString(),
+                    new CookieOptions()
+                    {
+                        Path = "/",
+                        HttpOnly = false,
+                        Secure = false
+                    }
+                );
+            }
+
             SetCategoryViewBag(asset.AssetCategories);
             SetMakeViewBag();
             SetCityViewBag();
@@ -597,6 +610,14 @@ namespace LatiumMarketplace.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,price, priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
         {
+            string imageGallaryIdString = HttpContext.Request.Cookies["imageGallaryId"];
+            int imageGallaryId = 0;
+            try
+            {
+                imageGallaryId = int.Parse(imageGallaryIdString);
+            }
+            catch { }
+
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
             {
@@ -623,6 +644,12 @@ namespace LatiumMarketplace.Controllers
                     var myCityId = HttpContext.Request.Form["CityId"];
                     var myCityIdNumVal = int.Parse(myCityId);
                     asset.CityId = myCityIdNumVal;
+
+                    if (imageGallaryId != 0)
+                    {
+                        asset.ImageGalleryId = imageGallaryId;
+                        asset.ImageGallery = _context.ImageGallery.Single(i => i.ImageGalleryId == imageGallaryId);
+                    }
 
                     _context.Update(asset);
                     await _context.SaveChangesAsync();
