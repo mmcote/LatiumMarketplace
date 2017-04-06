@@ -110,7 +110,7 @@
             contentType: "application/json",
             data: JSON.stringify(bidId),
             success: function () {
-                window.location.reload();
+                window.location.replace("@Url.Action("Transaction", "Bids")");
             },
             error: function (error) {
                 console.log(error)
