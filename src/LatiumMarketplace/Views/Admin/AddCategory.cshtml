@@ -39,57 +39,60 @@
         });
     });
 </script>
-<h2>Categories</h2>
-<br />
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <br />
-                <br />
-                <form action="" method="POST" id="addcategory" role="form">
-                    <input id="newCategoryName" class="form-control" type="text" name="CategoryName" placeholder="New Category" required="required">
+<div class="spaceUnderLogo">
+
+    <h2>Categories</h2>
+    <br />
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
                     <br />
-                    <input id="ParentCategoryID" class="form-control" type="text" name="ParentCategoryID" placeholder="Parent Cateogry ID">
                     <br />
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-sm-9 padding-right">
-                <table id="categoryTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CategoryId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CategoryName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ParentCategory)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+                    <form action="" method="POST" id="addcategory" role="form">
+                        <input id="newCategoryName" class="form-control" type="text" name="CategoryName" placeholder="New Category" required="required">
+                        <br />
+                        <input id="ParentCategoryID" class="form-control" type="text" name="ParentCategoryID" placeholder="Parent Cateogry ID">
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-9 padding-right">
+                    <table id="categoryTable" class="table">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ParentCategory.CategoryName)
-                                </td>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CategoryId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CategoryName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ParentCategory)
+                                </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CategoryId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CategoryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ParentCategory.CategoryName)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    </section>
     </div>
-</section>

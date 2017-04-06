@@ -4,154 +4,163 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-<p>
-    <div>
-        <a asp-controller="MessageThreads" asp-action="Create">Respond to message</a> |
+<div class="spaceUnderLogo">
+    <h2>Details</h2>
+    <p>
+        <div>
+            <a asp-controller="MessageThreads" asp-action="Create">Respond to message</a> |
 
 
-        @{if (@Model.request == true)
+            @{if (@Model.request == true)
             {<a asp-controller="Bids" asp-route-assetID="@Model.assetID" asp-action="Create">Place a bid </a>}
             else
             {<a asp-controller="Bids" asp-route-assetId="@Model.assetID" asp-action="Create_Asset_Bid">Rent/Buy </a> }
-        } |
+            } |
 
-        <a asp-controller="Manage" asp-route-userId="@Model.ownerID" asp-action="Profile">View owner's profile</a> |
+            <a asp-controller="Manage" asp-route-userId="@Model.ownerID" asp-action="Profile">View owner's profile</a> |
 
-    </div>
-</p>
-<div>
-    <h4>@Html.DisplayFor(model => model.name)</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.addDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.addDate)
-        </dd>
-        @{
-            if (Model.request == true)
-            {
-                <dt>
-                    @Html.DisplayNameFor(model => model.duration)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.duration)
-                </dd>
-            }
-        }
-        <dt>
-            @Html.DisplayNameFor(model => model.Make)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Make.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => Model.City)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => Model.City.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.accessory)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.accessory)
-        </dd>
-        @{
-            if (Model.request == false)
-            {
-                if (Model.price > 0)
-                {
-
-                    <dt>
-                        @Html.DisplayNameFor(model => model.price)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.price)
-                    </dd>
-                }
-                else
+        </div>
+    </p>
+    <div>
+        <h4>@Html.DisplayFor(model => model.name)</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.addDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.addDate)
+            </dd>
+            @{
+                if (Model.request == true)
                 {
                     <dt>
-                        @Html.DisplayNameFor(model => model.priceDaily)
+                        @Html.DisplayNameFor(model => model.duration)
                     </dt>
                     <dd>
-                        @if (Model.priceDaily == 0)
-                        {
-                            <span>Not Avaliable</span>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(model => model.priceDaily)
-                        }
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.priceMonthly)
-                    </dt>
-                    <dd>
-                        @if (Model.priceMonthly == 0)
-                        {
-                            <span>Not Avaliable</span>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(model => model.priceMonthly)
-                        }
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.priceWeekly)
-                    </dt>
-                    <dd>
-                        @if (Model.priceWeekly == 0)
-                        {
-                            <span>Not Avaliable</span>
-                        }
-                        else
-                        {
-                            @Html.DisplayFor(model => model.priceWeekly)
-                        }
+                        @Html.DisplayFor(model => model.duration)
                     </dd>
                 }
-
             }
-        }
-    </dl>
-</div>
-
-<div class="container">
-    @if (Model.ImageGallery != null)
-    {
-        @if (Model.ImageGallery.Images.Any(e => e.ImageGalleryId == Model.ImageGalleryId))
-        {
-            <div class="col-md-9">
-                <ul id="all-assets" class="row list-unstyled">
-                    @*Show all images in gallery*@
-                    @foreach (var item in Model.ImageGallery.Images.Where(e => e.ImageGalleryId == Model.ImageGalleryId))
+            <dt>
+                @Html.DisplayNameFor(model => model.Make)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Make.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => Model.City)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => Model.City.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.accessory)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.accessory)
+            </dd>
+            @{
+                if (Model.request == false)
+                {
+                    if (Model.price > 0)
                     {
-                        <li class="col-sm-6 col-md-4 single-asset margin-bottom-30">
-                            <div class="thumbnail">
-                                <div class="detailimage">
-                                    <img src="/@item.FileLink" alt="@item.ImageId" class="img-responsive resize" />
-                                </div>
-                            </div>
-                        </li>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.price)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.price)
+                        </dd>
                     }
-                </ul>
-            </div>
+                    else
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.priceDaily)
+                        </dt>
+                        <dd>
+                            @if (Model.priceDaily == 0)
+                            {
+                                <span>Not Avaliable</span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.priceDaily)
+                            }
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.priceMonthly)
+                        </dt>
+                        <dd>
+                            @if (Model.priceMonthly == 0)
+                            {
+                                <span>Not Avaliable</span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.priceMonthly)
+                            }
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.priceWeekly)
+                        </dt>
+                        <dd>
+                            @if (Model.priceWeekly == 0)
+                            {
+                                <span>Not Avaliable</span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.priceWeekly)
+                            }
+                        </dd>
+                    }
+
+                }
+            }
+        </dl>
+    </div>
+    <div class="container">
+        @if (Model.ImageGallery != null)
+        {
+            @if (Model.ImageGallery.Images.Any(e => e.ImageGalleryId == Model.ImageGalleryId))
+            {
+                <div class="col-md-9">
+                    <ul id="all-assets" class="row list-unstyled">
+                        @*Show all images in gallery*@
+                        @foreach (var item in Model.ImageGallery.Images.Where(e => e.ImageGalleryId == Model.ImageGalleryId))
+                    {
+                            <li class="col-sm-6 col-md-4 single-asset margin-bottom-30">
+                                <div class="thumbnail">
+                                    <div class="detailimage">
+                                        <img src="/@item.FileLink" alt="@item.ImageId" class="img-responsive resize" />
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            }
+            else
+            {
+                <div class="asset-image-container">
+                    <img src="~/images/preview-not-available.jpg" alt="No asset image"
+                         class="img-responsive" />
+                </div>
+            }
 
         }
         else
@@ -161,22 +170,13 @@
                      class="img-responsive" />
             </div>
         }
-
-    }
-    else
-    {
-        <div class="asset-image-container">
-            <img src="~/images/preview-not-available.jpg" alt="No asset image"
-                 class="img-responsive" />
-
-        </div>
-    }
-</div>
-<div>
-    @{if (@Model.ownerID == @UserManager.GetUserId(User))
-        {
-            <a asp-action="Edit" asp-route-id="@Model.assetID">Edit |</a>
-            <a asp-controller="Bids" asp-action="Inbox"> View Bids |</a>
-        } }
-    <a asp-action="Index">Back to List</a>
+    </div>
+    <div>
+        @{if (@Model.ownerID == @UserManager.GetUserId(User))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.assetID">Edit |</a>
+                <a asp-controller="Bids" asp-action="Inbox"> View Bids |</a>
+            } }
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>

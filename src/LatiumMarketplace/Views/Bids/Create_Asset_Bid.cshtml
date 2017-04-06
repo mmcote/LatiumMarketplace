@@ -4,110 +4,111 @@
     ViewData["Title"] = "Create";
     DateTime availableDate = Model.asset.addDate;
 }
+<div class="spaceUnderLogo">
 
-@{
-    @if (Model.asset.price > (decimal)0.00)
-    {
-        <form asp-action="Create">
-            <div>
-                <h2>Buy Now!</h2>
-                <hr />
-                <h4>@Model.asset.name</h4>
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.description)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.description)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.asset.price)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.asset.price)
-                    </dd>
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <input type="submit" value="BUY" class="btn btn-default" />
+    @{
+        @if (Model.asset.price > (decimal)0.00)
+        {
+            <form asp-action="Create">
+                <div>
+                    <h2>Buy Now!</h2>
+                    <hr />
+                    <h4>@Model.asset.name</h4>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.description)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.description)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.asset.price)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.asset.price)
+                        </dd>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <input type="submit" value="BUY" class="btn btn-default" />
+                            </div>
                         </div>
-                    </div>
-                </dl>
-            </div>
-        </form>
-    }
-    else
-    {
-        <form asp-action="Create">
-            <div class="form-horizontal">
-                <h2>Rent Now!</h2>
-                <hr />
-                <h4>@Model.asset.name</h4>
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.description)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.description)
-                    </dd>
-                    @if (@Model.asset.priceDaily == (decimal)0.00)
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.asset.priceDaily)
-                        </dt>
-                        <dd>
-                            Not available
-                        </dd>                    
-                    } else
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.asset.priceDaily)
-                        </dt>
-                        <dd>
-                            $@Html.DisplayFor(model => model.asset.priceDaily)
-                        </dd>
-                    }
-                    @if (@Model.asset.priceWeekly == (decimal)0.00)
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.asset.priceWeekly)
-                        </dt>
-                        <dd>
-                            Not available
-                        </dd>
-                    }
-                    else
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.asset.priceWeekly)
-                        </dt>
-                        <dd>
-                            $@Html.DisplayFor(model => model.asset.priceWeekly)
-                        </dd>
-                    }
-                    @if (@Model.asset.priceMonthly == (decimal)0.00)
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.asset.priceMonthly)
-                        </dt>
-                        <dd>
-                            Not available
-                        </dd>
-                    }
-                    else
-                    {
-                        <dt>
-                            @Html.DisplayNameFor(model => model.asset.priceMonthly)
-                        </dt>
-                        <dd>
-                            $@Html.DisplayFor(model => model.asset.priceMonthly)
-                        </dd>                           
-                    }
-                    <dt> Available Starting From </dt>
-                    <dd> @availableDate</dd>
                     </dl>
-                <hr />
-
+                </div>
+            </form>
+        }
+        else
+        {
+            <form asp-action="Create">
+                <div class="form-horizontal">
+                    <h2>Rent Now!</h2>
+                    <hr />
+                    <h4>@Model.asset.name</h4>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.description)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.description)
+                        </dd>
+                        @if (@Model.asset.priceDaily == (decimal)0.00)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.asset.priceDaily)
+                            </dt>
+                            <dd>
+                                Not available
+                            </dd>
+                        }
+                        else
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.asset.priceDaily)
+                            </dt>
+                            <dd>
+                                $@Html.DisplayFor(model => model.asset.priceDaily)
+                            </dd>
+                        }
+                        @if (@Model.asset.priceWeekly == (decimal)0.00)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.asset.priceWeekly)
+                            </dt>
+                            <dd>
+                                Not available
+                            </dd>
+                        }
+                        else
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.asset.priceWeekly)
+                            </dt>
+                            <dd>
+                                $@Html.DisplayFor(model => model.asset.priceWeekly)
+                            </dd>
+                        }
+                        @if (@Model.asset.priceMonthly == (decimal)0.00)
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.asset.priceMonthly)
+                            </dt>
+                            <dd>
+                                Not available
+                            </dd>
+                        }
+                        else
+                        {
+                            <dt>
+                                @Html.DisplayNameFor(model => model.asset.priceMonthly)
+                            </dt>
+                            <dd>
+                                $@Html.DisplayFor(model => model.asset.priceMonthly)
+                            </dd>
+                        }
+                        <dt> Available Starting From </dt>
+                        <dd> @availableDate</dd>
+                    </dl>
+                    <hr />
                     <h4>Pick Your Rental Period</h4>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -129,14 +130,14 @@
                             <input type="submit" value="Rent" class="btn btn-default" />
                         </div>
                     </div>
-</div>
-        </form>
+                </div>
+            </form>
+        }
     }
-}
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

@@ -10,93 +10,94 @@
     <link href="~/css/prettyPhoto.css" rel="stylesheet">
 
 </head><!--/head-->
-<h2>My Listings</h2>
 
+<div class="spaceUnderLogo">
 
-<section>
-    <link href="~/css/main.css" rel="stylesheet">
-    <link href="~/css/site.css" rel="stylesheet">
-    <div class="container">
-        <div class="row">
-            <div>
-                <p>
-                    <a asp-action="Create">Create New Asset</a> <br>
-                    <a asp-action="CreateReq">Create New Request</a>
-                </p>
-                <form asp-controller="Assets" asp-action="MyListings" method="get">
-                    <input class="form-control" type="text" name="SearchString"  width: 30% placeholder="Search"> <br>
-                    <input type="submit" value="Filter" />
-                </form>
+    <h2>My Listings</h2>
 
-            </div>
-
-            <!--<div class="col-sm-9 padding-right">-->
-            <div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                               <!-- Html.DisplayNameFor(model => model.assets[0].addDate)-->
-                                <p>Date Added</p>
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].name)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].Address)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].City)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].description)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].accessory)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.assets[0].duration)
-                            </th>
-                         
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.assets)
-                        {
+    <section>
+        <link href="~/css/main.css" rel="stylesheet">
+        <link href="~/css/site.css" rel="stylesheet">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <p>
+                        <a asp-action="Create">Create New Asset</a> <br>
+                        <a asp-action="CreateReq">Create New Request</a>
+                    </p>
+                    <form asp-controller="Assets" asp-action="MyListings" method="get">
+                        <input class="form-control" type="text" name="SearchString" width: 30% placeholder="Search"> <br>
+                        <input type="submit" value="Filter" />
+                    </form>
+                </div>
+                <!--<div class="col-sm-9 padding-right">-->
+                <div>
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.addDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Address)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.City)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.accessory)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.duration) 
-                                </td>
-                                
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a> |
-                                    <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
-                                </td>
+                                <th>
+                                    <!-- Html.DisplayNameFor(model => model.assets[0].addDate)-->
+                                    <p>Date Added</p>
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.assets[0].name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.assets[0].Address)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.assets[0].City)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.assets[0].description)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.assets[0].accessory)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.assets[0].duration)
+                                </th>
+
+                                <th></th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.assets)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.addDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Address)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.City)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.accessory)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.duration)
+                                    </td>
+
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a> |
+                                        <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>
