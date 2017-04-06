@@ -126,7 +126,7 @@ namespace LatiumMarketplace.Controllers
             viewModel.Categories = _context.Category;
 
             // default set to only assets first 
-            viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+            //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
 
             if (Categoryid > 0)
             {
@@ -159,15 +159,16 @@ namespace LatiumMarketplace.Controllers
                 case "request":
                     viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(true));
                     break;
-                case "asset":
-                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
-                    break;
-                 case "rent":
+                case "rent":
                     viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false) && s.priceDaily != 0);
                     break;
                 case "sale":
                     viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false) && s.price != 0);
                     break;
+                default:
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+                    break;
+
             }
 
             if (recent == true)
