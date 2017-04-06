@@ -15,11 +15,6 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public IEnumerable<City> Cities { get; set; }
         public IEnumerable<Image> Images { get; set; }
 
-        public List<SelectListItem> CategoryLevel1 { get; set; }
-        public int? CategoryIdLevel1 { get; set; }
-
-        public int? CategoryIdLevel2 { get; set; }
-
 
     }
 }

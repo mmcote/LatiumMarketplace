@@ -74,13 +74,13 @@
                                         </a>
                                     </h4>
                                 </div>
-
                                 <div id="@maincategory.CategoryId" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         @foreach (var subcategory in Model.Categories.Where(e => e.ParentCategoryId == maincategory.CategoryId))
                                         {
+                                            
                                             <ul>
-                                                <li><a href="#"> @subcategory.CategoryName </a></li>
+                                                <li><button type="submit" name="Categoryid" value="@subcategory.CategoryId" class="btn-link">@subcategory.CategoryName</button></li>
                                             </ul>
                                         }
                                     </div>

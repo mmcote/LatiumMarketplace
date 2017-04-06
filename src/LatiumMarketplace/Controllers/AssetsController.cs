@@ -162,12 +162,12 @@ namespace LatiumMarketplace.Controllers
       
         // GET: Assets - Filtered
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem)
+        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid)
         {
             var viewModel = new AssetIndexData();
             viewModel.Assets = await _context.Asset
                 .Include(a => a.AssetCategories)
-                    .ThenInclude(a => a.Category)
+                    .ThenInclude(a => a.Category.ChildCategory)
                 .Include(a => a.Make)
                 .Include(a => a.City)
                 .Include(a => a.ImageGallery)
@@ -178,7 +178,10 @@ namespace LatiumMarketplace.Controllers
             viewModel.Categories = _context.Category;
             // default
             //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
-
+            if (Categoryid > 0)
+            {
+                viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.CategoryId == Categoryid));
+            }
             // Assign a city to the asset
             if (id != null)
             {
@@ -225,7 +228,7 @@ namespace LatiumMarketplace.Controllers
             //{
             //    viewModel.Assets = viewModel.Assets.Where(x => x.Address == assetLocation);
             //}
-
+            
             if (!String.IsNullOrEmpty(searchString))
             {
                 viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
