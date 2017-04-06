@@ -144,7 +144,22 @@
                                         @Html.DisplayFor(modelItem => item.name)
                                     </a>
                                 </h4>
-                                <p>$@Html.DisplayFor(modelItem => item.price)</p>
+                                @if (item.request == true)
+                                {
+                                    <p>Bid Now!</p>
+                                }
+                                else if (item.price > 0)
+                                {
+                                    <p>$@Html.DisplayFor(modelItem => item.price)</p>
+                                }
+                                else if (item.addDate > DateTime.Now)
+                                {
+                                    <p>Currently Being Rented</p>
+                                }
+                                else
+                                {
+                                    <p>Rental</p>
+                                }
                             </div>
 
                         </div><!-- End single-asset-wrapper -->

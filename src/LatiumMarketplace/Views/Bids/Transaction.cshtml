@@ -1,42 +1,36 @@
-﻿@model UnitedBidViewModel
+﻿@model IEnumerable<LatiumMarketplace.Models.BidViewModels.Bid>
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "My Bids";
+    ViewData["Title"] = "Transactions";
+    DateTime defaultDate = new DateTime(0001, 1, 1, 0, 0, 0);
 }
 
 
 <head>
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="~/css/main.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
 </head>
 
 <div class="spaceUnderLogo">
 
-    <h2> OUTBOX</h2>
-    <p>the bids you've made</p>
+    <h2> Transactions</h2>
+    <p>Accepted Bids</p>
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-sm-3">
-                    <form asp-controller="Bids" asp-action="MyBids" method="get">
-                        <p>
-                            Sort by : <br>
-                            <input type="radio" name="SortBy" value="asset"> Asset<br>
-                            <input type="radio" name="SortBy" value="request"> Request<br>
-                            <input type="submit" value="Filter" />
-                        </p>
-                    </form>
-                </div>
                 <div class="col-sm-9 padding-right">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>
-                                    Asset Name
+                                    User
                                 </th>
                                 <th>
                                     Bid Price
+                                </th>
+                                <th>
+                                    Details
                                 </th>
                                 <th>
                                     Start Date
@@ -45,51 +39,49 @@
                                     End Date
                                 </th>
                                 <th>
-                                    Status
+                                </th>
+                                <th>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.outbox)
+                            @foreach (var item in Model)
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.asset_name)
+                                        @Html.DisplayFor(modelItem => item.bidder)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.bidPrice)
                                     </td>
                                     <td>
-                                        @if (item.asset.price == 0)
+                                        @if (item.description == null)
+                                        {
+                                            <span>Not Available</span>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.description)
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.startDate == defaultDate)
+                                        {
+                                            <span>Not Available</span>
+                                        }
+                                        else
                                         {
                                             @Html.DisplayFor(modelItem => item.startDate)
                                         }
-                                        else
-                                        {
-                                            <span> Not Available</span>
-                                        }
                                     </td>
                                     <td>
-                                        @if (item.asset.price == 0)
+                                        @if (item.startDate == defaultDate)
                                         {
-                                            @Html.DisplayFor(modelItem => item.endDate)                                        }
-                                        else
-                                        {
-                                            <span> Not Available</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (item.chosen == true)
-                                        {
-                                            <span class="label label-success">Success</span>
-                                        }
-                                        else if (item.assetOwnerNotificationPending == true)
-                                        {
-                                            <span class="label label-warning">Pending</span>
+                                            <span>Not Available</span>
                                         }
                                         else
                                         {
-                                            <span class="label label-danger">Declined</span>
+                                            @Html.DisplayFor(modelItem => item.endDate)
                                         }
                                     </td>
                                 </tr>
@@ -102,6 +94,6 @@
     </section>
 
     <p>
-        <a asp-controller="Bids" asp-action="Inbox">INBOX</a>
+        <a asp-controller="Bids" asp-action="MyBids">My Bids</a>
     </p>
 </div>
