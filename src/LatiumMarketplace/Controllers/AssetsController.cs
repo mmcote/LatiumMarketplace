@@ -169,6 +169,7 @@ namespace LatiumMarketplace.Controllers
             viewModel.Assets = await _context.Asset
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
+                .Include(a => a.Bids)
                 .Include(a => a.Make)
                 .Include(a => a.City)
                 .Include(a => a.ImageGallery)
@@ -231,6 +232,25 @@ namespace LatiumMarketplace.Controllers
             {
                 viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
             }
+
+            List<Asset> list = new List<Asset>();
+            foreach (Asset tempAsset in viewModel.Assets)
+            {
+                try
+                {
+                    if (tempAsset.priceDaily == 0 && tempAsset.priceWeekly == 0 && tempAsset.priceMonthly == 0)
+                    {
+                        var winningBid = tempAsset.Bids.Where(b => b.assetOwnerNotificationPending == false && b.chosen == true);
+                        if (winningBid.Count() > 0)
+                        {
+                            list.Add(tempAsset);
+                        }
+                    }
+                }
+                catch { }
+            }
+            viewModel.Assets = viewModel.Assets.Except(list);
+            
             SetCityViewBag();
             SetCategoryViewBag();
             return View(viewModel);

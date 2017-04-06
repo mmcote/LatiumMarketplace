@@ -82,9 +82,9 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.assets[0].City)
                                 </th>
-                                <th>
+                                @*<th>
                                     @Html.DisplayNameFor(model => model.assets[0].description)
-                                </th>
+                                </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.assets[0].accessory)
                                 </th>
@@ -113,9 +113,9 @@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.City)
                                     </td>
-                                    <td>
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.description)
-                                    </td>
+                                    </td>*@
                                     <td>
                                         @Html.DisplayFor(modelItem => item.accessory)
                                     </td>
@@ -132,8 +132,8 @@
                                         </td>
                                     }
                                     <td>
-                                        <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID">Details</a>
-                                        <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
+                                        <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID">Details</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.assetID"> Delete</a>
                                     </td>
                                 </tr>
                             }

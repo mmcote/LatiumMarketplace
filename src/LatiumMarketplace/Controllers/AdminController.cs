@@ -263,6 +263,11 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
+        public IActionResult MaxFeatured()
+        {
+            return View();
+        }
+
         // GET: God mode for assets with featured iteam option to promote an item
         [AllowAnonymous]
         public async Task<IActionResult> AdminListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory,bool featuredItem, bool featured)
@@ -329,7 +334,7 @@ namespace LatiumMarketplace.Controllers
             var all = _context.Asset.Where(s => s.featuredItem == true);
             var asset = _context.Asset.Single(s => s.assetID == id);
 
-            if (all.Count() <= 4)
+            if (all.Count() < 4)
             {
                 asset.featuredItem = true;
                 await _context.SaveChangesAsync();
@@ -337,7 +342,7 @@ namespace LatiumMarketplace.Controllers
             }
             else
             {
-                return RedirectToAction("AdminListings");
+                return RedirectToAction("MaxFeatured");
             }
         }
 

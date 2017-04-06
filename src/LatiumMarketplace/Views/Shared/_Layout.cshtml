@@ -314,7 +314,7 @@
 
                     @if (User.IsInRole("Administrator"))
                     {
-                        <li><a asp-area="" asp-controller="Admin" asp-action="Index">Admin</a></li>
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Index"><strong>Admin</strong></a></li>
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
