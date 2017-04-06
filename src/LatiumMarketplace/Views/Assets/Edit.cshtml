@@ -166,7 +166,13 @@
         </div>
     </form>
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a href="" onclick=goBack()>Back</a>
+        <!--<a asp-action="Edit">Edit</a>-->
+        <script>
+function goBack() {
+    window.history.back();
+}
+        </script>
     </div>
 
 </div>
