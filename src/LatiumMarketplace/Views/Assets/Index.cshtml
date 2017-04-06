@@ -20,9 +20,22 @@
 </head><!--/head-->
 <div class="container spaceUnderLogo">
     <div class="row">
-        <br />
-        <br />
-        <br />
+        
+        @{
+            if (Model.Assets != null)
+            {
+                var request = Model.Assets.First().request;
+                
+                if (request == true)
+                {
+                    <h2>REQUESTS</h2>
+                }
+                else
+                {
+                    <h2>ASSETS</h2>
+                }
+            }
+        }
         <!-- ==== Begin left-bar ==== -->
         <div class="col-md-3">
             <!-- Begin create action ==== -->
@@ -58,10 +71,6 @@
                     Featured Item : <input type="checkbox" name="featuredItem" value=true><br>
                     <input type="submit" value="Filter" />
                 </div>
-
-                <div class="asset-categories">
-                    <h4>Category</h4>
-                </div>
                 <div class="left-sidebar">
                     <h2>Category</h2>
                     <div class="panel-group category-products" id="accordian">
@@ -78,13 +87,13 @@
                                         </a>
                                     </h4>
                                 </div>
-
                                 <div id="@maincategory.CategoryId" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         @foreach (var subcategory in Model.Categories.Where(e => e.ParentCategoryId == maincategory.CategoryId))
                                         {
+                                            
                                             <ul>
-                                                <li><a href="#"> @subcategory.CategoryName </a></li>
+                                                <li><button type="submit" name="Categoryid" value="@subcategory.CategoryId" class="btn-link">@subcategory.CategoryName</button></li>
                                             </ul>
                                         }
                                     </div>

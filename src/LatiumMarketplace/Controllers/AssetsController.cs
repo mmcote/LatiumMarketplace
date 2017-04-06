@@ -102,73 +102,18 @@ namespace LatiumMarketplace.Controllers
             return View(assetLocatioinVM);
         }
 
-        /*
-        // GET: Assets
-        [AllowAnonymous]
-        public async Task<IActionResult> Index(string assetLocation, string searchString, string sortby, bool recent, bool accessory)
-        {
-            // Use LINQ to get list of genres.
-            IQueryable<string> locationQuery = from m in _context.Asset
-                                               orderby m.location
-                                               select m.location;
-            var assets = from m in _context.Asset
-                         select m;
-            switch (sortby)
-            {
-                case "request":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
-                    assets = assets.Where(s => s.request.Equals(true));
-                    break;
-                case "asset":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
-                    assets = assets.Where(s => s.request.Equals(false));
-                    break;
-                case "all":
-                    assets = from m in _context.Asset
-                             select m;
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
-                    break;
-            }
-            if (recent == true)
-            {
-                assets = assets.OrderByDescending(s => s.addDate);
-            }
-            if (!String.IsNullOrEmpty(assetLocation))
-            {
-                assets = assets.Where(x => x.location == assetLocation);
-            }
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                assets = assets.Where(x => x.name.Contains(searchString));
-            }
-            var assetLocatioinVM = new AssetLocation();
-            assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
-            assetLocatioinVM.assets = await assets.ToListAsync();
-            return View(assetLocatioinVM);
-            //return View(await assets.ToListAsync());
-        }
-        */
-
         /*============================ */
         
       
         // GET: Assets - Filtered
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem)
+        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid)
         {
             var viewModel = new AssetIndexData();
             viewModel.Assets = await _context.Asset
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
+                        .ThenInclude(c => c.ChildCategory)
                 .Include(a => a.Bids)
                 .Include(a => a.Make)
                 .Include(a => a.City)
@@ -178,9 +123,14 @@ namespace LatiumMarketplace.Controllers
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
             viewModel.Categories = _context.Category;
-            // default
-            //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
 
+            // default set to only assets first 
+            viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+
+            if (Categoryid > 0)
+            {
+                viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.CategoryId == Categoryid));
+            }
             // Assign a city to the asset
             if (id != null)
             {
@@ -227,7 +177,7 @@ namespace LatiumMarketplace.Controllers
             //{
             //    viewModel.Assets = viewModel.Assets.Where(x => x.Address == assetLocation);
             //}
-
+            
             if (!String.IsNullOrEmpty(searchString))
             {
                 viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
