@@ -97,47 +97,77 @@
                         @Html.DisplayNameFor(model => model.priceDaily)
                     </dt>
                     <dd>
-                        @Html.DisplayFor(model => model.priceDaily)
+                        @if (Model.priceDaily == 0)
+                        {
+                            <span>Not Avaliable</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.priceDaily)
+                        }
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.priceMonthly)
                     </dt>
                     <dd>
-                        @Html.DisplayFor(model => model.priceMonthly)
+                        @if (Model.priceMonthly == 0)
+                        {
+                            <span>Not Avaliable</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.priceMonthly)
+                        }
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.priceWeekly)
                     </dt>
                     <dd>
-                        @Html.DisplayFor(model => model.priceWeekly)
+                        @if (Model.priceWeekly == 0)
+                        {
+                            <span>Not Avaliable</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.priceWeekly)
+                        }
                     </dd>
                 }
 
             }
-        }   
+        }
     </dl>
 </div>
 
 <div class="container">
     @if (Model.ImageGallery != null)
-{
-    @if (Model.ImageGallery.Images.Any(e => e.ImageGalleryId == Model.ImageGalleryId))
     {
-        <div class="col-md-9">
-            <ul id="all-assets" class="row list-unstyled">
-                @*Show all images in gallery*@
-                @foreach (var item in Model.ImageGallery.Images.Where(e => e.ImageGalleryId == Model.ImageGalleryId))
+        @if (Model.ImageGallery.Images.Any(e => e.ImageGalleryId == Model.ImageGalleryId))
+        {
+            <div class="col-md-9">
+                <ul id="all-assets" class="row list-unstyled">
+                    @*Show all images in gallery*@
+                    @foreach (var item in Model.ImageGallery.Images.Where(e => e.ImageGalleryId == Model.ImageGalleryId))
                     {
-                    <li class="col-sm-6 col-md-4 single-asset margin-bottom-30">
-                        <div class="thumbnail">
-                            <div class="detailimage">
-                                <img src="/@item.FileLink" alt="@item.ImageId" style="width:100%" class="img-responsive resize" />
-                            </div>
-                        </div>
-                    </li>
-                }
-            </ul>
-        </div>
+                        <li class="col-sm-6 col-md-4 single-asset margin-bottom-30">
+                            <div class="thumbnail">
+                                <div class="detailimage">
+                                    <img src="/@item.FileLink" alt="@item.ImageId" class="img-responsive resize" />
+                                </div>
+
+                        </li>
+                    }
+                </ul>
+            </div>
+
+        }
+        else
+        {
+            <div class="asset-image-container">
+                <img src="~/images/preview-not-available.jpg" alt="No asset image"
+                     class="img-responsive" />
+            </div>
+        }
 
     }
     else
@@ -145,18 +175,9 @@
         <div class="asset-image-container">
             <img src="~/images/preview-not-available.jpg" alt="No asset image"
                  class="img-responsive" />
+
         </div>
     }
-
-}
-else
-{
-    <div class="asset-image-container">
-        <img src="~/images/preview-not-available.jpg" alt="No asset image"
-             class="img-responsive" />
-
-    </div>
-}
 </div>
 <div>
     @{if (@Model.ownerID == @UserManager.GetUserId(User))

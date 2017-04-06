@@ -25,11 +25,14 @@ namespace LatiumMarketplace.Services
         {
             // Plug in your email service here to send an email.
             var emailMessage = new MimeMessage();
+            var bodyBuilder = new BodyBuilder();
 
             emailMessage.From.Add(new MailboxAddress("Latium", "latiummarketplace@gmail.com"));
             emailMessage.To.Add(new MailboxAddress("", email));
             emailMessage.Subject = subject;
-            emailMessage.Body = new TextPart("plain") { Text = message };
+            bodyBuilder.HtmlBody = message;
+            emailMessage.Body = bodyBuilder.ToMessageBody();
+            //emailMessage.Body = new TextPart("plain") { Text = message };
 
 
             using (var client = new SmtpClient())
