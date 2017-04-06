@@ -108,7 +108,7 @@ namespace LatiumMarketplace.Controllers
       
         // GET: Assets - Filtered
         [AllowAnonymous]
-        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid, string mainCategoryname)
+        public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid, string mainCategoryname, int Makeid)
         {
             var viewModel = new AssetIndexData();
             viewModel.Assets = await _context.Asset
@@ -124,6 +124,7 @@ namespace LatiumMarketplace.Controllers
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
             viewModel.Categories = _context.Category;
+            viewModel.Makes = _context.Make;
 
             // default set to only assets first 
             //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
@@ -135,6 +136,11 @@ namespace LatiumMarketplace.Controllers
             if (!String.IsNullOrEmpty(mainCategoryname))
             {
                 viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.Category.CategoryName == mainCategoryname));
+            }
+
+            if (Makeid > 0)
+            {
+                viewModel.Assets = viewModel.Assets.Where(b => b.MakeId == Makeid);
             }
             // Assign a city to the asset
             if (id != null)
@@ -693,20 +699,23 @@ namespace LatiumMarketplace.Controllers
 
                     var updateAssetCategoriesAsset = _context.Asset.Include(s => s.AssetCategories).Single(a => a.assetID == asset.assetID);
 
-                    Category category = _context.Category.Single(s => s.CategoryId == myCategoryIdNumVal);
-                    //ICollection<AssetCategory> assetCategories = new List<AssetCategory>();
-                    AssetCategory assetCategory = new AssetCategory();
-                    assetCategory.AssetId = asset.assetID;
-                    assetCategory.Asset = asset;
-                    assetCategory.Category = category;
-                    assetCategory.CategoryId = category.CategoryId;
-                    //assetCategories.Add(assetCategory);
-                    //var existingCategories = _context.AssetCategory.Where(ac => ac.AssetId == asset.assetID);
-                    updateAssetCategoriesAsset.AssetCategories.Clear();
-                    updateAssetCategoriesAsset.AssetCategories.Add(assetCategory);
+                    if (updateAssetCategoriesAsset.AssetCategories.First().CategoryId != myCategoryIdNumVal)
+                    {
+                        Category category = _context.Category.Single(s => s.CategoryId == myCategoryIdNumVal);
+                        //ICollection<AssetCategory> assetCategories = new List<AssetCategory>();
+                        AssetCategory assetCategory = new AssetCategory();
+                        assetCategory.AssetId = asset.assetID;
+                        assetCategory.Asset = asset;
+                        assetCategory.Category = category;
+                        assetCategory.CategoryId = category.CategoryId;
+                        //assetCategories.Add(assetCategory);
+                        //var existingCategories = _context.AssetCategory.Where(ac => ac.AssetId == asset.assetID);
+                        updateAssetCategoriesAsset.AssetCategories.Clear();
+                        updateAssetCategoriesAsset.AssetCategories.Add(assetCategory);
 
 
-                    await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
