@@ -24,7 +24,10 @@
                         <thead>
                             <tr>
                                 <th>
-                                    User
+                                    Owner
+                                </th>
+                                <th>
+                                    Renter
                                 </th>
                                 <th>
                                     Bid Price
@@ -48,6 +51,9 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.asset.ownerName)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.bidder)
                                     </td>

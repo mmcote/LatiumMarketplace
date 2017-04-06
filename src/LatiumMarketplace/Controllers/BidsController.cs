@@ -495,7 +495,7 @@ namespace LatiumMarketplace.Controllers
                 return Redirect("/Account/Login");
             }
             var userId = user?.Id;
-            var ListBid = _context.Bid.Where(s => s.bidder == user.UserName || s.asset.ownerID == userId);
+            var ListBid = _context.Bid.Include(b => b.asset).Where(s => s.bidder == user.UserName || s.asset.ownerID == userId);
             var ChosenOnes = ListBid.Where(s => s.chosen == true);
 
             if (ChosenOnes != null)
