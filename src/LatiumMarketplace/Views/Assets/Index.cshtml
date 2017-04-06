@@ -20,12 +20,10 @@
 </head><!--/head-->
 <div class="container spaceUnderLogo">
     <div class="row">
-
     @{
         if (Model.Assets != null)
         {
             var request = Model.Assets.First().request;
-
             if (request == true)
             {
                 <h2>REQUESTS</h2>
@@ -35,7 +33,12 @@
                 <h2>ASSETS</h2>
             }
         }
-    }
+        else
+        {
+            <h2>ASSETS</h2>
+        }
+
+        }
 
         <!-- ==== Begin left-bar ==== -->
         <div class="col-md-3">
