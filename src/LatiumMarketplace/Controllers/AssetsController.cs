@@ -455,10 +455,10 @@ namespace LatiumMarketplace.Controllers
                 AccessoryList AccessoryList;
                 int AccessoryListId = -1;
 
-                int accessoriesLength2 = 0;
-                if (accessoryNames.Count() == accessoryPrices.Count() && accessoryNames.Count() > 0)
+                int accessoriesLength = 0;
+                if ((!(String.IsNullOrEmpty(accessoryNames))) && (!(String.IsNullOrEmpty(accessoryPrices))) && accessoryNames.Count() == accessoryPrices.Count())
                 {
-                    accessoriesLength2 = accessoryNames.Count();
+                    accessoriesLength = accessoryNames.Count();
                     AccessoryList = new AccessoryList();
 
                     // Add accessory list to DB
@@ -468,7 +468,7 @@ namespace LatiumMarketplace.Controllers
                     //Get Id of recently added accessory list
                     AccessoryListId = AccessoryList.AccessoryListId;
 
-                    for (int i = 0; i < accessoriesLength2; ++i)
+                    for (int i = 0; i < accessoriesLength; ++i)
                     {
                         Accessory Accessory = new Accessory();
 
