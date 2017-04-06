@@ -109,7 +109,7 @@
                             <div id="IsForSale" class="asset-rates">
                                 <div class="form-group">
                                     <label asp-for="price" class=""></label>
-                                    <input asp-for="price" class="form-control" />
+                                    <input asp-for="price" class="form-control" onchange="updatePrice('s');"/>
                                     <span asp-validation-for="price" class="text-danger" />
                                 </div>
                             </div>
@@ -119,17 +119,17 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label asp-for="priceDaily" class=""></label>
-                                    <input asp-for="priceDaily" class="form-control" />
+                                    <input asp-for="priceDaily" class="form-control" onchange="updatePrice('r');"/>
                                     <span asp-validation-for="priceDaily" class="text-danger" />
                                 </div>
                                 <div class="col-md-4">
                                     <label asp-for="priceWeekly" class=""></label>
-                                    <input asp-for="priceWeekly" class="form-control" />
+                                    <input asp-for="priceWeekly" class="form-control" onchange="updatePrice('r');"/>
                                     <span asp-validation-for="priceWeekly" class="text-danger" />
                                 </div>
                                 <div class="col-md-4">
                                     <label asp-for="priceMonthly" class=""></label>
-                                    <input asp-for="priceMonthly" class="form-control" />
+                                    <input asp-for="priceMonthly" class="form-control" onchange="updatePrice('r');"/>
                                     <span asp-validation-for="priceMonthly" class="text-danger" />
                                 </div>
                             </div>
@@ -138,17 +138,17 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label asp-for="priceDaily" class=""></label>
-                                    <input asp-for="priceDaily" class="form-control" />
+                                    <input asp-for="priceDaily" class="form-control" onchange="updatePrice('r');"/>
                                     <span asp-validation-for="priceDaily" class="text-danger" />
                                 </div>
                                 <div class="col-md-4">
                                     <label asp-for="priceWeekly" class=""></label>
-                                    <input asp-for="priceWeekly" class="form-control" />
+                                    <input asp-for="priceWeekly" class="form-control" onchange="updatePrice('r');"/>
                                     <span asp-validation-for="priceWeekly" class="text-danger" />
                                 </div>
                                 <div class="col-md-4">
                                     <label asp-for="priceMonthly" class=""></label>
-                                    <input asp-for="priceMonthly" class="form-control" />
+                                    <input asp-for="priceMonthly" class="form-control" onchange="updatePrice('r');"/>
                                     <span asp-validation-for="priceMonthly" class="text-danger" />
                                 </div>
                             </div>
@@ -173,3 +173,5 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script></script>
