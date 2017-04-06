@@ -52,7 +52,7 @@ namespace LatiumMarketplace.Controllers
             }
 
             var userId = user?.Id;
-            var Myassets = _context.Asset.Where(s => s.ownerID == userId);
+            var Myassets = _context.Asset.Include(s => s.AccessoryList).Include(s => s.City).Where(s => s.ownerID == userId);
 
             IQueryable<string> locationQuery = from m in Myassets
                                                orderby m.Address

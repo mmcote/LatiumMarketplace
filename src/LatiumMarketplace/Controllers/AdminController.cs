@@ -278,8 +278,7 @@ namespace LatiumMarketplace.Controllers
                                                orderby m.Address
                                                select m.Address;
 
-            var assets = from m in Myassets
-                         select m;
+            IEnumerable<Asset> assets = _context.Asset.Include(a => a.City).ToArray();
 
             if (featuredItem == true)
             {
@@ -324,7 +323,7 @@ namespace LatiumMarketplace.Controllers
 
             var assetLocatioinVM = new AssetLocation();
             assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
-            assetLocatioinVM.assets = await assets.ToListAsync();
+            assetLocatioinVM.assets = assets.ToList();
             return View(assetLocatioinVM);
         }
 

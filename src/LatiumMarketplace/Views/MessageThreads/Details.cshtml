@@ -24,11 +24,11 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Messages.First().Subject)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.Messages.First().Body)
-                </th>
-                <th></th>
-                <th></th>
+                </th>*@
+                <th><span>View Message</span></th>
+                <th><span>Read/Unread</span></th>
             </tr>
         </thead>
         <tbody>
@@ -41,9 +41,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Subject)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.Body)
-                    </td>
+                    </td>*@
                     <td>
                         <a asp-controller="Messages" asp-action="Details" asp-route-id="@item.id">View Message</a>
                     </td>

@@ -85,9 +85,9 @@
                                 @*<th>
                                     @Html.DisplayNameFor(model => model.assets[0].description)
                                 </th>*@
-                                <th>
+                                @*<th>
                                     @Html.DisplayNameFor(model => model.assets[0].accessory)
-                                </th>
+                                </th>*@
                                 <th>
                                     Featured Item
                                 </th>
@@ -111,14 +111,14 @@
                                         @Html.DisplayFor(modelItem => item.Address)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.City)
+                                        @Html.DisplayFor(modelItem => item.City.Name)
                                     </td>
                                     @*<td>
                                         @Html.DisplayFor(modelItem => item.description)
                                     </td>*@
-                                    <td>
+                                    @*<td>
                                         @Html.DisplayFor(modelItem => item.accessory)
-                                    </td>
+                                    </td>*@
                                     @if (item.featuredItem == false)
                                     {
                                         <td>

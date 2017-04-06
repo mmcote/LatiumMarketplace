@@ -13,8 +13,7 @@
 
 <div class="spaceUnderLogo">
 
-    <h2> My Bids</h2>
-    <p>the bids you've made</p>
+    <h2>My Bids</h2>
     <section>
         <div class="container">
             <div class="row">
@@ -24,6 +23,7 @@
                             Sort by : <br>
                             <input type="radio" name="SortBy" value="asset"> Asset<br>
                             <input type="radio" name="SortBy" value="request"> Request<br>
+                            <br>
                             <input type="submit" value="Filter" />
                         </p>
                     </form>
@@ -100,8 +100,4 @@
             </div>
         </div>
     </section>
-
-    <p>
-        <a asp-controller="Bids" asp-action="Inbox">INBOX</a>
-    </p>
 </div>
