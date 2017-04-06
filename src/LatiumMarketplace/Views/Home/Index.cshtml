@@ -97,13 +97,12 @@
     <div class="col-md-12">
         <h2 class="text-center">Featured Assets</h2>
     </div>
-
-    @{   
+ 
         <div class="col-md-12">
         <ul id="all-assets" class="row list-unstyled">
-           @foreach(var item in Model.Assets)
-           { 
-                <div class="col-md-4">
+           @foreach (var item in Model.Assets)
+           {
+                <div class="col-md-3">
                     
                     <li id="asset-@item.assetID" class="single-asset margin-bottom-30">
                         <!-- Begin single-asset-wrapper -->
@@ -148,14 +147,18 @@
                                 </h3>
                                 <p>@Html.DisplayFor(modelItem => item.description)</p>
                             </div>
+                            <script>
+                             $(function () {
+                            $('.single-asset-container').matchHeight();
+                             });
+                            </script>
 
                         </div><!-- End single-asset-wrapper -->
                     </li>
                 </div>
-             }
+           }
         </ul>
     </div>
-    }
 <!-- End of Featured Assets-->
 <!-- Shop by Category -->
 <div class="row">
