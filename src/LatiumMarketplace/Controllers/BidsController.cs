@@ -13,6 +13,7 @@ using LatiumMarketplace.Models.AssetViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR.Infrastructure;
 using LatiumMarketplace.Hubs;
+using Microsoft.AspNetCore.Http;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -113,6 +114,15 @@ namespace LatiumMarketplace.Controllers
             }
             bid.endDate = bid.startDate.AddDays(1);
 
+            HttpContext.Response.Cookies.Append("assetId", assetId.ToString(),
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
+
             return View(bid);
         }
 
@@ -127,7 +137,7 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View with created bid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid, int assetId)
+        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -135,14 +145,18 @@ namespace LatiumMarketplace.Controllers
                 return Redirect("/Account/Login");
             }
 
-            var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
-            bid.asset = Bid_asset;
             if (ModelState.IsValid)
             {
+                string id = HttpContext.Request.Cookies["assetId"];
+                int asset_id = Int32.Parse(id);
+                Asset asset = _context.Asset.Single(a => a.assetID == asset_id);
+
+                bid.asset = asset;
                 bid.assetOwnerNotificationPending = true;
                 bid.bidderNotificationPending = false;
-                bid.asset_id_model = assetId;
-                bid.status = Bid_asset.request;
+                bid.asset_id_model = asset_id;
+                bid.asset_name = asset.name;
+                bid.status = asset.request;
                 bid.chosen = false;
                 var userId = user?.Id;
                 var userName = user?.UserName;
