@@ -1,0 +1,99 @@
+﻿@model IEnumerable<LatiumMarketplace.Models.BidViewModels.Bid>
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Transactions";
+    DateTime defaultDate = new DateTime(0001, 1, 1, 0, 0, 0);
+}
+
+
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/main.css" rel="stylesheet">
+</head>
+
+<div class="spaceUnderLogo">
+
+    <h2> Transactions</h2>
+    <p>Accepted Bids</p>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 padding-right">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    User
+                                </th>
+                                <th>
+                                    Bid Price
+                                </th>
+                                <th>
+                                    Details
+                                </th>
+                                <th>
+                                    Start Date
+                                </th>
+                                <th>
+                                    End Date
+                                </th>
+                                <th>
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.bidder)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.bidPrice)
+                                    </td>
+                                    <td>
+                                        @if (item.description == null)
+                                        {
+                                            <span>Not Available</span>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.description)
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.startDate == defaultDate)
+                                        {
+                                            <span>Not Available</span>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.startDate)
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.startDate == defaultDate)
+                                        {
+                                            <span>Not Available</span>
+                                        }
+                                        else
+                                        {
+                                            @Html.DisplayFor(modelItem => item.endDate)
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <p>
+        <a asp-controller="Bids" asp-action="MyBids">My Bids</a>
+    </p>
+</div>

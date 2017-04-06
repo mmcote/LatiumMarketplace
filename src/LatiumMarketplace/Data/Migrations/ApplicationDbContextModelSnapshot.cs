@@ -126,7 +126,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<bool>("featuredItem");
 
-                    b.Property<string>("name");
+                    b.Property<string>("name")
+                        .IsRequired();
 
                     b.Property<string>("ownerID");
 
@@ -301,6 +302,8 @@ namespace LatiumMarketplace.Data.Migrations
 
                     b.Property<int?>("AssetId");
 
+                    b.Property<bool>("assetOwnerNotificationPending");
+
                     b.Property<int>("asset_id_model");
 
                     b.Property<string>("asset_name");
@@ -308,6 +311,8 @@ namespace LatiumMarketplace.Data.Migrations
                     b.Property<decimal>("bidPrice");
 
                     b.Property<string>("bidder");
+
+                    b.Property<bool>("bidderNotificationPending");
 
                     b.Property<bool>("chosen");
 

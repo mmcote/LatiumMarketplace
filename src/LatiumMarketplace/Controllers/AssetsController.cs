@@ -14,7 +14,8 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
-using System.Spatial;
+using System.Collections;
+
 
 namespace LatiumMarketplace.Controllers
 {
@@ -176,6 +177,7 @@ namespace LatiumMarketplace.Controllers
                 .AsNoTracking()
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
+            viewModel.Categories = _context.Category;
             // default
             //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
 
@@ -231,6 +233,7 @@ namespace LatiumMarketplace.Controllers
                 viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
             }
             SetCityViewBag();
+            SetCategoryViewBag();
             return View(viewModel);
         }
 
@@ -278,6 +281,19 @@ namespace LatiumMarketplace.Controllers
                     Secure = false
                 }
             );
+
+            if (asset.ImageGalleryId != null)
+            {
+                HttpContext.Response.Cookies.Append("imageGallaryId", asset.ImageGalleryId.ToString(),
+                    new CookieOptions()
+                    {
+                        Path = "/",
+                        HttpOnly = false,
+                        Secure = false
+                    }
+                );
+            }
+
             SetCategoryViewBag(asset.AssetCategories);
             SetMakeViewBag();
             SetCityViewBag();
@@ -495,8 +511,9 @@ namespace LatiumMarketplace.Controllers
 
 
 
+                // Save asset category to DB
+
                 await _context.SaveChangesAsync();
-               
 
                 return RedirectToAction("Index");
             }
@@ -560,22 +577,24 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
 
+                // Save asset category to DB
+                _context.AssetCategory.Add(AssetCategory);
+
+
                 //get subcategoryform if there is one
                 var mySubCategoryId = HttpContext.Request.Form["AssetSubCategories"];
-                if (mySubCategoryId.Count > 0)
+                if (!(String.IsNullOrEmpty(mySubCategoryId)))
                 {
                     var mySubCategoryIdNumVal = int.Parse(mySubCategoryId);
                     // Assign a subcategory to the asset
                     AssetCategory AssetSubCategory = new AssetCategory();
                     AssetSubCategory.AssetId = asset.assetID;
                     AssetSubCategory.CategoryId = mySubCategoryIdNumVal;
+
+                    // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
-
-
                 // Save asset category to DB
-                _context.AssetCategory.Add(AssetCategory);
-
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
@@ -612,8 +631,6 @@ namespace LatiumMarketplace.Controllers
                     .ThenInclude(a => a.Category)
                 .SingleOrDefaultAsync(m => m.assetID == id);
 
-            var makes = _context.Make.ToArray();
-
             if (asset == null)
             {
                 return NotFound();
@@ -622,7 +639,7 @@ namespace LatiumMarketplace.Controllers
             SetCategoryViewBag(asset.AssetCategories);
             SetMakeViewBag();
             SetCityViewBag();
-            
+            SetCategoryViewBag();
             return View(asset);
         }
         
@@ -634,8 +651,16 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">bind data from view for asset</param> 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,price, priceDaily,priceWeekly,priceMonthly,request,accessory")] Asset asset)
+        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,price, priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
         {
+            string imageGallaryIdString = HttpContext.Request.Cookies["imageGallaryId"];
+            int? imageGallaryId = 0;
+            try
+            {
+                imageGallaryId = int.Parse(imageGallaryIdString);
+            }
+            catch { }
+
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
             {
@@ -663,7 +688,33 @@ namespace LatiumMarketplace.Controllers
                     var myCityIdNumVal = int.Parse(myCityId);
                     asset.CityId = myCityIdNumVal;
 
+                    var myCategoryId = HttpContext.Request.Form["CategoryId"];
+                    var myCategoryIdNumVal = int.Parse(myCategoryId);
+
+                    if (imageGallaryId != 0)
+                    {
+                        asset.ImageGalleryId = imageGallaryId;
+                        asset.ImageGallery = _context.ImageGallery.Single(i => i.ImageGalleryId == imageGallaryId);
+                    }
+
                     _context.Update(asset);
+                    _context.SaveChanges();
+
+                    var updateAssetCategoriesAsset = _context.Asset.Include(s => s.AssetCategories).Single(a => a.assetID == asset.assetID);
+
+                    Category category = _context.Category.Single(s => s.CategoryId == myCategoryIdNumVal);
+                    //ICollection<AssetCategory> assetCategories = new List<AssetCategory>();
+                    AssetCategory assetCategory = new AssetCategory();
+                    assetCategory.AssetId = asset.assetID;
+                    assetCategory.Asset = asset;
+                    assetCategory.Category = category;
+                    assetCategory.CategoryId = category.CategoryId;
+                    //assetCategories.Add(assetCategory);
+                    //var existingCategories = _context.AssetCategory.Where(ac => ac.AssetId == asset.assetID);
+                    updateAssetCategoriesAsset.AssetCategories.Clear();
+                    updateAssetCategoriesAsset.AssetCategories.Add(assetCategory);
+
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

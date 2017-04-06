@@ -10,73 +10,79 @@
 
 </head><!--/head-->
 <script>
-    function postCity() {
-        console.log("In PostCity");
-        var cityName = $('#newCityName').val();
-        $.ajax({
-            url: '@Url.Action("PostCity", "AssetsApi")',
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(cityName),
-            success: function () {
-                console.log("Success");
-                var newRow = '<tr><td></td><td>' + cityName + '</td>';
+    $(document).ready(function () {
+        $("#addcity").submit(function (e) {
+            //---------------^---------------
+            e.preventDefault();
+            console.log("In PostCity");
+            var cityName = $('#newCityName').val();
+            $.ajax({
+                url: '@Url.Action("PostCity", "AssetsApi")',
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(cityName),
+                success: function () {
+                    console.log("Success");
+                    var newRow = '<tr><td></td><td>' + cityName + '</td>';
 
-                $("#cityTable tbody").append(newRow);
-                console.log("Finished");
-                $('#newCityName').val('');
-            },
-            error: function (error) {
-                var x = error; //break here for debugging.
-            }
+                    $("#cityTable tbody").append(newRow);
+                    console.log("Finished");
+                    $('#newCityName').val('');
+                },
+                error: function (error) {
+                    var x = error; //break here for debugging.
+                }
+            });
+            console.log("Test Done")
         });
-        console.log("Test Done")
-    }
+    });
 </script>
-<h2>Cities</h2>
-<br />
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <br />
-                <br />
-                <input id="newCityName" class="form-control" type="text" name="CityName" placeholder="New City">
-                <br />
-                <br />
-                <br />
-                <br />
-                <div class="form-group">
-                    <input onclick="postCity()" value="Add" class="btn btn-primary" />
+<div class="spaceUnderLogo">
+
+    <h2>Cities</h2>
+    <br />
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <br />
+                    <br />
+                    <form action="" method="POST" id="addcity" role="form">
+                        <input id="newCityName" class="form-control" type="text" name="CityName" placeholder="New City" required="required">
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-9 padding-right">
+                    <table id="cityTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CityId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CityId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col-sm-9 padding-right">
-                <table id="cityTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CityId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Name)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CityId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
         </div>
+    </section>
     </div>
-</section>

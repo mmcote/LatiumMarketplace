@@ -4,47 +4,50 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Current Discussions</h2>
+<div class="spaceUnderLogo">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Discussion with:
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastUpdateDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.asset.name)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            @if (item.RecieverEmail == User.Identity.Name)
+    <h2>Current Discussions</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Discussion with:
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastUpdateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.asset.name)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
             {
-                <td>
-                    @Html.DisplayFor(modelItem => item.SenderEmail)
-                </td>
+                <tr>
+                    @if (item.RecieverEmail == User.Identity.Name)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SenderEmail)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RecieverEmail)
+                        </td>
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastUpdateDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.asset.name)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.id">Messages</a>
+                    </td>
+                </tr>
             }
-            else
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.RecieverEmail)
-                </td>
-            }
-            <td>
-                @Html.DisplayFor(modelItem => item.LastUpdateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.asset.name)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.id">Messages</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

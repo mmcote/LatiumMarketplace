@@ -10,86 +10,85 @@
     var myURL = 'GetSubCategories';
 </script>
 
-<h2>Create</h2>
+<div class="spaceUnderLogo">
 
-<form asp-action="CreateReq">
-    <h4>Request</h4>
-    <hr />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="name" class="">Asset Name *</label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="duration" class="">Duration *</label>
-                <input asp-for="duration" class="form-control" required ="required" />
-                <span asp-validation-for="duration" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Make" class="">Make *</label>
-                @Html.DropDownList(
+    <h2>Create</h2>
+    <form asp-action="CreateReq">
+        <h4>Request</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="name" class="">Asset Name *</label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="duration" class="">Duration *</label>
+                    <input asp-for="duration" class="form-control" required="required" />
+                    <span asp-validation-for="duration" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Make" class="">Make *</label>
+                    @Html.DropDownList(
                     "Makes",
                     (SelectList)ViewBag.Makes,
                     "--- Select a make ---",
                     new { @class = "form-control", required = "required" }
                     )
-                <span asp-validation-for="Make" class="text-danger" />
-            </div>
-            <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
-            <div class="form-group">
-                <label asp-for="AssetCategories" class="">Category *</label>
-                @Html.DropDownList(
+                    <span asp-validation-for="Make" class="text-danger" />
+                </div>
+                <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
+                <div class="form-group">
+                    <label asp-for="AssetCategories" class="">Category *</label>
+                    @Html.DropDownList(
                     "AssetCategories",
                     (SelectList)ViewBag.AssetCategories,
                     "--- Select a category ---",
                     new { @class = "form-control", required = "required" }
                     )
-                <span asp-validation-for="AssetCategories" class="text-danger" />
-            </div>
-            <div class="form-group" id="subCategoryContainer">
-                <label class="">Sub-category</label>
-                <select class="form-control" id="AssetSubcategories" name="AssetSubcategories" required ="required"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="">Address *</label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="City" class="">City *</label>
-                @Html.DropDownList(
+                    <span asp-validation-for="AssetCategories" class="text-danger" />
+                </div>
+                <div class="form-group" id="subCategoryContainer">
+                    <label class="">Sub-category</label>
+                    <select class="form-control" id="AssetSubcategories" name="AssetSubcategories" required="required"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Address" class="">Address *</label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="City" class="">City *</label>
+                    @Html.DropDownList(
                     "Cities",
                     (SelectList)ViewBag.Cities,
                     "--- Select a city ---",
                     new { @class = "form-control", required = "required" }
                     )
-                <span asp-validation-for="City" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="description" class=""></label>
-                <textarea asp-for="description" rows="3" class="form-control"></textarea>
-                <span asp-validation-for="description" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <label asp-for="accessory" class=""></label>
-                <textarea asp-for="accessory" rows="3" class="form-control"></textarea>
-                <span asp-validation-for="accessory" class="text-danger" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <span asp-validation-for="City" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="description" class=""></label>
+                    <textarea asp-for="description" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="description" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="accessory" class=""></label>
+                    <textarea asp-for="accessory" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="accessory" class="text-danger" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
             </div>
         </div>
+    </form>
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
-
-</form>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    </div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

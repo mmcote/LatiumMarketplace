@@ -10,79 +10,89 @@
 
 </head><!--/head-->
 <script>
-    function postCateogry() {
-        console.log("In PostCategory");
-        var categoryName = $('#newCategoryName').val();
-        $.ajax({
-            url: '@Url.Action("PostCategory", "AssetsApi")',
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(categoryName),
-            success: function () {
-                console.log("Success");
-                var newRow = '<tr><td></td><td>' + categoryName + '</td><td></td>';
+    $(document).ready(function() {
+        $("#addcategory").submit(function(e) {
+            //---------------^---------------
+            e.preventDefault();
+            console.log("In PostCategory");
+            var categoryName = $('#newCategoryName').val();
+            var parentID = $('#ParentCategoryID').val();
+            var Category = { CategoryName: categoryName, ParentCategoryId: parentID}
+            $.ajax({
+                url: '@Url.Action("PostCategory", "AssetsApi")',
+                type: "POST",
+                contentType: "application/json;  charset=utf-8",
+                data: JSON.stringify(Category),
+                success: function () {
+                    console.log("Success");
+                    var newRow = '<tr><td></td><td>' + categoryName + '</td><td>'+ parentID + '</td>';
 
-                $("#categoryTable tbody").append(newRow);
-                console.log("Finished");
-                $('#newCategoryName').val('');
-            },
-            error: function (error) {
-                var x = error; //break here for debugging.
-            }
+                    $("#categoryTable tbody").append(newRow);
+                            console.log("Finished");
+                    $('#newCategoryName').val('');
+                        },
+                error: function (error) {
+                            var x = error; //break here for debugging.
+                        }
+                    });
+            console.log("Test Done")
         });
-        console.log("Test Done")
-    }
+    });
 </script>
-<h2>Categories</h2>
-<br />
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <br />
-                <br />
-                <input id="newCategoryName" class="form-control" type="text" name="CategoryName" placeholder="New Category">
-                <br />
-                <br />
-                <br />
-                <br />
-                <div class="form-group">
-                    <input onclick="postCateogry()" value="Add" class="btn btn-primary" />
+<div class="spaceUnderLogo">
+
+    <h2>Categories</h2>
+    <br />
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <br />
+                    <br />
+                    <form action="" method="POST" id="addcategory" role="form">
+                        <input id="newCategoryName" class="form-control" type="text" name="CategoryName" placeholder="New Category" required="required">
+                        <br />
+                        <input id="ParentCategoryID" class="form-control" type="text" name="ParentCategoryID" placeholder="Parent Cateogry ID">
+                        <br />
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-9 padding-right">
+                    <table id="categoryTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CategoryId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CategoryName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ParentCategory)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CategoryId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CategoryName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ParentCategory.CategoryName)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col-sm-9 padding-right">
-                <table id="categoryTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CategoryId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CategoryName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.ParentCategory)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CategoryName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.ParentCategory)
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
         </div>
+    </section>
     </div>
-</section>

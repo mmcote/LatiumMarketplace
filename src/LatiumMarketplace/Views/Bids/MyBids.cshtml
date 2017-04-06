@@ -11,86 +11,97 @@
         <link href="~/css/main.css" rel="stylesheet">
 </head>
 
-<h2> OUTBOX</h2>
-<p>the bids you've made</p>
-<section>
+<div class="spaceUnderLogo">
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3">
-                <form asp-controller="Bids" asp-action="MyBids" method="get">
-                    <p>
-                        Sort by : <br>
-                        <input type="radio" name="SortBy" value="asset"> Asset<br>
-                        <input type="radio" name="SortBy" value="request"> Request<br>
-                        <input type="submit" value="Filter" />
-                    </p>
-                </form>
+    <h2> OUTBOX</h2>
+    <p>the bids you've made</p>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <form asp-controller="Bids" asp-action="MyBids" method="get">
+                        <p>
+                            Sort by : <br>
+                            <input type="radio" name="SortBy" value="asset"> Asset<br>
+                            <input type="radio" name="SortBy" value="request"> Request<br>
+                            <input type="submit" value="Filter" />
+                        </p>
+                    </form>
                 </div>
-            <div class="col-sm-9 padding-right">
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                Asset Name
-                            </th>
-                            <th>
-                                Bid Price
-                            </th>
-                            <th>
-                                Start Date
-                            </th>
-                            <th>
-                                End Date
-                            </th>
-                            <th>
-                                Status
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.outbox)
-                        {
+                <div class="col-sm-9 padding-right">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.asset_name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.bidPrice)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.startDate)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.endDate)
-                                </td>
-                                <td>
-                                    @if (item.chosen == true)
-                                    {
-                                        <span class="label label-success">Success</span>
-                                    }
-                                    else if (item.assetOwnerNotificationPending == true)
-                                    {
-                                        <span class="label label-warning">Pending</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="label label-danger">Declined</span>
-                                    }
-                                </td>
+                                <th>
+                                    Asset Name
+                                </th>
+                                <th>
+                                    Bid Price
+                                </th>
+                                <th>
+                                    Start Date
+                                </th>
+                                <th>
+                                    End Date
+                                </th>
+                                <th>
+                                    Status
+                                </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.outbox)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.asset_name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.bidPrice)
+                                    </td>
+                                    <td>
+                                        @if (item.asset.price == 0)
+                                        {
+                                            @Html.DisplayFor(modelItem => item.startDate)
+                                        }
+                                        else
+                                        {
+                                            <span> Not Available</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.asset.price == 0)
+                                        {
+                                            @Html.DisplayFor(modelItem => item.endDate)                                        }
+                                        else
+                                        {
+                                            <span> Not Available</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.chosen == true)
+                                        {
+                                            <span class="label label-success">Success</span>
+                                        }
+                                        else if (item.assetOwnerNotificationPending == true)
+                                        {
+                                            <span class="label label-warning">Pending</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-danger">Declined</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-</section>
- 
-<p>
-    <a asp-controller="Bids" asp-action="Inbox">INBOX</a>
-</p>
+    </section>
 
-
-
+    <p>
+        <a asp-controller="Bids" asp-action="Inbox">INBOX</a>
+    </p>
+</div>

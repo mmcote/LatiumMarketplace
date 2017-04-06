@@ -24,6 +24,28 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    <link href="~/dist/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="~/dist/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Oswald:700|Poppins" rel="stylesheet">     
+    <style>
+        .nav li {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+
+        .poppinsFont {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .spaceUnderLogo {
+            margin-top: 5%;
+        }
+    </style>
+
 </head>
 <body>
     <div id="NotificationDiv"></div>
@@ -242,7 +264,36 @@
 
         </script>
     }
-    <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <script>
+        $('#imageLogo').hide();
+        $('#writtenLogo').hide();
+
+        $(window).ready(function () {
+            if ($(this).width() >= 1024) {
+                console.log("In the greater than.");    
+                $('#imageLogo').show();
+                $('#writtenLogo').hide();
+            } else {
+                $('#imageLogo').hide();
+                $('#writtenLogo').show();
+
+            }
+        }
+        );
+        $(window).resize(function () {
+
+            if ($(this).width() < 1024) {
+
+                $('#imageLogo').hide();
+                $('#writtenLogo').show();
+            } else {
+                $('#writtenLogo').hide();
+                $('#imageLogo').show();
+            }
+        });
+    </script>
+    <div class="navbar navbar-inverse navbar-fixed-top mainHeader">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -251,14 +302,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LatiumMarketplace</a>
+                <a id="imageLogo" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><img src="~/images/brand/logo.png" style="margin: -20px;"/></a>
+                <a id="writtenLogo" asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" style="margin: 12px">Latium Marketplace</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Assets" asp-action="Index">Marketplace</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index"><strong>Home</strong></a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About"><strong>About</strong></a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact"><strong>Contact</strong></a></li>
+                    <li><a asp-area="" asp-controller="Assets" asp-action="Index"><strong>Marketplace</strong></a></li>
 
                     @if (User.IsInRole("Administrator"))
                     {
