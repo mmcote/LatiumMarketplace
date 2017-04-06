@@ -197,6 +197,14 @@ namespace LatiumMarketplace.Controllers
                             list.Add(tempAsset);
                         }
                     }
+                    else
+                    {
+                        var winningBid = tempAsset.Bids.Single(b => b.assetOwnerNotificationPending == false && b.chosen == true);
+                        tempAsset.addDate = winningBid.endDate;
+                        _context.Update(tempAsset);
+                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch { }
             }
