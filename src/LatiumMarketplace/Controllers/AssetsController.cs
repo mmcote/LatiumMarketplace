@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
 using System.Collections;
 
+
 namespace LatiumMarketplace.Controllers
 {
     public class AssetsController : Controller
@@ -313,7 +314,9 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">binding view data for asset</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Create(
+            [Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")]
+            Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -341,7 +344,7 @@ namespace LatiumMarketplace.Controllers
                 var myCityIdNumVal = int.Parse(myCityId);
                 asset.CityId = myCityIdNumVal;
 
-                /* Add Images */
+                /* === Add Images === */
                 // Get images from form
                 var uploadedFiles = HttpContext.Request.Form.Files;
                 // Get the wwwroot folder
@@ -363,43 +366,43 @@ namespace LatiumMarketplace.Controllers
                     await _context.SaveChangesAsync();
                     //Get Id of recently added Image Gallery
                     ImageGalleryId = ImageGallery.ImageGalleryId;
-                }
 
-                foreach (var uploadedFile in uploadedFiles)
-                {
-                    if (uploadedFile != null && uploadedFile.Length > 0)
+                    foreach (var uploadedFile in uploadedFiles)
                     {
-                        var file = uploadedFile;
-                        if (file.Length > 0)
+                        if (uploadedFile != null && uploadedFile.Length > 0)
                         {
-                            // 1) Add image to DB
-                            Image Image = new Image();
-                            Image.ImageGalleryId = ImageGalleryId;
-                            Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
-                            _context.Add(Image);
-                            await _context.SaveChangesAsync();
-
-                            // 2) Get Id or Guid of recently added image from DB
-                            //int ImageId = Image.ImageId;
-                            Guid ImageGuid = Image.ImageGuid; // Better
-
-                            // 3) Save image to disk with Guid
-                            var fileName = ContentDispositionHeaderValue
-                                .Parse(file.ContentDisposition).FileName.Trim('"');
-                            // 3.1) Get File extension from file
-                            string fileExtesion = Path.GetExtension(fileName);
-                            // 3.2) Change file name to Guid
-                            fileName = ImageGuid + fileExtesion;
-                            Console.WriteLine(fileName);
-                            // 3.3) Save image to disk with new file name
-                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, fileName), FileMode.Create))
+                            var file = uploadedFile;
+                            if (file.Length > 0)
                             {
-                                await file.CopyToAsync(fileStream);
-                            }
-                            // 4) Update FileLink in DB 
-                            Image.FileLink = Path.Combine("images/uploads/assets/", fileName);
-                            await _context.SaveChangesAsync();
+                                // 1) Add image to DB
+                                Image Image = new Image();
+                                Image.ImageGalleryId = ImageGalleryId;
+                                Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
+                                _context.Add(Image);
+                                await _context.SaveChangesAsync();
 
+                                // 2) Get Id or Guid of recently added image from DB
+                                //int ImageId = Image.ImageId;
+                                Guid ImageGuid = Image.ImageGuid; // Better
+
+                                // 3) Save image to disk with Guid
+                                var fileName = ContentDispositionHeaderValue
+                                    .Parse(file.ContentDisposition).FileName.Trim('"');
+                                // 3.1) Get File extension from file
+                                string fileExtesion = Path.GetExtension(fileName);
+                                // 3.2) Change file name to Guid
+                                fileName = ImageGuid + fileExtesion;
+                                Console.WriteLine(fileName);
+                                // 3.3) Save image to disk with new file name
+                                using (var fileStream = new FileStream(Path.Combine(uploadsPath, fileName), FileMode.Create))
+                                {
+                                    await file.CopyToAsync(fileStream);
+                                }
+                                // 4) Update FileLink in DB 
+                                Image.FileLink = Path.Combine("images/uploads/assets/", fileName);
+                                await _context.SaveChangesAsync();
+
+                            }
                         }
                     }
                 }
@@ -439,7 +442,55 @@ namespace LatiumMarketplace.Controllers
                     // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
-                // Save asset category to DB
+
+                // Save categories to DB
+                await _context.SaveChangesAsync();
+
+                /* Add accessories to asset */
+                // Get accessories from form
+                var accessoryNames = HttpContext.Request.Form["accessoryName"];
+                var accessoryPrices = HttpContext.Request.Form["accessoryPrice"];
+
+                // Create accessory list only when there is at list one accessory
+                AccessoryList AccessoryList;
+                int AccessoryListId = -1;
+
+                int accessoriesLength2 = 0;
+                if (accessoryNames.Count() == accessoryPrices.Count() && accessoryNames.Count() > 0)
+                {
+                    accessoriesLength2 = accessoryNames.Count();
+                    AccessoryList = new AccessoryList();
+
+                    // Add accessory list to DB
+                    _context.Add(AccessoryList);
+                    await _context.SaveChangesAsync();
+
+                    //Get Id of recently added accessory list
+                    AccessoryListId = AccessoryList.AccessoryListId;
+
+                    for (int i = 0; i < accessoriesLength2; ++i)
+                    {
+                        Accessory Accessory = new Accessory();
+
+                        Accessory.AccessoryListId = AccessoryListId;
+
+                        Accessory.Title = accessoryNames[i];
+
+                        var priceNumVal = decimal.Parse(accessoryPrices[i]);
+                        Accessory.Price = priceNumVal;
+
+                        // Save accessory to DB
+                        _context.Add(Accessory);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                // Attach accessory list id to Asset if a new accessory list is created
+                if (AccessoryListId != -1)
+                {
+                    asset.AccessoryListId = AccessoryListId;
+                }
+                // Save asset to DB
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
