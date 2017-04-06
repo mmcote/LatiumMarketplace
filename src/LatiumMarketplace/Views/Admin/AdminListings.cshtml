@@ -1,4 +1,4 @@
-﻿@model LatiumMarketplace.Models.AssetViewModels.AssetLocation
+﻿@model LatiumMarketplace.Models.AssetViewModels.AssetIndexData
 
 
 @{
@@ -17,52 +17,98 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-sm-3">
+                <!-- ==== Begin left-bar ==== -->
+                <div class="col-md-3">
+                    @{
+                        if (Model.Assets.Count() != 0)
+                        {
+                            var request = Model.Assets.First().request;
+                            if (request == true)
+                            {
+                                <h3>REQUESTS</h3>
+                            }
+                            else
+                            {
+                                <h3>ASSETS</h3>
+                            }
+                        }
+
+                    }
+                    <!-- === Begin search form === -->
                     <form asp-controller="Admin" asp-action="AdminListings" method="get">
-                        <input class="form-control" type="text" name="SearchString" placeholder="Search"><br />
-                        <p>
-                            Search by Location: <select asp-for="assetLocation" asp-items="Model.locations">
-                                <option value="">All</option>
-                            </select>
-                        </p>
-                        <p>
-                            Sort by : <br>
-                            <input type="radio" name="SortBy" value="asset"> Asset<br>
+                        <input class="form-control" type="text" name="SearchString" placeholder="Search">
+                        <div class="">
+                            <label class="">Search by Location</label>
+                            @Html.DropDownList(
+                    "assetLocation",
+                    (SelectList)ViewBag.Cities,
+                    "--- Select a city ---",
+                    new { @class = "form-control" }
+                    )
+                        </div>
+                        <div class="sort-by">
+                            <h4>Sort by</h4>
+                            <input type="radio" name="SortBy" value="asset" checked> Asset<br>
                             <input type="radio" name="SortBy" value="request"> Request<br>
                             Most recent : <input type="checkbox" name="recent" value=true><br>
                             With accessory : <input type="checkbox" name="accessory" value=true><br>
                             Featured Item : <input type="checkbox" name="featuredItem" value=true><br>
                             <input type="submit" value="Filter" />
-                        </p>
+                        </div>
                         <div class="left-sidebar">
                             <h2>Category</h2>
                             <div class="panel-group category-products" id="accordian">
                                 <!--category-productsr-->
+
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordian" href="#truck">
-                                                <span class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                                Truck
-                                            </a>
-                                        </h4>
-                                    </div>
-                                    <div id="truck" class="panel-collapse collapse">
-                                        <div class="panel-body">
-                                            <ul>
-                                                <li><a href="#">GMC </a></li>
-                                                <li><a href="#">CHEV </a></li>
-                                                <li><a href="#">FORD </a></li>
-                                                <li><a href="#">HUMMER</a></li>
-                                                <li><a href="#">Made in china</a></li>
-                                            </ul>
+                                    @foreach (var maincategory in Model.Categories.Where(e => e.ParentCategoryId == null))
+                                    {
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordian" href="#@maincategory.CategoryId">
+                                                    <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                                    @maincategory.CategoryName
+                                                </a>
+                                            </h4>
                                         </div>
-                                    </div>
+                                        <div id="@maincategory.CategoryId" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                @foreach (var subcategory in Model.Categories.Where(e => e.ParentCategoryId == maincategory.CategoryId))
+                                                {
+
+                                                    <ul>
+                                                        <li><button type="submit" name="Categoryid" value="@subcategory.CategoryId" class="btn-link">@subcategory.CategoryName</button></li>
+                                                    </ul>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
+
+                            </div><!--/category-products-->
+                            <h2>Make</h2>
+                            <div class="panel-group category-products" id="accordian">
+                                <!--make-productsr-->
+
+                                <div class="panel panel-default">
+                                    @foreach (var make in Model.Makes)
+                                    {
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-parent="#accordian" href="@Url.Action("AdminListings", "Admin")?Makeid=@make.MakeId">
+                                                    @make.Name
+                                                </a>
+                                            </h4>
+                                        </div>
+                                    }
+                                </div>
+
                             </div><!--/category-products-->
                         </div>
                     </form>
+                    <!-- === End of search form === -->
                 </div>
+                <!-- ==== End left-bar ==== -->
                 <div class="col-sm-9 padding-right">
                     <table class="table">
                         <thead>
@@ -71,22 +117,19 @@
                                     Date Added
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].ownerName)
+                                    @Html.DisplayNameFor(model => model.Asset.ownerName)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].name)
+                                    @Html.DisplayNameFor(model => model.Asset.name)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].Address)
+                                    @Html.DisplayNameFor(model => model.Asset.Address)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].City)
+                                    @Html.DisplayNameFor(model => model.Asset.City)
                                 </th>
-                                @*<th>
-                                    @Html.DisplayNameFor(model => model.assets[0].description)
-                                </th>*@
                                 <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].accessory)
+                                    @Html.DisplayNameFor(model => model.Asset.accessory)
                                 </th>
                                 <th>
                                     Featured Item
@@ -95,7 +138,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.assets)
+                            @foreach (var item in Model.Assets)
                             {
                                 <tr>
                                     <td>
@@ -111,7 +154,7 @@
                                         @Html.DisplayFor(modelItem => item.Address)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.City)
+                                        @Html.DisplayFor(modelItem => item.City.Name)
                                     </td>
                                     @*<td>
                                         @Html.DisplayFor(modelItem => item.description)
@@ -132,7 +175,7 @@
                                         </td>
                                     }
                                     <td>
-                                        <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID">Details</a> |
+                                        <a asp-controller="Admin" asp-action="Details" asp-route-id="@item.assetID">Details</a> |
                                         <a asp-action="Delete" asp-route-id="@item.assetID"> Delete</a>
                                     </td>
                                 </tr>
