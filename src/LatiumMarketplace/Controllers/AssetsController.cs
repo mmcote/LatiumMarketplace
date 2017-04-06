@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
+using System.Spatial;
 
 namespace LatiumMarketplace.Controllers
 {
@@ -327,7 +328,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">binding view data for asset</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Create([Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset, ICollection<string> accessoryName, ICollection<string> accessoryPrice)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -453,6 +454,46 @@ namespace LatiumMarketplace.Controllers
                     // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
+
+
+                /* Add accessories to asset */
+
+                // Assign make to asset
+                //var myMakeId = HttpContext.Request.Form["Makes"];
+                //var myMakeIdNumVal = int.Parse(myMakeId);
+                //asset.MakeId = myMakeIdNumVal;
+
+                var accessoryNames = HttpContext.Request.Form["accessoryName"];
+                var accessoryPrices = HttpContext.Request.Form["accessoryPrice"];
+
+                //Dictionary<string, decimal> accessoryItems = new Dictionary<string, decimal>();
+
+                int accessoriesLength2 = 0;
+                if (accessoryNames.Count() == accessoryPrices.Count())
+                {
+                    accessoriesLength2 = accessoryNames.Count();
+                }
+
+
+                int accessoriesLength = 0;
+                if(accessoryName.Count() == accessoryPrice.Count())
+                {
+                    accessoriesLength = accessoryName.Count();
+                }
+
+                for (int i = 0; i < accessoriesLength; ++i)
+                {
+                    Accessory Accessory = new Accessory();
+                    //Accessory.
+                }
+
+
+
+
+
+
+
+
 
                 await _context.SaveChangesAsync();
                

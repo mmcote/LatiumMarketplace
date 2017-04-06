@@ -31,6 +31,8 @@
     }
 </style>
 
+
+
 @* Set the URL variable here since Razor syntax can't be included in JS files*@
 <script>
     //var myURL = '@Url.Action("GetSubCategories", "AssetsController")';
@@ -196,37 +198,48 @@
             </div>
             
         </div><!-- End left-bar -->
+        
         <!-- Begin right-bar -->
         <div class="col-md-6">
-            <div id="asset-accessories-radio-container" class="form-group">
-                <div><label>Do you have accessories?</label></div>
-                <label class="radio-inline">
-                    <input type="radio" name="addAccessoriesOptions" checked="checked" id="accessories-yes" class="asset-accessories-radio" value="Yes"> Yes
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="addAccessoriesOptions" id="accessories-no" class="asset-accessories-radio" value="No"> No
-                </label>
-            </div>
-            <!-- Begin accessories -->
-            <div id="accessories-container">
-                <div>
-                    <button type="button" id="add-accessory-item" class="btn btn-default btn-lg">Add Accessory</button>
-                </div>
-                <div class="accessory-item row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label>Accessory Name</label>
-                            <input type="text" class="form-control" />
+            <!-- Begin asset-accessories-container -->
+            <div id="asset-accessories-container">
+                <!-- Begin asset-accessories-radio-container -->
+                <div id="asset-accessories-radio-container" class="form-group">
+                    <div><label>Do you have accessories?</label></div>
+                    <label class="radio-inline">
+                        <input type="radio" name="addAccessoriesOptions" id="accessories-yes" class="asset-accessories-radio" value="Yes"> Yes
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="addAccessoriesOptions" checked="checked" id="accessories-no" class="asset-accessories-radio" value="No"> No
+                    </label>
+                </div><!-- End asset-accessories-radio-container -->
+                
+                <!-- Begin asset-accessories-content-container -->
+                <div id="asset-accessories-content-container">
+        
+                    <div class="accessory-item row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label>Accessory Name</label>
+                                <input type="text" class="form-control" name="accessoryName" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="text" class="form-control" name="accessoryPrice" value="" />
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success btn-add">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Price</label>
-                            <input type="text" class="form-control" />
-                        </div>
-                    </div>
-                </div>
-            </div><!-- End accessories -->
+                </div><!-- End asset-accessories-content-container -->
+            </div><!-- End asset-accessories-container -->
         </div><!-- End right-bar -->
     </div>
     <div class="row">

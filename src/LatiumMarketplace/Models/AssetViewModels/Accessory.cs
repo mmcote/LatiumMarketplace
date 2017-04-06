@@ -11,10 +11,13 @@ namespace LatiumMarketplace.Models.AssetViewModels
     {
         [Key]
         public int AccessoryId { get; set; }
-        public int? AccessoryListId { get; set; }
+        public string Title { get; set; }
+        public decimal Price { get; set; }
 
         // Navigation properties for one-to-many relationship between Accessory and AccessoryList.
         // One accessory has only one AccessoryList
+        public int? AccessoryListId { get; set; }
+        [ForeignKey("AccessoryListId")]
         public AccessoryList AccessoryList { get; set; }
     }
 }
