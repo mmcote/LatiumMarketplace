@@ -436,51 +436,35 @@ namespace LatiumMarketplace.Controllers
 
         }
 
-        /// <summary>
-        /// Accept a bid
-        /// </summary>
-        /// <param name="id">Bid ID of accpeted bid</param>
-        /// <returns>Returns to index</returns>
-        public async Task<IActionResult> Choose(int? id) {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            if (user == null)
-            {
-                return Redirect("/Account/Login");
-            }
-            var bid = _context.Bid.Single(s => s.bidId == id);
-            bid.chosen = true;
-            bid.assetOwnerNotificationPending = false;
-            bid.bidderNotificationPending = true;
+        ///// <summary>
+        ///// Accept a bid
+        ///// </summary>
+        ///// <param name="id">Bid ID of accpeted bid</param>
+        ///// <returns>Returns to index</returns>
+        //public async Task<IActionResult> Choose(int? id) {
+        //    var user = await _userManager.GetUserAsync(HttpContext.User);
+        //    if (user == null)
+        //    {
+        //        return Redirect("/Account/Login");
+        //    }
+        //    var bid = _context.Bid.Single(s => s.bidId == id);
+        //    bid.chosen = true;
+        //    bid.assetOwnerNotificationPending = false;
+        //    bid.bidderNotificationPending = true;
 
-            await _context.SaveChangesAsync();
+        //    await _context.SaveChangesAsync();
 
 
-            // This notification redirect URL should put the user to the discussion
-            string redirectURL = "/Bids/MyBids/";
-            Notification notification = new Notification(bid.asset_name,
-                "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
-            notification.type = 1;
-            Clients.Group(bid.bidder).AddNotificationToQueue(notification);
-            Clients.Group(bid.bidder).UpdateOverallNotificationCount();
+        //    // This notification redirect URL should put the user to the discussion
+        //    string redirectURL = "/Bids/MyBids/";
+        //    Notification notification = new Notification(bid.asset_name,
+        //        "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
+        //    notification.type = 1;
+        //    Clients.Group(bid.bidder).AddNotificationToQueue(notification);
+        //    Clients.Group(bid.bidder).UpdateOverallNotificationCount();
 
-            //Handles Request
-            if (bid.asset.request == true)
-            {
-                _context.Asset.Remove(bid.asset);
-            }
-            //Handles Rental
-            else if (bid.asset.price == 0)
-            {
-                bid.asset.addDate = bid.endDate;
-            }
-            //Handles Sale
-            else
-            {
-                _context.Asset.Remove(bid.asset);
-            }
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
 
         /// <summary>
         /// Bid Transaction Controller
@@ -532,9 +516,6 @@ namespace LatiumMarketplace.Controllers
             {
                 return NotFound();
             }
-
-
-
             return View(bid);
         }
 
