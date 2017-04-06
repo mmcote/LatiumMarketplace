@@ -20,28 +20,27 @@
 </head><!--/head-->
 <div class="container spaceUnderLogo">
     <div class="row">
-    @{
-        if (Model.Assets != null)
-        {
-            var request = Model.Assets.First().request;
-            if (request == true)
-            {
-                <h2>REQUESTS</h2>
-            }
-            else
-            {
-                <h2>ASSETS</h2>
-            }
-        }
-        else
-        {
-            <h2>ASSETS</h2>
-        }
-
-        }
-
         <!-- ==== Begin left-bar ==== -->
         <div class="col-md-3">
+            @{
+                if (Model.Assets != null)
+                {
+                    var request = Model.Assets.First().request;
+                    if (request == true)
+                    {
+                        <h2>REQUESTS</h2>
+                    }
+                    else
+                    {
+                        <h2>ASSETS</h2>
+                    }
+                }
+                else
+                {
+                    <h2>ASSETS</h2>
+                }
+
+            }
             <!-- Begin create action ==== -->
             @{if (User.Identity.IsAuthenticated)
                 {
@@ -49,14 +48,12 @@
                         <li><a asp-action="Create">Create New Asset</a></li>
                         <li><a asp-action="CreateReq">Create New Request</a></li>
                     </ul>
-
                 }
             }
             <!-- End of Create action === -->
             <!-- === Begin search form === -->
             <form asp-controller="Assets" asp-action="Index" method="get">
                 <input class="form-control" type="text" name="SearchString" placeholder="Search">
-
                 <div class="">
                     <label class="">Search by Location</label>
                     @Html.DropDownList(
