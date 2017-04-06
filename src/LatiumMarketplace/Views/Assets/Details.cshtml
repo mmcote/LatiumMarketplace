@@ -4,6 +4,13 @@
     ViewData["Title"] = "Details";
 }
 
+<style>
+    .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+        width: 350px;
+        height: 280px;
+    }
+</style>
+
 <h2>Details</h2>
 <p>
     <div>
@@ -124,7 +131,7 @@
                     <li class="col-sm-6 col-md-4 single-asset margin-bottom-30">
                         <div class="thumbnail">
                             <div class="detailimage">
-                                <img src="/@item.FileLink" alt="@item.ImageId" class="img-responsive resize" />
+                                <img src="/@item.FileLink" alt="@item.ImageId" style="width:100%" class="img-responsive resize" />
                             </div>
                         </div>
                     </li>
