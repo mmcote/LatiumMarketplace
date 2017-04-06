@@ -80,7 +80,7 @@
                                             else if (item.assetOwnerNotificationPending == true)
                                             {
                                                 <td>
-                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="acceptBid('@item.bidId.ToString()')" class="btn btn-outline-primary">Accept</button>
+                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="acceptBid('@item.bidId.ToString()');" class="btn btn-outline-primary">Accept</button>
                                                 </td>
                                                 <td>
                                                     <button id="@item.bidId.ToString()accept" type="button" onclick="declineBid('@item.bidId.ToString()')" class="btn btn-outline-primary">Decline</button>
@@ -110,7 +110,7 @@
             contentType: "application/json",
             data: JSON.stringify(bidId),
             success: function () {
-                window.location.reload();
+                window.location.replace("@Url.Action("Transaction", "Bids")");
             },
             error: function (error) {
                 console.log(error)

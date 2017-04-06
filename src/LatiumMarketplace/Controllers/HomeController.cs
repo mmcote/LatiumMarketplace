@@ -23,7 +23,10 @@ namespace LatiumMarketplace.Controllers
         public IActionResult Index()
         {
             var viewModel = new AssetIndexData();
-            viewModel.Assets = _context.Asset.Where(m => m.featuredItem == true);
+            viewModel.Assets = _context.Asset
+                .Include(a => a.ImageGallery)
+                    .ThenInclude(i => i.Images)
+                .Where(m => m.featuredItem == true);
           
             return View(viewModel);
         }

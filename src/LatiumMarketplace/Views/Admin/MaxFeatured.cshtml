@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Featured Limit";
+}
+
+<div class="spaceUnderLogo">
+    <h2>@ViewData["Title"].</h2>
+    <div>
+        <p>
+            Woah! Hold on there, you can only have a maximum of 4 featured items! Please delete one in order to add the item you wish to feature.
+            <br />
+            <a asp-controller="Admin" asp-action="AdminListings">Return to listings</a>.
+        </p>
+    </div>
+</div>

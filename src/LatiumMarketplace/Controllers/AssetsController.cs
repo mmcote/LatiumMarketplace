@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Net.Http.Headers;
 using System.Collections;
 
+
 namespace LatiumMarketplace.Controllers
 {
     public class AssetsController : Controller
@@ -102,62 +103,6 @@ namespace LatiumMarketplace.Controllers
             return View(assetLocatioinVM);
         }
 
-        /*
-        // GET: Assets
-        [AllowAnonymous]
-        public async Task<IActionResult> Index(string assetLocation, string searchString, string sortby, bool recent, bool accessory)
-        {
-            // Use LINQ to get list of genres.
-            IQueryable<string> locationQuery = from m in _context.Asset
-                                               orderby m.location
-                                               select m.location;
-            var assets = from m in _context.Asset
-                         select m;
-            switch (sortby)
-            {
-                case "request":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
-                    assets = assets.Where(s => s.request.Equals(true));
-                    break;
-                case "asset":
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
-                    assets = assets.Where(s => s.request.Equals(false));
-                    break;
-                case "all":
-                    assets = from m in _context.Asset
-                             select m;
-                    if (accessory == true)
-                    {
-                        assets = assets.Where(s => s.accessory != null);
-                    }
-                    break;
-            }
-            if (recent == true)
-            {
-                assets = assets.OrderByDescending(s => s.addDate);
-            }
-            if (!String.IsNullOrEmpty(assetLocation))
-            {
-                assets = assets.Where(x => x.location == assetLocation);
-            }
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                assets = assets.Where(x => x.name.Contains(searchString));
-            }
-            var assetLocatioinVM = new AssetLocation();
-            assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
-            assetLocatioinVM.assets = await assets.ToListAsync();
-            return View(assetLocatioinVM);
-            //return View(await assets.ToListAsync());
-        }
-        */
-
         /*============================ */
         
       
@@ -168,7 +113,9 @@ namespace LatiumMarketplace.Controllers
             var viewModel = new AssetIndexData();
             viewModel.Assets = await _context.Asset
                 .Include(a => a.AssetCategories)
-                    .ThenInclude(a => a.Category.ChildCategory)
+                    .ThenInclude(a => a.Category)
+                        .ThenInclude(c => c.ChildCategory)
+                .Include(a => a.Bids)
                 .Include(a => a.Make)
                 .Include(a => a.City)
                 .Include(a => a.ImageGallery)
@@ -177,8 +124,10 @@ namespace LatiumMarketplace.Controllers
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
             viewModel.Categories = _context.Category;
-            // default
-            //viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+
+            // default set to only assets first 
+            viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+
             if (Categoryid > 0)
             {
                 viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.CategoryId == Categoryid));
@@ -238,6 +187,33 @@ namespace LatiumMarketplace.Controllers
             {
                 viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
             }
+
+            List<Asset> list = new List<Asset>();
+            foreach (Asset tempAsset in viewModel.Assets)
+            {
+                try
+                {
+                    if (tempAsset.priceDaily == 0 && tempAsset.priceWeekly == 0 && tempAsset.priceMonthly == 0)
+                    {
+                        var winningBid = tempAsset.Bids.Where(b => b.assetOwnerNotificationPending == false && b.chosen == true);
+                        if (winningBid.Count() > 0)
+                        {
+                            list.Add(tempAsset);
+                        }
+                    }
+                    else
+                    {
+                        var winningBid = tempAsset.Bids.Single(b => b.assetOwnerNotificationPending == false && b.chosen == true);
+                        tempAsset.addDate = winningBid.endDate;
+                        _context.Update(tempAsset);
+                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                catch { }
+            }
+            viewModel.Assets = viewModel.Assets.Except(list);
+            
             SetCityViewBag();
             SetCategoryViewBag();
             return View(viewModel);
@@ -350,7 +326,9 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">binding view data for asset</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Create(
+            [Bind("assetID,addDate,description,duration,Address,name,ownerID,ownerName,price,priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")]
+            Asset asset)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -378,7 +356,7 @@ namespace LatiumMarketplace.Controllers
                 var myCityIdNumVal = int.Parse(myCityId);
                 asset.CityId = myCityIdNumVal;
 
-                /* Add Images */
+                /* === Add Images === */
                 // Get images from form
                 var uploadedFiles = HttpContext.Request.Form.Files;
                 // Get the wwwroot folder
@@ -400,43 +378,43 @@ namespace LatiumMarketplace.Controllers
                     await _context.SaveChangesAsync();
                     //Get Id of recently added Image Gallery
                     ImageGalleryId = ImageGallery.ImageGalleryId;
-                }
 
-                foreach (var uploadedFile in uploadedFiles)
-                {
-                    if (uploadedFile != null && uploadedFile.Length > 0)
+                    foreach (var uploadedFile in uploadedFiles)
                     {
-                        var file = uploadedFile;
-                        if (file.Length > 0)
+                        if (uploadedFile != null && uploadedFile.Length > 0)
                         {
-                            // 1) Add image to DB
-                            Image Image = new Image();
-                            Image.ImageGalleryId = ImageGalleryId;
-                            Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
-                            _context.Add(Image);
-                            await _context.SaveChangesAsync();
-
-                            // 2) Get Id or Guid of recently added image from DB
-                            //int ImageId = Image.ImageId;
-                            Guid ImageGuid = Image.ImageGuid; // Better
-
-                            // 3) Save image to disk with Guid
-                            var fileName = ContentDispositionHeaderValue
-                                .Parse(file.ContentDisposition).FileName.Trim('"');
-                            // 3.1) Get File extension from file
-                            string fileExtesion = Path.GetExtension(fileName);
-                            // 3.2) Change file name to Guid
-                            fileName = ImageGuid + fileExtesion;
-                            Console.WriteLine(fileName);
-                            // 3.3) Save image to disk with new file name
-                            using (var fileStream = new FileStream(Path.Combine(uploadsPath, fileName), FileMode.Create))
+                            var file = uploadedFile;
+                            if (file.Length > 0)
                             {
-                                await file.CopyToAsync(fileStream);
-                            }
-                            // 4) Update FileLink in DB 
-                            Image.FileLink = Path.Combine("images/uploads/assets/", fileName);
-                            await _context.SaveChangesAsync();
+                                // 1) Add image to DB
+                                Image Image = new Image();
+                                Image.ImageGalleryId = ImageGalleryId;
+                                Image.FileLink = Path.Combine("images/uploads/assets/", file.FileName);
+                                _context.Add(Image);
+                                await _context.SaveChangesAsync();
 
+                                // 2) Get Id or Guid of recently added image from DB
+                                //int ImageId = Image.ImageId;
+                                Guid ImageGuid = Image.ImageGuid; // Better
+
+                                // 3) Save image to disk with Guid
+                                var fileName = ContentDispositionHeaderValue
+                                    .Parse(file.ContentDisposition).FileName.Trim('"');
+                                // 3.1) Get File extension from file
+                                string fileExtesion = Path.GetExtension(fileName);
+                                // 3.2) Change file name to Guid
+                                fileName = ImageGuid + fileExtesion;
+                                Console.WriteLine(fileName);
+                                // 3.3) Save image to disk with new file name
+                                using (var fileStream = new FileStream(Path.Combine(uploadsPath, fileName), FileMode.Create))
+                                {
+                                    await file.CopyToAsync(fileStream);
+                                }
+                                // 4) Update FileLink in DB 
+                                Image.FileLink = Path.Combine("images/uploads/assets/", fileName);
+                                await _context.SaveChangesAsync();
+
+                            }
                         }
                     }
                 }
@@ -476,7 +454,55 @@ namespace LatiumMarketplace.Controllers
                     // Save asset subcategory to DB
                     _context.AssetCategory.Add(AssetSubCategory);
                 }
-                // Save asset category to DB
+
+                // Save categories to DB
+                await _context.SaveChangesAsync();
+
+                /* Add accessories to asset */
+                // Get accessories from form
+                var accessoryNames = HttpContext.Request.Form["accessoryName"];
+                var accessoryPrices = HttpContext.Request.Form["accessoryPrice"];
+
+                // Create accessory list only when there is at list one accessory
+                AccessoryList AccessoryList;
+                int AccessoryListId = -1;
+
+                int accessoriesLength2 = 0;
+                if (accessoryNames.Count() == accessoryPrices.Count() && accessoryNames.Count() > 0)
+                {
+                    accessoriesLength2 = accessoryNames.Count();
+                    AccessoryList = new AccessoryList();
+
+                    // Add accessory list to DB
+                    _context.Add(AccessoryList);
+                    await _context.SaveChangesAsync();
+
+                    //Get Id of recently added accessory list
+                    AccessoryListId = AccessoryList.AccessoryListId;
+
+                    for (int i = 0; i < accessoriesLength2; ++i)
+                    {
+                        Accessory Accessory = new Accessory();
+
+                        Accessory.AccessoryListId = AccessoryListId;
+
+                        Accessory.Title = accessoryNames[i];
+
+                        var priceNumVal = decimal.Parse(accessoryPrices[i]);
+                        Accessory.Price = priceNumVal;
+
+                        // Save accessory to DB
+                        _context.Add(Accessory);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                // Attach accessory list id to Asset if a new accessory list is created
+                if (AccessoryListId != -1)
+                {
+                    asset.AccessoryListId = AccessoryListId;
+                }
+                // Save asset to DB
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
