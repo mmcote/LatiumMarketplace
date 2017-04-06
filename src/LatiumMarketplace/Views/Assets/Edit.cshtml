@@ -49,12 +49,7 @@
                     <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
                     <div class="form-group">
                         <label asp-for="AssetCategories" class="">Category</label>
-                        @Html.DropDownList(
-                    "AssetCategories",
-                    (SelectList)ViewBag.AssetCategories,
-                    "--- Select a category ---",
-                    new { @class = "form-control" }
-                    )
+                        @Html.DropDownListFor(Model => Model.AssetCategories.First().CategoryId, (SelectList)ViewBag.AssetCategories, new { @class = "form-control" })
                         <span asp-validation-for="AssetCategories" class="text-danger" />
                     </div>
                     <div class="form-group">
