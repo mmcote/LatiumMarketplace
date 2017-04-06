@@ -3,7 +3,7 @@
     ViewData["Title"] = "Home Page";
 }
 <style>
-    .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    .assetImage {
         width: 350px;
         height: 280px;
     }
@@ -103,7 +103,7 @@
                                     <div class="asset-image-container">
                                         <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
                                             <div class="imageItem">
-                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="@item.name" class="img-responsive resize" />
+                                                <img src="@item.ImageGallery.Images.First().FileLink" alt="@item.name" class="assetImage img-responsive resize" />
                                             </div>
                                         </a>
                                     </div>
@@ -113,7 +113,7 @@
                                     <div class="asset-image-container">
                                         <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
                                             <img src="~/images/preview-not-available.jpg"  alt="No asset image"
-                                                 class="img-responsive" />
+                                                 class="assetImage img-responsive" />
                                         </a>
                                     </div>
                                 }
@@ -123,7 +123,7 @@
                                 <div class="asset-image-container">
                                     <a asp-controller="Assets" asp-action="Details" asp-route-id="@item.assetID" class="">
                                         <img src="~/images/preview-not-available.jpg" alt="No asset image"
-                                             class="img-responsive" />
+                                             class="assetImage img-responsive" />
                                     </a>
                                 </div>
                             }
