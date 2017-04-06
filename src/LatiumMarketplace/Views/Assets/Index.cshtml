@@ -22,7 +22,7 @@
     <div class="row">
         
         @{
-            if (Model.Assets != null)
+            if (Model.Assets.Count() != 0)
             {
                 var request = Model.Assets.First().request;
                 
@@ -35,6 +35,12 @@
                     <h2>ASSETS</h2>
                 }
             }
+            else
+            {
+                <h2>ASSETS</h2>
+
+            }
+
         }
         <!-- ==== Begin left-bar ==== -->
         <div class="col-md-3">
