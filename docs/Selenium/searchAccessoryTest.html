@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="https://localhost:44376/" />
-<title>AddAsset</title>
+<link rel="selenium.base" href="https://latium.omm10.com/" />
+<title>searchAccessoryTest</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">AddAsset</td></tr>
+<tr><td rowspan="1" colspan="3">searchAccessoryTest</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,13 +18,13 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Log in</td>
+	<td>//ul[2]/li[2]/a/strong</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=Email</td>
-	<td>test@test.com</td>
+	<td>simplyvicky15@gmail.com</td>
 </tr>
 <tr>
 	<td>type</td>
@@ -37,8 +37,13 @@
 	<td></td>
 </tr>
 <tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>simplyvicky15@gmail.com</td>
+</tr>
+<tr>
 	<td>clickAndWait</td>
-	<td>link=Marketplace</td>
+	<td>//li[4]/a/strong</td>
 	<td></td>
 </tr>
 <tr>
@@ -47,29 +52,24 @@
 	<td></td>
 </tr>
 <tr>
-	<td>click</td>
-	<td>id=for-sale</td>
-	<td></td>
-</tr>
-<tr>
 	<td>type</td>
 	<td>id=name</td>
-	<td>Big Rig</td>
+	<td>white car</td>
 </tr>
 <tr>
 	<td>select</td>
 	<td>id=Makes</td>
-	<td>label=BMW</td>
+	<td>label=HONDA</td>
 </tr>
 <tr>
 	<td>select</td>
 	<td>id=AssetCategories</td>
-	<td>label=Car</td>
+	<td>label=Lambo</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=Address</td>
-	<td>Ardmore</td>
+	<td>here</td>
 </tr>
 <tr>
 	<td>select</td>
@@ -79,17 +79,27 @@
 <tr>
 	<td>type</td>
 	<td>id=description</td>
-	<td>This is a description</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=accessory</td>
-	<td>This is an accessory</td>
+	<td>none</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=price</td>
-	<td>0.05</td>
+	<td>4000.000</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=accessories-yes</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=accessoryName</td>
+	<td>belt</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=accessoryPrice</td>
+	<td>100.00</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -99,11 +109,21 @@
 <tr>
 	<td>verifyTextPresent</td>
 	<td></td>
-	<td>Big Rig</td>
+	<td>white</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>xpath=(//button[@type='button'])[2]</td>
+	<td>name=accessory</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=userNavButton</td>
 	<td></td>
 </tr>
 <tr>

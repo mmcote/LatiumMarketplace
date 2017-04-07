@@ -7,20 +7,36 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class CheckRedirectToAbout(unittest.TestCase):
+class FeatureItemTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "https://localhost:44376/"
+        self.base_url = "https://latium.omm10.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_check_redirect_to_about(self):
+    def test_feature_item(self):
         driver = self.driver
         driver.get(self.base_url + "/")
-        driver.find_element_by_link_text("About").click()
-        try: self.assertTrue(self.is_element_present(By.ID, "AboutTitle"))
+        driver.find_element_by_xpath("//ul[2]/li[2]/a/strong").click()
+        driver.find_element_by_id("Password").clear()
+        driver.find_element_by_id("Password").send_keys("abc123ABC123&")
+        driver.find_element_by_id("Email").clear()
+        driver.find_element_by_id("Email").send_keys("test@test.com")
+        driver.find_element_by_id("loginButton").click()
+        driver.find_element_by_xpath("//li[5]/a/strong").click()
+        driver.find_element_by_link_text("All Listings").click()
+        driver.find_element_by_xpath("(//a[contains(text(),'Add')])[2]").click()
+        driver.find_element_by_css_selector("strong").click()
+        driver.find_element_by_xpath("//li[5]/a/strong").click()
+        driver.find_element_by_link_text("All Listings").click()
+        driver.find_element_by_xpath("(//a[contains(text(),'Add')])[2]").click()
+        driver.find_element_by_css_selector("strong").click()
+        # Warning: verifyTextPresent may require manual changes
+        try: self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         except AssertionError as e: self.verificationErrors.append(str(e))
+        driver.find_element_by_id("userNavButton").click()
+        driver.find_element_by_link_text("Log Off").click()
     
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)

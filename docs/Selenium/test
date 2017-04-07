@@ -3,13 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="https://localhost:44376/" />
-<title>AddRequest</title>
+<link rel="selenium.base" href="https://latium.omm10.com/" />
+<title>test</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">AddRequest</td></tr>
+<tr><td rowspan="1" colspan="3">test</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,18 +18,18 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Log in</td>
+	<td>//ul[2]/li[2]/a/strong</td>
 	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=Email</td>
-	<td>test@test.com</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=Password</td>
 	<td>abc123ABC123&amp;</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=Email</td>
+	<td>test@test.com</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
@@ -38,33 +38,38 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Marketplace</td>
+	<td>//li[4]/a/strong</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Create New Request</td>
+	<td>link=Create New Asset</td>
 	<td></td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=name</td>
-	<td>I need a big rig</td>
+	<td>Country Farm Truck</td>
 </tr>
 <tr>
 	<td>select</td>
 	<td>id=Makes</td>
-	<td>label=BMW</td>
+	<td>label=FORD</td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td></td>
+	<td>Country </td>
 </tr>
 <tr>
 	<td>select</td>
 	<td>id=AssetCategories</td>
-	<td>label=Car</td>
+	<td>label=Truck</td>
 </tr>
 <tr>
 	<td>type</td>
 	<td>id=Address</td>
-	<td>Ardmore</td>
+	<td>here</td>
 </tr>
 <tr>
 	<td>select</td>
@@ -74,26 +79,26 @@
 <tr>
 	<td>type</td>
 	<td>id=description</td>
-	<td>Bigger the rig, better the rig</td>
+	<td>yes</td>
 </tr>
 <tr>
 	<td>type</td>
-	<td>id=accessory</td>
-	<td>none</td>
+	<td>id=price</td>
+	<td>1000.00</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>css=input.btn.btn-default</td>
+	<td>css=input.btn.btn-primary</td>
 	<td></td>
 </tr>
 <tr>
-	<td>verifyTextPresent</td>
+	<td>clickAndWait</td>
+	<td>css=strong</td>
 	<td></td>
-	<td>I need a big rig</td>
 </tr>
 <tr>
 	<td>click</td>
-	<td>xpath=(//button[@type='button'])[2]</td>
+	<td>id=userNavButton</td>
 	<td></td>
 </tr>
 <tr>

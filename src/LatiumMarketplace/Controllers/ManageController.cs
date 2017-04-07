@@ -397,12 +397,14 @@ namespace LatiumMarketplace.Controllers
                 {
                     AddErrors(result);
                 }
+
+                _context.Update(user);
+                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
-         
-
-        #region Helpers
+   #region Helpers
 
         private void AddErrors(IdentityResult result)
         {

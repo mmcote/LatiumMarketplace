@@ -7,44 +7,54 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class AddAsset(unittest.TestCase):
+class RentGoogleSearchTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "https://localhost:44376/"
+        self.base_url = "https://latium.omm10.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_add_asset(self):
+    def test_rent_google_search(self):
         driver = self.driver
         driver.get(self.base_url + "/")
-        driver.find_element_by_link_text("Log in").click()
-        driver.find_element_by_id("Email").clear()
-        driver.find_element_by_id("Email").send_keys("test@test.com")
+        driver.find_element_by_xpath("//ul[2]/li[2]/a/strong").click()
         driver.find_element_by_id("Password").clear()
         driver.find_element_by_id("Password").send_keys("abc123ABC123&")
+        driver.find_element_by_id("Email").clear()
+        driver.find_element_by_id("Email").send_keys("test@test.com")
         driver.find_element_by_id("loginButton").click()
-        driver.find_element_by_link_text("Marketplace").click()
+        driver.find_element_by_xpath("//li[4]/a/strong").click()
         driver.find_element_by_link_text("Create New Asset").click()
-        driver.find_element_by_id("for-sale").click()
-        driver.find_element_by_id("name").clear()
-        driver.find_element_by_id("name").send_keys("Big Rig")
-        Select(driver.find_element_by_id("Makes")).select_by_visible_text("BMW")
-        Select(driver.find_element_by_id("AssetCategories")).select_by_visible_text("Car")
-        driver.find_element_by_id("Address").clear()
-        driver.find_element_by_id("Address").send_keys("Ardmore")
-        Select(driver.find_element_by_id("Cities")).select_by_visible_text("Edmonton")
-        driver.find_element_by_id("description").clear()
-        driver.find_element_by_id("description").send_keys("This is a description")
-        driver.find_element_by_id("accessory").clear()
-        driver.find_element_by_id("accessory").send_keys("This is an accessory")
-        driver.find_element_by_id("price").clear()
-        driver.find_element_by_id("price").send_keys("0.05")
-        driver.find_element_by_css_selector("input.btn.btn-primary").click()
         # Warning: verifyTextPresent may require manual changes
         try: self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         except AssertionError as e: self.verificationErrors.append(str(e))
-        driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
+        driver.find_element_by_id("name").clear()
+        driver.find_element_by_id("name").send_keys("cool submarine")
+        Select(driver.find_element_by_id("Makes")).select_by_visible_text("BMW")
+        Select(driver.find_element_by_id("AssetCategories")).select_by_visible_text("Lambo")
+        driver.find_element_by_id("Address").clear()
+        driver.find_element_by_id("Address").send_keys("here")
+        Select(driver.find_element_by_id("Cities")).select_by_visible_text("Vancouver")
+        driver.find_element_by_id("description").clear()
+        driver.find_element_by_id("description").send_keys("yes")
+        driver.find_element_by_id("for-rent").click()
+        driver.find_element_by_xpath("//div[@id='asset-create-options-form']/label[2]").click()
+        driver.find_element_by_id("priceDaily").clear()
+        driver.find_element_by_id("priceDaily").send_keys("20.00")
+        driver.find_element_by_id("priceWeekly").clear()
+        driver.find_element_by_id("priceWeekly").send_keys("40.00")
+        driver.find_element_by_id("priceMonthly").clear()
+        driver.find_element_by_id("priceMonthly").send_keys("100.00")
+        driver.find_element_by_name("AssetImages").clear()
+        driver.find_element_by_name("AssetImages").send_keys("/Users/V1CTORIA2LEE/Desktop/sub.jpeg")
+        driver.find_element_by_css_selector("input.btn.btn-primary").click()
+        driver.find_element_by_css_selector("img").click()
+        driver.find_element_by_id("1").click()
+        driver.find_element_by_name("SearchString").clear()
+        driver.find_element_by_name("SearchString").send_keys("cool")
+        driver.find_element_by_xpath("//button[@type='submit']").click()
+        driver.find_element_by_id("userNavButton").click()
         driver.find_element_by_link_text("Log Off").click()
     
     def is_element_present(self, how, what):

@@ -70,7 +70,25 @@
                 @Html.DisplayNameFor(model => model.accessory)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.accessory)
+                @if (Model.accessory != null)
+                {
+                    @Html.DisplayNameFor(model => model.accessory)
+                }
+                @if (Model.AccessoryListId != null)
+                {
+                    @if (Model.AccessoryList.Accessories.Any(e => e.AccessoryListId == Model.AccessoryListId))
+                    {
+                        <div class="col-md-9">
+                            <ul>
+                                @*Show all images in gallery*@
+                                @foreach (var item in Model.AccessoryList.Accessories.Where(e => e.AccessoryListId == Model.AccessoryListId))
+                    {
+                                    <li>@item.Title</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                }
             </dd>
             @{
                 if (Model.request == false)
@@ -91,19 +109,40 @@
                             @Html.DisplayNameFor(model => model.priceDaily)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.priceDaily)
+                            @if (Model.priceDaily > 0)
+                            {
+                                @Html.DisplayFor(model => model.priceDaily)
+                            }
+                            else
+                            {
+                                <span>Not Available</span>
+                            }
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.priceMonthly)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.priceMonthly)
+                            @if (Model.priceMonthly > 0)
+                            {
+                                @Html.DisplayFor(model => model.priceMonthly)
+                            }
+                            else
+                            {
+                                <span>Not Available</span>
+                            }
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.priceWeekly)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.priceWeekly)
+                            @if (Model.priceWeekly > 0)
+                            {
+                                @Html.DisplayFor(model => model.priceWeekly)
+                            }
+                            else
+                            {
+                                <span>Not Available</span>
+                            }
                         </dd>
                     }
 
@@ -131,7 +170,6 @@
                         }
                     </ul>
                 </div>
-
             }
             else
             {
