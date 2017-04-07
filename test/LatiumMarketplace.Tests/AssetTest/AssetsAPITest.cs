@@ -21,7 +21,7 @@ namespace LatiumMarketplace.Tests.AssetTest
         public void testGetAllAssets()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "API_GetInd_Database")
+                .UseInMemoryDatabase(databaseName: "API_GetInd01_Database")
                 .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -59,9 +59,10 @@ namespace LatiumMarketplace.Tests.AssetTest
         public void testGetAssetId()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "API_GetInd_Database")
+                .UseInMemoryDatabase(databaseName: "API_GetInd02_Database")
                 .Options;
 
+            int id = 0;
             using (var context = new ApplicationDbContext(options))
             {
                 var controller = new AssetsAPIController(context);
@@ -69,6 +70,9 @@ namespace LatiumMarketplace.Tests.AssetTest
                 asset.name = "TestAsset01";
                 context.Asset.Add(asset);
                 context.SaveChanges();
+
+                var assetRetrieved = context.Asset.Single(a => a.name == asset.name);
+                id = assetRetrieved.assetID;
                 var assetList = context.Asset.ToList();
                 Assert.True(assetList.Count == 1);
             }
@@ -76,7 +80,7 @@ namespace LatiumMarketplace.Tests.AssetTest
             using (var context = new ApplicationDbContext(options))
             {
                 var controller = new AssetsAPIController(context);
-                var result = (OkObjectResult)controller.GetAsset(1);
+                var result = (OkObjectResult)controller.GetAsset(id);
                 Asset asset = (Asset)result.Value;
                 Assert.True(asset.name == "TestAsset01");
             }
@@ -86,7 +90,7 @@ namespace LatiumMarketplace.Tests.AssetTest
         public void testPostAsset()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "API_GetInd_Database")
+                .UseInMemoryDatabase(databaseName: "API_GetInd03_Database")
                 .Options;
 
             using (var context = new ApplicationDbContext(options))

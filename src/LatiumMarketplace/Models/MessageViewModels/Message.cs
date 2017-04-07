@@ -48,6 +48,12 @@ namespace LatiumMarketplace.Models.MessageViewModels
             SenderUnread = senderUnread;
         }
 
+        public Message(string subject, string body)
+        {
+            Subject = subject;
+            Body = body;
+        }
+
         [Key]
         public Guid id { get; set; }
 

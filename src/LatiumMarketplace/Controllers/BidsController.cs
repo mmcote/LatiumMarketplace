@@ -228,7 +228,7 @@ namespace LatiumMarketplace.Controllers
                 await _context.SaveChangesAsync();
 
                 // This notification redirect URL should put the user to the discussion
-                string redirectURL = "/Bids/MyBids/";
+                string redirectURL = "/Bids/Inbox/";
                 Notification notification = new Notification(bid.asset_name,
                     "There has been a new bid placed on your asset, " + bid.asset_name + ".", redirectURL);
                 notification.type = 1;

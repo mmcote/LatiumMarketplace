@@ -33,6 +33,8 @@ namespace LatiumMarketplace.Controllers
     {
         private IMessageRepository _messageRepository;
         private IMessageThreadRepository _messageThreadRepository;
+        private IMessageRepository messageRepo;
+        private IMessageThreadRepository messageThreadRepo;
 
         public MessagesAPIController(IMessageRepository messageRepository, IMessageThreadRepository messageThreadRepository, IConnectionManager connectionManager)
             : base(connectionManager)

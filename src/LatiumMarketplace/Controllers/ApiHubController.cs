@@ -19,8 +19,12 @@ namespace LatiumMarketplace.Controllers
         protected ApiHubController(IConnectionManager signalRConnectionManager)
         {
             var _hub = signalRConnectionManager.GetHubContext<T>();
-            Clients = _hub.Clients;
-            Groups = _hub.Groups;
+            try
+            {
+                Clients = _hub.Clients;
+                Groups = _hub.Groups;
+            }
+            catch { }
         }
     }
 }
