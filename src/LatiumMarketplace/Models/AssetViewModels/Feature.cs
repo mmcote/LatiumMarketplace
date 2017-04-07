@@ -11,14 +11,8 @@ namespace LatiumMarketplace.Models.AssetViewModels
         /// This holds the features of given asset.
         /// </summary>
         public int FeatureId { get; set; }
-        public int Year { get; set; }
-        public string Cab { get; set; }
-        public int Seats { get; set; }
-        public int Odometer { get; set; }
-        public decimal EngineHours { get; set; }
-        public int NumberOfAxels { get; set; }
-        public decimal FluelTankCapicity { get; set; }
-        public bool IsForWheelDrive { get; set; }
+        public string FeatureName { get; set; }
+        public string ShortDescription { get; set; }
 
         // Navigation properties for many-to-many relationship between
         // Asset and Feature.
