@@ -83,11 +83,15 @@
                                 @*Show all images in gallery*@
                                 @foreach (var item in Model.AccessoryList.Accessories.Where(e => e.AccessoryListId == Model.AccessoryListId))
                     {
-                                    <li>@item.Title</li>
+                                    <li>@item.Title $@item.Price</li>
                                 }
                             </ul>
                         </div>
                     }
+                }
+                else
+                {
+                    <span>Not Available</span>
                 }
             </dd>
             @{
