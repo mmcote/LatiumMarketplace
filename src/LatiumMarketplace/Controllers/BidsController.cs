@@ -151,7 +151,7 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View with created bid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid, decimal accessoryCharge)
+        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -179,7 +179,7 @@ namespace LatiumMarketplace.Controllers
                 // Calculate Price
                 if (bid.asset.price > (decimal)0.00)
                 {
-                    bid.bidPrice = bid.asset.price;
+                    bid.bidPrice += bid.asset.price;
                 }
                 else
                 {
@@ -189,7 +189,7 @@ namespace LatiumMarketplace.Controllers
                     {
                         month = (int)numDays / 30;
                         remain = (int)numDays % 30;
-                        bid.bidPrice = (bid.asset.priceMonthly * month);
+                        bid.bidPrice += (bid.asset.priceMonthly * month);
                     }
                     if (bid.asset.priceWeekly > (decimal)0.00)
                     {
@@ -198,27 +198,27 @@ namespace LatiumMarketplace.Controllers
                         {
                             week = remain / 7;
                             remain = remain % 7;
-                            bid.bidPrice = bid.bidPrice + (bid.asset.priceWeekly * week);
+                            bid.bidPrice += (bid.asset.priceWeekly * week);
                         }
                         // Monthly rental not available
                         else if (bid.bidPrice == (decimal)0.00)
                         {
                             week = (int)numDays / 7;
                             remain = (int)numDays % 7;
-                            bid.bidPrice = (bid.asset.priceWeekly * week);
+                            bid.bidPrice += (bid.asset.priceWeekly * week);
                         }
                     }
                     if (bid.asset.priceDaily > (decimal)0.00)
                     {
                         if (remain > 0)
                         {
-                            bid.bidPrice = bid.bidPrice + (bid.asset.priceDaily * remain);
+                            bid.bidPrice += (bid.asset.priceDaily * remain);
                             remain = 0;
                         }
                         // Monthly and Weekly rental not available
                         else if (bid.bidPrice == (decimal)0.00)
                         {
-                            bid.bidPrice = (bid.asset.priceDaily * (int)numDays);
+                            bid.bidPrice += (bid.asset.priceDaily * (int)numDays);
                             remain = 0;
                         }
                     }
@@ -228,17 +228,13 @@ namespace LatiumMarketplace.Controllers
                         if (bid.asset.priceWeekly > (decimal)0.00)
                         {
 
-                            bid.bidPrice = bid.bidPrice + bid.asset.priceWeekly;
+                            bid.bidPrice += bid.asset.priceWeekly;
                         }
                         else
                         {
-                            bid.bidPrice = bid.bidPrice + bid.asset.priceMonthly;
+                            bid.bidPrice += bid.asset.priceMonthly;
                         }
                     }
-                }
-                if (accessoryCharge > 0)
-                {
-                    bid.bidPrice = bid.bidPrice + accessoryCharge;
                 }
 
 
