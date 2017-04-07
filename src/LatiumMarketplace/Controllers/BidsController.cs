@@ -97,11 +97,23 @@ namespace LatiumMarketplace.Controllers
         /// </summary>
         /// <param name="assetId">Asset Id</param>
         /// <returns>View of bid</returns>
-        public IActionResult Create_Asset_Bid(int assetId)
+        public IActionResult Create_Asset_Bid(int assetId, decimal bidAccessories)
         {
             Bid bid = new Bid();
-            var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
-            bid.asset = Bid_asset;
+            var asset = _context.Asset
+                .Include(a => a.Make)
+                .Include(a => a.City)
+                .Include(a => a.AssetCategories)
+                .ThenInclude(a => a.Category)
+                .Include(a => a.AccessoryList)
+                .ThenInclude(a => a.Accessories)
+                .Include(a => a.ImageGallery)
+                .ThenInclude(a => a.Images)
+                .Single(m => m.assetID == assetId);
+
+
+            //var Bid_asset = _context.Asset.Single(s => s.assetID == assetId);
+            bid.asset = asset;
 
             DateTime current = DateTime.Now;
             if ((DateTime.Now - bid.asset.addDate).TotalDays > 0)
@@ -113,6 +125,8 @@ namespace LatiumMarketplace.Controllers
                 bid.startDate = bid.asset.addDate;
             }
             bid.endDate = bid.startDate.AddDays(1);
+
+
 
             HttpContext.Response.Cookies.Append("assetId", assetId.ToString(),
                 new CookieOptions()
@@ -260,7 +274,7 @@ namespace LatiumMarketplace.Controllers
             var MyBids = _context.Bid.Where(s => s.bidder == user.UserName); // everything you bid on
             var OtherBids = _context.Bid.Where(s => s.asset.ownerID == userId); //shows only his assets that have bids on them
             var my_Assets = _context.Asset.Where(s => s.assetID != 0); // get all assets
-            foreach(Bid bid in MyBids)
+            foreach (Bid bid in MyBids)
             {
                 bid.bidderNotificationPending = false;
             }
@@ -436,42 +450,13 @@ namespace LatiumMarketplace.Controllers
 
         }
 
-        ///// <summary>
-        ///// Accept a bid
-        ///// </summary>
-        ///// <param name="id">Bid ID of accpeted bid</param>
-        ///// <returns>Returns to index</returns>
-        //public async Task<IActionResult> Choose(int? id) {
-        //    var user = await _userManager.GetUserAsync(HttpContext.User);
-        //    if (user == null)
-        //    {
-        //        return Redirect("/Account/Login");
-        //    }
-        //    var bid = _context.Bid.Single(s => s.bidId == id);
-        //    bid.chosen = true;
-        //    bid.assetOwnerNotificationPending = false;
-        //    bid.bidderNotificationPending = true;
-
-        //    await _context.SaveChangesAsync();
-
-
-        //    // This notification redirect URL should put the user to the discussion
-        //    string redirectURL = "/Bids/MyBids/";
-        //    Notification notification = new Notification(bid.asset_name,
-        //        "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
-        //    notification.type = 1;
-        //    Clients.Group(bid.bidder).AddNotificationToQueue(notification);
-        //    Clients.Group(bid.bidder).UpdateOverallNotificationCount();
-
-        //    return RedirectToAction("Index");
-        //}
-
         /// <summary>
         /// Bid Transaction Controller
         /// </summary>
         /// <returns>Returns view of accepted bids associated with the current user</returns>
         [AllowAnonymous]
-        public async Task<IActionResult> Transaction() {
+        public async Task<IActionResult> Transaction()
+        {
 
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)

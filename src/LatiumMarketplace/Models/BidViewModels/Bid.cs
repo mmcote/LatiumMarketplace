@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.BidViewModels
 {
+    /// <summary>
+    ///  Bids Model
+    ///  status lets you know whether or not the bid is on an asset or a request
+    ///  chosen, is whether or not the bid has been chosen 
+    /// </summary>
     public class Bid
     {
 
@@ -38,11 +43,9 @@ namespace LatiumMarketplace.Models.BidViewModels
         [Display(Name = "Description")]
         public string description { get; set; }
         
-        //public bool bidType { get; set; }
         [Display(Name = "User")]
         public string bidder { get; set; }
 
-        //[Display(Name = "Asset ID")]
         [ForeignKey("AssetId")]
         public Asset asset { get; set; }
 
@@ -51,6 +54,7 @@ namespace LatiumMarketplace.Models.BidViewModels
 
         public bool status { get; set; }
 
+        
         public bool chosen { get; set; }
 
         public bool bidderNotificationPending { get; set; }

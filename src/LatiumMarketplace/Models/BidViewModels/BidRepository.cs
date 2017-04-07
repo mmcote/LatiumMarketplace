@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.BidViewModels
 {
+    /// <summary>
+    /// Repository for the Bids
+    /// Contains basic add, delete functions, as well as other query functions
+    /// </summary>
     public class BidRepository : IBidRepository
     {
         private ApplicationDbContext _context;
@@ -14,13 +18,19 @@ namespace LatiumMarketplace.Models.BidViewModels
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Adds a bid 
+        /// </summary>
+        /// <param name="bid"></param>
         public void AddBid(Bid bid)
         {
             _context.Add(bid);
             return;
         }
-
+        /// <summary>
+        /// Deletes a bid
+        /// </summary>
+        /// <param name="id"></param>
         public void DeleteBid(int id)
         {
 
@@ -38,11 +48,19 @@ namespace LatiumMarketplace.Models.BidViewModels
             return;
         }
 
+        /// <summary>
+        /// GetAll - returns all the bids
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Bid> GetAll()
         {
             return _context.Bid.ToList();
         }
-
+        /// <summary>
+        /// GetBidsByAssetID returns all the bids associate with a specific asset
+        /// </summary>
+        /// <param name="asset_id"></param>
+        /// <returns></returns>
         public IEnumerable<Bid> GetBidsByAssetID(int asset_id)
         {
             if (asset_id == 0)
@@ -58,6 +76,11 @@ namespace LatiumMarketplace.Models.BidViewModels
             return bids;
         }
 
+        /// <summary>
+        /// GetBidByID - returns a bid that matches the id given
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Bid GetBidByID(int id)
         {
             if (id == 0)
@@ -72,7 +95,11 @@ namespace LatiumMarketplace.Models.BidViewModels
             }
             return bid;
         }
-
+        /// <summary>
+        /// GetMyBids - returns a list of bids that the user made
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public IEnumerable<Bid> GetMyBids(string name)
         {
             if (name == null)
@@ -87,6 +114,12 @@ namespace LatiumMarketplace.Models.BidViewModels
 
             return bids;
         }
+
+        /// <summary>
+        /// GetOthersBids - returns a list of bids that others have placed on your assets
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IEnumerable<Bid> GetOthersBids(string id)
         {
             if (id == null)

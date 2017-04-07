@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
+    /// <summary>
+    /// ImageGallery Model 
+    /// </summary>
     public class ImageGallery
     {
         [Key]

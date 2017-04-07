@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
+    /// <summary>
+    /// AccessoryList Model contains a list of accessories, and id, and a
+    /// foreign key reference to the asset it is asociaited with
+    /// </summary>
     public class AccessoryList
     {
         [Key]

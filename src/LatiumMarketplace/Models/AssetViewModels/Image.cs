@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
+    /// <summary>
+    /// The Image model contains an imagegallery id, because an asset can contain 
+    /// more than one image. 
+    /// </summary>
     public class Image
     {
         [Key]

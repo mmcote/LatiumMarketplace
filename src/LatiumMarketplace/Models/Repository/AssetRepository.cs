@@ -8,6 +8,9 @@ using LatiumMarketplace.Data;
 
 namespace LatiumMarketplace.Models.Repository
 {
+    /// <summary>
+    /// Asset's Repository, contains basic add/update functions
+    /// </summary>
     public class AssetRepository : IAssetRepository
     {
         private readonly ApplicationDbContext _context;

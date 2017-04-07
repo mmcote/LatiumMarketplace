@@ -11,11 +11,32 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
+    /// <summary>
+    /// Asset Mode contains basic attributes an asset would have
+    /// request - is a bool to determine wether the listing is an asset or request
+    /// featuredItem - is a bool that the admin get to determine which assets make it 
+    /// on the front page 
+    /// </summary>
     public class Asset
     {
 
         public Asset() { }
 
+        /// <summary>
+        /// Contructor for asset
+        /// </summary>
+        /// <param name="AssetID"></param>
+        /// <param name="Name"></param>
+        /// <param name="Description"></param>
+        /// <param name="AddData"></param>
+        /// <param name="Price"></param>
+        /// <param name="PriceDaily"></param>
+        /// <param name="PriceWeekly"></param>
+        /// <param name="PriceMonthly"></param>
+        /// <param name="OwnerID"></param>
+        /// <param name="Location"></param>
+        /// <param name="Request"></param>
+        /// <param name="FeaturedItem"></param>
         public Asset(int AssetID, string Name, string Description, DateTime AddData, decimal Price, decimal PriceDaily, decimal PriceWeekly, decimal PriceMonthly, string OwnerID, string Location, bool Request, bool FeaturedItem)
         {
             assetID = AssetID;
@@ -69,8 +90,9 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public bool featuredItem { get; set; }
         public virtual List<MessageThread> MessageThreads { get; set; }
         public virtual List<Bid> Bids { get; set; }
+        
 
-        // Navigation properties for one-to-many relationship between
+        /// Navigation properties for one-to-many relationship between
         // Asset and Make.
         // One asset can only have one make, but many makes can be shared by
         // multiple assets.

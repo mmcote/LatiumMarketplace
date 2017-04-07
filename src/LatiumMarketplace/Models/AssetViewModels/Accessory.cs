@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.AssetViewModels
 {
+    /// <summary>
+    /// Accessory Model 
+    /// </summary>
     public class Accessory
     {
         [Key]
