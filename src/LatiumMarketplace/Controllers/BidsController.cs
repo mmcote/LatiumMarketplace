@@ -151,7 +151,7 @@ namespace LatiumMarketplace.Controllers
         /// <returns>View with created bid</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid)
+        public async Task<IActionResult> Create([Bind("bidId,bidPrice,description,endDate,startDate,bidder")] Bid bid, decimal accessoryCharge)
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -235,6 +235,10 @@ namespace LatiumMarketplace.Controllers
                             bid.bidPrice = bid.bidPrice + bid.asset.priceMonthly;
                         }
                     }
+                }
+                if (accessoryCharge > 0)
+                {
+                    bid.bidPrice = bid.bidPrice + accessoryCharge;
                 }
 
 

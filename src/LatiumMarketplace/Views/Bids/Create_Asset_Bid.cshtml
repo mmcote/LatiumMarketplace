@@ -36,7 +36,7 @@
                                 @*Show all images in gallery*@
                                 @foreach (var item in Model.asset.AccessoryList.Accessories.Where(e => e.AccessoryListId == Model.asset.AccessoryListId))
                                 {
-                                    <span>@item.Title $@item.Price <input type="checkbox" name="bidAccessories" value=@item.Price onclick=@item.Price></span> <br />
+                                    <span>@item.Title $@item.Price <input type="checkbox" name="bidAccessories" value=@item.Price onclick=myFunction((@item.AccessoryId),(@item.Price)); id=@item.AccessoryId></span> <br />
                                 }
                             </div>
                         }
@@ -44,6 +44,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <div class="col-md-10">
+                            <input type="hidden" name="accessoryCharge" id="tempPrice" value="0">
                             <input type="submit" value="BUY" class="btn btn-default" />
                         </div>
 <<<<<<< HEAD
@@ -134,7 +135,7 @@
                                 @*Show all images in gallery*@
                                 @foreach (var item in Model.asset.AccessoryList.Accessories.Where(e => e.AccessoryListId == Model.asset.AccessoryListId))
                                 {
-                                    <span>@item.Title $@item.Price <input type="checkbox" name="bidAccessories" value=@item.Price></span> <br />
+                                    <span>@item.Title $@item.Price <input type="checkbox" name="bidAccessories" value=@item.Price onclick=myFunction((@item.AccessoryId),(@item.Price)); id=@item.AccessoryId></span> <br />
                                 }
                             </div>
                         }
@@ -175,8 +176,22 @@
 }
 
 <script>
-function myFunction() {
-    var x = document.getElementById("myCheck");
-    x.checked = true;
-}
+    function myFunction(accessoryId, accessoryCost) {
+        console.log(' Aid: ' + accessoryId + ' ACost:' + accessoryCost);
+        var checkBox = document.getElementById(accessoryId);
+        var tempPrice = parseFloat(document.getElementById('tempPrice').value);
+        if (checkBox.checked == true)
+        {
+            tempPrice += parseFloat(accessoryCost);
+        }
+        if (checkBox.checked == false)
+        {
+            tempPrice -= parseFloat(accessoryCost);
+        }
+        document.getElementById('tempPrice').value = tempPrice;
+        console.log(document.getElementById('tempPrice').value);
+
+        return (tempPrice);
+    }
+
 </script>
