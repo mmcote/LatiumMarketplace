@@ -8,8 +8,10 @@ using LatiumMarketplace.Models.AssetViewModels;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
-    // The only time that a message thread will be created will be through an asset, and
-    // you can only start the thread if you send the initial message (no empty threads)
+    /// <summary>
+    /// The only time that a message thread will be created will be through an asset, and
+    /// you can only start the thread if you send the initial message (no empty threads)
+    /// </summary>
     public class MessageThreadDTO
     {
         public MessageThreadDTO() { }

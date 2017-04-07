@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
-    // This is a data transfer object to transfer the user
-    // specified fields of a message (used for the API post method)
+    /// <summary>
+    /// This is a data transfer object to transfer the user
+    /// specified fields of a message (used for the API post method)
+    /// </summary>
     public class MessageDTO
     {
         public MessageDTO(string subject, string body, string messageThreadId)
@@ -22,6 +24,10 @@ namespace LatiumMarketplace.Models.MessageViewModels
         public string body { get; set; }
     }
 
+    /// <summary>
+    /// Message class is the class used to sent the basic information of a message
+    /// without any information on the actual sender.
+    /// </summary>
     public class Message
     {
         /* Empty constructor needed for EF to materialize objects that are the results

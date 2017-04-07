@@ -5,6 +5,11 @@ using System.Threading.Tasks;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
+    /// <summary>
+    /// IMessageRespository has all the function signatures of the 
+    /// MessageRepository to access the database this repository pattern
+    /// is used to allow flexibility with databases
+    /// </summary>
     public interface IMessageRepository
     {
         // Basic CRUD operations

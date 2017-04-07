@@ -6,6 +6,9 @@ using LatiumMarketplace.Models.AssetViewModels;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
+    /// <summary>
+    /// Model used for the send message view.
+    /// </summary>
     public class MessageSendView
     {
         public MessageSendView(Asset asset, string subject, string body)

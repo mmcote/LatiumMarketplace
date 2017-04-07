@@ -14,6 +14,10 @@ using LatiumMarketplace.Services;
 
 namespace LatiumMarketplace.Controllers
 {
+    /// <summary>
+    /// AccountController is used to handle all pages that deal with processing the
+    /// application users information
+    /// </summary>
     //redirect all HTTP GET requests to HTTPS GET and will reject all HTTP POSTs
     [RequireHttps]
     [Authorize]
@@ -39,7 +43,12 @@ namespace LatiumMarketplace.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
-        //
+        /// <summary>
+        /// Login, pass it an optional return url, otherwise this is simply the 
+        /// entry point to login.
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
@@ -53,7 +62,13 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
-        //
+        /// <summary>
+        /// Login output, tries to process the login information, being the gateway
+        /// to the web applicaton, when using email/password login
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -107,7 +122,11 @@ namespace LatiumMarketplace.Controllers
             return View(model);
         }
 
-        //
+        /// <summary>
+        /// Register, entry point to the registration form.
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
@@ -124,7 +143,14 @@ namespace LatiumMarketplace.Controllers
             return View();
         }
 
-        //
+        /// <summary>
+        /// Register output, processes the new information of the new user, and attempts to create
+        /// a user, if the user is has any violations it will return to the current page and show the
+        /// errors otherwise go to a confirmation page.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -156,7 +182,10 @@ namespace LatiumMarketplace.Controllers
             return View(model);
         }
 
-        //
+        /// <summary>
+        /// Logoff.
+        /// </summary>
+        /// <returns></returns>
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -178,7 +207,12 @@ namespace LatiumMarketplace.Controllers
         //    return RedirectToAction(nameof(HomeController.Index), "Home");
         //}
 
-        //
+        /// <summary>
+        /// External login for facebook and google
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]

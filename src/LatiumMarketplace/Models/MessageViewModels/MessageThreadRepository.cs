@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LatiumMarketplace.Models.MessageViewModels
 {
+    /// <summary>
+    /// Message repository is the database implementation with entity framework
+    /// </summary>
     public class MessageThreadRepository : IMessageThreadRepository
     {
         private ApplicationDbContext _context;

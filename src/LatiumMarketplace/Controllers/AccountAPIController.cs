@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LatiumMarketplace.Controllers
 {
+    /// <summary>
+    /// AccountAPIController is used to check on specific properties of the user
+    /// while doing this purely through a simple ajax requests.
+    /// </summary>
     [Route("api/[controller]")]
     public class AccountAPIController : Controller
     {
@@ -27,7 +31,12 @@ namespace LatiumMarketplace.Controllers
             _context = context;
         }
 
-        //
+        /// <summary>
+        /// CheckIfBanned is used to check whether a certain user is banned. This is done
+        /// purely by passing in the email of the user.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         // POST: /Account/LogOff
         [HttpPost("{id}")]
         [Route("api/AccountAPI/CheckIfBanned")]

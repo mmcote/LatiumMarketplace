@@ -17,8 +17,10 @@ using Microsoft.AspNetCore.SignalR.Infrastructure;
 
 namespace LatiumMarketplace.Controllers
 {
+    /// <summary>
+    /// MessageThreadsController handles the processing of pages that deal with showing message threads and messages.
+    /// </summary>
     [RequireHttps]
-
     public class MessageThreadsController : ApiHubController<Broadcaster>
     {
         private readonly ApplicationDbContext _context;
