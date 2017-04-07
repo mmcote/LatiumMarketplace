@@ -2,6 +2,9 @@
 
 namespace LatiumMarketplace.Models.IRepository
 {
+    /// <summary>
+    /// Interface for Asset's Repository, contains basic add/remove/update functions
+    /// </summary>
     public interface IAssetRepository
     {
         void Add(AssetViewModels.Asset Asset);

@@ -436,36 +436,6 @@ namespace LatiumMarketplace.Controllers
 
         }
 
-        ///// <summary>
-        ///// Accept a bid
-        ///// </summary>
-        ///// <param name="id">Bid ID of accpeted bid</param>
-        ///// <returns>Returns to index</returns>
-        //public async Task<IActionResult> Choose(int? id) {
-        //    var user = await _userManager.GetUserAsync(HttpContext.User);
-        //    if (user == null)
-        //    {
-        //        return Redirect("/Account/Login");
-        //    }
-        //    var bid = _context.Bid.Single(s => s.bidId == id);
-        //    bid.chosen = true;
-        //    bid.assetOwnerNotificationPending = false;
-        //    bid.bidderNotificationPending = true;
-
-        //    await _context.SaveChangesAsync();
-
-
-        //    // This notification redirect URL should put the user to the discussion
-        //    string redirectURL = "/Bids/MyBids/";
-        //    Notification notification = new Notification(bid.asset_name,
-        //        "Your bid has been choose for " + bid.asset_name + ".", redirectURL);
-        //    notification.type = 1;
-        //    Clients.Group(bid.bidder).AddNotificationToQueue(notification);
-        //    Clients.Group(bid.bidder).UpdateOverallNotificationCount();
-
-        //    return RedirectToAction("Index");
-        //}
-
         /// <summary>
         /// Bid Transaction Controller
         /// </summary>
