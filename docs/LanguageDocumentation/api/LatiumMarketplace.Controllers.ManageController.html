@@ -90,7 +90,7 @@
               
               
               <a id="LatiumMarketplace_Controllers_ManageController__ctor_" data-uid="LatiumMarketplace.Controllers.ManageController.#ctor*"></a>
-              <h4 id="LatiumMarketplace_Controllers_ManageController__ctor_ApplicationDbContext_UserManager_ApplicationUser__SignInManager_ApplicationUser__IEmailSender_ISmsSender_ILoggerFactory_" data-uid="LatiumMarketplace.Controllers.ManageController.#ctor(ApplicationDbContext,UserManager{ApplicationUser},SignInManager{ApplicationUser},IEmailSender,ISmsSender,ILoggerFactory)">ManageController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, SignInManager&lt;ApplicationUser&gt;, IEmailSender, ISmsSender, ILoggerFactory)</h4>
+              <h4 id="LatiumMarketplace_Controllers_ManageController__ctor_ApplicationDbContext_UserManager_LatiumMarketplace_Models_ApplicationUser__SignInManager_LatiumMarketplace_Models_ApplicationUser__IEmailSender_ISmsSender_ILoggerFactory_" data-uid="LatiumMarketplace.Controllers.ManageController.#ctor(ApplicationDbContext,UserManager{LatiumMarketplace.Models.ApplicationUser},SignInManager{LatiumMarketplace.Models.ApplicationUser},IEmailSender,ISmsSender,ILoggerFactory)">ManageController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, SignInManager&lt;ApplicationUser&gt;, IEmailSender, ISmsSender, ILoggerFactory)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -113,12 +113,12 @@
                     <td></td>
                   </tr>
                   <tr>
-                    <td><span class="xref">UserManager</span>&lt;<span class="xref">ApplicationUser</span>&gt;</td>
+                    <td><span class="xref">UserManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
                     <td><span class="parametername">userManager</span></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td><span class="xref">SignInManager</span>&lt;<span class="xref">ApplicationUser</span>&gt;</td>
+                    <td><span class="xref">SignInManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
                     <td><span class="parametername">signInManager</span></td>
                     <td></td>
                   </tr>
@@ -328,12 +328,12 @@
               
               
               <a id="LatiumMarketplace_Controllers_ManageController_Edit_" data-uid="LatiumMarketplace.Controllers.ManageController.Edit*"></a>
-              <h4 id="LatiumMarketplace_Controllers_ManageController_Edit_ProfileViewModel_" data-uid="LatiumMarketplace.Controllers.ManageController.Edit(ProfileViewModel)">Edit(ProfileViewModel)</h4>
+              <h4 id="LatiumMarketplace_Controllers_ManageController_Edit_LatiumMarketplace_Models_ApplicationUser_" data-uid="LatiumMarketplace.Controllers.ManageController.Edit(LatiumMarketplace.Models.ApplicationUser)">Edit(ApplicationUser)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public Task&lt;ActionResult&gt; Edit(ProfileViewModel model)</code></pre>
+                <pre><code class="lang-csharp hljs">public Task&lt;ActionResult&gt; Edit(ApplicationUser user)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -346,8 +346,8 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span class="xref">ProfileViewModel</span></td>
-                    <td><span class="parametername">model</span></td>
+                    <td><a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a></td>
+                    <td><span class="parametername">user</span></td>
                     <td></td>
                   </tr>
                 </tbody>

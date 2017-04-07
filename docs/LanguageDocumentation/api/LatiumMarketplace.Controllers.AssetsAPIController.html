@@ -238,6 +238,33 @@
               </table>
               
               
+              <a id="LatiumMarketplace_Controllers_AssetsAPIController_GetRandomCategories_" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.GetRandomCategories*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AssetsAPIController_GetRandomCategories" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.GetRandomCategories">GetRandomCategories()</h4>
+              <div class="markdown level1 summary"><p>POST method for asset category</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult GetRandomCategories()</code></pre>
+              </div>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td><p>HTTP response for POST category</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
               <a id="LatiumMarketplace_Controllers_AssetsAPIController_PostAsset_" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.PostAsset*"></a>
               <h4 id="LatiumMarketplace_Controllers_AssetsAPIController_PostAsset_Asset_" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.PostAsset(Asset)">PostAsset(Asset)</h4>
               <div class="markdown level1 summary"><p>POST method for asset</p>
@@ -284,13 +311,13 @@
               
               
               <a id="LatiumMarketplace_Controllers_AssetsAPIController_PostCategory_" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.PostCategory*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AssetsAPIController_PostCategory_System_String_" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.PostCategory(System.String)">PostCategory(String)</h4>
+              <h4 id="LatiumMarketplace_Controllers_AssetsAPIController_PostCategory_Category_" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.PostCategory(Category)">PostCategory(Category)</h4>
               <div class="markdown level1 summary"><p>POST method for asset category</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public IActionResult PostCategory(string category)</code></pre>
+                <pre><code class="lang-csharp hljs">public IActionResult PostCategory(Category category)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -303,7 +330,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span class="xref">System.String</span></td>
+                    <td><span class="xref">Category</span></td>
                     <td><span class="parametername">category</span></td>
                     <td><p>Category for POST request</p>
 </td>
@@ -464,6 +491,48 @@
                     <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
                     <td><p>HTTP Response</p>
 </td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AssetsAPIController_Shuffle_" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.Shuffle*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AssetsAPIController_Shuffle__1_System_Collections_Generic_IList___0__" data-uid="LatiumMarketplace.Controllers.AssetsAPIController.Shuffle``1(System.Collections.Generic.IList{``0})">Shuffle&lt;T&gt;(IList&lt;T&gt;)</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public static void Shuffle&lt;T&gt;(IList&lt;T&gt; list)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Collections.Generic.IList</span>&lt;T&gt;</td>
+                    <td><span class="parametername">list</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="typeParameters">Type Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="parametername">T</span></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>

@@ -101,7 +101,7 @@
               
               
               <a id="LatiumMarketplace_Controllers_BidsController__ctor_" data-uid="LatiumMarketplace.Controllers.BidsController.#ctor*"></a>
-              <h4 id="LatiumMarketplace_Controllers_BidsController__ctor_ApplicationDbContext_UserManager_ApplicationUser__IConnectionManager_" data-uid="LatiumMarketplace.Controllers.BidsController.#ctor(ApplicationDbContext,UserManager{ApplicationUser},IConnectionManager)">BidsController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, IConnectionManager)</h4>
+              <h4 id="LatiumMarketplace_Controllers_BidsController__ctor_ApplicationDbContext_UserManager_LatiumMarketplace_Models_ApplicationUser__IConnectionManager_" data-uid="LatiumMarketplace.Controllers.BidsController.#ctor(ApplicationDbContext,UserManager{LatiumMarketplace.Models.ApplicationUser},IConnectionManager)">BidsController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, IConnectionManager)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -124,7 +124,7 @@
                     <td></td>
                   </tr>
                   <tr>
-                    <td><span class="xref">UserManager</span>&lt;<span class="xref">ApplicationUser</span>&gt;</td>
+                    <td><span class="xref">UserManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
                     <td><span class="parametername">userManager</span></td>
                     <td></td>
                   </tr>
@@ -137,51 +137,6 @@
               </table>
               <h3 id="methods">Methods
               </h3>
-              
-              
-              <a id="LatiumMarketplace_Controllers_BidsController_Choose_" data-uid="LatiumMarketplace.Controllers.BidsController.Choose*"></a>
-              <h4 id="LatiumMarketplace_Controllers_BidsController_Choose_System_Nullable_System_Int32__" data-uid="LatiumMarketplace.Controllers.BidsController.Choose(System.Nullable{System.Int32})">Choose(Nullable&lt;Int32&gt;)</h4>
-              <div class="markdown level1 summary"><p>Accept a bid</p>
-</div>
-              <div class="markdown level1 conceptual"></div>
-              <h5 class="decalaration">Declaration</h5>
-              <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; Choose(int ? id)</code></pre>
-              </div>
-              <h5 class="parameters">Parameters</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-                    <td><span class="parametername">id</span></td>
-                    <td><p>Bid ID of accpeted bid</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="returns">Returns</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
-                    <td><p>Returns to index</p>
-</td>
-                  </tr>
-                </tbody>
-              </table>
               
               
               <a id="LatiumMarketplace_Controllers_BidsController_Create_" data-uid="LatiumMarketplace.Controllers.BidsController.Create*"></a>
@@ -257,14 +212,14 @@
               
               
               <a id="LatiumMarketplace_Controllers_BidsController_Create_Asset_Bid_" data-uid="LatiumMarketplace.Controllers.BidsController.Create_Asset_Bid*"></a>
-              <h4 id="LatiumMarketplace_Controllers_BidsController_Create_Asset_Bid_System_Int32_" data-uid="LatiumMarketplace.Controllers.BidsController.Create_Asset_Bid(System.Int32)">Create_Asset_Bid(Int32)</h4>
+              <h4 id="LatiumMarketplace_Controllers_BidsController_Create_Asset_Bid_System_Int32_System_Decimal_" data-uid="LatiumMarketplace.Controllers.BidsController.Create_Asset_Bid(System.Int32,System.Decimal)">Create_Asset_Bid(Int32, Decimal)</h4>
               <div class="markdown level1 summary"><p>Bid controller for asset create
 Create bid for specific asset</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public IActionResult Create_Asset_Bid(int assetId)</code></pre>
+                <pre><code class="lang-csharp hljs">public IActionResult Create_Asset_Bid(int assetId, decimal bidAccessories)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -281,6 +236,11 @@ Create bid for specific asset</p>
                     <td><span class="parametername">assetId</span></td>
                     <td><p>Asset Id</p>
 </td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">System.Decimal</span></td>
+                    <td><span class="parametername">bidAccessories</span></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
@@ -548,6 +508,33 @@ Create bid for specific asset</p>
                   <tr>
                     <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
                     <td><p>View List of your bids </p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_BidsController_Transaction_" data-uid="LatiumMarketplace.Controllers.BidsController.Transaction*"></a>
+              <h4 id="LatiumMarketplace_Controllers_BidsController_Transaction" data-uid="LatiumMarketplace.Controllers.BidsController.Transaction">Transaction()</h4>
+              <div class="markdown level1 summary"><p>Bid Transaction Controller</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; Transaction()</code></pre>
+              </div>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
+                    <td><p>Returns view of accepted bids associated with the current user</p>
 </td>
                   </tr>
                 </tbody>

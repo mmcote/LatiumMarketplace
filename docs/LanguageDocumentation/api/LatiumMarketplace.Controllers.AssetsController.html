@@ -90,7 +90,7 @@
               
               
               <a id="LatiumMarketplace_Controllers_AssetsController__ctor_" data-uid="LatiumMarketplace.Controllers.AssetsController.#ctor*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AssetsController__ctor_ApplicationDbContext_UserManager_ApplicationUser__IHostingEnvironment_" data-uid="LatiumMarketplace.Controllers.AssetsController.#ctor(ApplicationDbContext,UserManager{ApplicationUser},IHostingEnvironment)">AssetsController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, IHostingEnvironment)</h4>
+              <h4 id="LatiumMarketplace_Controllers_AssetsController__ctor_ApplicationDbContext_UserManager_LatiumMarketplace_Models_ApplicationUser__IHostingEnvironment_" data-uid="LatiumMarketplace.Controllers.AssetsController.#ctor(ApplicationDbContext,UserManager{LatiumMarketplace.Models.ApplicationUser},IHostingEnvironment)">AssetsController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, IHostingEnvironment)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -113,7 +113,7 @@
                     <td></td>
                   </tr>
                   <tr>
-                    <td><span class="xref">UserManager</span>&lt;<span class="xref">ApplicationUser</span>&gt;</td>
+                    <td><span class="xref">UserManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
                     <td><span class="parametername">userManager</span></td>
                     <td></td>
                   </tr>
@@ -503,13 +503,55 @@ Used for edit requests</p>
               </table>
               
               
-              <a id="LatiumMarketplace_Controllers_AssetsController_Index_" data-uid="LatiumMarketplace.Controllers.AssetsController.Index*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AssetsController_Index_System_Nullable_System_Int32__System_Nullable_System_Int32__System_String_System_String_System_Boolean_System_Boolean_System_String_System_Boolean_" data-uid="LatiumMarketplace.Controllers.AssetsController.Index(System.Nullable{System.Int32},System.Nullable{System.Int32},System.String,System.String,System.Boolean,System.Boolean,System.String,System.Boolean)">Index(Nullable&lt;Int32&gt;, Nullable&lt;Int32&gt;, String, String, Boolean, Boolean, String, Boolean)</h4>
+              <a id="LatiumMarketplace_Controllers_AssetsController_GetSubCategories_" data-uid="LatiumMarketplace.Controllers.AssetsController.GetSubCategories*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AssetsController_GetSubCategories_System_Int32_" data-uid="LatiumMarketplace.Controllers.AssetsController.GetSubCategories(System.Int32)">GetSubCategories(Int32)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; Index(int ? id, int ? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem)</code></pre>
+                <pre><code class="lang-csharp hljs">public JsonResult GetSubCategories(int CategoryId)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">CategoryId</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">JsonResult</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AssetsController_Index_" data-uid="LatiumMarketplace.Controllers.AssetsController.Index*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AssetsController_Index_System_Nullable_System_Int32__System_Nullable_System_Int32__System_String_System_String_System_Boolean_System_Boolean_System_String_System_Boolean_System_Int32_System_String_System_Int32_" data-uid="LatiumMarketplace.Controllers.AssetsController.Index(System.Nullable{System.Int32},System.Nullable{System.Int32},System.String,System.String,System.Boolean,System.Boolean,System.String,System.Boolean,System.Int32,System.String,System.Int32)">Index(Nullable&lt;Int32&gt;, Nullable&lt;Int32&gt;, String, String, Boolean, Boolean, String, Boolean, Int32, String, Int32)</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; Index(int ? id, int ? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid, string mainCategoryname, int Makeid)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -559,6 +601,21 @@ Used for edit requests</p>
                   <tr>
                     <td><span class="xref">System.Boolean</span></td>
                     <td><span class="parametername">featuredItem</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">Categoryid</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">System.String</span></td>
+                    <td><span class="parametername">mainCategoryname</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">Makeid</span></td>
                     <td></td>
                   </tr>
                 </tbody>

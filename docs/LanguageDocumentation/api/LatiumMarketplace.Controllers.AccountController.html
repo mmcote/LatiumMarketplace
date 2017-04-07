@@ -72,7 +72,9 @@
               
               <h1 id="LatiumMarketplace_Controllers_AccountController" data-uid="LatiumMarketplace.Controllers.AccountController">Class AccountController
               </h1>
-              <div class="markdown level0 summary"></div>
+              <div class="markdown level0 summary"><p>AccountController is used to handle all pages that deal with processing the
+application users information</p>
+</div>
               <div class="markdown level0 conceptual"></div>
               <div class="inheritance">
                 <h5>Inheritance</h5>
@@ -90,7 +92,7 @@
               
               
               <a id="LatiumMarketplace_Controllers_AccountController__ctor_" data-uid="LatiumMarketplace.Controllers.AccountController.#ctor*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AccountController__ctor_UserManager_ApplicationUser__SignInManager_ApplicationUser__IEmailSender_ISmsSender_ILoggerFactory_" data-uid="LatiumMarketplace.Controllers.AccountController.#ctor(UserManager{ApplicationUser},SignInManager{ApplicationUser},IEmailSender,ISmsSender,ILoggerFactory)">AccountController(UserManager&lt;ApplicationUser&gt;, SignInManager&lt;ApplicationUser&gt;, IEmailSender, ISmsSender, ILoggerFactory)</h4>
+              <h4 id="LatiumMarketplace_Controllers_AccountController__ctor_UserManager_LatiumMarketplace_Models_ApplicationUser__SignInManager_LatiumMarketplace_Models_ApplicationUser__IEmailSender_ISmsSender_ILoggerFactory_" data-uid="LatiumMarketplace.Controllers.AccountController.#ctor(UserManager{LatiumMarketplace.Models.ApplicationUser},SignInManager{LatiumMarketplace.Models.ApplicationUser},IEmailSender,ISmsSender,ILoggerFactory)">AccountController(UserManager&lt;ApplicationUser&gt;, SignInManager&lt;ApplicationUser&gt;, IEmailSender, ISmsSender, ILoggerFactory)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -108,12 +110,12 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><span class="xref">UserManager</span>&lt;<span class="xref">ApplicationUser</span>&gt;</td>
+                    <td><span class="xref">UserManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
                     <td><span class="parametername">userManager</span></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td><span class="xref">SignInManager</span>&lt;<span class="xref">ApplicationUser</span>&gt;</td>
+                    <td><span class="xref">SignInManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
                     <td><span class="parametername">signInManager</span></td>
                     <td></td>
                   </tr>
@@ -136,6 +138,31 @@
               </table>
               <h3 id="methods">Methods
               </h3>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AccountController_Banned_" data-uid="LatiumMarketplace.Controllers.AccountController.Banned*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AccountController_Banned" data-uid="LatiumMarketplace.Controllers.AccountController.Banned">Banned()</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult Banned()</code></pre>
+              </div>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
               
               
               <a id="LatiumMarketplace_Controllers_AccountController_ConfirmEmail_" data-uid="LatiumMarketplace.Controllers.AccountController.ConfirmEmail*"></a>
@@ -187,7 +214,8 @@
               
               <a id="LatiumMarketplace_Controllers_AccountController_ExternalLogin_" data-uid="LatiumMarketplace.Controllers.AccountController.ExternalLogin*"></a>
               <h4 id="LatiumMarketplace_Controllers_AccountController_ExternalLogin_System_String_System_String_" data-uid="LatiumMarketplace.Controllers.AccountController.ExternalLogin(System.String,System.String)">ExternalLogin(String, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>External login for facebook and google</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -420,7 +448,9 @@
               
               <a id="LatiumMarketplace_Controllers_AccountController_Login_" data-uid="LatiumMarketplace.Controllers.AccountController.Login*"></a>
               <h4 id="LatiumMarketplace_Controllers_AccountController_Login_LoginViewModel_System_String_" data-uid="LatiumMarketplace.Controllers.AccountController.Login(LoginViewModel,System.String)">Login(LoginViewModel, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Login output, tries to process the login information, being the gateway
+to the web applicaton, when using email/password login</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -467,7 +497,9 @@
               
               <a id="LatiumMarketplace_Controllers_AccountController_Login_" data-uid="LatiumMarketplace.Controllers.AccountController.Login*"></a>
               <h4 id="LatiumMarketplace_Controllers_AccountController_Login_System_String_" data-uid="LatiumMarketplace.Controllers.AccountController.Login(System.String)">Login(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Login, pass it an optional return url, otherwise this is simply the 
+entry point to login.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -509,7 +541,8 @@
               
               <a id="LatiumMarketplace_Controllers_AccountController_LogOff_" data-uid="LatiumMarketplace.Controllers.AccountController.LogOff*"></a>
               <h4 id="LatiumMarketplace_Controllers_AccountController_LogOff" data-uid="LatiumMarketplace.Controllers.AccountController.LogOff">LogOff()</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Logoff.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -534,7 +567,10 @@
               
               <a id="LatiumMarketplace_Controllers_AccountController_Register_" data-uid="LatiumMarketplace.Controllers.AccountController.Register*"></a>
               <h4 id="LatiumMarketplace_Controllers_AccountController_Register_RegisterViewModel_System_String_" data-uid="LatiumMarketplace.Controllers.AccountController.Register(RegisterViewModel,System.String)">Register(RegisterViewModel, String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Register output, processes the new information of the new user, and attempts to create
+a user, if the user is has any violations it will return to the current page and show the
+errors otherwise go to a confirmation page.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
@@ -581,7 +617,8 @@
               
               <a id="LatiumMarketplace_Controllers_AccountController_Register_" data-uid="LatiumMarketplace.Controllers.AccountController.Register*"></a>
               <h4 id="LatiumMarketplace_Controllers_AccountController_Register_System_String_" data-uid="LatiumMarketplace.Controllers.AccountController.Register(System.String)">Register(String)</h4>
-              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 summary"><p>Register, entry point to the registration form.</p>
+</div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">

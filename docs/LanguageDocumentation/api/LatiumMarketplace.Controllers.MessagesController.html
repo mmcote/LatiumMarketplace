@@ -100,12 +100,12 @@
               
               
               <a id="LatiumMarketplace_Controllers_MessagesController__ctor_" data-uid="LatiumMarketplace.Controllers.MessagesController.#ctor*"></a>
-              <h4 id="LatiumMarketplace_Controllers_MessagesController__ctor_ApplicationDbContext_IConnectionManager_" data-uid="LatiumMarketplace.Controllers.MessagesController.#ctor(ApplicationDbContext,IConnectionManager)">MessagesController(ApplicationDbContext, IConnectionManager)</h4>
+              <h4 id="LatiumMarketplace_Controllers_MessagesController__ctor_ApplicationDbContext_UserManager_LatiumMarketplace_Models_ApplicationUser__IConnectionManager_" data-uid="LatiumMarketplace.Controllers.MessagesController.#ctor(ApplicationDbContext,UserManager{LatiumMarketplace.Models.ApplicationUser},IConnectionManager)">MessagesController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, IConnectionManager)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public MessagesController(ApplicationDbContext context, IConnectionManager connectionManager)</code></pre>
+                <pre><code class="lang-csharp hljs">public MessagesController(ApplicationDbContext context, UserManager&lt;ApplicationUser&gt; userManager, IConnectionManager connectionManager)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -120,6 +120,11 @@
                   <tr>
                     <td><span class="xref">ApplicationDbContext</span></td>
                     <td><span class="parametername">context</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">UserManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
+                    <td><span class="parametername">userManager</span></td>
                     <td></td>
                   </tr>
                   <tr>

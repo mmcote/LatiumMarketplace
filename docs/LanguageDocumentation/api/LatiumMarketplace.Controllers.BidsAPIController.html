@@ -78,26 +78,36 @@
               <div class="inheritance">
                 <h5>Inheritance</h5>
                   <div class="level0"><span class="xref">System.Object</span></div>
-                  <div class="level1"><span class="xref">BidsAPIController</span></div>
+                  <div class="level1"><a class="xref" href="LatiumMarketplace.Controllers.ApiHubController-1.html">ApiHubController</a>&lt;<span class="xref">Broadcaster</span>&gt;</div>
+                  <div class="level2"><span class="xref">BidsAPIController</span></div>
+              </div>
+              <div class="inheritedMembers">
+                <h5>Inherited Members</h5>
+                <div>
+                  <a class="xref" href="LatiumMarketplace.Controllers.ApiHubController-1.html#LatiumMarketplace_Controllers_ApiHubController_1_Clients">ApiHubController&lt;Broadcaster&gt;.Clients</a>
+                </div>
+                <div>
+                  <a class="xref" href="LatiumMarketplace.Controllers.ApiHubController-1.html#LatiumMarketplace_Controllers_ApiHubController_1_Groups">ApiHubController&lt;Broadcaster&gt;.Groups</a>
+                </div>
               </div>
               <h6><strong>Namespace</strong>:LatiumMarketplace.Controllers</h6>
               <h6><strong>Assembly</strong>:cs.temp.dll.dll</h6>
               <h5 id="LatiumMarketplace_Controllers_BidsAPIController_syntax">Syntax</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public class BidsAPIController : Controller</code></pre>
+                <pre><code class="lang-csharp hljs">public class BidsAPIController : ApiHubController&lt;Broadcaster&gt;</code></pre>
               </div>
               <h3 id="constructors">Constructors
               </h3>
               
               
               <a id="LatiumMarketplace_Controllers_BidsAPIController__ctor_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.#ctor*"></a>
-              <h4 id="LatiumMarketplace_Controllers_BidsAPIController__ctor_ApplicationDbContext_IBidRepository_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.#ctor(ApplicationDbContext,IBidRepository)">BidsAPIController(ApplicationDbContext, IBidRepository)</h4>
+              <h4 id="LatiumMarketplace_Controllers_BidsAPIController__ctor_ApplicationDbContext_IBidRepository_IConnectionManager_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.#ctor(ApplicationDbContext,IBidRepository,IConnectionManager)">BidsAPIController(ApplicationDbContext, IBidRepository, IConnectionManager)</h4>
               <div class="markdown level1 summary"><p>Bids API initial context and repo</p>
 </div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public BidsAPIController(ApplicationDbContext context, IBidRepository bidRepository)</code></pre>
+                <pre><code class="lang-csharp hljs">public BidsAPIController(ApplicationDbContext context, IBidRepository bidRepository, IConnectionManager connectionManager)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -121,10 +131,103 @@
                     <td><p>Set the bidRepo</p>
 </td>
                   </tr>
+                  <tr>
+                    <td><span class="xref">IConnectionManager</span></td>
+                    <td><span class="parametername">connectionManager</span></td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
               <h3 id="methods">Methods
               </h3>
+              
+              
+              <a id="LatiumMarketplace_Controllers_BidsAPIController_AcceptBid_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.AcceptBid*"></a>
+              <h4 id="LatiumMarketplace_Controllers_BidsAPIController_AcceptBid_System_Int32_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.AcceptBid(System.Int32)">AcceptBid(Int32)</h4>
+              <div class="markdown level1 summary"><p>POST method for bids</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult AcceptBid(int bidId)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">bidId</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td><p>HTTP Response</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_BidsAPIController_DeclineBid_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.DeclineBid*"></a>
+              <h4 id="LatiumMarketplace_Controllers_BidsAPIController_DeclineBid_System_Int32_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.DeclineBid(System.Int32)">DeclineBid(Int32)</h4>
+              <div class="markdown level1 summary"><p>POST method for bids</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult DeclineBid(int bidId)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">bidId</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td><p>HTTP Response</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
               
               
               <a id="LatiumMarketplace_Controllers_BidsAPIController_Delete_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.Delete*"></a>
@@ -223,6 +326,90 @@
                     <td><span class="xref">IActionResult</span></td>
                     <td><p>JSON of bids</p>
 </td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_BidsAPIController_GetAssetOwnerNotificationCount_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.GetAssetOwnerNotificationCount*"></a>
+              <h4 id="LatiumMarketplace_Controllers_BidsAPIController_GetAssetOwnerNotificationCount_System_String_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.GetAssetOwnerNotificationCount(System.String)">GetAssetOwnerNotificationCount(String)</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult GetAssetOwnerNotificationCount(string email)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.String</span></td>
+                    <td><span class="parametername">email</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_BidsAPIController_GetBidderNotificationCount_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.GetBidderNotificationCount*"></a>
+              <h4 id="LatiumMarketplace_Controllers_BidsAPIController_GetBidderNotificationCount_System_String_" data-uid="LatiumMarketplace.Controllers.BidsAPIController.GetBidderNotificationCount(System.String)">GetBidderNotificationCount(String)</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult GetBidderNotificationCount(string email)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.String</span></td>
+                    <td><span class="parametername">email</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>

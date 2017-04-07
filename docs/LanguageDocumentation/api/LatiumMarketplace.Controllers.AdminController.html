@@ -102,7 +102,7 @@ The admin panel handles mass messaging users, banning members, and handling requ
               
               
               <a id="LatiumMarketplace_Controllers_AdminController__ctor_" data-uid="LatiumMarketplace.Controllers.AdminController.#ctor*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AdminController__ctor_ApplicationDbContext_UserManager_ApplicationUser__IConnectionManager_" data-uid="LatiumMarketplace.Controllers.AdminController.#ctor(ApplicationDbContext,UserManager{ApplicationUser},IConnectionManager)">AdminController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, IConnectionManager)</h4>
+              <h4 id="LatiumMarketplace_Controllers_AdminController__ctor_ApplicationDbContext_UserManager_LatiumMarketplace_Models_ApplicationUser__IConnectionManager_" data-uid="LatiumMarketplace.Controllers.AdminController.#ctor(ApplicationDbContext,UserManager{LatiumMarketplace.Models.ApplicationUser},IConnectionManager)">AdminController(ApplicationDbContext, UserManager&lt;ApplicationUser&gt;, IConnectionManager)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
@@ -125,7 +125,7 @@ The admin panel handles mass messaging users, banning members, and handling requ
                     <td></td>
                   </tr>
                   <tr>
-                    <td><span class="xref">UserManager</span>&lt;<span class="xref">ApplicationUser</span>&gt;</td>
+                    <td><span class="xref">UserManager</span>&lt;<a class="xref" href="LatiumMarketplace.Models.ApplicationUser.html">ApplicationUser</a>&gt;</td>
                     <td><span class="parametername">userManager</span></td>
                     <td></td>
                   </tr>
@@ -224,6 +224,48 @@ The admin panel handles mass messaging users, banning members, and handling requ
               </table>
               
               
+              <a id="LatiumMarketplace_Controllers_AdminController_AddFeature_" data-uid="LatiumMarketplace.Controllers.AdminController.AddFeature*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_AddFeature_System_Nullable_System_Int32__" data-uid="LatiumMarketplace.Controllers.AdminController.AddFeature(System.Nullable{System.Int32})">AddFeature(Nullable&lt;Int32&gt;)</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; AddFeature(int ? id)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+                    <td><span class="parametername">id</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
               <a id="LatiumMarketplace_Controllers_AdminController_AddMake_" data-uid="LatiumMarketplace.Controllers.AdminController.AddMake*"></a>
               <h4 id="LatiumMarketplace_Controllers_AdminController_AddMake_Make_" data-uid="LatiumMarketplace.Controllers.AdminController.AddMake(Make)">AddMake(Make)</h4>
               <div class="markdown level1 summary"></div>
@@ -266,65 +308,13 @@ The admin panel handles mass messaging users, banning members, and handling requ
               </table>
               
               
-              <a id="LatiumMarketplace_Controllers_AdminController_AdminEdit_" data-uid="LatiumMarketplace.Controllers.AdminController.AdminEdit*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AdminController_AdminEdit_System_Int32_Asset_System_Boolean_" data-uid="LatiumMarketplace.Controllers.AdminController.AdminEdit(System.Int32,Asset,System.Boolean)">AdminEdit(Int32, Asset, Boolean)</h4>
+              <a id="LatiumMarketplace_Controllers_AdminController_AdminListings_" data-uid="LatiumMarketplace.Controllers.AdminController.AdminListings*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_AdminListings_System_Nullable_System_Int32__System_Nullable_System_Int32__System_String_System_String_System_Boolean_System_Boolean_System_String_System_Boolean_System_Int32_System_String_System_Int32_" data-uid="LatiumMarketplace.Controllers.AdminController.AdminListings(System.Nullable{System.Int32},System.Nullable{System.Int32},System.String,System.String,System.Boolean,System.Boolean,System.String,System.Boolean,System.Int32,System.String,System.Int32)">AdminListings(Nullable&lt;Int32&gt;, Nullable&lt;Int32&gt;, String, String, Boolean, Boolean, String, Boolean, Int32, String, Int32)</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; AdminEdit(int id, Asset asset, bool featuredItem)</code></pre>
-              </div>
-              <h5 class="parameters">Parameters</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="xref">System.Int32</span></td>
-                    <td><span class="parametername">id</span></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td><span class="xref">Asset</span></td>
-                    <td><span class="parametername">asset</span></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td><span class="xref">System.Boolean</span></td>
-                    <td><span class="parametername">featuredItem</span></td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-              <h5 class="returns">Returns</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-              
-              
-              <a id="LatiumMarketplace_Controllers_AdminController_AdminEdit_" data-uid="LatiumMarketplace.Controllers.AdminController.AdminEdit*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AdminController_AdminEdit_System_Nullable_System_Int32__" data-uid="LatiumMarketplace.Controllers.AdminController.AdminEdit(System.Nullable{System.Int32})">AdminEdit(Nullable&lt;Int32&gt;)</h4>
-              <div class="markdown level1 summary"></div>
-              <div class="markdown level1 conceptual"></div>
-              <h5 class="decalaration">Declaration</h5>
-              <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; AdminEdit(int ? id)</code></pre>
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; AdminListings(int ? id, int ? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid, string mainCategoryname, int Makeid)</code></pre>
               </div>
               <h5 class="parameters">Parameters</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -341,46 +331,9 @@ The admin panel handles mass messaging users, banning members, and handling requ
                     <td><span class="parametername">id</span></td>
                     <td></td>
                   </tr>
-                </tbody>
-              </table>
-              <h5 class="returns">Returns</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
                   <tr>
-                    <th>Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
-                    <td></td>
-                  </tr>
-                </tbody>
-              </table>
-              
-              
-              <a id="LatiumMarketplace_Controllers_AdminController_AdminListings_" data-uid="LatiumMarketplace.Controllers.AdminController.AdminListings*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AdminController_AdminListings_System_String_System_String_System_String_System_Boolean_System_Boolean_System_Boolean_" data-uid="LatiumMarketplace.Controllers.AdminController.AdminListings(System.String,System.String,System.String,System.Boolean,System.Boolean,System.Boolean)">AdminListings(String, String, String, Boolean, Boolean, Boolean)</h4>
-              <div class="markdown level1 summary"></div>
-              <div class="markdown level1 conceptual"></div>
-              <h5 class="decalaration">Declaration</h5>
-              <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; AdminListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory, bool featuredItem)</code></pre>
-              </div>
-              <h5 class="parameters">Parameters</h5>
-              <table class="table table-bordered table-striped table-condensed">
-                <thead>
-                  <tr>
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span class="xref">System.String</span></td>
-                    <td><span class="parametername">assetLocation</span></td>
+                    <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+                    <td><span class="parametername">assetId</span></td>
                     <td></td>
                   </tr>
                   <tr>
@@ -404,8 +357,28 @@ The admin panel handles mass messaging users, banning members, and handling requ
                     <td></td>
                   </tr>
                   <tr>
+                    <td><span class="xref">System.String</span></td>
+                    <td><span class="parametername">assetLocation</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
                     <td><span class="xref">System.Boolean</span></td>
                     <td><span class="parametername">featuredItem</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">Categoryid</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">System.String</span></td>
+                    <td><span class="parametername">mainCategoryname</span></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">Makeid</span></td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -470,6 +443,140 @@ The admin panel handles mass messaging users, banning members, and handling requ
               </table>
               
               
+              <a id="LatiumMarketplace_Controllers_AdminController_Delete_" data-uid="LatiumMarketplace.Controllers.AdminController.Delete*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_Delete_System_Nullable_System_Int32__" data-uid="LatiumMarketplace.Controllers.AdminController.Delete(System.Nullable{System.Int32})">Delete(Nullable&lt;Int32&gt;)</h4>
+              <div class="markdown level1 summary"><p>GET: Admin/Delete/5
+Used for delete item from server</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; Delete(int ? id)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+                    <td><span class="parametername">id</span></td>
+                    <td><p>check if this item can be delete base on id</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AdminController_DeleteConfirmed_" data-uid="LatiumMarketplace.Controllers.AdminController.DeleteConfirmed*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_DeleteConfirmed_System_Int32_" data-uid="LatiumMarketplace.Controllers.AdminController.DeleteConfirmed(System.Int32)">DeleteConfirmed(Int32)</h4>
+              <div class="markdown level1 summary"><p>POST: Admin/Delete/5
+Used for delete item from server</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; DeleteConfirmed(int id)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Int32</span></td>
+                    <td><span class="parametername">id</span></td>
+                    <td><p>delete item by this id</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AdminController_Details_" data-uid="LatiumMarketplace.Controllers.AdminController.Details*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_Details_System_Nullable_System_Int32__" data-uid="LatiumMarketplace.Controllers.AdminController.Details(System.Nullable{System.Int32})">Details(Nullable&lt;Int32&gt;)</h4>
+              <div class="markdown level1 summary"><p>GET: Assets/Details/5</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; Details(int ? id)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+                    <td><span class="parametername">id</span></td>
+                    <td><p>info of a item id</p>
+</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
               <a id="LatiumMarketplace_Controllers_AdminController_Index_" data-uid="LatiumMarketplace.Controllers.AdminController.Index*"></a>
               <h4 id="LatiumMarketplace_Controllers_AdminController_Index" data-uid="LatiumMarketplace.Controllers.AdminController.Index">Index()</h4>
               <div class="markdown level1 summary"><p>Main admin pannel, this shows a list of all users.</p>
@@ -496,13 +603,13 @@ The admin panel handles mass messaging users, banning members, and handling requ
               </table>
               
               
-              <a id="LatiumMarketplace_Controllers_AdminController_MessageSentToAll_" data-uid="LatiumMarketplace.Controllers.AdminController.MessageSentToAll*"></a>
-              <h4 id="LatiumMarketplace_Controllers_AdminController_MessageSentToAll" data-uid="LatiumMarketplace.Controllers.AdminController.MessageSentToAll">MessageSentToAll()</h4>
+              <a id="LatiumMarketplace_Controllers_AdminController_MaxFeatured_" data-uid="LatiumMarketplace.Controllers.AdminController.MaxFeatured*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_MaxFeatured" data-uid="LatiumMarketplace.Controllers.AdminController.MaxFeatured">MaxFeatured()</h4>
               <div class="markdown level1 summary"></div>
               <div class="markdown level1 conceptual"></div>
               <h5 class="decalaration">Declaration</h5>
               <div class="codewrapper">
-                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; MessageSentToAll()</code></pre>
+                <pre><code class="lang-csharp hljs">public IActionResult MaxFeatured()</code></pre>
               </div>
               <h5 class="returns">Returns</h5>
               <table class="table table-bordered table-striped table-condensed">
@@ -514,7 +621,160 @@ The admin panel handles mass messaging users, banning members, and handling requ
                 </thead>
                 <tbody>
                   <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AdminController_MessageSentToAll_" data-uid="LatiumMarketplace.Controllers.AdminController.MessageSentToAll*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_MessageSentToAll" data-uid="LatiumMarketplace.Controllers.AdminController.MessageSentToAll">MessageSentToAll()</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult MessageSentToAll()</code></pre>
+              </div>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AdminController_RemoveFeature_" data-uid="LatiumMarketplace.Controllers.AdminController.RemoveFeature*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_RemoveFeature_System_Nullable_System_Int32__" data-uid="LatiumMarketplace.Controllers.AdminController.RemoveFeature(System.Nullable{System.Int32})">RemoveFeature(Nullable&lt;Int32&gt;)</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public Task&lt;IActionResult&gt; RemoveFeature(int ? id)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+                    <td><span class="parametername">id</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
                     <td><span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">IActionResult</span>&gt;</td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AdminController_SendMessageToUser_" data-uid="LatiumMarketplace.Controllers.AdminController.SendMessageToUser*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_SendMessageToUser_MessageThreadDTO_" data-uid="LatiumMarketplace.Controllers.AdminController.SendMessageToUser(MessageThreadDTO)">SendMessageToUser(MessageThreadDTO)</h4>
+              <div class="markdown level1 summary"><p>Send to all will send a message to all users, that have registered to the 
+website. Even to other admin.</p>
+</div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult SendMessageToUser(MessageThreadDTO messageThreadDTO)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">MessageThreadDTO</span></td>
+                    <td><span class="parametername">messageThreadDTO</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+              <a id="LatiumMarketplace_Controllers_AdminController_SendMessageToUser_" data-uid="LatiumMarketplace.Controllers.AdminController.SendMessageToUser*"></a>
+              <h4 id="LatiumMarketplace_Controllers_AdminController_SendMessageToUser_System_String_" data-uid="LatiumMarketplace.Controllers.AdminController.SendMessageToUser(System.String)">SendMessageToUser(String)</h4>
+              <div class="markdown level1 summary"></div>
+              <div class="markdown level1 conceptual"></div>
+              <h5 class="decalaration">Declaration</h5>
+              <div class="codewrapper">
+                <pre><code class="lang-csharp hljs">public IActionResult SendMessageToUser(string id)</code></pre>
+              </div>
+              <h5 class="parameters">Parameters</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">System.String</span></td>
+                    <td><span class="parametername">id</span></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5 class="returns">Returns</h5>
+              <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="xref">IActionResult</span></td>
                     <td></td>
                   </tr>
                 </tbody>
