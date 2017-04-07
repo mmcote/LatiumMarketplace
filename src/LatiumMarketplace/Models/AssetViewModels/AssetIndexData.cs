@@ -14,6 +14,7 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public IEnumerable<Category> Categories { get; set; }
         public IEnumerable<City> Cities { get; set; }
         public IEnumerable<Image> Images { get; set; }
+        public IEnumerable<Feature> Features { get; set; }
 
 
     }

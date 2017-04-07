@@ -21,5 +21,6 @@ namespace LatiumMarketplace.Models.AssetViewModels
         public Asset Asset { get; set; }
         public int FeatureId { get; set; }
         public Feature Feature { get; set; }
+        public string FeatureValue { get; set; }
     }
 }
