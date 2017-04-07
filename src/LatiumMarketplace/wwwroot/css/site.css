@@ -109,6 +109,10 @@
     /*display: none;*/
 }
 
+#asset-accessories-content-container .accessory-item button {
+   margin-top: 24px !important;
+}
+
 .footer {
     position: absolute;
     bottom: 0;

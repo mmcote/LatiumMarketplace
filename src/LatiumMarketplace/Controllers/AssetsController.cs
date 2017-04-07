@@ -121,6 +121,8 @@ namespace LatiumMarketplace.Controllers
                 .Include(a => a.AccessoryList)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
+                .Include(a => a.AssetFeatures)
+                    .ThenInclude(a => a.Feature)
                 .AsNoTracking()
                 .OrderBy(a => a.addDate)
                 .ToListAsync();
@@ -224,6 +226,8 @@ namespace LatiumMarketplace.Controllers
             
             SetCityViewBag();
             SetCategoryViewBag();
+            SetFeatureViewBag();
+
             return View(viewModel);
         }
 
@@ -249,6 +253,8 @@ namespace LatiumMarketplace.Controllers
                     .ThenInclude(a => a.Category)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
+                .Include(a => a.AssetFeatures)
+                    .ThenInclude(a => a.Feature)
                 .SingleOrDefaultAsync(m => m.assetID == id);
             if (asset == null)
             {
@@ -287,6 +293,8 @@ namespace LatiumMarketplace.Controllers
             SetCategoryViewBag(asset.AssetCategories);
             SetMakeViewBag();
             SetCityViewBag();
+            SetFeatureViewBag(asset.AssetFeatures);
+
             return View(asset);
         }
         /// <summary>
@@ -300,6 +308,9 @@ namespace LatiumMarketplace.Controllers
             SetMakeViewBag();
             // Populate cities
             SetCityViewBag();
+            // Populate features
+            SetFeatureViewBag();
+
             Asset asset = new Asset();
             asset.price = (decimal)0.00;
             asset.priceDaily = (decimal)0.00;
@@ -321,6 +332,8 @@ namespace LatiumMarketplace.Controllers
             SetMakeViewBag();
             // Populate cities
             SetCityViewBag();
+            // Populate features
+            SetFeatureViewBag();
             Asset asset = new Asset();
             asset.request = true;
             return View(asset);
@@ -466,12 +479,42 @@ namespace LatiumMarketplace.Controllers
                 // Save categories to DB
                 await _context.SaveChangesAsync();
 
+                /* Add features to asset */
+                var accessoryItemIds = HttpContext.Request.Form["FeatureItemId"];
+
+                if ((!(String.IsNullOrEmpty(accessoryItemIds))) || accessoryItemIds.Count() != 0)
+                {
+                    foreach (var id in accessoryItemIds)
+                    {
+                        var idNumVal = int.Parse(id);
+                        var itemKey = "FeatureItem" + id;
+                        var accessoryItem = HttpContext.Request.Form[itemKey];
+
+                        if (!(String.IsNullOrEmpty(accessoryItem)))
+                        {
+                            // Create AssetFeature
+                            AssetFeature AssetFeature = new AssetFeature();
+                            AssetFeature.AssetId = asset.assetID;
+                            AssetFeature.FeatureId = idNumVal;
+
+                            AssetFeature.FeatureValue = accessoryItem;
+
+                            // Save asset subcategory to DB
+                            _context.AssetFeature.Add(AssetFeature);
+
+                            await _context.SaveChangesAsync();
+                        }
+
+                    }
+                }
+
+
                 /* Add accessories to asset */
                 // Get accessories from form
                 var accessoryNames = HttpContext.Request.Form["accessoryName"];
                 var accessoryPrices = HttpContext.Request.Form["accessoryPrice"];
 
-                // Create accessory list only when there is at list one accessory
+                // Create accessory list only when there is at least one accessory
                 AccessoryList AccessoryList;
                 int AccessoryListId = -1;
 
@@ -518,6 +561,7 @@ namespace LatiumMarketplace.Controllers
             SetCategoryViewBag(asset.AssetCategories);
             SetMakeViewBag();
             SetCityViewBag();
+            SetFeatureViewBag(asset.AssetFeatures);
             return View(asset);
         }
 
@@ -638,6 +682,7 @@ namespace LatiumMarketplace.Controllers
             SetMakeViewBag();
             SetCityViewBag();
             SetCategoryViewBag();
+            SetFeatureViewBag();
             return View(asset);
         }
         
@@ -839,6 +884,26 @@ namespace LatiumMarketplace.Controllers
 
             else
                 ViewBag.Makes = new SelectList(_context.Make.AsEnumerable(), "MakeId", "Name", Makes);
+        }
+
+        // Get all the features from the database
+        private void SetFeatureViewBag(ICollection<AssetFeature> AssetFeatures = null)
+        {
+            /*
+            if (AssetFeatures == null)
+
+                ViewBag.AssetFeatures = new SelectList(_context.Feature, "FeatureId", "FeatureName");
+
+            else
+                ViewBag.AssetFeatures = new SelectList(_context.Feature.AsEnumerable(), "FeatureId", "FeatureName", AssetFeatures);
+                */
+            //List<Feature>
+            List<Feature> FeatureList = new List<Feature>();
+
+            FeatureList = (from feature in _context.Feature
+                           select feature).ToList();
+
+            ViewBag.AssetFeatures = FeatureList;
         }
     }
 }
