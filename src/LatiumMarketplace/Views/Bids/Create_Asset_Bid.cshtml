@@ -28,13 +28,26 @@
                             @Html.DisplayFor(model => model.asset.price)
                         </dd>
                     </dl>
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <div class="col-md-10">
-                                <input type="submit" value="BUY" class="btn btn-default" />
+                    @if (Model.asset.AccessoryListId != null)
+                {
+                        @if (Model.asset.AccessoryList.Accessories.Any(e => e.AccessoryListId == Model.asset.AccessoryListId))
+                    {
+                            <div class="col-md-9">
+                                @*Show all images in gallery*@
+                                @foreach (var item in Model.asset.AccessoryList.Accessories.Where(e => e.AccessoryListId == Model.asset.AccessoryListId))
+                                {
+                                    <span>@item.Title $@item.Price <input type="checkbox" name="bidAccessories" value=@item.Price onclick=@item.Price></span> <br />
+                                }
                             </div>
+                        }
+                    }
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <input type="submit" value="BUY" class="btn btn-default" />
                         </div>
-                   
+                    </div>
+
                 </div>
             </form>
         }
@@ -109,6 +122,21 @@
                         <dt> Available Starting From </dt>
                         <dd> @availableDate</dd>
                     </dl>
+
+                    @if (Model.asset.AccessoryListId != null)
+                {
+                        @if (Model.asset.AccessoryList.Accessories.Any(e => e.AccessoryListId == Model.asset.AccessoryListId))
+                    {
+                            <div class="col-md-9">
+                                @*Show all images in gallery*@
+                                @foreach (var item in Model.asset.AccessoryList.Accessories.Where(e => e.AccessoryListId == Model.asset.AccessoryListId))
+                                {
+                                    <span>@item.Title $@item.Price <input type="checkbox" name="bidAccessories" value=@item.Price></span> <br />
+                                }
+                            </div>
+                        }
+                    }
+
                     <hr />
                     <h4>Pick Your Rental Period</h4>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -139,6 +167,13 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+function myFunction() {
+    var x = document.getElementById("myCheck");
+    x.checked = true;
+}
+</script>
