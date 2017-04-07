@@ -15,7 +15,6 @@
 <div class="spaceUnderLogo">
 
     <h2> Transactions</h2>
-    <p>Accepted Bids</p>
     <section>
         <div class="container">
             <div class="row">
@@ -63,7 +62,7 @@
                                     <td>
                                         @if (item.description == null)
                                         {
-                                            <span>Not Available</span>
+                                            <span>N/A</span>
                                         }
                                         else
                                         {
@@ -73,7 +72,7 @@
                                     <td>
                                         @if (item.startDate == defaultDate)
                                         {
-                                            <span>Not Available</span>
+                                            <span>N/A</span>
                                         }
                                         else
                                         {
@@ -81,9 +80,9 @@
                                         }
                                     </td>
                                     <td>
-                                        @if (item.startDate == defaultDate)
+                                        @if (item.endDate == defaultDate)
                                         {
-                                            <span>Not Available</span>
+                                            <span>N/A</span>
                                         }
                                         else
                                         {

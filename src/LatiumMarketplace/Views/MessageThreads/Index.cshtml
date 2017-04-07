@@ -41,7 +41,14 @@
                         @Html.DisplayFor(modelItem => item.LastUpdateDate)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.asset.name)
+                        @if (item.asset == null)
+                        {
+                            <span>N/A</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.asset.name)
+                        }
                     </td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.id">Messages</a>

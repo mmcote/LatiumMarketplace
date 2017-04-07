@@ -270,62 +270,119 @@ namespace LatiumMarketplace.Controllers
 
         // GET: God mode for assets with featured iteam option to promote an item
         [AllowAnonymous]
-        public async Task<IActionResult> AdminListings(string assetLocation, string searchString, string sortby, bool recent, bool accessory,bool featuredItem, bool featured)
+        public async Task<IActionResult> AdminListings(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid, string mainCategoryname, int Makeid)
         {
-            var Myassets = _context.Asset;
+            var viewModel = new AssetIndexData();
+            viewModel.Assets = await _context.Asset
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category)
+                        .ThenInclude(c => c.ChildCategory)
+                .Include(a => a.Bids)
+                .Include(a => a.Make)
+                .Include(a => a.City)
+                .Include(a => a.ImageGallery)
+                    .ThenInclude(a => a.Images)
+                .AsNoTracking()
+                .OrderBy(a => a.addDate)
+                .ToListAsync();
+            viewModel.Categories = _context.Category;
+            viewModel.Makes = _context.Make;
 
-            IQueryable<string> locationQuery = from m in Myassets
-                                               orderby m.Address
-                                               select m.Address;
+            if (Categoryid > 0)
+            {
+                viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.CategoryId == Categoryid));
+            }
+            if (!String.IsNullOrEmpty(mainCategoryname))
+            {
+                viewModel.Assets = viewModel.Assets.Where(b => b.AssetCategories.Any(s => s.Category.CategoryName == mainCategoryname));
+            }
 
-            var assets = from m in Myassets
-                         select m;
-
+            if (Makeid > 0)
+            {
+                viewModel.Assets = viewModel.Assets.Where(b => b.MakeId == Makeid);
+            }
+            // Assign a city to the asset
+            if (id != null)
+            {
+                ViewData["AssetID"] = id.Value;
+                Asset asset = viewModel.Assets.Where(
+                    a => a.assetID == id.Value).Single();
+                viewModel.Categories = asset.AssetCategories.Select(s => s.Category);
+            }
             if (featuredItem == true)
             {
-                assets = assets.Where(s => s.featuredItem == true);
+                viewModel.Assets = viewModel.Assets.Where(s => s.featuredItem == true);
             }
             if (accessory == true)
             {
-                assets = assets.Where(s => s.accessory != null);
+                viewModel.Assets = viewModel.Assets.Where(s => s.AccessoryListId != null & s.accessory != null);
             }
+
+            if (assetLocation != null)
+            {
+                viewModel.Assets = viewModel.Assets.Where(s => s.CityId == int.Parse(assetLocation));
+            }
+
             switch (sortby)
             {
-
                 case "request":
-                    assets = assets.Where(s => s.request.Equals(true));
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(true));
                     break;
-                case "asset":
-                    assets = assets.Where(s => s.request.Equals(false));
+                case "rent":
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false) && s.priceDaily != 0);
                     break;
+                case "sale":
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false) && s.price != 0);
+                    break;
+                default:
+                    viewModel.Assets = viewModel.Assets.Where(s => s.request.Equals(false));
+                    break;
+
             }
 
             if (recent == true)
             {
-                assets = assets.OrderByDescending(s => s.addDate);
+                viewModel.Assets = viewModel.Assets.OrderByDescending(s => s.addDate);
             }
-            if (!String.IsNullOrEmpty(assetLocation))
-            {
-                assets = assets.Where(x => x.Address == assetLocation);
-            }
+            //if (!String.IsNullOrEmpty(assetLocation))
+            //{
+            //    viewModel.Assets = viewModel.Assets.Where(x => x.Address == assetLocation);
+            //}
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                assets = assets.Where(x => x.name.Contains(searchString));
+                viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
             }
 
-            foreach(var item in assets)
+            List<Asset> list = new List<Asset>();
+            foreach (Asset tempAsset in viewModel.Assets)
             {
-                if (featured == true)
+                try
                 {
-                    item.featuredItem.Equals(true);
+                    if (tempAsset.priceDaily == 0 && tempAsset.priceWeekly == 0 && tempAsset.priceMonthly == 0)
+                    {
+                        var winningBid = tempAsset.Bids.Where(b => b.assetOwnerNotificationPending == false && b.chosen == true);
+                        if (winningBid.Count() > 0)
+                        {
+                            list.Add(tempAsset);
+                        }
+                    }
+                    else
+                    {
+                        var winningBid = tempAsset.Bids.Single(b => b.assetOwnerNotificationPending == false && b.chosen == true);
+                        tempAsset.addDate = winningBid.endDate;
+                        _context.Update(tempAsset);
+                        _context.SaveChanges();
+                        await _context.SaveChangesAsync();
+                    }
                 }
+                catch { }
             }
+            viewModel.Assets = viewModel.Assets.Except(list);
 
-            var assetLocatioinVM = new AssetLocation();
-            assetLocatioinVM.locations = new SelectList(await locationQuery.Distinct().ToListAsync());
-            assetLocatioinVM.assets = await assets.ToListAsync();
-            return View(assetLocatioinVM);
+            SetCityViewBag();
+            SetCategoryViewBag();
+            return View(viewModel);
         }
 
         // Get: Admin/FeaturedItems
@@ -532,6 +589,65 @@ namespace LatiumMarketplace.Controllers
             _context.Asset.Remove(asset);
             await _context.SaveChangesAsync();
             return RedirectToAction("AdminListings");
+        }
+        /// <summary>
+        /// GET: Assets/Details/5
+        /// </summary>
+        /// <param name="id">info of a item id</param>
+        public async Task<IActionResult> Details(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var asset = await _context.Asset
+                .Include(a => a.Make)
+                .Include(a => a.City)
+                .Include(a => a.AssetCategories)
+                    .ThenInclude(a => a.Category)
+                .Include(a => a.ImageGallery)
+                    .ThenInclude(a => a.Images)
+                .SingleOrDefaultAsync(m => m.assetID == id);
+            if (asset == null)
+            {
+                return NotFound();
+            }
+
+            HttpContext.Response.Cookies.Append("assetId", id.ToString(),
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
+            HttpContext.Response.Cookies.Append("assetOwnerId", asset.ownerID.ToString(),
+                new CookieOptions()
+                {
+                    Path = "/",
+                    HttpOnly = false,
+                    Secure = false
+                }
+            );
+
+            if (asset.ImageGalleryId != null)
+            {
+                HttpContext.Response.Cookies.Append("imageGallaryId", asset.ImageGalleryId.ToString(),
+                    new CookieOptions()
+                    {
+                        Path = "/",
+                        HttpOnly = false,
+                        Secure = false
+                    }
+                );
+            }
+
+            SetCategoryViewBag(asset.AssetCategories);
+            SetMakeViewBag();
+            SetCityViewBag();
+            return View(asset);
         }
 
 

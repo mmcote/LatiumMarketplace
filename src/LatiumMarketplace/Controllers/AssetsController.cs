@@ -52,7 +52,7 @@ namespace LatiumMarketplace.Controllers
             }
 
             var userId = user?.Id;
-            var Myassets = _context.Asset.Where(s => s.ownerID == userId);
+            var Myassets = _context.Asset.Include(s => s.AccessoryList).Include(s => s.City).Where(s => s.ownerID == userId);
 
             IQueryable<string> locationQuery = from m in Myassets
                                                orderby m.Address
@@ -118,6 +118,7 @@ namespace LatiumMarketplace.Controllers
                 .Include(a => a.Bids)
                 .Include(a => a.Make)
                 .Include(a => a.City)
+                .Include(a => a.AccessoryList)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
                 .AsNoTracking()
@@ -156,7 +157,7 @@ namespace LatiumMarketplace.Controllers
             }
             if (accessory == true)
             {
-                viewModel.Assets = viewModel.Assets.Where(s => s.AccessoryListId != null & s.accessory != null );
+                viewModel.Assets = viewModel.Assets.Where(s => s.AccessoryListId != null || s.accessory != null);
             }
 
             if (assetLocation != null)

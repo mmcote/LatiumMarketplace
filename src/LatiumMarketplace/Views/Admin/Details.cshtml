@@ -8,17 +8,13 @@
     <h2>Details</h2>
     <p>
         <div>
-            <a asp-controller="MessageThreads" asp-action="Create">Respond to message</a> |
-
-
-            @{if (@Model.request == true)
-            {<a asp-controller="Bids" asp-action="Create">Place a bid </a>}
-            else
-            {<a asp-controller="Bids" asp-route-assetId="@Model.assetID" asp-action="Create_Asset_Bid">Rent/Buy </a> }
-            } |
-
-            <a asp-controller="Manage" asp-route-userId="@Model.ownerID" asp-action="Profile">View owner's profile</a> |
-
+<style>
+    .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+        width: 350px;
+        height: 280px;
+    }
+</style>
+            <a asp-controller="Manage" asp-route-userId="@Model.ownerID" asp-action="Profile">View owner's profile</a>
         </div>
     </p>
     <div>
@@ -91,19 +87,40 @@
                             @Html.DisplayNameFor(model => model.priceDaily)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.priceDaily)
+                            @if (Model.priceDaily == 0)
+                            {
+                                <span>Not Avaliable</span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.priceDaily)
+                            }
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.priceMonthly)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.priceMonthly)
+                            @if (Model.priceMonthly == 0)
+                            {
+                                <span>Not Avaliable</span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.priceMonthly)
+                            }
                         </dd>
                         <dt>
                             @Html.DisplayNameFor(model => model.priceWeekly)
                         </dt>
                         <dd>
-                            @Html.DisplayFor(model => model.priceWeekly)
+                            @if (Model.priceWeekly == 0)
+                            {
+                                <span>Not Avaliable</span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(model => model.priceWeekly)
+                            }
                         </dd>
                     }
 
@@ -131,7 +148,6 @@
                         }
                     </ul>
                 </div>
-
             }
             else
             {
@@ -140,7 +156,6 @@
                          class="img-responsive" />
                 </div>
             }
-
         }
         else
         {
@@ -159,9 +174,9 @@
         <a href="" onclick=goBack()>Back</a>
         <!--<a asp-action="Edit">Edit</a>-->
         <script>
-            function goBack() {
-                window.history.back();
-            }
+function goBack() {
+    window.history.back();
+}
         </script>
     </div>
 </div>

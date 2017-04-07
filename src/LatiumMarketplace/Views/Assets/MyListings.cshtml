@@ -48,16 +48,8 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.assets[0].City)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].description)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].accessory)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.assets[0].duration)
-                                </th>
-
+                                <th></th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -75,21 +67,15 @@
                                         @Html.DisplayFor(modelItem => item.Address)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.City)
+                                        @Html.DisplayFor(modelItem => item.City.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.description)
+                                        <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a>
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.accessory)
+                                        <a asp-action="Details" asp-route-id="@item.assetID">Details</a>
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.duration)
-                                    </td>
-
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.assetID">Edit</a> |
-                                        <a asp-action="Details" asp-route-id="@item.assetID">Details</a> |
                                         <a asp-action="Delete" asp-route-id="@item.assetID">Delete</a>
                                     </td>
                                 </tr>

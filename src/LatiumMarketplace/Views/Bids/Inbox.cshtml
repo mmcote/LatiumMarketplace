@@ -3,11 +3,11 @@
 
 @{
     ViewData["Title"] = "INBOX";
+    DateTime defaultDate = new DateTime(0001, 1, 1, 0, 0, 0);
 }
 <div class="spaceUnderLogo">
 
     <h2>My Offers</h2>
-    <p> bids placed on your postings</p>
     <section>
         <div class="container">
             <div class="row">
@@ -17,6 +17,7 @@
                             Sort by : <br>
                             <input type="radio" name="SortBy" value="asset"> Asset<br>
                             <input type="radio" name="SortBy" value="request"> Request<br>
+                            <br />
                             <input type="submit" value="Filter" />
                         </p>
                     </form>
@@ -65,11 +66,24 @@
                                                 @Html.DisplayFor(modelItem => item.description)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.startDate)
+                                                @if (item.startDate == defaultDate)
+                                                {
+                                                    <span>N/A</span>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.startDate)
+                                                }
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.endDate)
-                                            </td>
+                                                @if (item.endDate == defaultDate)
+                                                {
+                                                    <span>N/A</span>
+                                                }
+                                                else
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.endDate)
+                                                }                                            </td>
                                             @if (item.chosen == true)
                                             {
                                                 <td>
@@ -80,10 +94,10 @@
                                             else if (item.assetOwnerNotificationPending == true)
                                             {
                                                 <td>
-                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="acceptBid('@item.bidId.ToString()');" class="btn btn-outline-primary">Accept</button>
+                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="acceptBid('@item.bidId.ToString()');" class="btn btn-success">Accept</button>
                                                 </td>
                                                 <td>
-                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="declineBid('@item.bidId.ToString()')" class="btn btn-outline-primary">Decline</button>
+                                                    <button id="@item.bidId.ToString()accept" type="button" onclick="declineBid('@item.bidId.ToString()')" class="btn btn-danger">Decline</button>
                                                 </td>
                                             }
                                             else
@@ -135,7 +149,4 @@
         });
     }
     </script>
-    <p>
-        <a asp-controller="Bids" asp-action="MyBids">OUTBOX</a>
-    </p>
 </div>
