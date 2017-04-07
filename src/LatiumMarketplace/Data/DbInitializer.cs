@@ -32,7 +32,12 @@ namespace LatiumMarketplace.Data
                     new Category {CategoryName = "Car" },
                     new Category { CategoryName = "Truck" },
                     new Category { CategoryName = "Bus" },
-                    new Category { CategoryName = "Other" }
+                    new Category { CategoryName = "Other" },
+                     new Category {CategoryName = "Coupe", ParentCategoryId = 1},
+                    new Category { CategoryName = "Seadan", ParentCategoryId = 1},
+                    new Category { CategoryName = "16-Passenger", ParentCategoryId = 2},
+                    new Category { CategoryName = "1-level", ParentCategoryId = 3},
+                    new Category { CategoryName = "2-level",ParentCategoryId = 3 }
                 };
 
                 var city = new City[]
