@@ -97,6 +97,25 @@ namespace LatiumMarketplace.Controllers
             }
             return new OkObjectResult(count);
         }
+
+        [HttpPost("id")]
+        [Route("api/MessageThreadAPI/GetMessageThreadNotificationCount")]
+        public IActionResult GetMessageThreadNotificationCount([FromBody] MessageReadUnreadDTO ajaxPackage)
+        {
+            var guid = Guid.Parse(ajaxPackage.Id);
+            int count = 0;
+            var messageThread = _context.MessageThread.Single(u => u.id == guid);
+
+            foreach (Message message in messageThread.messages)
+            {
+                if ((message.SenderUnread && ajaxPackage.IsSender) || (message.RecieverUnread && ajaxPackage.IsSender == false))
+                {
+                    count += 1;
+                }
+            }
+
+            return new OkObjectResult(count);
+        }
         /// <summary>
         /// Add a new message thread, this will create a new message thread if needed.
         /// Although this is dependent on if there is a given messagethread already 

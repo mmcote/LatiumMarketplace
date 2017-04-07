@@ -696,7 +696,7 @@ namespace LatiumMarketplace.Controllers
         /// <param name="asset">bind data from view for asset</param> 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,price, priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories")] Asset asset)
+        public async Task<IActionResult> Edit(int id, [Bind("assetID,addDate,description,duration,Address,name,ownerID,price, priceDaily,priceWeekly,priceMonthly,request,accessory,AssetCategories, ownerName")] Asset asset)
         {
             string imageGallaryIdString = HttpContext.Request.Cookies["imageGallaryId"];
             int? imageGallaryId = 0;

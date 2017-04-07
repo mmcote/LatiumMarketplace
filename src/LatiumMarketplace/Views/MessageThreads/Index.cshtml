@@ -4,6 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
+@*<script>
+    function updateMessageThreadCount(id) {
+        console.log("In decrementMessageNotificationCount.");
+        var messageReadUnreadDTO = { Id: '@Model.MessageThreadId', IsSender: isSender };
+        $.ajax({
+            url: '@Url.Action("DecrementMessageNotificationCount", "MessageThreadAPI")',
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(messageReadUnreadDTO),
+            success: function () {
+                console.log("Successfully decremented count");
+            },
+            error: function (error) {
+                console.log(error)
+                var x = error; //break here for debugging.
+            }
+        });
+    }
+</script>*@
+
 <div class="spaceUnderLogo">
 
     <h2>Current Discussions</h2>
@@ -19,6 +39,8 @@
                 <th>
                     @Html.DisplayNameFor(model => model.asset.name)
                 </th>
+                @*<th>
+                </th>*@
             </tr>
         </thead>
         <tbody>
@@ -50,6 +72,10 @@
                             @Html.DisplayFor(modelItem => item.asset.name)
                         }
                     </td>
+                    @*<td>
+                        <span id="'@item.id.ToString()'new" class="label label-default" style="display:none;"></span>
+
+                    </td>*@
                     <td>
                         <a asp-action="Details" asp-route-id="@item.id">Messages</a>
                     </td>
