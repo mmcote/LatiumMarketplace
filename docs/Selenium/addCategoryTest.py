@@ -7,44 +7,44 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-class AddAsset(unittest.TestCase):
+class AddCategoryTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.implicitly_wait(30)
-        self.base_url = "https://localhost:44376/"
+        self.base_url = "https://latium.omm10.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
     
-    def test_add_asset(self):
+    def test_add_category(self):
         driver = self.driver
         driver.get(self.base_url + "/")
-        driver.find_element_by_link_text("Log in").click()
-        driver.find_element_by_id("Email").clear()
-        driver.find_element_by_id("Email").send_keys("test@test.com")
+        driver.find_element_by_xpath("//ul[2]/li[2]/a/strong").click()
         driver.find_element_by_id("Password").clear()
         driver.find_element_by_id("Password").send_keys("abc123ABC123&")
+        driver.find_element_by_id("Email").clear()
+        driver.find_element_by_id("Email").send_keys("test@test.com")
         driver.find_element_by_id("loginButton").click()
-        driver.find_element_by_link_text("Marketplace").click()
-        driver.find_element_by_link_text("Create New Asset").click()
-        driver.find_element_by_id("for-sale").click()
-        driver.find_element_by_id("name").clear()
-        driver.find_element_by_id("name").send_keys("Big Rig")
-        Select(driver.find_element_by_id("Makes")).select_by_visible_text("BMW")
-        Select(driver.find_element_by_id("AssetCategories")).select_by_visible_text("Car")
-        driver.find_element_by_id("Address").clear()
-        driver.find_element_by_id("Address").send_keys("Ardmore")
-        Select(driver.find_element_by_id("Cities")).select_by_visible_text("Edmonton")
-        driver.find_element_by_id("description").clear()
-        driver.find_element_by_id("description").send_keys("This is a description")
-        driver.find_element_by_id("accessory").clear()
-        driver.find_element_by_id("accessory").send_keys("This is an accessory")
-        driver.find_element_by_id("price").clear()
-        driver.find_element_by_id("price").send_keys("0.05")
-        driver.find_element_by_css_selector("input.btn.btn-primary").click()
+        driver.find_element_by_xpath("//li[5]/a/strong").click()
         # Warning: verifyTextPresent may require manual changes
         try: self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
         except AssertionError as e: self.verificationErrors.append(str(e))
-        driver.find_element_by_xpath("(//button[@type='button'])[2]").click()
+        driver.find_element_by_link_text("All Categories").click()
+        driver.find_element_by_id("newCategoryName").clear()
+        driver.find_element_by_id("newCategoryName").send_keys("EXCAVATOR")
+        driver.find_element_by_css_selector("button.btn.btn-primary").click()
+        driver.find_element_by_id("newCategoryName").clear()
+        driver.find_element_by_id("newCategoryName").send_keys("bobcat")
+        driver.find_element_by_id("ParentCategoryID").clear()
+        driver.find_element_by_id("ParentCategoryID").send_keys("6")
+        driver.find_element_by_css_selector("button.btn.btn-primary").click()
+        # Warning: verifyTextPresent may require manual changes
+        try: self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        except AssertionError as e: self.verificationErrors.append(str(e))
+        # Warning: verifyTextPresent may require manual changes
+        try: self.assertRegexpMatches(driver.find_element_by_css_selector("BODY").text, r"^[\s\S]*$")
+        except AssertionError as e: self.verificationErrors.append(str(e))
+        driver.find_element_by_css_selector("button.btn.btn-primary").click()
+        driver.find_element_by_id("userNavButton").click()
         driver.find_element_by_link_text("Log Off").click()
     
     def is_element_present(self, how, what):
