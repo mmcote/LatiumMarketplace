@@ -104,8 +104,8 @@ namespace LatiumMarketplace.Controllers
         }
 
         /*============================ */
-        
-      
+
+
         // GET: Assets - Filtered
         [AllowAnonymous]
         public async Task<IActionResult> Index(int? id, int? assetId, string searchString, string sortby, bool recent, bool accessory, string assetLocation, bool featuredItem, int Categoryid, string mainCategoryname, int Makeid)
@@ -190,7 +190,7 @@ namespace LatiumMarketplace.Controllers
             //{
             //    viewModel.Assets = viewModel.Assets.Where(x => x.Address == assetLocation);
             //}
-            
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 viewModel.Assets = viewModel.Assets.Where(x => x.name.Contains(searchString));
@@ -221,7 +221,7 @@ namespace LatiumMarketplace.Controllers
                 catch { }
             }
             viewModel.Assets = viewModel.Assets.Except(list);
-            
+
             SetCityViewBag();
             SetCategoryViewBag();
             return View(viewModel);
@@ -247,6 +247,8 @@ namespace LatiumMarketplace.Controllers
                 .Include(a => a.City)
                 .Include(a => a.AssetCategories)
                     .ThenInclude(a => a.Category)
+                .Include(a => a.AccessoryList)
+                    .ThenInclude(a => a.Accessories)
                 .Include(a => a.ImageGallery)
                     .ThenInclude(a => a.Images)
                 .SingleOrDefaultAsync(m => m.assetID == id);
@@ -436,7 +438,7 @@ namespace LatiumMarketplace.Controllers
                 // Save asset to DB
                 _context.Add(asset);
                 await _context.SaveChangesAsync();
-                
+
                 // Get the category from select form
                 var myCategoryId = HttpContext.Request.Form["AssetCategories"];
                 var myCategoryIdNumVal = int.Parse(myCategoryId);
@@ -445,7 +447,7 @@ namespace LatiumMarketplace.Controllers
                 AssetCategory AssetCategory = new AssetCategory();
                 AssetCategory.AssetId = asset.assetID;
                 AssetCategory.CategoryId = myCategoryIdNumVal;
-                
+
                 // Save asset category to DB
                 _context.AssetCategory.Add(AssetCategory);
 
@@ -602,7 +604,7 @@ namespace LatiumMarketplace.Controllers
             SetCityViewBag();
             return View(asset);
         }
-        
+
         /// <summary>
         /// GET: Assets/Edit/5
         /// Used for edit requests
@@ -640,8 +642,8 @@ namespace LatiumMarketplace.Controllers
             SetCategoryViewBag();
             return View(asset);
         }
-        
-        
+
+
         /// <summary>
         /// POST: Assets/Edit/5
         /// Used for edit requests
@@ -797,13 +799,14 @@ namespace LatiumMarketplace.Controllers
         {
 
             if (AssetCategories == null)
-            { 
+            {
                 ViewBag.AssetCategories = new SelectList(
-                    _context.Category.Where(Category => Category.ParentCategoryId == null), 
+                    _context.Category.Where(Category => Category.ParentCategoryId == null),
                     "CategoryId", "CategoryName"
                     );
             }
-            else {
+            else
+            {
                 ViewBag.AssetCategories = new SelectList(
                     _context.Category.Where(Category => Category.ParentCategoryId == null)
                     .AsEnumerable(), "CategoryId", "CategoryName", AssetCategories
