@@ -562,7 +562,7 @@ namespace LatiumMarketplace.Controllers
                 return NotFound();
             }
 
-            var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
+            var asset = await _context.Asset.Include(a => a.City).SingleOrDefaultAsync(m => m.assetID == id);
             if (asset == null)
             {
                 return NotFound();

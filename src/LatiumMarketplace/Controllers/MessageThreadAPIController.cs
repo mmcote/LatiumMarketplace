@@ -83,16 +83,17 @@ namespace LatiumMarketplace.Controllers
             int count = 0;
             var id = _context.User.Single(u => u.Email == email).Id;
             var messageThreads = _messageThreadRepository.GetAllMessages(id);
+
             foreach (MessageThread thread in messageThreads)
             {
-                if (email == thread.SenderEmail)
+                foreach (Message message in thread.messages)
                 {
-                    count += thread.SenderUnreadMessageCount;
+                    if ( (message.SenderUnread && email == thread.SenderEmail) || (message.RecieverUnread && email == thread.RecieverEmail) )
+                    {
+                        count += 1;
+                    }
                 }
-                else
-                {
-                    count += thread.RecieverUnreadMessageCount;
-                }
+                
             }
             return new OkObjectResult(count);
         }

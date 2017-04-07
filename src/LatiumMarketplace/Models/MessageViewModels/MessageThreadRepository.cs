@@ -48,7 +48,7 @@ namespace LatiumMarketplace.Models.MessageViewModels
                 throw new ArgumentNullException("The messageThreadID given was null, messageThreadID's are null.");
             }
 
-            var messageThreads = _context.MessageThread.Include(m => m.asset).Where(m => m.SenderId == userID || m.RecieverId == userID);
+            var messageThreads = _context.MessageThread.Include(m => m.messages).Include(m => m.asset).Where(m => m.SenderId == userID || m.RecieverId == userID);
             if (messageThreads == null)
             {
                 throw new KeyNotFoundException("No matching messageThreadID found by the given messageThreadID");
