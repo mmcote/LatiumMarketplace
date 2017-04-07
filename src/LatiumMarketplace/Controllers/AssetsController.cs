@@ -779,6 +779,19 @@ namespace LatiumMarketplace.Controllers
             {
                 return Redirect("/Account/Login");
             }
+            try
+            {
+                var bids = _context.Bid.Where(e => e.asset.assetID == id);
+                foreach (var Bid in bids)
+                {
+                    _context.Bid.Remove(Bid);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch
+            { 
+                  
+            }
             var asset = await _context.Asset.SingleOrDefaultAsync(m => m.assetID == id);
             _context.Asset.Remove(asset);
             await _context.SaveChangesAsync();
