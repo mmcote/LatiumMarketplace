@@ -13,7 +13,7 @@ namespace LatiumMarketplace.Data
                 context.Database.EnsureCreated();
 
                 // Look for any students.
-                if (context.Asset.Any() || context.City.Any() || context.Category.Any() || context.Make.Any())
+                if (context.Asset.Any() || context.City.Any() || context.Category.Any() || context.Make.Any() || context.Feature.Any())
                 {
                     return;   // DB has been seeded
                 }
@@ -53,6 +53,18 @@ namespace LatiumMarketplace.Data
                     new Make {Name = "CHEVY"},
                     new Make {Name = "Other"}
            };
+                var feature = new Feature[]
+                {
+                    new Feature {FeatureName = "Year" },
+                    new Feature { FeatureName = "Cab" },
+                    new Feature { FeatureName = "Number of Seats" },
+                    new Feature { FeatureName = "Odometer" },
+                    new Feature { FeatureName = "Engine Hours" },
+                    new Feature { FeatureName = "Number of Axels" },
+                    new Feature { FeatureName = "Fuel Tank Capicity" },
+                    new Feature { FeatureName = "Four Wheel Drive", ShortDescription = "Yes or No" },
+                };
+
                 foreach (Asset s in assets)
                 {
                     context.Asset.Add(s);
@@ -69,6 +81,10 @@ namespace LatiumMarketplace.Data
                 foreach (Make s in make)
                 {
                     context.Make.Add(s);
+                }
+                foreach (Feature f in feature)
+                {
+                    context.Feature.Add(f);
                 }
                 context.SaveChanges();
             }

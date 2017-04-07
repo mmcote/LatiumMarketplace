@@ -25,10 +25,6 @@
     input, .export {
         display: block;
     }
-
-    button {
-        margin-top: 10px;
-    }
 </style>
 
 
@@ -38,32 +34,31 @@
     //var myURL = '@Url.Action("GetSubCategories", "AssetsController")';
     var myURL = 'GetSubCategories';
 
-      $(function() {
+    $(function () {
         $('.image-editor').cropit({
-          imageState: {
-            src: '',
-          },
+            imageState: {
+                src: '',
+            },
         });
-        $('.rotate-cw').click(function() {
-          $('.image-editor').cropit('rotateCW');
+        $('.rotate-cw').click(function () {
+            $('.image-editor').cropit('rotateCW');
         });
-        $('.rotate-ccw').click(function() {
-          $('.image-editor').cropit('rotateCCW');
+        $('.rotate-ccw').click(function () {
+            $('.image-editor').cropit('rotateCCW');
         });
-        $('.export').click(function() {
+        $('.export').click(function () {
             var imageData = $('.image-editor').cropit('export');
             console.log(imageData);
         });
-      });
+    });
 </script>
 
 <div class="spaceUnderLogo">
-    <h2>Create</h2>
+    <h1>Add Asset</h1>
     <form asp-action="Create" enctype="multipart/form-data" autocomplete="off">
-        <h4>Asset Information</h4>
+        <h2>Asset Information</h2>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <!-- TODO: Need to replace this with actual data-->
         <div id="asset-create-options-form" class="form-group">
             <label class="radio-inline">
                 <input type="radio" name="assetCreateOptions" checked="checked" id="for-sale" class="asset-creation-radio" value="IsForSale"> For Sale
@@ -76,6 +71,7 @@
         <div class="row">
             <!-- Begin left-bar -->
             <div class="col-md-6">
+                <h3>Basic Information</h3>
                 <div class="form-group">
                     <label asp-for="name" class="">Asset Name *</label>
                     <input asp-for="name" class="form-control" />
@@ -91,7 +87,7 @@
                     )
                     <span asp-validation-for="Make" class="text-danger" />
                 </div>
-                <!-- TODO: Need to show only parent categories, then the children after parent is selected -->
+
                 <div class="form-group" id="mainCategoryContainer">
                     <label asp-for="AssetCategories" class="">Category *</label>
                     @Html.DropDownList(
@@ -107,6 +103,11 @@
                     <select class="form-control" id="AssetSubcategories" name="AssetSubcategories" required="required"></select>
                 </div>
                 <div class="form-group">
+                    <label asp-for="description" class=""></label>
+                    <textarea asp-for="description" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="description" class="text-danger" />
+                </div>
+                <div class="form-group">
                     <label asp-for="Address" class=""></label>
                     <input asp-for="Address" class="form-control" />
                     <span asp-validation-for="Address" class="text-danger" />
@@ -120,12 +121,7 @@
                     new { @class = "form-control", required = "required" }
                     )
                     <span asp-validation-for="City" class="text-danger" />
-                </div>
-                <div class="form-group">
-                    <label asp-for="description" class=""></label>
-                    <textarea asp-for="description" rows="3" class="form-control"></textarea>
-                    <span asp-validation-for="description" class="text-danger" />
-                </div>
+                </div>             
                 <div id="IsForSale" class="asset-rates">
                     <div class="row">
                         <div class="col-md-4">
@@ -180,68 +176,86 @@
                         <label class="">Upload your images</label>
                         <input type="file" name="AssetImages" multiple />
                     </div>*@
+                <h3>Image Gallery</h3>
                 <div class="form-group">
-                    <label class="">Upload your images</label>
+                    <label class="">Upload Your Images</label>
                     <input type="file" name="AssetImages" multiple />
                 </div>
             </div><!-- End left-bar -->
-
             <!-- Begin right-bar -->
             <div class="col-md-6">
-                <!-- Begin asset-accessories-container -->
-                <div id="asset-accessories-container">
-                    <!-- Begin asset-accessories-radio-container -->
-                    <div id="asset-accessories-radio-container" class="form-group">
-                        <div><label>Do you have accessories?</label></div>
-                        <label class="radio-inline">
-                            <input type="radio" name="addAccessoriesOptions" id="accessories-yes" class="asset-accessories-radio" value="Yes"> Yes
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="addAccessoriesOptions" checked="checked" id="accessories-no" class="asset-accessories-radio" value="No"> No
-                        </label>
-                    </div><!-- End asset-accessories-radio-container -->
-                    <!-- Begin asset-accessories-content-container -->
-                    <div id="asset-accessories-content-container">
-                        <div class="accessory-item row">
-                            <div class="col-md-7">
-                                <div class="form-group">
-                                    <label>Accessory Name</label>
-                                    <input type="text" class="form-control" name="accessoryName" value="" />
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Price</label>
-                                    <input type="text" class="form-control" name="accessoryPrice" value="" />
-                                </div>
-                            </div>
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-success btn-add">
-                                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- End asset-accessories-content-container -->
-                </div><!-- End asset-accessories-container -->
-            </div><!-- End right-bar -->
-        </div>
+                <h3>Asset Features</h3>
+                <!-- Begin asset-features-container -->
+                <div id="asset-features-container">
+                    <!-- Begin asset-features-content-container -->
+                    <div id="asset-features-content-containter">
+                        @foreach (var feature in ViewBag.AssetFeatures)
+                        {
+                            <div id="feature-item-@feature.FeatureId" class="form-group">
+                                <label class="">@feature.FeatureName</label>                    
+                                <input type="hidden" name="FeatureItemId" value="@feature.FeatureId" />
+                                <input id='@("FeatureItem"+feature.FeatureId)' name='@("FeatureItem"+feature.FeatureId)' class="form-control" />
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                                    @*<input id='@("Feature"+feature.FeatureId)' name='@("AssetFeature["+feature.FeatureId+"]"+".FeatureId")' class="form-control" />*@
+                                </div>
+                            }
+                        </div><!-- Begin asset-features-content-container -->
+
+                    </div><!-- End asset-features-container -->
+                    <!-- Begin asset-accessories-container -->
+                    <div id="asset-accessories-container">
+                        <!-- Begin asset-accessories-radio-container -->
+                        <div id="asset-accessories-radio-container" class="form-group">
+                            <h3>Do You Have Accessories?</h3>
+                            <label class="radio-inline">
+                                <input type="radio" name="addAccessoriesOptions" id="accessories-yes" class="asset-accessories-radio" value="Yes"> Yes
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="addAccessoriesOptions" checked="checked" id="accessories-no" class="asset-accessories-radio" value="No"> No
+                            </label>
+                        </div><!-- End asset-accessories-radio-container -->
+                        <!-- Begin asset-accessories-content-container -->
+                        <div id="asset-accessories-content-container">
+                            <div class="accessory-item row">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label>Accessory Name</label>
+                                        <input type="text" class="form-control" name="accessoryName" value="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input type="text" class="form-control" name="accessoryPrice" value="" />
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-success btn-add">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End asset-accessories-content-container -->
+                    </div><!-- End asset-accessories-container -->
+                </div><!-- End right-bar -->
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
                 </div>
             </div>
+
+        </form>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
         </div>
-
-    </form>
-
-    <div>
-        <a asp-action="Index">Back to List</a>
     </div>
-</div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
