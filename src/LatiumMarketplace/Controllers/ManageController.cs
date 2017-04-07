@@ -381,14 +381,14 @@ namespace LatiumMarketplace.Controllers
 
         //POST: /Manage/Edit
         [HttpPost]
-        public async Task<ActionResult> Edit(ProfileViewModel model)
+        public async Task<ActionResult> Edit(ApplicationUser user)
         {
             if (ModelState.IsValid)
             {
-                var user = await GetCurrentUserAsync();
-                user.firstName = model.firstName;
-                user.lastName = model.lastName;
-                user.description = model.description;
+                //var user = await GetCurrentUserAsync();
+                //user.firstName = model.firstName;
+                //user.lastName = model.lastName;
+                //user.description = model.description;
                 user.banned = false;
 
                 var result = await _userManager.UpdateAsync(user);
